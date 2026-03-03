@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hummbl-governance"
+version = "0.1.0"
+description = "Agent Runtime Governance primitives: DelegationToken, DelegationContext, GovernanceBus, CircuitBreaker, KillSwitch. Ship agents that govern themselves."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+authors = [
+    { name = "HUMMBL", email = "engineering@hummbl.io" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+keywords = ["governance", "agents", "delegation", "context", "circuit-breaker", "kill-switch", "audit"]
+
+[project.urls]
+Homepage = "https://hummbl.io"
+Repository = "https://github.com/hummbl-dev/hummbl-governance"
+Documentation = "https://github.com/hummbl-dev/hummbl-governance#readme"
+Issues = "https://github.com/hummbl-dev/hummbl-governance/issues"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0",
+    "coverage>=7.0",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/hummbl_governance"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hummbl_governance"]
+
+[tool.hatch.build.targets.wheel.sources]
+src = ""
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
