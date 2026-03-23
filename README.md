@@ -1,6 +1,6 @@
 # hummbl-governance
 
-Governance primitives for AI agent orchestration. Extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode).
+Governance primitives for AI agent orchestration. Zero third-party dependencies. Stdlib-only Python 3.11+.
 
 ## Modules
 

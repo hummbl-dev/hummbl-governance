@@ -2,20 +2,21 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version | Supported |
+|---------|-----------|
+| 0.1.x   | Yes       |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability in hummbl-governance, please report it responsibly:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+1. **Email:** reuben@hummbl.io
+2. **Do NOT** open a public GitHub issue for security vulnerabilities
+3. Include: description of the vulnerability, steps to reproduce, and potential impact
+4. You can expect an initial response within 48 hours
+
+## Scope
+
+This policy covers the `hummbl_governance` Python package and its 7 modules:
+kill switch, circuit breaker, cost governor, delegation tokens, audit log,
+identity registry, and schema validator.
