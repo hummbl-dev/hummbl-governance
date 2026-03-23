@@ -1,16 +1,17 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "hummbl-governance"
 version = "0.1.0"
-description = "Agent Runtime Governance primitives: DelegationToken, DelegationContext, GovernanceBus, CircuitBreaker, KillSwitch. Ship agents that govern themselves."
+description = "Governance primitives for AI agent orchestration: kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, and schema validation."
 readme = "README.md"
-license = "Apache-2.0"
+license = {text = "Apache-2.0"}
 requires-python = ">=3.11"
 authors = [
-    { name = "HUMMBL", email = "engineering@hummbl.io" },
+    {name = "Reuben Bowlby", email = "reuben@hummbl.io"},
+    {name = "HUMMBL, LLC"},
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -20,32 +21,26 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Topic :: Security",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed",
+    "Topic :: System :: Systems Administration",
 ]
-keywords = ["governance", "agents", "delegation", "context", "circuit-breaker", "kill-switch", "audit"]
-
-[project.urls]
-Homepage = "https://hummbl.io"
-Repository = "https://github.com/hummbl-dev/hummbl-governance"
-Documentation = "https://github.com/hummbl-dev/hummbl-governance#readme"
-Issues = "https://github.com/hummbl-dev/hummbl-governance/issues"
+keywords = ["governance", "ai", "agents", "kill-switch", "circuit-breaker", "delegation", "audit"]
+dependencies = []
 
 [project.optional-dependencies]
 test = [
-    "pytest>=8.0",
-    "coverage>=7.0",
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
 ]
 
-[tool.hatch.build.targets.sdist]
-include = ["src/hummbl_governance"]
+[project.urls]
+Homepage = "https://github.com/hummbl-dev/hummbl-governance"
+Repository = "https://github.com/hummbl-dev/hummbl-governance"
+Issues = "https://github.com/hummbl-dev/hummbl-governance/issues"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/hummbl_governance"]
-
-[tool.hatch.build.targets.wheel.sources]
-src = ""
+[tool.setuptools.packages.find]
+include = ["hummbl_governance*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
