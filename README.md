@@ -1,6 +1,14 @@
 # hummbl-governance
 
+[![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-157%20passing-green)]()
+
 Governance primitives for AI agent orchestration. Zero third-party dependencies. Stdlib-only Python 3.11+.
+
+```bash
+pip install hummbl-governance
+```
 
 ## Modules
 
