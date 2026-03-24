@@ -20,7 +20,6 @@ Stdlib-only. Unix-only (uses fcntl.flock).
 
 from __future__ import annotations
 
-import fcntl
 import hashlib
 import hmac
 import json
@@ -31,6 +30,12 @@ import threading
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
+
+try:
+    import fcntl
+    _HAS_FCNTL = True
+except ImportError:
+    _HAS_FCNTL = False
 
 logger = logging.getLogger(__name__)
 
@@ -307,10 +312,12 @@ class BusWriter:
             self._bus_path.parent.mkdir(parents=True, exist_ok=True)
             fd = os.open(str(self._bus_path), os.O_WRONLY | os.O_CREAT | os.O_APPEND)
             try:
-                fcntl.flock(fd, fcntl.LOCK_EX)
+                if _HAS_FCNTL:
+                    fcntl.flock(fd, fcntl.LOCK_EX)
                 os.write(fd, line.encode("utf-8"))
             finally:
-                fcntl.flock(fd, fcntl.LOCK_UN)
+                if _HAS_FCNTL:
+                    fcntl.flock(fd, fcntl.LOCK_UN)
                 os.close(fd)
 
     def read_all(self) -> list[dict[str, str]]:

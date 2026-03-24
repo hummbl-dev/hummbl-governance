@@ -53,7 +53,7 @@ class CapabilityDenied(Exception):
 
 
 @dataclass(frozen=True)
-class AuditEntry:
+class CapabilityAuditEntry:
     """Record of a capability check."""
 
     timestamp: str
@@ -80,14 +80,14 @@ class CapabilityFence:
             capabilities are permitted (allowlist mode).
         denied: Capabilities explicitly denied. Always takes precedence
             over allowed.
-        audit_log: Optional list to append AuditEntry records to.
+        audit_log: Optional list to append CapabilityAuditEntry records to.
     """
 
     def __init__(
         self,
         allowed: list[str] | None = None,
         denied: list[str] | None = None,
-        audit_log: list[AuditEntry] | None = None,
+        audit_log: list[CapabilityAuditEntry] | None = None,
     ) -> None:
         self._allowed = frozenset(allowed) if allowed else frozenset()
         self._denied = frozenset(denied) if denied else frozenset()
@@ -146,7 +146,7 @@ class CapabilityFence:
         cls,
         token: Any,
         denied: list[str] | None = None,
-        audit_log: list[AuditEntry] | None = None,
+        audit_log: list[CapabilityAuditEntry] | None = None,
     ) -> CapabilityFence:
         """Create a CapabilityFence from an existing DelegationToken.
 
@@ -178,7 +178,7 @@ class CapabilityFence:
     def _audit(self, capability: str, decision: str, reason: str) -> None:
         """Record a capability check in the audit log if configured."""
         if self._audit_log is not None:
-            entry = AuditEntry(
+            entry = CapabilityAuditEntry(
                 timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 capability=capability,
                 decision=decision,

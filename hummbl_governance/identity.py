@@ -21,6 +21,7 @@ Stdlib-only. Zero third-party dependencies.
 
 from __future__ import annotations
 
+import threading
 from typing import Any
 
 
@@ -52,6 +53,7 @@ class AgentRegistry:
         self._services: set[str] = set(services) if services else set()
         self._deprecated: set[str] = set(deprecated) if deprecated else set()
         self._retired: dict[str, str] = dict(retired) if retired else {}
+        self._lock = threading.Lock()
 
     def register_agent(
         self,
@@ -68,39 +70,47 @@ class AgentRegistry:
             trust: Trust tier (e.g., "owner", "high", "medium", "low", "system").
             status: Agent status (e.g., "active", "probation", "suspended").
         """
-        self._agents[name] = {
-            "display": display or name.title(),
-            "trust": trust,
-            "status": status,
-        }
+        with self._lock:
+            self._agents[name] = {
+                "display": display or name.title(),
+                "trust": trust,
+                "status": status,
+            }
 
     def unregister_agent(self, name: str) -> None:
         """Remove a canonical agent identity."""
-        self._agents.pop(name, None)
+        with self._lock:
+            self._agents.pop(name, None)
 
     def add_alias(self, alias: str, canonical: str) -> None:
         """Map an alias to a canonical agent name."""
-        self._aliases[alias] = canonical
+        with self._lock:
+            self._aliases[alias] = canonical
 
     def remove_alias(self, alias: str) -> None:
         """Remove an alias mapping."""
-        self._aliases.pop(alias, None)
+        with self._lock:
+            self._aliases.pop(alias, None)
 
     def add_service(self, name: str) -> None:
         """Register an autonomous service as a valid sender."""
-        self._services.add(name)
+        with self._lock:
+            self._services.add(name)
 
     def remove_service(self, name: str) -> None:
         """Unregister an autonomous service."""
-        self._services.discard(name)
+        with self._lock:
+            self._services.discard(name)
 
     def add_deprecated(self, name: str) -> None:
         """Mark an identity as deprecated/junk."""
-        self._deprecated.add(name)
+        with self._lock:
+            self._deprecated.add(name)
 
     def retire_agent(self, name: str, reason: str) -> None:
         """Retire an agent with a reason."""
-        self._retired[name] = reason
+        with self._lock:
+            self._retired[name] = reason
 
     def canonicalize(self, sender: str) -> str:
         """Map a sender to its canonical identity.
@@ -120,18 +130,19 @@ class AgentRegistry:
         base = sender.split("(", 1)[0].strip() if "(" in sender else sender
         candidates = [sender, base] if base != sender else [sender]
 
-        # 1. Alias lookup
-        result = self._lookup_alias(candidates)
-        if result is not None:
-            return result
+        with self._lock:
+            # 1. Alias lookup
+            result = self._lookup_alias(candidates)
+            if result is not None:
+                return result
 
-        # 2. Set membership lookup (services, then agents)
-        result = self._lookup_in_set(candidates, self._services)
-        if result is not None:
-            return result
-        result = self._lookup_in_set(candidates, self._agents)
-        if result is not None:
-            return result
+            # 2. Set membership lookup (services, then agents)
+            result = self._lookup_in_set(candidates, self._services)
+            if result is not None:
+                return result
+            result = self._lookup_in_set(candidates, self._agents)
+            if result is not None:
+                return result
 
         return sender
 
@@ -161,12 +172,14 @@ class AgentRegistry:
     def is_valid_sender(self, sender: str) -> bool:
         """Check if a sender is a known identity."""
         sender = sender.strip()
-        return (
-            sender in self._agents
-            or sender in self._aliases
-            or sender in self._services
-            or self.canonicalize(sender) != sender
-        )
+        with self._lock:
+            if (
+                sender in self._agents
+                or sender in self._aliases
+                or sender in self._services
+            ):
+                return True
+        return self.canonicalize(sender) != sender
 
     def is_deprecated(self, sender: str) -> bool:
         """Check if a sender is a known deprecated/junk identity."""

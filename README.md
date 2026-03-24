@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-157%20passing-green)]()
+[![Tests](https://img.shields.io/badge/tests-476%20passing-green)]()
 
 Governance primitives for AI agent orchestration. Zero third-party dependencies. Stdlib-only Python 3.11+.
 
@@ -14,13 +14,24 @@ pip install hummbl-governance
 
 | Module | Description |
 |--------|-------------|
-| `KillSwitch` | Emergency halt system with 4 graduated modes |
-| `CircuitBreaker` | Automatic failure detection and recovery (3 states) |
-| `CostGovernor` | SQLite-backed budget tracking with ALLOW/WARN/DENY decisions |
-| `DelegationToken` | HMAC-SHA256 signed capability tokens for agent delegation |
-| `AuditLog` | Append-only JSONL governance audit log with rotation |
-| `AgentRegistry` | Configurable agent identity, aliases, and trust tiers |
-| `SchemaValidator` | Stdlib-only JSON Schema validator (Draft 2020-12 subset) |
+| `audit_log` | Append-only JSONL governance audit log |
+| `capability_fence` | Soft sandbox enforcing capability boundaries (ASI-07) |
+| `circuit_breaker` | Automatic failure detection and recovery (3 states) |
+| `compliance_mapper` | Map governance traces to SOC2, GDPR, and OWASP controls |
+| `contract_net` | Market-based task allocation for multi-agent systems |
+| `convergence_guard` | Detect instrumental convergence in agent behavior |
+| `coordination_bus` | Append-only TSV message bus with HMAC signing and policy levels |
+| `cost_governor` | Budget tracking with soft/hard caps |
+| `delegation` | HMAC-SHA256 signed capability tokens for agent delegation |
+| `health_probe` | Generic health checking framework |
+| `identity` | Configurable agent identity, aliases, and trust tiers |
+| `kill_switch` | Emergency halt system with 4 graduated modes |
+| `lamport_clock` | Logical clock for causal ordering of distributed events |
+| `lifecycle` | NIST AI RMF orchestrator composing existing modules |
+| `output_validator` | Rule-based content validation for agent outputs (ASI-06) |
+| `reward_monitor` | Behavioral drift and reward gaming detector |
+| `schema_validator` | Stdlib-only JSON Schema validator (Draft 2020-12 subset) |
+| `stride_mapper` | Map agent interactions to STRIDE threat categories |
 
 ## Installation
 

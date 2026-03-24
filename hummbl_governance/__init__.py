@@ -28,7 +28,11 @@ from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.identity import AgentRegistry
 from hummbl_governance.schema_validator import SchemaValidator
-from hummbl_governance.coordination_bus import BusWriter, PolicyLevel
+try:
+    from hummbl_governance.coordination_bus import BusWriter, PolicyLevel
+except ImportError:
+    BusWriter = None  # fcntl not available on Windows
+    PolicyLevel = None
 from hummbl_governance.compliance_mapper import ComplianceMapper, ComplianceReport
 from hummbl_governance.health_probe import HealthCollector, HealthProbe, HealthReport, ProbeResult
 from hummbl_governance.lamport_clock import LamportClock

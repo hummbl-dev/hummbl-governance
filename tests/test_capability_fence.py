@@ -3,7 +3,7 @@
 import threading
 
 from hummbl_governance.capability_fence import (
-    AuditEntry,
+    CapabilityAuditEntry,
     CapabilityDenied,
     CapabilityFence,
 )
@@ -184,7 +184,7 @@ class TestCapabilityFenceFromToken:
             ops_allowed=["api:read"],
             binding=TokenBinding(task_id="t1", contract_id="c1"),
         )
-        log: list[AuditEntry] = []
+        log: list[CapabilityAuditEntry] = []
         fence = CapabilityFence.from_delegation_token(token, audit_log=log)
         fence.check("api:read")
         assert len(log) == 1
@@ -194,7 +194,7 @@ class TestAuditLogging:
     """Test audit logging of capability checks."""
 
     def test_allow_logged(self):
-        log: list[AuditEntry] = []
+        log: list[CapabilityAuditEntry] = []
         fence = CapabilityFence(allowed=["api:read"], audit_log=log)
         fence.check("api:read")
         assert len(log) == 1
@@ -202,7 +202,7 @@ class TestAuditLogging:
         assert log[0].capability == "api:read"
 
     def test_deny_logged(self):
-        log: list[AuditEntry] = []
+        log: list[CapabilityAuditEntry] = []
         fence = CapabilityFence(denied=["file:write"], audit_log=log)
         try:
             fence.check("file:write")
@@ -212,7 +212,7 @@ class TestAuditLogging:
         assert log[0].decision == "deny"
 
     def test_timestamp_present(self):
-        log: list[AuditEntry] = []
+        log: list[CapabilityAuditEntry] = []
         fence = CapabilityFence(audit_log=log)
         fence.check("x:y")
         assert log[0].timestamp.endswith("Z")
@@ -223,7 +223,7 @@ class TestAuditLogging:
         fence.check("x:y")
 
     def test_multiple_checks_logged(self):
-        log: list[AuditEntry] = []
+        log: list[CapabilityAuditEntry] = []
         fence = CapabilityFence(audit_log=log)
         fence.check("a:b")
         fence.check("c:d")
@@ -234,7 +234,7 @@ class TestThreadSafety:
     """Test thread safety of CapabilityFence."""
 
     def test_concurrent_checks(self):
-        log: list[AuditEntry] = []
+        log: list[CapabilityAuditEntry] = []
         fence = CapabilityFence(allowed=["api:read"], audit_log=log)
         errors: list[Exception] = []
 

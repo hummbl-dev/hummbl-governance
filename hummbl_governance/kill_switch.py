@@ -257,8 +257,8 @@ class KillSwitch:
             with open(state_file, "w", encoding="utf-8") as f:
                 json.dump(self._build_state_data(), f, indent=2)
             state_file.chmod(0o600)
-        except OSError:
-            pass
+        except OSError as e:
+            logging.getLogger(__name__).error("Failed to persist kill switch state: %s", e)
 
     def _notify(self, event: KillSwitchEvent) -> None:
         """Notify subscribers of state change."""
