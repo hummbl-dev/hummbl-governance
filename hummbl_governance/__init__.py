@@ -32,6 +32,9 @@ from hummbl_governance.health_probe import HealthCollector, HealthProbe, HealthR
 from hummbl_governance.lamport_clock import LamportClock
 from hummbl_governance.stride_mapper import StrideMapper, StrideReport, Interaction, ThreatFinding
 from hummbl_governance.lifecycle import GovernanceLifecycle, AuthorizationDecision, GovernanceStatus
+from hummbl_governance.contract_net import ContractNetManager, Bid, TaskAnnouncement, ContractPhase
+from hummbl_governance.convergence_guard import ConvergenceDetector, ConvergentGoal, ConvergenceAlert
+from hummbl_governance.reward_monitor import BehaviorMonitor, DriftReport
 
 __all__ = [
     "__version__",
@@ -61,4 +64,13 @@ __all__ = [
     "GovernanceLifecycle",
     "AuthorizationDecision",
     "GovernanceStatus",
+    "ContractNetManager",
+    "Bid",
+    "TaskAnnouncement",
+    "ContractPhase",
+    "ConvergenceDetector",
+    "ConvergentGoal",
+    "ConvergenceAlert",
+    "BehaviorMonitor",
+    "DriftReport",
 ]
