@@ -1,0 +1,132 @@
+"""Tests for LamportClock."""
+
+import threading
+
+from hummbl_governance.lamport_clock import LamportClock
+
+
+class TestLamportClockBasic:
+    """Basic tick/receive operations."""
+
+    def test_initial_value(self):
+        clock = LamportClock()
+        assert clock.value == 0
+
+    def test_custom_initial_value(self):
+        clock = LamportClock(initial=42)
+        assert clock.value == 42
+
+    def test_tick_increments(self):
+        clock = LamportClock()
+        assert clock.tick() == 1
+        assert clock.tick() == 2
+        assert clock.tick() == 3
+
+    def test_receive_advances_past_remote(self):
+        clock = LamportClock()
+        clock.tick()  # 1
+        result = clock.receive(10)
+        assert result == 11  # max(1, 10) + 1
+
+    def test_receive_with_lower_remote(self):
+        clock = LamportClock(initial=20)
+        result = clock.receive(5)
+        assert result == 21  # max(20, 5) + 1
+
+    def test_receive_with_equal_remote(self):
+        clock = LamportClock(initial=10)
+        result = clock.receive(10)
+        assert result == 11  # max(10, 10) + 1
+
+    def test_tick_after_receive(self):
+        clock = LamportClock()
+        clock.receive(100)  # -> 101
+        assert clock.tick() == 102
+
+    def test_value_read_only(self):
+        clock = LamportClock()
+        _ = clock.value
+        _ = clock.value
+        assert clock.value == 0  # Reading doesn't advance
+
+
+class TestLamportClockStamp:
+    """Stamp and ordering."""
+
+    def test_stamp_returns_tuple(self):
+        clock = LamportClock(agent_id="agent-1")
+        ts, aid = clock.stamp()
+        assert ts == 1
+        assert aid == "agent-1"
+
+    def test_stamp_increments(self):
+        clock = LamportClock(agent_id="a")
+        s1 = clock.stamp()
+        s2 = clock.stamp()
+        assert s1[0] < s2[0]
+
+    def test_happened_before_lower_timestamp(self):
+        assert LamportClock.happened_before((1, "a"), (2, "b")) is True
+
+    def test_happened_before_higher_timestamp(self):
+        assert LamportClock.happened_before((5, "a"), (3, "b")) is False
+
+    def test_happened_before_same_timestamp_tie_break(self):
+        # "a" < "b" lexicographically
+        assert LamportClock.happened_before((5, "a"), (5, "b")) is True
+        assert LamportClock.happened_before((5, "b"), (5, "a")) is False
+
+    def test_happened_before_same_agent_same_timestamp(self):
+        assert LamportClock.happened_before((5, "a"), (5, "a")) is None
+
+
+class TestLamportClockThreadSafety:
+    """Concurrent access."""
+
+    def test_concurrent_ticks(self):
+        clock = LamportClock()
+        results = []
+        barrier = threading.Barrier(10)
+
+        def tick_many():
+            barrier.wait()
+            for _ in range(100):
+                results.append(clock.tick())
+
+        threads = [threading.Thread(target=tick_many) for _ in range(10)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        # 10 threads * 100 ticks = 1000 unique values
+        assert len(set(results)) == 1000
+        assert clock.value == 1000
+
+    def test_concurrent_receive(self):
+        clock = LamportClock()
+
+        def receive_many(base):
+            for i in range(50):
+                clock.receive(base + i)
+
+        threads = [threading.Thread(target=receive_many, args=(i * 100,)) for i in range(5)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        # Clock should be well past 0 (exact value depends on thread interleaving)
+        assert clock.value >= 250
+
+
+class TestLamportClockAgentId:
+    """Agent identity."""
+
+    def test_default_empty_agent_id(self):
+        clock = LamportClock()
+        assert clock.agent_id == ""
+
+    def test_custom_agent_id(self):
+        clock = LamportClock(agent_id="orchestrator")
+        assert clock.agent_id == "orchestrator"

@@ -8,13 +8,16 @@ Standalone, stdlib-only Python package providing:
 - AuditLog: Append-only JSONL governance audit log with rotation and retention
 - AgentRegistry: Configurable agent identity, aliases, and trust tiers
 - SchemaValidator: Stdlib-only JSON Schema validator (Draft 2020-12 subset)
+- BusWriter: Append-only TSV coordination bus with flock locking and HMAC signing
+- ComplianceMapper: Map governance traces to SOC2, GDPR, and OWASP controls
+- HealthCollector: Composable health probe framework with latency tracking
 
 All modules use only Python stdlib. Zero third-party runtime dependencies.
 
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
@@ -23,6 +26,12 @@ from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.identity import AgentRegistry
 from hummbl_governance.schema_validator import SchemaValidator
+from hummbl_governance.coordination_bus import BusWriter, PolicyLevel
+from hummbl_governance.compliance_mapper import ComplianceMapper, ComplianceReport
+from hummbl_governance.health_probe import HealthCollector, HealthProbe, HealthReport, ProbeResult
+from hummbl_governance.lamport_clock import LamportClock
+from hummbl_governance.stride_mapper import StrideMapper, StrideReport, Interaction, ThreatFinding
+from hummbl_governance.lifecycle import GovernanceLifecycle, AuthorizationDecision, GovernanceStatus
 
 __all__ = [
     "__version__",
@@ -36,4 +45,20 @@ __all__ = [
     "AuditLog",
     "AgentRegistry",
     "SchemaValidator",
+    "BusWriter",
+    "PolicyLevel",
+    "ComplianceMapper",
+    "ComplianceReport",
+    "HealthCollector",
+    "HealthProbe",
+    "HealthReport",
+    "ProbeResult",
+    "LamportClock",
+    "StrideMapper",
+    "StrideReport",
+    "Interaction",
+    "ThreatFinding",
+    "GovernanceLifecycle",
+    "AuthorizationDecision",
+    "GovernanceStatus",
 ]

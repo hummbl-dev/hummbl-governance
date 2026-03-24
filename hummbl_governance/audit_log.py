@@ -24,8 +24,6 @@ Stdlib-only. Zero third-party dependencies.
 from __future__ import annotations
 
 import gzip
-import hashlib
-import hmac
 import json
 import logging
 import os
@@ -187,6 +185,32 @@ class AuditLog:
             self._file_handle = open(self._current_file, "a", encoding="utf-8")
         return self._file_handle
 
+    def _validate_append(
+        self,
+        tuple_type: str,
+        signature: str | None,
+        require_signature: bool | None,
+        verification_id: str | None,
+        amendment_of: str | None,
+    ) -> str | None:
+        """Validate preconditions for append. Returns error code or None."""
+        sig_required = require_signature if require_signature is not None else self._require_signature
+        if sig_required and not signature:
+            return E_AUDIT_IMMUTABLE
+
+        if tuple_type == "ATTEST":
+            if verification_id is None:
+                return E_EVIDENCE_REQUIRED
+            ref_entry = self.query_by_entry_id(verification_id)
+            if ref_entry is None or ref_entry.tuple_type != "EVIDENCE":
+                return E_VERIFICATION_REF_INVALID
+
+        if amendment_of is not None:
+            if self.query_by_entry_id(amendment_of) is None:
+                return E_AMENDMENT_TARGET_MISSING
+
+        return None
+
     def append(
         self,
         intent_id: str,
@@ -217,29 +241,11 @@ class AuditLog:
         Returns:
             Tuple of (success, error_code).
         """
-        sig_required = require_signature if require_signature is not None else self._require_signature
-
-        if sig_required and not signature:
-            return False, E_AUDIT_IMMUTABLE
-
-        # ATTEST requires verification_id
-        if tuple_type == "ATTEST" and verification_id is None:
-            return False, E_EVIDENCE_REQUIRED
-
-        # ATTEST verification_id must reference existing EVIDENCE entry
-        if tuple_type == "ATTEST" and verification_id is not None:
-            ref_entry = self.query_by_entry_id(verification_id)
-            if ref_entry is None or ref_entry.tuple_type != "EVIDENCE":
-                return False, E_VERIFICATION_REF_INVALID
-
-        # Amendment target must exist
-        if amendment_of is not None:
-            found = False
-            for entry in self._query(lambda e: e.entry_id == amendment_of):
-                found = True
-                break
-            if not found:
-                return False, E_AMENDMENT_TARGET_MISSING
+        error = self._validate_append(
+            tuple_type, signature, require_signature, verification_id, amendment_of,
+        )
+        if error:
+            return False, error
 
         entry = AuditEntry(
             timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -340,6 +346,18 @@ class AuditLog:
         """Query all amendments to a given entry."""
         yield from self._query(lambda e: e.amendment_of == entry_id)
 
+    @staticmethod
+    def _parse_entries(fileobj: Any) -> Iterator[AuditEntry]:
+        """Parse JSONL lines into AuditEntry objects, skipping malformed lines."""
+        for line in fileobj:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield AuditEntry.from_dict(json.loads(line))
+            except (json.JSONDecodeError, KeyError, TypeError):
+                continue
+
     def _query(
         self,
         predicate: Callable[[AuditEntry], bool],
@@ -352,29 +370,21 @@ class AuditLog:
         )
 
         for filepath in files:
-            if filepath.suffix == ".gz":
-                opener = partial(gzip.open, filepath, "rt", encoding="utf-8")
-            else:
-                opener = partial(open, filepath, "r", encoding="utf-8")
-
+            opener = (
+                partial(gzip.open, filepath, "rt", encoding="utf-8")
+                if filepath.suffix == ".gz"
+                else partial(open, filepath, "r", encoding="utf-8")
+            )
             try:
                 with opener() as f:
-                    for line in f:
-                        line = line.strip()
-                        if not line:
+                    for entry in self._parse_entries(f):
+                        if not predicate(entry):
                             continue
-                        try:
-                            data = json.loads(line)
-                            entry = AuditEntry.from_dict(data)
-                            if not predicate(entry):
-                                continue
-                            if tuple_type and entry.tuple_type != tuple_type:
-                                continue
-                            if since and entry.timestamp < since:
-                                continue
-                            yield entry
-                        except (json.JSONDecodeError, KeyError, TypeError):
+                        if tuple_type and entry.tuple_type != tuple_type:
                             continue
+                        if since and entry.timestamp < since:
+                            continue
+                        yield entry
             except (IOError, OSError):
                 continue
 
@@ -395,6 +405,73 @@ class AuditLog:
             except (ValueError, IndexError):
                 continue
         return deleted
+
+    def explain(self, entry_id: str) -> list[AuditEntry]:
+        """Trace the full audit chain for an action, answering "why did this happen?"
+
+        Follows cross-links (contract_id, capability_token_id, amendment_of,
+        verification_id) to reconstruct the governance chain that authorized
+        an action. Returns entries in causal order: authorization first,
+        action last.
+
+        Implements the explicability principle from Floridi et al. (2018)
+        AI4People framework: intelligibility (how?) + accountability (who?).
+
+        Args:
+            entry_id: The entry_id to explain.
+
+        Returns:
+            List of AuditEntry objects forming the explanation chain,
+            ordered from root authorization to the target entry.
+            Empty list if entry_id is not found.
+        """
+        target = self.query_by_entry_id(entry_id)
+        if target is None:
+            return []
+
+        chain: list[AuditEntry] = []
+        visited: set[str] = set()
+        self._trace_chain(target, chain, visited)
+
+        # Reverse to get causal order (root first, target last)
+        chain.reverse()
+        return chain
+
+    def _trace_chain(
+        self,
+        entry: AuditEntry,
+        chain: list[AuditEntry],
+        visited: set[str],
+    ) -> None:
+        """Recursively trace cross-links to build the explanation chain."""
+        if entry.entry_id in visited:
+            return
+        visited.add(entry.entry_id)
+        chain.append(entry)
+
+        # Follow amendment_of (this entry amends another)
+        if entry.amendment_of:
+            parent = self.query_by_entry_id(entry.amendment_of)
+            if parent:
+                self._trace_chain(parent, chain, visited)
+
+        # Follow capability_token_id (authorized by this DCT)
+        if entry.capability_token_id:
+            dct = self.query_by_entry_id(entry.capability_token_id)
+            if dct:
+                self._trace_chain(dct, chain, visited)
+
+        # Follow contract_id (governed by this contract)
+        if entry.contract_id:
+            contract = self.query_by_entry_id(entry.contract_id)
+            if contract:
+                self._trace_chain(contract, chain, visited)
+
+        # Follow verification_id (attests to this evidence)
+        if entry.verification_id:
+            evidence = self.query_by_entry_id(entry.verification_id)
+            if evidence:
+                self._trace_chain(evidence, chain, visited)
 
     def close(self) -> None:
         """Close file handles and flush buffers."""
