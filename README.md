@@ -88,6 +88,20 @@ pip install -e ".[test]"
 python -m pytest tests/ -v
 ```
 
+## HUMMBL Ecosystem
+
+This repo is part of the [HUMMBL](https://github.com/hummbl-dev) cognitive AI architecture. Related repos:
+
+| Repo | Purpose |
+|------|---------|
+| [base120](https://github.com/hummbl-dev/base120) | Deterministic cognitive framework -- 120 mental models across 6 transformations |
+| [mcp-server](https://github.com/hummbl-dev/mcp-server) | Model Context Protocol server for Base120 integration |
+| [arbiter](https://github.com/hummbl-dev/arbiter) | Agent-aware code quality scoring and attribution |
+| [agentic-patterns](https://github.com/hummbl-dev/agentic-patterns) | Stdlib-only safety patterns for agentic AI systems |
+| [governed-iac-reference](https://github.com/hummbl-dev/governed-iac-reference) | Reference architecture for governed infrastructure-as-code |
+
+Learn more at [hummbl.io](https://hummbl.io).
+
 ## License
 
 Apache 2.0. Copyright 2026 HUMMBL, LLC.
