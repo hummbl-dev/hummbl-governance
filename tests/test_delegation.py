@@ -1,8 +1,6 @@
 """Tests for hummbl_governance.delegation."""
 
-from datetime import datetime, timedelta, timezone
 
-import pytest
 
 from hummbl_governance.delegation import (
     Caveat,

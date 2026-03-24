@@ -6,7 +6,7 @@ CLOSED (normal) -> OPEN (tripped) -> HALF_OPEN (testing) -> CLOSED (recovered).
 """
 
 import random
-from hummbl_governance import CircuitBreaker, CircuitBreakerOpen, CircuitBreakerState
+from hummbl_governance import CircuitBreaker, CircuitBreakerOpen
 
 
 def unreliable_api_call() -> str:
@@ -25,7 +25,7 @@ for i in range(10):
     try:
         result = breaker.call(unreliable_api_call)
         print(f"  Call {i+1}: {result} (failures={breaker.failure_count})")
-    except CircuitBreakerOpen as e:
+    except CircuitBreakerOpen:
         print(f"  Call {i+1}: BLOCKED - breaker is {breaker.state.name}")
     except ConnectionError:
         print(f"  Call {i+1}: FAILED  (failures={breaker.failure_count}, state={breaker.state.name})")

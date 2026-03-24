@@ -27,7 +27,6 @@ import hmac
 import json
 import logging
 import os
-import threading
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -231,18 +230,25 @@ class DelegationTokenManager:
         """
         if not token.verify_signature(self._secret):
             return False, E_TOKEN_INVALID
-
         if token.is_expired():
             return False, E_TOKEN_EXPIRED
-
         if expected_task_id or expected_contract_id or expected_subject:
-            task_id = expected_task_id or (token.binding.task_id if token.binding else "")
-            contract_id = expected_contract_id or (token.binding.contract_id if token.binding else "")
-            subject = expected_subject or token.subject
+            return self._validate_binding(token, expected_task_id, expected_contract_id, expected_subject)
+        return True, None
 
-            if not token.validate_binding(task_id, contract_id, subject):
-                return False, E_BINDING_MISMATCH
-
+    @staticmethod
+    def _validate_binding(
+        token: DelegationToken,
+        expected_task_id: str | None,
+        expected_contract_id: str | None,
+        expected_subject: str | None,
+    ) -> tuple[bool, str | None]:
+        """Validate token binding against expected values."""
+        task_id = expected_task_id or (token.binding.task_id if token.binding else "")
+        contract_id = expected_contract_id or (token.binding.contract_id if token.binding else "")
+        subject = expected_subject or token.subject
+        if not token.validate_binding(task_id, contract_id, subject):
+            return False, E_BINDING_MISMATCH
         return True, None
 
     def check_least_privilege(

@@ -11,6 +11,8 @@ Standalone, stdlib-only Python package providing:
 - BusWriter: Append-only TSV coordination bus with flock locking and HMAC signing
 - ComplianceMapper: Map governance traces to SOC2, GDPR, and OWASP controls
 - HealthCollector: Composable health probe framework with latency tracking
+- OutputValidator: Rule-based content validation for agent outputs (ASI-06)
+- CapabilityFence: Soft sandbox enforcing capability boundaries (ASI-07)
 
 All modules use only Python stdlib. Zero third-party runtime dependencies.
 
@@ -35,6 +37,8 @@ from hummbl_governance.lifecycle import GovernanceLifecycle, AuthorizationDecisi
 from hummbl_governance.contract_net import ContractNetManager, Bid, TaskAnnouncement, ContractPhase
 from hummbl_governance.convergence_guard import ConvergenceDetector, ConvergentGoal, ConvergenceAlert
 from hummbl_governance.reward_monitor import BehaviorMonitor, DriftReport
+from hummbl_governance.output_validator import OutputValidator, PIIDetector, InjectionDetector, LengthBounds, BlocklistFilter
+from hummbl_governance.capability_fence import CapabilityFence, CapabilityDenied
 
 __all__ = [
     "__version__",
@@ -73,4 +77,11 @@ __all__ = [
     "ConvergenceAlert",
     "BehaviorMonitor",
     "DriftReport",
+    "OutputValidator",
+    "PIIDetector",
+    "InjectionDetector",
+    "LengthBounds",
+    "BlocklistFilter",
+    "CapabilityFence",
+    "CapabilityDenied",
 ]

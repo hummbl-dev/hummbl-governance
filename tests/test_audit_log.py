@@ -1,9 +1,7 @@
 """Tests for hummbl_governance.audit_log."""
 
 import tempfile
-from pathlib import Path
 
-import pytest
 
 from hummbl_governance.audit_log import (
     AuditEntry,

@@ -8,7 +8,7 @@ Four modes from least to most restrictive:
 - EMERGENCY: Immediate halt, preserve state
 """
 
-from hummbl_governance import KillSwitch, KillSwitchMode, KillSwitchEngagedError
+from hummbl_governance import KillSwitch, KillSwitchMode
 
 ks = KillSwitch()
 print(f"Mode: {ks.mode.name} (engaged={ks.engaged})")

@@ -6,7 +6,6 @@ with least-privilege enforcement.
 """
 
 from hummbl_governance import (
-    DelegationToken,
     ResourceSelector,
     Caveat,
     TokenBinding,

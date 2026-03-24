@@ -1,7 +1,6 @@
 """Tests for GovernanceLifecycle."""
 
 import tempfile
-from pathlib import Path
 
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState

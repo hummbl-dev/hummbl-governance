@@ -1,6 +1,5 @@
 """Tests for BehaviorMonitor."""
 
-import math
 
 from hummbl_governance.reward_monitor import BehaviorMonitor, _shannon_entropy, _js_divergence
 

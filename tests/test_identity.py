@@ -1,6 +1,5 @@
 """Tests for hummbl_governance.identity."""
 
-import pytest
 
 from hummbl_governance.identity import AgentRegistry
 

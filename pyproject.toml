@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hummbl-governance"
-version = "0.1.0"
-description = "Governance primitives for AI agent orchestration: kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, and schema validation."
+version = "0.2.0"
+description = "Governance primitives for AI agent orchestration: kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, schema validation, coordination bus, compliance mapper, and health probes."
 readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.11"
@@ -41,6 +41,17 @@ Issues = "https://github.com/hummbl-dev/hummbl-governance/issues"
 
 [tool.setuptools.packages.find]
 include = ["hummbl_governance*"]
+
+[tool.vulture]
+exclude = [".venv", "demo", "src"]
+min_confidence = 80
+
+[tool.ruff]
+line-length = 120
+exclude = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -84,110 +84,133 @@ class SchemaValidator:
         return len(errors) == 0, errors
 
 
+def _check_type(instance: Any, schema: dict[str, Any], path: str) -> str | None:
+    """Check type constraint. Returns error string or None."""
+    if "type" not in schema:
+        return None
+    type_name = schema["type"]
+    if isinstance(type_name, list):
+        expected = tuple(t for name in type_name for t in _TYPE_MAP.get(name, ()))
+    else:
+        expected = _TYPE_MAP.get(type_name, ())
+    if expected and not isinstance(instance, expected):
+        return f"{path}: expected type {type_name!r}, got {type(instance).__name__}"
+    return None
+
+
 def _validate(instance: Any, schema: dict[str, Any], path: str = "") -> list[str]:
-    """Core validation logic."""
-    errors: list[str] = []
-
-    # const
+    """Core validation logic -- dispatches to type-specific validators."""
+    # const (early return)
     if "const" in schema and instance != schema["const"]:
-        errors.append(f"{path}: expected const {schema['const']!r}, got {instance!r}")
-        return errors
+        return [f"{path}: expected const {schema['const']!r}, got {instance!r}"]
 
-    # type
-    if "type" in schema:
-        type_name = schema["type"]
-        if isinstance(type_name, list):
-            expected = tuple(t for name in type_name for t in _TYPE_MAP.get(name, ()))
-        else:
-            expected = _TYPE_MAP.get(type_name, ())
-        if expected and not isinstance(instance, expected):
-            errors.append(
-                f"{path}: expected type {type_name!r}, got {type(instance).__name__}"
-            )
-            return errors
+    # type check (early return on mismatch)
+    type_error = _check_type(instance, schema, path)
+    if type_error:
+        return [type_error]
+
+    errors: list[str] = []
 
     # enum
     if "enum" in schema and instance not in schema["enum"]:
         errors.append(f"{path}: {instance!r} not in enum {schema['enum']}")
 
-    # pattern (string)
-    if "pattern" in schema and isinstance(instance, str):
+    # type-specific validation
+    if isinstance(instance, str):
+        errors.extend(_validate_string(instance, schema, path))
+    elif isinstance(instance, (int, float)):
+        errors.extend(_validate_number(instance, schema, path))
+    elif isinstance(instance, dict):
+        errors.extend(_validate_object(instance, schema, path))
+    elif isinstance(instance, list):
+        errors.extend(_validate_array(instance, schema, path))
+
+    # composition keywords
+    errors.extend(_validate_composition(instance, schema, path))
+
+    return errors
+
+
+def _validate_string(instance: str, schema: dict[str, Any], path: str) -> list[str]:
+    """Validate string-specific keywords: pattern, minLength, maxLength."""
+    errors: list[str] = []
+    if "pattern" in schema:
         try:
             if not re.search(schema["pattern"], instance):
-                errors.append(
-                    f"{path}: {instance!r} does not match pattern {schema['pattern']!r}"
-                )
+                errors.append(f"{path}: {instance!r} does not match pattern {schema['pattern']!r}")
         except re.error as e:
             errors.append(f"{path}: invalid regex pattern {schema['pattern']!r}: {e}")
+    if "minLength" in schema and len(instance) < schema["minLength"]:
+        errors.append(f"{path}: string length {len(instance)} < minLength {schema['minLength']}")
+    if "maxLength" in schema and len(instance) > schema["maxLength"]:
+        errors.append(f"{path}: string length {len(instance)} > maxLength {schema['maxLength']}")
+    return errors
 
-    # minLength / maxLength (string)
-    if isinstance(instance, str):
-        if "minLength" in schema and len(instance) < schema["minLength"]:
-            errors.append(
-                f"{path}: string length {len(instance)} < minLength {schema['minLength']}"
-            )
-        if "maxLength" in schema and len(instance) > schema["maxLength"]:
-            errors.append(
-                f"{path}: string length {len(instance)} > maxLength {schema['maxLength']}"
-            )
 
-    # minimum / maximum (number)
-    if isinstance(instance, (int, float)):
-        if "minimum" in schema and instance < schema["minimum"]:
-            errors.append(f"{path}: {instance} < minimum {schema['minimum']}")
-        if "maximum" in schema and instance > schema["maximum"]:
-            errors.append(f"{path}: {instance} > maximum {schema['maximum']}")
+def _validate_number(instance: int | float, schema: dict[str, Any], path: str) -> list[str]:
+    """Validate number-specific keywords: minimum, maximum."""
+    errors: list[str] = []
+    if "minimum" in schema and instance < schema["minimum"]:
+        errors.append(f"{path}: {instance} < minimum {schema['minimum']}")
+    if "maximum" in schema and instance > schema["maximum"]:
+        errors.append(f"{path}: {instance} > maximum {schema['maximum']}")
+    return errors
 
-    # object validation
-    if isinstance(instance, dict):
-        for req in schema.get("required", []):
-            if req not in instance:
-                errors.append(f"{path}: missing required property {req!r}")
 
-        props = schema.get("properties", {})
-        for key, prop_schema in props.items():
-            if key in instance:
+def _validate_object(instance: dict, schema: dict[str, Any], path: str) -> list[str]:
+    """Validate object-specific keywords: required, properties, additionalProperties."""
+    errors: list[str] = []
+    for req in schema.get("required", []):
+        if req not in instance:
+            errors.append(f"{path}: missing required property {req!r}")
+
+    props = schema.get("properties", {})
+    for key, prop_schema in props.items():
+        if key in instance:
+            sub_path = f"{path}.{key}" if path else key
+            errors.extend(_validate(instance[key], prop_schema, sub_path))
+
+    if "additionalProperties" in schema:
+        errors.extend(_validate_additional_props(instance, schema["additionalProperties"], props, path))
+    return errors
+
+
+def _validate_additional_props(
+    instance: dict, ap: bool | dict, known_props: dict[str, Any], path: str
+) -> list[str]:
+    """Validate additionalProperties constraint."""
+    errors: list[str] = []
+    known_keys = set(known_props.keys())
+    for key in instance:
+        if key not in known_keys:
+            if ap is False:
+                errors.append(f"{path}: unexpected property {key!r}")
+            elif isinstance(ap, dict):
                 sub_path = f"{path}.{key}" if path else key
-                errors.extend(_validate(instance[key], prop_schema, sub_path))
+                errors.extend(_validate(instance[key], ap, sub_path))
+    return errors
 
-        if "additionalProperties" in schema:
-            ap = schema["additionalProperties"]
-            known_keys = set(props.keys())
-            for key in instance:
-                if key not in known_keys:
-                    if ap is False:
-                        errors.append(f"{path}: unexpected property {key!r}")
-                    elif isinstance(ap, dict):
-                        sub_path = f"{path}.{key}" if path else key
-                        errors.extend(_validate(instance[key], ap, sub_path))
 
-    # array validation
-    if isinstance(instance, list):
-        if "minItems" in schema and len(instance) < schema["minItems"]:
-            errors.append(
-                f"{path}: array length {len(instance)} < minItems {schema['minItems']}"
-            )
-        if "maxItems" in schema and len(instance) > schema["maxItems"]:
-            errors.append(
-                f"{path}: array length {len(instance)} > maxItems {schema['maxItems']}"
-            )
-        if "items" in schema:
-            for i, item in enumerate(instance):
-                sub_path = f"{path}[{i}]"
-                errors.extend(_validate(item, schema["items"], sub_path))
+def _validate_array(instance: list, schema: dict[str, Any], path: str) -> list[str]:
+    """Validate array-specific keywords: minItems, maxItems, items."""
+    errors: list[str] = []
+    if "minItems" in schema and len(instance) < schema["minItems"]:
+        errors.append(f"{path}: array length {len(instance)} < minItems {schema['minItems']}")
+    if "maxItems" in schema and len(instance) > schema["maxItems"]:
+        errors.append(f"{path}: array length {len(instance)} > maxItems {schema['maxItems']}")
+    if "items" in schema:
+        for i, item in enumerate(instance):
+            errors.extend(_validate(item, schema["items"], f"{path}[{i}]"))
+    return errors
 
-    # oneOf
+
+def _validate_composition(instance: Any, schema: dict[str, Any], path: str) -> list[str]:
+    """Validate composition keywords: oneOf, anyOf."""
+    errors: list[str] = []
     if "oneOf" in schema:
         match_count = sum(1 for s in schema["oneOf"] if not _validate(instance, s, path))
         if match_count != 1:
-            errors.append(
-                f"{path}: expected exactly one of oneOf to match, got {match_count}"
-            )
-
-    # anyOf
-    if "anyOf" in schema and not any(
-        not _validate(instance, s, path) for s in schema["anyOf"]
-    ):
+            errors.append(f"{path}: expected exactly one of oneOf to match, got {match_count}")
+    if "anyOf" in schema and not any(not _validate(instance, s, path) for s in schema["anyOf"]):
         errors.append(f"{path}: none of anyOf schemas matched")
-
     return errors

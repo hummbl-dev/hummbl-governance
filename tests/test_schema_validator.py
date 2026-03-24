@@ -4,9 +4,8 @@ import json
 import tempfile
 from pathlib import Path
 
-import pytest
 
-from hummbl_governance.schema_validator import SchemaValidator, ValidationError
+from hummbl_governance.schema_validator import SchemaValidator
 
 
 class TestTypeValidation:

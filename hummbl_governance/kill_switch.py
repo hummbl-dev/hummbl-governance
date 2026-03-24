@@ -227,6 +227,24 @@ class KillSwitch:
         """Subscribe to kill switch state changes."""
         self._subscribers.append(callback)
 
+    def _build_state_data(self) -> dict[str, Any]:
+        """Build state dict from current mode and last event."""
+        last_event = self._history[-1] if self._history else None
+        data = {
+            "mode": self._mode.name,
+            "engaged_at": last_event.timestamp if last_event else None,
+            "reason": last_event.reason if last_event else None,
+            "triggered_by": last_event.triggered_by if last_event else None,
+        }
+        secret = self._get_signing_secret()
+        if secret:
+            data["signature"] = self._compute_signature(
+                {k: v for k, v in data.items() if k != "signature"}, secret
+            )
+        elif self._require_hmac:
+            logger.error("Signing secret not available but require_hmac=True")
+        return data
+
     def _persist(self) -> None:
         """Persist current state to file if state_dir is configured."""
         if self._state_dir is None:
@@ -235,26 +253,9 @@ class KillSwitch:
         state_file = self._state_dir / "kill_switch_state.json"
         self._state_dir.mkdir(parents=True, exist_ok=True)
 
-        last_event = self._history[-1] if self._history else None
-
-        data = {
-            "mode": self._mode.name,
-            "engaged_at": last_event.timestamp if last_event else None,
-            "reason": last_event.reason if last_event else None,
-            "triggered_by": last_event.triggered_by if last_event else None,
-        }
-
-        secret = self._get_signing_secret()
-        if secret:
-            data["signature"] = self._compute_signature(
-                {k: v for k, v in data.items() if k != "signature"}, secret
-            )
-        elif self._require_hmac:
-            logger.error("Signing secret not available but require_hmac=True")
-
         try:
             with open(state_file, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2)
+                json.dump(self._build_state_data(), f, indent=2)
             state_file.chmod(0o600)
         except OSError:
             pass

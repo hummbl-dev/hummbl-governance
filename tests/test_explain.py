@@ -1,7 +1,6 @@
 """Tests for AuditLog.explain() method."""
 
 import tempfile
-from pathlib import Path
 
 from hummbl_governance.audit_log import AuditLog
 

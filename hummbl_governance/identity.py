@@ -116,47 +116,47 @@ class AgentRegistry:
         if not sender:
             return sender
 
-        sender_lower = sender.lower()
-
-        # Direct alias match
-        if sender in self._aliases:
-            return self._aliases[sender]
-        if sender_lower in self._aliases:
-            return self._aliases[sender_lower]
-        # Case-insensitive alias lookup
-        for alias_key, canonical in self._aliases.items():
-            if alias_key.lower() == sender_lower:
-                return canonical
-
         # Base name (strip parenthetical)
         base = sender.split("(", 1)[0].strip() if "(" in sender else sender
-        base_lower = base.lower()
-        if base in self._aliases:
-            return self._aliases[base]
-        if base_lower in self._aliases:
-            return self._aliases[base_lower]
+        candidates = [sender, base] if base != sender else [sender]
 
-        # Autonomous service
-        if sender in self._services:
-            return sender
-        if sender_lower in self._services:
-            return sender_lower
-        if base in self._services:
-            return base
-        if base_lower in self._services:
-            return base_lower
+        # 1. Alias lookup
+        result = self._lookup_alias(candidates)
+        if result is not None:
+            return result
 
-        # Canonical agent
-        if sender in self._agents:
-            return sender
-        if sender_lower in self._agents:
-            return sender_lower
-        if base in self._agents:
-            return base
-        if base_lower in self._agents:
-            return base_lower
+        # 2. Set membership lookup (services, then agents)
+        result = self._lookup_in_set(candidates, self._services)
+        if result is not None:
+            return result
+        result = self._lookup_in_set(candidates, self._agents)
+        if result is not None:
+            return result
 
         return sender
+
+    @staticmethod
+    def _lookup_in_set(candidates: list[str], registry: dict | set) -> str | None:
+        """Find the first candidate present in a registry (exact or case-insensitive)."""
+        for name in candidates:
+            if name in registry:
+                return name
+            if name.lower() in registry:
+                return name.lower()
+        return None
+
+    def _lookup_alias(self, candidates: list[str]) -> str | None:
+        """Find the first candidate that matches an alias (exact or case-insensitive)."""
+        for name in candidates:
+            if name in self._aliases:
+                return self._aliases[name]
+            name_lower = name.lower()
+            if name_lower in self._aliases:
+                return self._aliases[name_lower]
+            for alias_key, canonical in self._aliases.items():
+                if alias_key.lower() == name_lower:
+                    return canonical
+        return None
 
     def is_valid_sender(self, sender: str) -> bool:
         """Check if a sender is a known identity."""

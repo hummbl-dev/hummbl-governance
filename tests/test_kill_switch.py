@@ -2,7 +2,6 @@
 
 import json
 import tempfile
-import os
 from pathlib import Path
 
 import pytest
@@ -10,7 +9,6 @@ import pytest
 from hummbl_governance.kill_switch import (
     KillSwitch,
     KillSwitchMode,
-    KillSwitchEvent,
     KillSwitchEngagedError,
     KillSwitchTamperError,
 )
