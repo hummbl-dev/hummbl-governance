@@ -7,7 +7,7 @@ from hummbl_governance.capability_fence import (
     CapabilityDenied,
     CapabilityFence,
 )
-from hummbl_governance.delegation import DelegationToken, DelegationTokenManager, TokenBinding
+from hummbl_governance.delegation import DelegationTokenManager, TokenBinding
 
 
 class TestCapabilityDenied:

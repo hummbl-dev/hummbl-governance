@@ -19,7 +19,6 @@ from hummbl_governance import (
     KillSwitchMode,
 )
 from hummbl_governance.circuit_breaker import CircuitBreakerOpen
-from hummbl_governance.kill_switch import KillSwitchEngagedError
 
 
 def flaky_external_service(success_rate: float = 0.7) -> str:
@@ -67,7 +66,7 @@ def main():
             # Engage kill switch if breaker is open
             if not ks.engaged:
                 ks.engage(KillSwitchMode.HALT_NONCRITICAL, reason="Circuit breaker open", triggered_by="agent-runner")
-                print(f"  >> Kill switch engaged: HALT_NONCRITICAL")
+                print("  >> Kill switch engaged: HALT_NONCRITICAL")
         except ConnectionError as e:
             bus.post("agent-runner", "all", "STATUS", f"Task '{task_name}' failed: {e}")
             print(f"  FAILED: {task_name} ({e})")

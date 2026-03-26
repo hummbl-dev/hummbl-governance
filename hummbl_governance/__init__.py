@@ -41,7 +41,9 @@ from hummbl_governance.lifecycle import GovernanceLifecycle, AuthorizationDecisi
 from hummbl_governance.contract_net import ContractNetManager, Bid, TaskAnnouncement, ContractPhase
 from hummbl_governance.convergence_guard import ConvergenceDetector, ConvergentGoal, ConvergenceAlert
 from hummbl_governance.reward_monitor import BehaviorMonitor, DriftReport
-from hummbl_governance.output_validator import OutputValidator, PIIDetector, InjectionDetector, LengthBounds, BlocklistFilter
+from hummbl_governance.output_validator import (
+    OutputValidator, PIIDetector, InjectionDetector, LengthBounds, BlocklistFilter,
+)
 from hummbl_governance.capability_fence import CapabilityFence, CapabilityDenied
 
 __all__ = [

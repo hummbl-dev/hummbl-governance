@@ -26,10 +26,6 @@ from hummbl_governance import (
     KillSwitch,
     CircuitBreaker,
     CostGovernor,
-    AuditLog,
-    HealthCollector,
-    HealthProbe,
-    ProbeResult,
 )
 
 
@@ -59,9 +55,9 @@ def cmd_init(args):
         print(f"Created policy: {policy_file}")
 
     print(f"Governance initialized at: {state_dir}")
-    print(f"  audit/     — Append-only JSONL audit log")
-    print(f"  costs.db   — Cost governor SQLite database")
-    print(f"  policy.json — Governance policy definition")
+    print("  audit/     — Append-only JSONL audit log")
+    print("  costs.db   — Cost governor SQLite database")
+    print("  policy.json — Governance policy definition")
 
 
 def cmd_status(args):
@@ -264,7 +260,7 @@ def cmd_score(args):
             findings.append(f"Compliance: {len(frameworks)} frameworks +15")
         elif len(frameworks) == 1:
             score += 8
-            findings.append(f"Compliance: 1 framework +8")
+            findings.append("Compliance: 1 framework +8")
         else:
             findings.append("Compliance: no frameworks +0")
 
@@ -272,7 +268,18 @@ def cmd_score(args):
     score += 10
     findings.append("Circuit breaker: available +10")
 
-    grade = "A+" if score >= 95 else "A" if score >= 85 else "B" if score >= 70 else "C" if score >= 55 else "D" if score >= 40 else "F"
+    if score >= 95:
+        grade = "A+"
+    elif score >= 85:
+        grade = "A"
+    elif score >= 70:
+        grade = "B"
+    elif score >= 55:
+        grade = "C"
+    elif score >= 40:
+        grade = "D"
+    else:
+        grade = "F"
 
     print(f"Governance Score: {score}/{max_score} ({grade})")
     print("=" * 50)

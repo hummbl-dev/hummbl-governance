@@ -26,7 +26,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from hummbl_governance import (
     KillSwitch,
-    KillSwitchMode,
     CircuitBreaker,
 )
 
@@ -120,21 +119,38 @@ class Sandbox:
             "max_cost": self.max_cost,
             "cost_spent": round(self.cost_spent, 2),
             "actions_count": len(self.actions),
-            "kill_switch": self.kill_switch.mode.name if hasattr(self.kill_switch.mode, "name") else str(self.kill_switch.mode),
-            "circuit_breaker": self.circuit_breaker.state.name if hasattr(self.circuit_breaker.state, "name") else str(self.circuit_breaker.state),
+            "kill_switch": (
+                self.kill_switch.mode.name
+                if hasattr(self.kill_switch.mode, "name")
+                else str(self.kill_switch.mode)
+            ),
+            "circuit_breaker": (
+                self.circuit_breaker.state.name
+                if hasattr(self.circuit_breaker.state, "name")
+                else str(self.circuit_breaker.state)
+            ),
         }
 
 
 TOOLS = [
     {
         "name": "sandbox_create",
-        "description": "Create an isolated sandbox for an agent with policy constraints (tool allowlist, path blocklist, cost cap).",
+        "description": (
+            "Create an isolated sandbox for an agent with policy constraints"
+            " (tool allowlist, path blocklist, cost cap)."
+        ),
         "inputSchema": {
             "type": "object",
             "properties": {
                 "agent_name": {"type": "string", "description": "Agent identity"},
-                "allowed_tools": {"type": "array", "items": {"type": "string"}, "description": "Allowlist of tools (empty = all allowed)"},
-                "blocked_paths": {"type": "array", "items": {"type": "string"}, "description": "Paths the agent cannot access"},
+                "allowed_tools": {
+                    "type": "array", "items": {"type": "string"},
+                    "description": "Allowlist of tools (empty = all allowed)",
+                },
+                "blocked_paths": {
+                    "type": "array", "items": {"type": "string"},
+                    "description": "Paths the agent cannot access",
+                },
                 "max_cost": {"type": "number", "description": "Maximum cost in USD (default: 10.0)", "default": 10.0},
                 "timeout_sec": {"type": "integer", "description": "Timeout in seconds (default: 300)", "default": 300},
             },

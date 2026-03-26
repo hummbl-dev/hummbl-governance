@@ -92,7 +92,11 @@ class GovernanceHandler(BaseHTTPRequestHandler):
                 "circuit_breaker": {"state": _cb.state.name, "failure_count": _cb.failure_count},
                 "cost_governor": {
                     "daily_spend": getattr(budget, "current_spend", 0),
-                    "decision": getattr(budget, "decision", "UNKNOWN").name if hasattr(getattr(budget, "decision", None), "name") else str(getattr(budget, "decision", "UNKNOWN")),
+                    "decision": (
+                        getattr(budget, "decision", "UNKNOWN").name
+                        if hasattr(getattr(budget, "decision", None), "name")
+                        else str(getattr(budget, "decision", "UNKNOWN"))
+                    ),
                 },
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             })
@@ -165,7 +169,11 @@ class GovernanceHandler(BaseHTTPRequestHandler):
         if path == "/api/v1/kill-switch/engage":
             body = self._read_body()
             mode_name = body.get("mode", "HALT_NONCRITICAL")
-            mode_map = {"HALT_NONCRITICAL": KillSwitchMode.HALT_NONCRITICAL, "HALT_ALL": KillSwitchMode.HALT_ALL, "EMERGENCY": KillSwitchMode.EMERGENCY}
+            mode_map = {
+                "HALT_NONCRITICAL": KillSwitchMode.HALT_NONCRITICAL,
+                "HALT_ALL": KillSwitchMode.HALT_ALL,
+                "EMERGENCY": KillSwitchMode.EMERGENCY,
+            }
             mode = mode_map.get(mode_name)
             if not mode:
                 self._json_response({"error": f"Invalid mode: {mode_name}"}, 400)

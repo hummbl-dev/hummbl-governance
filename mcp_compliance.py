@@ -34,7 +34,7 @@ import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
-from hummbl_governance import ComplianceMapper, ComplianceReport, AuditLog
+from hummbl_governance import ComplianceMapper
 from hummbl_governance.stride_mapper import (
     StrideMapper,
     Interaction,
@@ -157,7 +157,10 @@ ISO_CROSSWALK = {
     "ISO27001:A.10": {"nist_csf": "PR.DS", "soc2": "CC6", "description": "Cryptography"},
     "ISO27001:A.12": {"nist_csf": "PR.PS", "soc2": "CC7", "description": "Operations security"},
     "ISO27001:A.13": {"nist_csf": "PR.DS", "soc2": "CC6", "description": "Communications security"},
-    "ISO27001:A.14": {"nist_csf": "PR.PS", "soc2": "CC8", "description": "System acquisition, development, maintenance"},
+    "ISO27001:A.14": {
+        "nist_csf": "PR.PS", "soc2": "CC8",
+        "description": "System acquisition, development, maintenance",
+    },
     "ISO27001:A.16": {"nist_csf": "RS.MA", "soc2": "CC7", "description": "Information security incident management"},
     "ISO27001:A.17": {"nist_csf": "PR.IR", "soc2": "A1", "description": "Business continuity"},
     "ISO27001:A.18": {"nist_csf": "GV.PO", "soc2": "CC2", "description": "Compliance"},
@@ -596,13 +599,19 @@ TOOLS = [
                         "properties": {
                             "source": {"type": "string", "description": "Source agent or component"},
                             "target": {"type": "string", "description": "Target agent or resource"},
-                            "data_type": {"type": "string", "description": "Action/data type (read, write, execute, etc.)"},
+                            "data_type": {
+                                "type": "string",
+                                "description": "Action/data type (read, write, execute, etc.)",
+                            },
                             "auth_level": {
                                 "type": "string",
                                 "description": "Authentication level (none, authenticated, token, hmac, mTLS)",
                             },
                             "boundary": {"type": "boolean", "description": "Whether this crosses a trust boundary"},
-                            "audited": {"type": "boolean", "description": "Whether this interaction has an audit trail"},
+                            "audited": {
+                                "type": "boolean",
+                                "description": "Whether this interaction has an audit trail",
+                            },
                             "rate_limited": {"type": "boolean", "description": "Whether rate limiting is in place"},
                         },
                         "required": ["source", "target"],

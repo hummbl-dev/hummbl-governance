@@ -103,7 +103,10 @@ def get_audit_log():
 TOOLS = [
     {
         "name": "governance_status",
-        "description": "Get a one-call overview of all governance primitives: kill switch mode, circuit breaker state, cost budget status.",
+        "description": (
+            "Get a one-call overview of all governance primitives:"
+            " kill switch mode, circuit breaker state, cost budget status."
+        ),
         "inputSchema": {"type": "object", "properties": {}, "required": []},
     },
     {
@@ -158,7 +161,10 @@ TOOLS = [
     },
     {
         "name": "cost_budget_check",
-        "description": "Check current daily spend against budget caps. Returns ALLOW, WARN, or DENY decision with rationale.",
+        "description": (
+            "Check current daily spend against budget caps."
+            " Returns ALLOW, WARN, or DENY decision with rationale."
+        ),
         "inputSchema": {"type": "object", "properties": {}, "required": []},
     },
     {
@@ -191,7 +197,10 @@ TOOLS = [
     },
     {
         "name": "compliance_report",
-        "description": "Generate compliance evidence mapped to SOC2, GDPR, and OWASP controls from governance audit trail.",
+        "description": (
+            "Generate compliance evidence mapped to SOC2, GDPR, and OWASP"
+            " controls from governance audit trail."
+        ),
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -235,7 +244,11 @@ def handle_tool(name, arguments):
             },
             "cost_governor": {
                 "daily_spend": budget.current_spend if hasattr(budget, "current_spend") else 0,
-                "decision": budget.decision.name if hasattr(budget, "decision") and hasattr(budget.decision, "name") else str(getattr(budget, "decision", "UNKNOWN")),
+                "decision": (
+                    budget.decision.name
+                    if hasattr(budget, "decision") and hasattr(budget.decision, "name")
+                    else str(getattr(budget, "decision", "UNKNOWN"))
+                ),
             },
         }
 
@@ -314,7 +327,7 @@ def handle_tool(name, arguments):
 
     elif name == "cost_record_usage":
         cg = get_cost_governor()
-        record = cg.record_usage(
+        cg.record_usage(
             provider=arguments["provider"],
             model=arguments["model"],
             tokens_in=arguments["tokens_in"],
@@ -348,7 +361,11 @@ def handle_tool(name, arguments):
     elif name == "compliance_report":
         try:
             mapper = ComplianceMapper(governance_dir=AUDIT_DIR)
-            report = mapper.generate_report() if hasattr(mapper, "generate_report") else {"status": "mapper initialized", "audit_dir": AUDIT_DIR}
+            report = (
+                mapper.generate_report()
+                if hasattr(mapper, "generate_report")
+                else {"status": "mapper initialized", "audit_dir": AUDIT_DIR}
+            )
             return {"report": str(report)}
         except Exception as e:
             return {"error": f"Compliance report generation failed: {e}"}
