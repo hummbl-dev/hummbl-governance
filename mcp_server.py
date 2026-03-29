@@ -223,197 +223,223 @@ TOOLS = [
 
 
 # ---------------------------------------------------------------------------
-# Tool dispatch
+# Tool handlers (one per tool, keeps cyclomatic complexity low)
 # ---------------------------------------------------------------------------
-def handle_tool(name, arguments):
-    """Dispatch a tool call to the appropriate governance method."""
-
-    if name == "governance_status":
-        ks = get_kill_switch()
-        cb = get_circuit_breaker()
-        cg = get_cost_governor()
-        budget = cg.check_budget_status()
-        return {
-            "kill_switch": {
-                "mode": ks.mode.name if hasattr(ks.mode, "name") else str(ks.mode),
-                "engaged": ks.engaged,
-            },
-            "circuit_breaker": {
-                "state": cb.state.name if hasattr(cb.state, "name") else str(cb.state),
-                "failure_count": cb.failure_count,
-            },
-            "cost_governor": {
-                "daily_spend": budget.current_spend if hasattr(budget, "current_spend") else 0,
-                "decision": (
-                    budget.decision.name
-                    if hasattr(budget, "decision") and hasattr(budget.decision, "name")
-                    else str(getattr(budget, "decision", "UNKNOWN"))
-                ),
-            },
-        }
-
-    elif name == "kill_switch_status":
-        ks = get_kill_switch()
-        limit = arguments.get("history_limit", 5)
-        status = ks.get_status()
-        history = ks.get_history(limit=limit)
-        return {
-            "status": status,
-            "history": [
-                {
-                    "mode": str(e.mode) if hasattr(e, "mode") else str(e),
-                    "reason": getattr(e, "reason", ""),
-                    "triggered_by": getattr(e, "triggered_by", ""),
-                    "timestamp": str(getattr(e, "timestamp", "")),
-                }
-                for e in history
-            ],
-        }
-
-    elif name == "kill_switch_engage":
-        if not arguments.get("confirm"):
-            return {"error": "Must set confirm=true to engage kill switch"}
-        ks = get_kill_switch()
-        mode_map = {
-            "HALT_NONCRITICAL": KillSwitchMode.HALT_NONCRITICAL,
-            "HALT_ALL": KillSwitchMode.HALT_ALL,
-            "EMERGENCY": KillSwitchMode.EMERGENCY,
-        }
-        mode = mode_map.get(arguments["mode"])
-        if not mode:
-            return {"error": f"Invalid mode: {arguments['mode']}"}
-        event = ks.engage(
-            mode=mode,
-            reason=arguments["reason"],
-            triggered_by=arguments.get("triggered_by", "mcp-client"),
-        )
-        return {
-            "engaged": True,
-            "mode": arguments["mode"],
-            "reason": arguments["reason"],
-            "timestamp": str(getattr(event, "timestamp", datetime.now(timezone.utc))),
-        }
-
-    elif name == "kill_switch_disengage":
-        ks = get_kill_switch()
-        event = ks.disengage(
-            triggered_by=arguments.get("triggered_by", "mcp-client"),
-            reason=arguments["reason"],
-        )
-        return {
-            "disengaged": True,
-            "reason": arguments["reason"],
-            "timestamp": str(getattr(event, "timestamp", datetime.now(timezone.utc))),
-        }
-
-    elif name == "circuit_breaker_status":
-        cb = get_circuit_breaker()
-        return {
+def _handle_governance_status(arguments):
+    ks = get_kill_switch()
+    cb = get_circuit_breaker()
+    cg = get_cost_governor()
+    budget = cg.check_budget_status()
+    return {
+        "kill_switch": {
+            "mode": ks.mode.name if hasattr(ks.mode, "name") else str(ks.mode),
+            "engaged": ks.engaged,
+        },
+        "circuit_breaker": {
             "state": cb.state.name if hasattr(cb.state, "name") else str(cb.state),
             "failure_count": cb.failure_count,
-            "success_count": getattr(cb, "success_count", 0),
-            "last_failure_time": str(getattr(cb, "last_failure_time", None)),
-        }
+        },
+        "cost_governor": {
+            "daily_spend": budget.current_spend if hasattr(budget, "current_spend") else 0,
+            "decision": (
+                budget.decision.name
+                if hasattr(budget, "decision") and hasattr(budget.decision, "name")
+                else str(getattr(budget, "decision", "UNKNOWN"))
+            ),
+        },
+    }
 
-    elif name == "cost_budget_check":
-        cg = get_cost_governor()
-        budget = cg.check_budget_status()
-        result = {}
-        for attr in ("current_spend", "soft_cap", "hard_cap", "decision", "rationale", "utilization"):
-            val = getattr(budget, attr, None)
-            if val is not None:
-                result[attr] = val.name if hasattr(val, "name") else val
-        return result
 
-    elif name == "cost_record_usage":
-        cg = get_cost_governor()
-        cg.record_usage(
-            provider=arguments["provider"],
-            model=arguments["model"],
-            tokens_in=arguments["tokens_in"],
-            tokens_out=arguments["tokens_out"],
-            cost=arguments["cost"],
+def _handle_kill_switch_status(arguments):
+    ks = get_kill_switch()
+    limit = arguments.get("history_limit", 5)
+    status = ks.get_status()
+    history = ks.get_history(limit=limit)
+    return {
+        "status": status,
+        "history": [
+            {
+                "mode": str(e.mode) if hasattr(e, "mode") else str(e),
+                "reason": getattr(e, "reason", ""),
+                "triggered_by": getattr(e, "triggered_by", ""),
+                "timestamp": str(getattr(e, "timestamp", "")),
+            }
+            for e in history
+        ],
+    }
+
+
+def _handle_kill_switch_engage(arguments):
+    if not arguments.get("confirm"):
+        return {"error": "Must set confirm=true to engage kill switch"}
+    ks = get_kill_switch()
+    mode_map = {
+        "HALT_NONCRITICAL": KillSwitchMode.HALT_NONCRITICAL,
+        "HALT_ALL": KillSwitchMode.HALT_ALL,
+        "EMERGENCY": KillSwitchMode.EMERGENCY,
+    }
+    mode = mode_map.get(arguments["mode"])
+    if not mode:
+        return {"error": f"Invalid mode: {arguments['mode']}"}
+    event = ks.engage(
+        mode=mode,
+        reason=arguments["reason"],
+        triggered_by=arguments.get("triggered_by", "mcp-client"),
+    )
+    return {
+        "engaged": True,
+        "mode": arguments["mode"],
+        "reason": arguments["reason"],
+        "timestamp": str(getattr(event, "timestamp", datetime.now(timezone.utc))),
+    }
+
+
+def _handle_kill_switch_disengage(arguments):
+    ks = get_kill_switch()
+    event = ks.disengage(
+        triggered_by=arguments.get("triggered_by", "mcp-client"),
+        reason=arguments["reason"],
+    )
+    return {
+        "disengaged": True,
+        "reason": arguments["reason"],
+        "timestamp": str(getattr(event, "timestamp", datetime.now(timezone.utc))),
+    }
+
+
+def _handle_circuit_breaker_status(arguments):
+    cb = get_circuit_breaker()
+    return {
+        "state": cb.state.name if hasattr(cb.state, "name") else str(cb.state),
+        "failure_count": cb.failure_count,
+        "success_count": getattr(cb, "success_count", 0),
+        "last_failure_time": str(getattr(cb, "last_failure_time", None)),
+    }
+
+
+def _handle_cost_budget_check(arguments):
+    cg = get_cost_governor()
+    budget = cg.check_budget_status()
+    result = {}
+    for attr in ("current_spend", "soft_cap", "hard_cap", "decision", "rationale", "utilization"):
+        val = getattr(budget, attr, None)
+        if val is not None:
+            result[attr] = val.name if hasattr(val, "name") else val
+    return result
+
+
+def _handle_cost_record_usage(arguments):
+    cg = get_cost_governor()
+    cg.record_usage(
+        provider=arguments["provider"],
+        model=arguments["model"],
+        tokens_in=arguments["tokens_in"],
+        tokens_out=arguments["tokens_out"],
+        cost=arguments["cost"],
+    )
+    return {
+        "recorded": True,
+        "provider": arguments["provider"],
+        "model": arguments["model"],
+        "cost": arguments["cost"],
+    }
+
+
+def _handle_audit_query(arguments):
+    al = get_audit_log()
+    entries = []
+    if arguments.get("intent_id"):
+        entries = list(al.query_by_intent(arguments["intent_id"]))
+    elif arguments.get("task_id"):
+        entries = list(al.query_by_task(arguments["task_id"]))
+    limit = arguments.get("limit", 20)
+    entries = entries[:limit]
+    return {
+        "count": len(entries),
+        "entries": [
+            {k: str(v) for k, v in (e.__dict__ if hasattr(e, "__dict__") else {"data": str(e)}).items()}
+            for e in entries
+        ],
+    }
+
+
+def _handle_compliance_report(arguments):
+    try:
+        mapper = ComplianceMapper(governance_dir=AUDIT_DIR)
+        report = (
+            mapper.generate_report()
+            if hasattr(mapper, "generate_report")
+            else {"status": "mapper initialized", "audit_dir": AUDIT_DIR}
         )
-        return {
-            "recorded": True,
-            "provider": arguments["provider"],
-            "model": arguments["model"],
-            "cost": arguments["cost"],
-        }
+        return {"report": str(report)}
+    except Exception as e:
+        return {"error": f"Compliance report generation failed: {e}"}
 
-    elif name == "audit_query":
-        al = get_audit_log()
-        entries = []
-        if arguments.get("intent_id"):
-            entries = list(al.query_by_intent(arguments["intent_id"]))
-        elif arguments.get("task_id"):
-            entries = list(al.query_by_task(arguments["task_id"]))
-        limit = arguments.get("limit", 20)
-        entries = entries[:limit]
-        return {
-            "count": len(entries),
-            "entries": [
-                {k: str(v) for k, v in (e.__dict__ if hasattr(e, "__dict__") else {"data": str(e)}).items()}
-                for e in entries
-            ],
-        }
 
-    elif name == "compliance_report":
-        try:
-            mapper = ComplianceMapper(governance_dir=AUDIT_DIR)
-            report = (
-                mapper.generate_report()
-                if hasattr(mapper, "generate_report")
-                else {"status": "mapper initialized", "audit_dir": AUDIT_DIR}
+def _handle_health_check(arguments):
+    from hummbl_governance import HealthProbe, ProbeResult
+
+    class KillSwitchProbe(HealthProbe):
+        @property
+        def name(self):
+            return "kill_switch"
+
+        def check(self):
+            ks = get_kill_switch()
+            return ProbeResult(
+                name="kill_switch",
+                healthy=not ks.engaged,
+                message=f"Mode: {ks.mode.name if hasattr(ks.mode, 'name') else str(ks.mode)}",
             )
-            return {"report": str(report)}
-        except Exception as e:
-            return {"error": f"Compliance report generation failed: {e}"}
 
-    elif name == "health_check":
-        from hummbl_governance import HealthProbe, ProbeResult
+    class CostGovernorProbe(HealthProbe):
+        @property
+        def name(self):
+            return "cost_governor"
 
-        class KillSwitchProbe(HealthProbe):
-            @property
-            def name(self):
-                return "kill_switch"
+        def check(self):
+            cg = get_cost_governor()
+            budget = cg.check_budget_status()
+            decision = getattr(budget, "decision", None)
+            decision_name = decision.name if hasattr(decision, "name") else str(decision)
+            return ProbeResult(
+                name="cost_governor",
+                healthy=decision_name != "DENY",
+                message=f"Decision: {decision_name}",
+            )
 
-            def check(self):
-                ks = get_kill_switch()
-                return ProbeResult(
-                    name="kill_switch",
-                    healthy=not ks.engaged,
-                    message=f"Mode: {ks.mode.name if hasattr(ks.mode, 'name') else str(ks.mode)}",
-                )
+    collector = HealthCollector(probes=[KillSwitchProbe(), CostGovernorProbe()])
+    report = collector.check_all()
+    return {
+        "overall_healthy": report.overall_healthy,
+        "probes": [
+            {"name": p.name, "healthy": p.healthy, "message": p.message}
+            for p in report.probes
+        ],
+    }
 
-        class CostGovernorProbe(HealthProbe):
-            @property
-            def name(self):
-                return "cost_governor"
 
-            def check(self):
-                cg = get_cost_governor()
-                budget = cg.check_budget_status()
-                decision = getattr(budget, "decision", None)
-                decision_name = decision.name if hasattr(decision, "name") else str(decision)
-                return ProbeResult(
-                    name="cost_governor",
-                    healthy=decision_name != "DENY",
-                    message=f"Decision: {decision_name}",
-                )
+# Dispatch table maps tool names to handler functions
+_TOOL_HANDLERS = {
+    "governance_status": _handle_governance_status,
+    "kill_switch_status": _handle_kill_switch_status,
+    "kill_switch_engage": _handle_kill_switch_engage,
+    "kill_switch_disengage": _handle_kill_switch_disengage,
+    "circuit_breaker_status": _handle_circuit_breaker_status,
+    "cost_budget_check": _handle_cost_budget_check,
+    "cost_record_usage": _handle_cost_record_usage,
+    "audit_query": _handle_audit_query,
+    "compliance_report": _handle_compliance_report,
+    "health_check": _handle_health_check,
+}
 
-        collector = HealthCollector(probes=[KillSwitchProbe(), CostGovernorProbe()])
-        report = collector.check_all()
-        return {
-            "overall_healthy": report.overall_healthy,
-            "probes": [
-                {"name": p.name, "healthy": p.healthy, "message": p.message}
-                for p in report.probes
-            ],
-        }
 
-    else:
+def handle_tool(name, arguments):
+    """Dispatch a tool call to the appropriate governance method."""
+    handler = _TOOL_HANDLERS.get(name)
+    if handler is None:
         return {"error": f"Unknown tool: {name}"}
+    return handler(arguments)
 
 
 # ---------------------------------------------------------------------------

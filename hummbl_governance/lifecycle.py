@@ -136,6 +136,57 @@ class GovernanceLifecycle:
         self._reg = registry
         self._hc = health_collector
 
+    def _check_kill_switch(self, action, checks):
+        """Check kill switch mode. Returns denial or None."""
+        if self._ks is None:
+            return None
+        mode = self._ks.mode
+        checks["kill_switch"] = mode.name
+        if mode == KillSwitchMode.EMERGENCY:
+            return AuthorizationDecision(False, "kill_switch:EMERGENCY", checks)
+        if mode == KillSwitchMode.HALT_ALL:
+            return AuthorizationDecision(False, "kill_switch:HALT_ALL", checks)
+        _CRITICAL_ACTIONS = (
+            "safety_monitoring", "data_persistence", "audit_logging",
+            "cost_tracking", "kill_switch_itself",
+        )
+        if mode == KillSwitchMode.HALT_NONCRITICAL and action not in _CRITICAL_ACTIONS:
+            return AuthorizationDecision(False, "kill_switch:HALT_NONCRITICAL", checks)
+        return None
+
+    def _check_agent_identity(self, agent, checks):
+        """Check agent identity. Returns denial or None."""
+        if self._reg is None:
+            return None
+        status = self._reg.get_status(agent)
+        trust = self._reg.get_trust_tier(agent)
+        checks["agent_status"] = status
+        checks["agent_trust"] = trust
+        if status in ("suspended", "retired"):
+            return AuthorizationDecision(False, f"agent:{status}", checks)
+        return None
+
+    def _check_circuit_breaker(self, checks):
+        """Check circuit breaker state. Returns denial or None."""
+        if self._cb is None:
+            return None
+        cb_state = self._cb.state
+        checks["circuit_breaker"] = cb_state.name
+        if cb_state == CircuitBreakerState.OPEN:
+            return AuthorizationDecision(False, "circuit_breaker:OPEN", checks)
+        return None
+
+    def _check_cost_governor(self, cost, checks):
+        """Check cost governor budget. Returns denial or None."""
+        if self._cg is None or cost <= 0:
+            return None
+        budget = self._cg.check_budget_status()
+        checks["budget_decision"] = budget.decision
+        checks["budget_spent"] = budget.current_spend
+        if budget.decision == "DENY":
+            return AuthorizationDecision(False, "cost_governor:DENY", checks)
+        return None
+
     def authorize(
         self,
         agent: str,
@@ -167,51 +218,15 @@ class GovernanceLifecycle:
         """
         checks: dict[str, Any] = {}
 
-        # 1. GOVERN: Kill switch
-        if self._ks is not None:
-            mode = self._ks.mode
-            checks["kill_switch"] = mode.name
-            if mode == KillSwitchMode.EMERGENCY:
-                return AuthorizationDecision(False, "kill_switch:EMERGENCY", checks)
-            if mode == KillSwitchMode.HALT_ALL:
-                return AuthorizationDecision(False, "kill_switch:HALT_ALL", checks)
-            if mode == KillSwitchMode.HALT_NONCRITICAL and action not in (
-                "safety_monitoring", "data_persistence", "audit_logging",
-                "cost_tracking", "kill_switch_itself",
-            ):
-                return AuthorizationDecision(
-                    False, "kill_switch:HALT_NONCRITICAL", checks
-                )
-
-        # 2. GOVERN: Agent identity
-        if self._reg is not None:
-            status = self._reg.get_status(agent)
-            trust = self._reg.get_trust_tier(agent)
-            checks["agent_status"] = status
-            checks["agent_trust"] = trust
-            if status in ("suspended", "retired"):
-                return AuthorizationDecision(
-                    False, f"agent:{status}", checks
-                )
-
-        # 3. MANAGE: Circuit breaker
-        if self._cb is not None:
-            cb_state = self._cb.state
-            checks["circuit_breaker"] = cb_state.name
-            if cb_state == CircuitBreakerState.OPEN:
-                return AuthorizationDecision(
-                    False, "circuit_breaker:OPEN", checks
-                )
-
-        # 4. MEASURE: Cost governor
-        if self._cg is not None and cost > 0:
-            budget = self._cg.check_budget_status()
-            checks["budget_decision"] = budget.decision
-            checks["budget_spent"] = budget.current_spend
-            if budget.decision == "DENY":
-                return AuthorizationDecision(
-                    False, "cost_governor:DENY", checks
-                )
+        for check_fn in [
+            lambda: self._check_kill_switch(action, checks),
+            lambda: self._check_agent_identity(agent, checks),
+            lambda: self._check_circuit_breaker(checks),
+            lambda: self._check_cost_governor(cost, checks),
+        ]:
+            denial = check_fn()
+            if denial is not None:
+                return denial
 
         return AuthorizationDecision(True, "authorized", checks)
 
