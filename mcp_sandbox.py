@@ -73,32 +73,34 @@ class Sandbox:
         self.circuit_breaker = CircuitBreaker(failure_threshold=3, recovery_timeout=30)
         self.audit = AuditLog(base_dir=str(state_dir / "audit"))
 
-    def check_action(self, tool, path=None, cost=0.0):
-        """Check if an action is allowed."""
-        reasons = []
-
-        # Kill switch
+    def _check_hard_blocks(self, tool):
+        """Check kill switch and circuit breaker (hard denials)."""
         if self.kill_switch.engaged:
             return {"allowed": False, "reason": f"Kill switch engaged: {self.kill_switch.mode}"}
-
-        # Circuit breaker
         if hasattr(self.circuit_breaker, 'state') and self.circuit_breaker.state.name == "OPEN":
             return {"allowed": False, "reason": "Circuit breaker OPEN — too many failures"}
+        return None
 
-        # Tool allowlist
+    def _check_policy(self, tool, path, cost):
+        """Check tool allowlist, path blocklist, and cost cap."""
+        reasons = []
         if self.allowed_tools and tool not in self.allowed_tools:
             reasons.append(f"Tool '{tool}' not in allowed set: {sorted(self.allowed_tools)}")
-
-        # Path blocklist
         if path:
             for bp in self.blocked_paths:
                 if path.startswith(bp):
                     reasons.append(f"Path '{path}' is in blocked scope: {bp}")
-
-        # Cost cap
         if self.cost_spent + cost > self.max_cost:
             reasons.append(f"Cost ${self.cost_spent + cost:.2f} would exceed cap ${self.max_cost:.2f}")
+        return reasons
 
+    def check_action(self, tool, path=None, cost=0.0):
+        """Check if an action is allowed."""
+        block = self._check_hard_blocks(tool)
+        if block:
+            return block
+
+        reasons = self._check_policy(tool, path, cost)
         if reasons:
             return {"allowed": False, "reasons": reasons}
 
@@ -208,87 +210,102 @@ TOOLS = [
 ]
 
 
+def _handle_sandbox_create(arguments):
+    sid = f"sbx-{uuid.uuid4().hex[:8]}"
+    sb = Sandbox(
+        sandbox_id=sid,
+        agent_name=arguments["agent_name"],
+        allowed_tools=arguments.get("allowed_tools"),
+        blocked_paths=arguments.get("blocked_paths"),
+        max_cost=arguments.get("max_cost", 10.0),
+        timeout_sec=arguments.get("timeout_sec", 300),
+    )
+    _sandboxes[sid] = sb
+    return {"created": True, "sandbox": sb.to_dict()}
+
+
+def _handle_sandbox_check(arguments):
+    sid = arguments["sandbox_id"]
+    sb = _sandboxes.get(sid)
+    if not sb:
+        return {"error": f"Sandbox {sid} not found"}
+    return sb.check_action(
+        tool=arguments["tool"],
+        path=arguments.get("path"),
+        cost=arguments.get("cost", 0),
+    )
+
+
+def _handle_sandbox_validate_output(arguments):
+    import re
+
+    sid = arguments["sandbox_id"]
+    sb = _sandboxes.get(sid)
+    if not sb:
+        return {"error": f"Sandbox {sid} not found"}
+    output = arguments["output"]
+    issues = []
+    secret_patterns = [
+        (r'sk-[a-zA-Z0-9_-]{10,}', "API key (sk-...)"),
+        (r'ghp_[a-zA-Z0-9]{36}', "GitHub PAT"),
+        (r'AKIA[A-Z0-9]{16}', "AWS access key"),
+        (r'-----BEGIN.*PRIVATE KEY-----', "Private key"),
+    ]
+    for pattern, desc in secret_patterns:
+        if re.search(pattern, output):
+            issues.append({"type": "secret_leak", "pattern": desc})
+    if len(output) > 100000:
+        issues.append({"type": "excessive_output", "length": len(output)})
+    return {
+        "valid": len(issues) == 0,
+        "issues": issues,
+        "output_length": len(output),
+    }
+
+
+def _handle_sandbox_status(arguments):
+    sid = arguments.get("sandbox_id")
+    if sid:
+        sb = _sandboxes.get(sid)
+        if not sb:
+            return {"error": f"Sandbox {sid} not found"}
+        return {"sandbox": sb.to_dict()}
+    return {
+        "active_sandboxes": len(_sandboxes),
+        "sandboxes": [sb.to_dict() for sb in _sandboxes.values()],
+    }
+
+
+def _handle_sandbox_destroy(arguments):
+    sid = arguments["sandbox_id"]
+    sb = _sandboxes.pop(sid, None)
+    if not sb:
+        return {"error": f"Sandbox {sid} not found"}
+    return {
+        "destroyed": True,
+        "sandbox_id": sid,
+        "agent": sb.agent,
+        "duration_sec": (datetime.now(timezone.utc) - sb.created_at).total_seconds(),
+        "total_actions": len(sb.actions),
+        "total_cost": round(sb.cost_spent, 2),
+        "kill_switch_engaged": sb.kill_switch.engaged,
+    }
+
+
+_SANDBOX_HANDLERS = {
+    "sandbox_create": _handle_sandbox_create,
+    "sandbox_check": _handle_sandbox_check,
+    "sandbox_validate_output": _handle_sandbox_validate_output,
+    "sandbox_status": _handle_sandbox_status,
+    "sandbox_destroy": _handle_sandbox_destroy,
+}
+
+
 def handle_tool(name, arguments):
-    if name == "sandbox_create":
-        sid = f"sbx-{uuid.uuid4().hex[:8]}"
-        sb = Sandbox(
-            sandbox_id=sid,
-            agent_name=arguments["agent_name"],
-            allowed_tools=arguments.get("allowed_tools"),
-            blocked_paths=arguments.get("blocked_paths"),
-            max_cost=arguments.get("max_cost", 10.0),
-            timeout_sec=arguments.get("timeout_sec", 300),
-        )
-        _sandboxes[sid] = sb
-        return {"created": True, "sandbox": sb.to_dict()}
-
-    elif name == "sandbox_check":
-        sid = arguments["sandbox_id"]
-        sb = _sandboxes.get(sid)
-        if not sb:
-            return {"error": f"Sandbox {sid} not found"}
-        return sb.check_action(
-            tool=arguments["tool"],
-            path=arguments.get("path"),
-            cost=arguments.get("cost", 0),
-        )
-
-    elif name == "sandbox_validate_output":
-        sid = arguments["sandbox_id"]
-        sb = _sandboxes.get(sid)
-        if not sb:
-            return {"error": f"Sandbox {sid} not found"}
-        output = arguments["output"]
-        issues = []
-        # Check for common secret patterns
-        import re
-        secret_patterns = [
-            (r'sk-[a-zA-Z0-9_-]{10,}', "API key (sk-...)"),
-            (r'ghp_[a-zA-Z0-9]{36}', "GitHub PAT"),
-            (r'AKIA[A-Z0-9]{16}', "AWS access key"),
-            (r'-----BEGIN.*PRIVATE KEY-----', "Private key"),
-        ]
-        for pattern, desc in secret_patterns:
-            if re.search(pattern, output):
-                issues.append({"type": "secret_leak", "pattern": desc})
-        # Check output length
-        if len(output) > 100000:
-            issues.append({"type": "excessive_output", "length": len(output)})
-        return {
-            "valid": len(issues) == 0,
-            "issues": issues,
-            "output_length": len(output),
-        }
-
-    elif name == "sandbox_status":
-        sid = arguments.get("sandbox_id")
-        if sid:
-            sb = _sandboxes.get(sid)
-            if not sb:
-                return {"error": f"Sandbox {sid} not found"}
-            return {"sandbox": sb.to_dict()}
-        return {
-            "active_sandboxes": len(_sandboxes),
-            "sandboxes": [sb.to_dict() for sb in _sandboxes.values()],
-        }
-
-    elif name == "sandbox_destroy":
-        sid = arguments["sandbox_id"]
-        sb = _sandboxes.pop(sid, None)
-        if not sb:
-            return {"error": f"Sandbox {sid} not found"}
-        receipt = {
-            "destroyed": True,
-            "sandbox_id": sid,
-            "agent": sb.agent,
-            "duration_sec": (datetime.now(timezone.utc) - sb.created_at).total_seconds(),
-            "total_actions": len(sb.actions),
-            "total_cost": round(sb.cost_spent, 2),
-            "kill_switch_engaged": sb.kill_switch.engaged,
-        }
-        return receipt
-
-    return {"error": f"Unknown tool: {name}"}
+    handler = _SANDBOX_HANDLERS.get(name)
+    if handler is None:
+        return {"error": f"Unknown tool: {name}"}
+    return handler(arguments)
 
 
 def send_response(msg_id, result):

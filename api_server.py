@@ -59,6 +59,35 @@ def init_services():
     _al = AuditLog(base_dir=str(STATE_DIR / "audit"))
 
 
+def _compute_governance_score():
+    """Compute governance posture score (0-100)."""
+    score = 0
+    if not _ks.engaged:
+        score += 25
+    if _cb.state.name == "CLOSED":
+        score += 25
+    budget = _cg.check_budget_status()
+    decision = getattr(budget, "decision", None)
+    if hasattr(decision, "name") and decision.name == "ALLOW":
+        score += 25
+    if (STATE_DIR / "policy.json").exists():
+        score += 25
+    return score
+
+
+def _score_to_grade(score):
+    """Convert numeric score to letter grade."""
+    if score >= 95:
+        return "A+"
+    if score >= 85:
+        return "A"
+    if score >= 70:
+        return "B"
+    if score >= 55:
+        return "C"
+    return "F"
+
+
 class GovernanceHandler(BaseHTTPRequestHandler):
     def _json_response(self, data, status=200):
         self.send_response(status)
@@ -80,85 +109,89 @@ class GovernanceHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
+    def _get_status(self, params):
+        budget = _cg.check_budget_status()
+        self._json_response({
+            "kill_switch": {"mode": _ks.mode.name, "engaged": _ks.engaged},
+            "circuit_breaker": {"state": _cb.state.name, "failure_count": _cb.failure_count},
+            "cost_governor": {
+                "daily_spend": getattr(budget, "current_spend", 0),
+                "decision": (
+                    getattr(budget, "decision", "UNKNOWN").name
+                    if hasattr(getattr(budget, "decision", None), "name")
+                    else str(getattr(budget, "decision", "UNKNOWN"))
+                ),
+            },
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        })
+
+    def _get_kill_switch(self, params):
+        status = _ks.get_status()
+        self._json_response(status)
+
+    def _get_circuit_breaker(self, params):
+        self._json_response({
+            "state": _cb.state.name,
+            "failure_count": _cb.failure_count,
+            "success_count": getattr(_cb, "success_count", 0),
+        })
+
+    def _get_cost_check(self, params):
+        budget = _cg.check_budget_status()
+        result = {}
+        for attr in ("current_spend", "soft_cap", "hard_cap", "decision", "rationale", "utilization"):
+            val = getattr(budget, attr, None)
+            if val is not None:
+                result[attr] = val.name if hasattr(val, "name") else val
+        self._json_response(result)
+
+    def _get_audit(self, params):
+        intent_id = params.get("intent_id", [None])[0]
+        task_id = params.get("task_id", [None])[0]
+        entries = []
+        if intent_id:
+            entries = list(_al.query_by_intent(intent_id))
+        elif task_id:
+            entries = list(_al.query_by_task(task_id))
+        self._json_response({
+            "count": len(entries),
+            "entries": [
+                {k: str(v) for k, v in (e.__dict__ if hasattr(e, "__dict__") else {"data": str(e)}).items()}
+                for e in entries[:50]
+            ],
+        })
+
+    def _get_health(self, params):
+        self._json_response({
+            "healthy": not _ks.engaged and _cb.state.name == "CLOSED",
+            "kill_switch": _ks.mode.name,
+            "circuit_breaker": _cb.state.name,
+        })
+
+    def _get_score(self, params):
+        score = _compute_governance_score()
+        grade = _score_to_grade(score)
+        self._json_response({"score": score, "grade": grade})
+
+    # Route table for GET endpoints
+    _GET_ROUTES = {
+        "/api/v1/status": _get_status,
+        "/api/v1/kill-switch": _get_kill_switch,
+        "/api/v1/circuit-breaker": _get_circuit_breaker,
+        "/api/v1/cost/check": _get_cost_check,
+        "/api/v1/audit": _get_audit,
+        "/api/v1/health": _get_health,
+        "/api/v1/score": _get_score,
+    }
+
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
         params = parse_qs(parsed.query)
 
-        if path == "/api/v1/status":
-            budget = _cg.check_budget_status()
-            self._json_response({
-                "kill_switch": {"mode": _ks.mode.name, "engaged": _ks.engaged},
-                "circuit_breaker": {"state": _cb.state.name, "failure_count": _cb.failure_count},
-                "cost_governor": {
-                    "daily_spend": getattr(budget, "current_spend", 0),
-                    "decision": (
-                        getattr(budget, "decision", "UNKNOWN").name
-                        if hasattr(getattr(budget, "decision", None), "name")
-                        else str(getattr(budget, "decision", "UNKNOWN"))
-                    ),
-                },
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            })
-
-        elif path == "/api/v1/kill-switch":
-            status = _ks.get_status()
-            self._json_response(status)
-
-        elif path == "/api/v1/circuit-breaker":
-            self._json_response({
-                "state": _cb.state.name,
-                "failure_count": _cb.failure_count,
-                "success_count": getattr(_cb, "success_count", 0),
-            })
-
-        elif path == "/api/v1/cost/check":
-            budget = _cg.check_budget_status()
-            result = {}
-            for attr in ("current_spend", "soft_cap", "hard_cap", "decision", "rationale", "utilization"):
-                val = getattr(budget, attr, None)
-                if val is not None:
-                    result[attr] = val.name if hasattr(val, "name") else val
-            self._json_response(result)
-
-        elif path == "/api/v1/audit":
-            intent_id = params.get("intent_id", [None])[0]
-            task_id = params.get("task_id", [None])[0]
-            entries = []
-            if intent_id:
-                entries = list(_al.query_by_intent(intent_id))
-            elif task_id:
-                entries = list(_al.query_by_task(task_id))
-            self._json_response({
-                "count": len(entries),
-                "entries": [
-                    {k: str(v) for k, v in (e.__dict__ if hasattr(e, "__dict__") else {"data": str(e)}).items()}
-                    for e in entries[:50]
-                ],
-            })
-
-        elif path == "/api/v1/health":
-            self._json_response({
-                "healthy": not _ks.engaged and _cb.state.name == "CLOSED",
-                "kill_switch": _ks.mode.name,
-                "circuit_breaker": _cb.state.name,
-            })
-
-        elif path == "/api/v1/score":
-            score = 0
-            if not _ks.engaged:
-                score += 25
-            if _cb.state.name == "CLOSED":
-                score += 25
-            budget = _cg.check_budget_status()
-            decision = getattr(budget, "decision", None)
-            if hasattr(decision, "name") and decision.name == "ALLOW":
-                score += 25
-            if (STATE_DIR / "policy.json").exists():
-                score += 25
-            grade = "A+" if score >= 95 else "A" if score >= 85 else "B" if score >= 70 else "C" if score >= 55 else "F"
-            self._json_response({"score": score, "grade": grade})
-
+        handler = self._GET_ROUTES.get(path)
+        if handler:
+            handler(self, params)
         else:
             self._json_response({"error": f"Not found: {path}"}, 404)
 
@@ -203,7 +236,8 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             self._json_response({"error": f"Not found: {path}"}, 404)
 
     def log_message(self, format, *args):
-        # Suppress default logging
+        # Suppress default logging (format and args required by BaseHTTPRequestHandler API)
+        _ = format  # Used by parent class signature
         pass
 
 
