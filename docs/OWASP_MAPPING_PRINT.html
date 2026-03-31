@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OWASP Agentic Top 10 Compliance Mapping</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 11.5pt;
+    line-height: 1.55;
+    color: #1a1a1a;
+    max-width: 7in;
+    margin: 0 auto;
+    padding: 0.75in;
+    text-align: justify;
+  }
+  h1 { font-size: 20pt; margin-bottom: 0.05in; border-bottom: 2px solid #1a1a1a; padding-bottom: 0.08in; text-align: left; }
+  h2 { font-size: 14pt; margin-top: 0.35in; margin-bottom: 0.12in; border-bottom: 1px solid #888; padding-bottom: 0.06in; text-align: left; }
+  h3 { font-size: 12pt; margin-top: 0.25in; margin-bottom: 0.08in; text-align: left; }
+  p { margin-bottom: 0.12in; }
+  ul, ol { margin-left: 0.3in; margin-bottom: 0.12in; }
+  li { margin-bottom: 0.04in; }
+  table { width: 100%; border-collapse: collapse; margin: 0.15in 0; font-size: 10.5pt; }
+  th, td { border: 1px solid #aaa; padding: 4pt 6pt; text-align: left; vertical-align: top; }
+  th { background-color: #f0f0f0; font-weight: bold; }
+  code { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; background: #f4f4f4; padding: 1pt 3pt; }
+  pre { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; background: #f4f4f4; padding: 8pt; margin: 0.1in 0; overflow-x: auto; white-space: pre-wrap; }
+  .subtitle { font-size: 11pt; color: #555; margin-bottom: 0.25in; text-align: left; }
+  .print-btn {
+    position: fixed; top: 12px; right: 12px; z-index: 1000;
+    background: #1a1a1a; color: #fff; border: none; padding: 8px 18px;
+    font-family: 'Times New Roman', Times, serif; font-size: 11pt;
+    cursor: pointer; border-radius: 3px;
+  }
+  .print-btn:hover { background: #444; }
+  .full { color: #1a7a2e; font-weight: bold; }
+  .partial { color: #c07000; font-weight: bold; }
+  .none { color: #c02020; font-weight: bold; }
+  @media print {
+    body { padding: 0.5in; max-width: none; }
+    .no-print { display: none !important; }
+    h1, h2, h3 { page-break-after: avoid; }
+    table, pre { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Print / Save PDF</button>
+
+<h1>OWASP Agentic Top 10 Compliance Mapping</h1>
+<p class="subtitle">hummbl-governance v0.1.0 &nbsp;|&nbsp; OWASP Top 10 for Agentic Applications (December 2025)</p>
+
+<h2>Summary</h2>
+<p>This document maps the 7 modules of <code>hummbl-governance</code> against the OWASP Top 10 for Agentic Applications. Coverage snapshot:</p>
+<p><span class="full">FULL: 4</span> &nbsp;|&nbsp; <span class="partial">PARTIAL: 4</span> &nbsp;|&nbsp; <span class="none">NONE: 2</span></p>
+
+<h2>Module Inventory</h2>
+<table>
+  <tr><th>#</th><th>Module</th><th>Capabilities</th><th>Crypto</th></tr>
+  <tr><td>1</td><td><code>delegation_token.py</code></td><td>HMAC-SHA256 signed capability tokens, scope constraints, expiry</td><td>HMAC-SHA256</td></tr>
+  <tr><td>2</td><td><code>delegation_context.py</code></td><td>7-state delegation lifecycle, chain depth enforcement (&le;3)</td><td>&mdash;</td></tr>
+  <tr><td>3</td><td><code>governance_bus.py</code></td><td>Append-only JSONL event log, structured audit trail</td><td>&mdash;</td></tr>
+  <tr><td>4</td><td><code>circuit_breaker.py</code></td><td>3-state breaker (CLOSED/HALF_OPEN/OPEN), failure isolation</td><td>&mdash;</td></tr>
+  <tr><td>5</td><td><code>kill_switch.py</code></td><td>4-mode graduated shutdown (DISENGAGED through EMERGENCY)</td><td>&mdash;</td></tr>
+  <tr><td>6</td><td><code>models.py</code></td><td>Data models: AgentHealthReport, CostProjection, BriefingContent</td><td>&mdash;</td></tr>
+  <tr><td>7</td><td><code>compliance_mapper.py</code></td><td>Cross-framework control mapping (NIST, ISO, SOC 2)</td><td>&mdash;</td></tr>
+</table>
+
+<!-- Risk 1 -->
+<h2>AG01: Excessive Agency</h2>
+<p><strong>Risk:</strong> Agents perform actions beyond their intended scope, accessing unauthorized tools, data, or system capabilities without proper constraints.</p>
+<p><strong>Coverage:</strong> <span class="full">FULL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>delegation_token.py</code></td><td>Scope-constrained capability tokens with explicit permission grants. Agents cannot act outside delegated scope.</td></tr>
+  <tr><td><code>delegation_context.py</code></td><td>Chain depth enforcement (&le;3) prevents unbounded delegation cascades. 7-state lifecycle tracks delegation from CREATED through COMPLETED or REVOKED.</td></tr>
+  <tr><td><code>kill_switch.py</code></td><td>4-mode graduated shutdown allows immediate restriction of agent capabilities at any severity level.</td></tr>
+</table>
+<p><strong>Gaps:</strong> None. The delegation token + context + kill switch combination provides defense-in-depth against excessive agency. Scope is cryptographically enforced, delegation depth is bounded, and emergency shutdown is always available.</p>
+
+<!-- Risk 2 -->
+<h2>AG02: Inadequate Sandboxing</h2>
+<p><strong>Risk:</strong> Agents execute in environments without proper isolation, allowing them to affect other systems, access restricted resources, or escape containment.</p>
+<p><strong>Coverage:</strong> <span class="partial">PARTIAL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>circuit_breaker.py</code></td><td>Failure isolation on external boundaries prevents cascade failures across service boundaries.</td></tr>
+  <tr><td><code>kill_switch.py</code></td><td>HALT_ALL and EMERGENCY modes provide containment when sandbox violations are detected.</td></tr>
+</table>
+<p><strong>Gaps:</strong> The framework provides logical isolation (circuit breakers, kill switch) but not process-level or OS-level sandboxing. Container isolation, filesystem restrictions, and network segmentation are outside the scope of a Python governance library and must be provided by the deployment environment.</p>
+
+<!-- Risk 3 -->
+<h2>AG03: Broken Authentication and Authorization</h2>
+<p><strong>Risk:</strong> Weak or missing authentication allows agents to impersonate other agents, escalate privileges, or bypass access controls.</p>
+<p><strong>Coverage:</strong> <span class="full">FULL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>delegation_token.py</code></td><td>HMAC-SHA256 signed tokens provide cryptographic authentication. Tokens cannot be forged without the signing key. Each token carries issuer, subject, scope, and expiry.</td></tr>
+  <tr><td><code>delegation_context.py</code></td><td>Chain-of-custody tracking ensures every delegation is traceable to the original authority. State machine prevents re-use of consumed tokens.</td></tr>
+  <tr><td><code>governance_bus.py</code></td><td>All authentication events are logged to the append-only audit trail for post-hoc verification.</td></tr>
+</table>
+<p><strong>Gaps:</strong> None. Token-based authentication with HMAC-SHA256 signatures, combined with append-only audit logging, covers both real-time enforcement and forensic review.</p>
+
+<!-- Risk 4 -->
+<h2>AG04: Insufficient Logging and Monitoring</h2>
+<p><strong>Risk:</strong> Inadequate logging prevents detection of agent misbehavior, unauthorized actions, or security incidents.</p>
+<p><strong>Coverage:</strong> <span class="full">FULL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>governance_bus.py</code></td><td>Append-only JSONL log captures every governance event with timestamp, agent identity, event type, and payload. Events cannot be deleted or modified.</td></tr>
+  <tr><td><code>circuit_breaker.py</code></td><td>State transitions (CLOSED &rarr; OPEN &rarr; HALF_OPEN) are logged with failure counts and recovery timestamps.</td></tr>
+  <tr><td><code>kill_switch.py</code></td><td>Mode changes are logged with justification and triggering agent.</td></tr>
+</table>
+<p><strong>Gaps:</strong> None. The governance bus provides comprehensive, immutable audit logging. Combined with circuit breaker and kill switch state change logging, the framework provides full observability of governance events.</p>
+
+<!-- Risk 5 -->
+<h2>AG05: Unsafe Output Handling</h2>
+<p><strong>Risk:</strong> Agent outputs are consumed by downstream systems without validation, enabling injection attacks, data corruption, or unintended actions.</p>
+<p><strong>Coverage:</strong> <span class="partial">PARTIAL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>models.py</code></td><td>Typed data models enforce output schema. AgentHealthReport, CostProjection, and BriefingContent provide structured output contracts.</td></tr>
+  <tr><td><code>governance_bus.py</code></td><td>Output events logged for post-hoc review and anomaly detection.</td></tr>
+</table>
+<p><strong>Gaps:</strong> The framework provides schema-level output validation through data models but does not include content-level output sanitization (e.g., stripping prompt injection payloads, validating generated code safety). Content filtering and output sanitization must be implemented at the application layer.</p>
+
+<!-- Risk 6 -->
+<h2>AG06: Prompt Injection</h2>
+<p><strong>Risk:</strong> Malicious inputs manipulate agent behavior through prompt injection, causing agents to ignore instructions, leak data, or perform unauthorized actions.</p>
+<p><strong>Coverage:</strong> <span class="none">NONE</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td colspan="2"><em>No modules directly address prompt injection.</em></td></tr>
+</table>
+<p><strong>Gaps:</strong> Prompt injection defense is outside the scope of a governance framework. It requires input filtering, prompt hardening, and model-level mitigations that operate at the LLM inference layer, not the governance layer. The framework's delegation tokens prevent unauthorized <em>actions</em> even if prompt injection succeeds, providing defense-in-depth. However, direct prompt injection detection and prevention must be implemented separately.</p>
+
+<!-- Risk 7 -->
+<h2>AG07: Lack of Transparency</h2>
+<p><strong>Risk:</strong> Agent decision-making processes are opaque, making it impossible to audit, explain, or reproduce agent behavior.</p>
+<p><strong>Coverage:</strong> <span class="full">FULL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>governance_bus.py</code></td><td>Complete event history provides full transparency into agent governance decisions. Every delegation, state change, and policy enforcement is recorded.</td></tr>
+  <tr><td><code>delegation_context.py</code></td><td>7-state lifecycle makes delegation decisions explicit and traceable. Each state transition is a visible, auditable event.</td></tr>
+  <tr><td><code>compliance_mapper.py</code></td><td>Cross-framework mapping provides transparency into which controls are satisfied and which have gaps.</td></tr>
+</table>
+<p><strong>Gaps:</strong> None. The append-only governance bus combined with explicit delegation state machines provides full transparency into governance layer decisions. Note: transparency into <em>model reasoning</em> (why the LLM chose a particular action) is outside scope.</p>
+
+<!-- Risk 8 -->
+<h2>AG08: Improper Error Handling</h2>
+<p><strong>Risk:</strong> Agents handle errors poorly, exposing sensitive information, entering undefined states, or failing to recover gracefully.</p>
+<p><strong>Coverage:</strong> <span class="partial">PARTIAL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>circuit_breaker.py</code></td><td>Automatic failure detection and recovery. After threshold failures, the breaker opens and prevents cascading errors. Half-open state tests recovery before full resumption.</td></tr>
+  <tr><td><code>kill_switch.py</code></td><td>Graduated error response: HALT_NONCRITICAL for non-critical failures, HALT_ALL for systemic issues, EMERGENCY for catastrophic failures.</td></tr>
+</table>
+<p><strong>Gaps:</strong> The framework handles errors at the governance boundary (circuit breakers, kill switch) but does not prescribe error handling within agent logic itself. Application-level error handling patterns (retry policies, fallback strategies, error classification) must be implemented by the consuming application.</p>
+
+<!-- Risk 9 -->
+<h2>AG09: Insecure Third-Party Integration</h2>
+<p><strong>Risk:</strong> Agents integrate with third-party services without proper security controls, creating supply chain risks and data exposure.</p>
+<p><strong>Coverage:</strong> <span class="partial">PARTIAL</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>circuit_breaker.py</code></td><td>Every external integration wrapped in a circuit breaker. Failure in one third-party service does not cascade to others.</td></tr>
+  <tr><td><code>delegation_token.py</code></td><td>Scope constraints limit which external services an agent can access through delegated authority.</td></tr>
+  <tr><td><em>Framework design</em></td><td>Stdlib-only architecture eliminates third-party supply chain risk for the governance framework itself.</td></tr>
+</table>
+<p><strong>Gaps:</strong> The framework provides failure isolation (circuit breakers) and access control (delegation tokens) for third-party integrations but does not include API key management, secret rotation, or third-party service authentication. These concerns must be handled by the deployment infrastructure.</p>
+
+<!-- Risk 10 -->
+<h2>AG10: Uncontrolled Scaling</h2>
+<p><strong>Risk:</strong> Agents spawn unbounded child processes, consume excessive resources, or create runaway loops without rate limiting.</p>
+<p><strong>Coverage:</strong> <span class="none">NONE</span></p>
+<table>
+  <tr><th>Module</th><th>Mechanism</th></tr>
+  <tr><td><code>delegation_context.py</code></td><td>Chain depth &le;3 limits delegation depth but not breadth (fan-out).</td></tr>
+</table>
+<p><strong>Gaps:</strong> The framework limits delegation chain <em>depth</em> but does not limit <em>breadth</em> (number of concurrent delegations) or resource consumption (CPU, memory, API calls). Rate limiting, resource quotas, and concurrency controls must be implemented at the orchestration layer. The kill switch provides emergency containment but not proactive scaling controls.</p>
+
+<!-- Coverage Matrix -->
+<h2>Coverage Matrix</h2>
+<table>
+  <tr><th>Risk</th><th>OWASP ID</th><th>Coverage</th><th>Primary Modules</th></tr>
+  <tr><td>Excessive Agency</td><td>AG01</td><td><span class="full">FULL</span></td><td>delegation_token, delegation_context, kill_switch</td></tr>
+  <tr><td>Inadequate Sandboxing</td><td>AG02</td><td><span class="partial">PARTIAL</span></td><td>circuit_breaker, kill_switch</td></tr>
+  <tr><td>Broken Auth &amp; AuthZ</td><td>AG03</td><td><span class="full">FULL</span></td><td>delegation_token, delegation_context, governance_bus</td></tr>
+  <tr><td>Insufficient Logging</td><td>AG04</td><td><span class="full">FULL</span></td><td>governance_bus, circuit_breaker, kill_switch</td></tr>
+  <tr><td>Unsafe Output Handling</td><td>AG05</td><td><span class="partial">PARTIAL</span></td><td>models, governance_bus</td></tr>
+  <tr><td>Prompt Injection</td><td>AG06</td><td><span class="none">NONE</span></td><td>&mdash;</td></tr>
+  <tr><td>Lack of Transparency</td><td>AG07</td><td><span class="full">FULL</span></td><td>governance_bus, delegation_context, compliance_mapper</td></tr>
+  <tr><td>Improper Error Handling</td><td>AG08</td><td><span class="partial">PARTIAL</span></td><td>circuit_breaker, kill_switch</td></tr>
+  <tr><td>Insecure 3rd-Party Integration</td><td>AG09</td><td><span class="partial">PARTIAL</span></td><td>circuit_breaker, delegation_token</td></tr>
+  <tr><td>Uncontrolled Scaling</td><td>AG10</td><td><span class="none">NONE</span></td><td>delegation_context (depth only)</td></tr>
+</table>
+
+<h2>Recommendations for Full Coverage</h2>
+<ol>
+  <li><strong>AG06 &mdash; Prompt Injection:</strong> Implement an input sanitization layer upstream of the governance framework. Consider a pluggable filter interface that can be composed with delegation token validation. Integration with model-level prompt hardening (system prompt anchoring, instruction hierarchy) provides defense-in-depth.</li>
+  <li><strong>AG10 &mdash; Uncontrolled Scaling:</strong> Add a <code>ConcurrencyGovernor</code> module with configurable fan-out limits, per-agent rate limiting, and resource budget enforcement. The delegation context already tracks chain depth; extending it to track breadth (concurrent active delegations per issuer) is a natural evolution.</li>
+  <li><strong>AG02 &mdash; Sandboxing (upgrade to FULL):</strong> Provide deployment reference architectures (container profiles, seccomp policies, network policies) that complement the logical isolation provided by circuit breakers. Document recommended OS-level isolation patterns for each deployment target.</li>
+  <li><strong>AG05 &mdash; Output Handling (upgrade to FULL):</strong> Add an <code>OutputValidator</code> module with pluggable content filters. Schema validation via <code>models.py</code> handles structure; content validation (injection detection, PII scanning, code safety analysis) requires a dedicated component.</li>
+</ol>
+
+</body>
+</html>
