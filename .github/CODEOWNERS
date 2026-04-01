@@ -1,0 +1,10 @@
+# Default repo ownership for hummbl-governance
+* @hummbl-dev
+
+# Governance-critical code
+/hummbl_governance/ @hummbl-dev
+/tests/ @hummbl-dev
+/.github/ @hummbl-dev
+/SECURITY.md @hummbl-dev
+/CONTRIBUTING.md @hummbl-dev
+/pyproject.toml @hummbl-dev
