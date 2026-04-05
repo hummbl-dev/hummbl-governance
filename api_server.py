@@ -37,6 +37,7 @@ from hummbl_governance import (
     CircuitBreaker,
     CostGovernor,
     AuditLog,
+    ReasoningEngine,
 )
 
 STATE_DIR = Path(os.environ.get("GOVERNANCE_STATE_DIR", ".governance"))
@@ -47,16 +48,18 @@ _ks = None
 _cb = None
 _cg = None
 _al = None
+_re = None
 
 
 def init_services():
-    global _ks, _cb, _cg, _al
+    global _ks, _cb, _cg, _al, _re
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     (STATE_DIR / "audit").mkdir(exist_ok=True)
     _ks = KillSwitch(state_dir=STATE_DIR)
     _cb = CircuitBreaker(failure_threshold=5, recovery_timeout=60)
     _cg = CostGovernor(db_path=str(DB_PATH))
     _al = AuditLog(base_dir=str(STATE_DIR / "audit"))
+    _re = ReasoningEngine()
 
 
 def _compute_governance_score():
@@ -231,6 +234,40 @@ class GovernanceHandler(BaseHTTPRequestHandler):
                 return
             _cg.record_usage(**{k: body[k] for k in required})
             self._json_response({"recorded": True})
+
+        elif path == "/api/v1/apply":
+            body = self._read_body()
+            model_code = body.get("model")
+            if not model_code:
+                self._json_response({"error": "Missing model code"}, 400)
+                return
+            
+            model = _re.get_model(model_code)
+            if not model:
+                self._json_response({"error": f"Unknown model code: {model_code}"}, 404)
+                return
+
+            # Check Kill Switch
+            if _ks.engaged:
+                self._json_response({"error": "Governance Kill Switch ACTIVE", "mode": _ks.mode.name}, 503)
+                return
+
+            # Generate Prompt
+            prompt = _re.generate_system_prompt(model_code, depth=body.get("depth", 1))
+            
+            # For now, return the prompt and model metadata.
+            # In a real deployment, this would call the LLM adapter.
+            self._json_response({
+                "ok": True,
+                "data": {
+                    "model": model.code,
+                    "name": model.name,
+                    "transformation": model.transformation,
+                    "definition": model.definition,
+                    "system_prompt": prompt,
+                    "status": "prompt_generated_awaiting_adapter"
+                }
+            })
 
         else:
             self._json_response({"error": f"Not found: {path}"}, 404)

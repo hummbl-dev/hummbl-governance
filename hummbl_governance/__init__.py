@@ -19,7 +19,7 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
@@ -27,7 +27,7 @@ from hummbl_governance.cost_governor import CostGovernor
 from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.identity import AgentRegistry
-from hummbl_governance.schema_validator import SchemaValidator
+from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 try:
     from hummbl_governance.coordination_bus import BusWriter, PolicyLevel
 except ImportError:
@@ -45,6 +45,7 @@ from hummbl_governance.output_validator import (
     OutputValidator, PIIDetector, InjectionDetector, LengthBounds, BlocklistFilter,
 )
 from hummbl_governance.capability_fence import CapabilityFence, CapabilityDenied
+from hummbl_governance.reasoning import ReasoningEngine, ApplyResult
 
 __all__ = [
     "__version__",
@@ -58,6 +59,7 @@ __all__ = [
     "AuditLog",
     "AgentRegistry",
     "SchemaValidator",
+    "ValidationError",
     "BusWriter",
     "PolicyLevel",
     "ComplianceMapper",
@@ -90,4 +92,6 @@ __all__ = [
     "BlocklistFilter",
     "CapabilityFence",
     "CapabilityDenied",
+    "ReasoningEngine",
+    "ApplyResult",
 ]
