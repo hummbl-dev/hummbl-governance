@@ -10,7 +10,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +82,8 @@ class ReasoningEngine:
             f"Definition: {model.definition}",
             f"Transformation: {model.transformation}",
             "",
-            f"Your objective is to apply this model to the provided problem statement with a reasoning depth of {depth}.",
+            "Your objective is to apply this model to the provided"
+            f" problem statement with a reasoning depth of {depth}.",
             "",
             "Constraints:",
             "1. Focus strictly on the logic of this specific mental model.",
@@ -98,11 +99,20 @@ class ReasoningEngine:
         ]
 
         if model.code == "DE1":
-            prompt.append(f"For DE1 (5 Whys), the 'analysis' object should contain 'why_1' through 'why_{max(3, 2 + depth)}' as keys.")
+            prompt.append(
+                "For DE1 (5 Whys), the 'analysis' object should contain"
+                f" 'why_1' through 'why_{max(3, 2 + depth)}' as keys."
+            )
         elif model.code == "IN2":
-            prompt.append("For IN2, assume the project or decision has ALREADY FAILED. The 'analysis' should identify the failure causes.")
+            prompt.append(
+                "For IN2, assume the project or decision has ALREADY"
+                " FAILED. The 'analysis' should identify the failure causes."
+            )
         elif model.code == "P1":
-            prompt.append("For P1, reduce the problem to its most fundamental truths. List 'axioms' and 'derived_conclusions'.")
+            prompt.append(
+                "For P1, reduce the problem to its most fundamental"
+                " truths. List 'axioms' and 'derived_conclusions'."
+            )
 
         return "\n".join(prompt)
 
@@ -130,7 +140,7 @@ class ReasoningEngine:
                 confidence=float(data.get("confidence", 0.5)),
                 metadata={"raw_length": len(output)}
             )
-        except Exception as e:
+        except Exception:
             return ApplyResult(
                 model=model.code,
                 name=model.name,
