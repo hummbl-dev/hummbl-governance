@@ -7,11 +7,16 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 
-**hummbl-governance** is a Python library that provides 18 governance modules for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, and audit logging. It has zero third-party dependencies (stdlib only), 476 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 20 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, and audit logging. It has zero third-party dependencies (stdlib only), 476 passing tests, and supports Python 3.11 through 3.14.
 
 ```bash
 pip install hummbl-governance
 ```
+
+## What's New in v0.3.0
+
+- **ReasoningEngine** -- structured governance reasoning with rule application, conflict detection, and decision tracing. Enables agents to explain *why* a governance decision was made, not just what the decision was.
+- **ValidationError** -- now a top-level export from `hummbl_governance`, making it easier to catch and handle schema validation failures without importing from submodules.
 
 ## Usage Example
 
@@ -32,14 +37,14 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 ## Features
 
-- **18 modules** covering safety, cost, identity, compliance, and coordination
+- **20 governance primitives** covering safety, cost, identity, compliance, reasoning, and coordination
 - **476 tests** with full coverage across all modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
 - **Python 3.11 - 3.14** supported and tested
 
-## All 18 Modules
+## All 20 Primitives
 
 | Module | Description |
 |--------|-------------|
@@ -49,7 +54,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `delegation` | HMAC-SHA256 signed capability tokens for agent delegation chains |
 | `audit_log` | Append-only JSONL governance audit log with rotation and retention |
 | `identity` | Agent registry with configurable aliases, trust tiers, and canonicalization |
-| `schema_validator` | Stdlib-only JSON Schema validator (Draft 2020-12 subset) |
+| `schema_validator` | Stdlib-only JSON Schema validator (Draft 2020-12 subset) with top-level `ValidationError` export |
 | `coordination_bus` | Append-only TSV message bus with flock locking and HMAC signing |
 | `compliance_mapper` | Map governance traces to SOC2, GDPR, and OWASP controls |
 | `health_probe` | Composable health probe framework with latency tracking |
@@ -61,6 +66,8 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `convergence_guard` | Detect instrumental convergence patterns in agent behavior |
 | `reward_monitor` | Behavioral drift and reward gaming detector |
 | `lamport_clock` | Logical clock for causal ordering of distributed agent events |
+| `reasoning` | Structured governance reasoning engine with rule application, conflict detection, and decision tracing |
+| `ValidationError` | Top-level exception for schema validation failures (exported from `schema_validator`) |
 
 ## Why hummbl-governance?
 
@@ -70,7 +77,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety.
 
-**Production-tested.** All 18 modules were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 7,700+ tests and 14 CI workflows. The governance layer runs daily in production.
+**Production-tested.** All 20 primitives were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 7,700+ tests and 14 CI workflows. The governance layer runs daily in production.
 
 ## hummbl-governance vs Alternatives
 
@@ -86,8 +93,22 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | STRIDE threat mapping | Yes | No | No | No |
 | SOC2/GDPR/OWASP compliance mapping | Yes | No | No | No |
 | JSON Schema validation (stdlib) | Draft 2020-12 | No | Requires jsonschema | Requires pydantic |
+| Governance reasoning engine | Yes | No | No | No |
 | Thread-safe | Yes | Varies | Varies | Varies |
 | Modules work standalone | Yes | N/A | No (framework lock-in) | No (framework lock-in) |
+
+## Research
+
+The evidence base behind hummbl-governance is documented in the [AI Slop Crisis](https://github.com/hummbl-dev/hummbl-dev/tree/main/docs/research/ai-slop-crisis) research corpus:
+
+- [Why Libraries, Not Platforms](https://github.com/hummbl-dev/hummbl-dev/tree/main/docs/research/ai-slop-crisis#why-libraries-not-platforms) -- the architectural thesis behind stdlib-only, independently importable governance primitives
+- [Vendor Comparison Table](https://github.com/hummbl-dev/hummbl-dev/tree/main/docs/research/ai-slop-crisis#vendor-comparison) -- how hummbl-governance compares to platform-locked alternatives across dependency count, modularity, and compliance coverage
+
+## Newsletter
+
+Subscribe to the **HUMMBL Slop Tracker** for monthly AI governance intelligence: [hummbl.substack.com](https://hummbl.substack.com)
+
+Read [Issue #1](https://hummbl.substack.com/p/issue-1) for the inaugural edition.
 
 ## FAQ
 
@@ -216,6 +237,7 @@ This repo is part of the [HUMMBL](https://github.com/hummbl-dev) cognitive AI ar
 - [GitHub](https://github.com/hummbl-dev/hummbl-governance)
 - [hummbl.io](https://hummbl.io)
 - [Linktree](https://linktr.ee/hummbl)
+- [HUMMBL Slop Tracker (Substack)](https://hummbl.substack.com)
 
 ## License
 
