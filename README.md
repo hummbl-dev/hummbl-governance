@@ -77,7 +77,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety.
 
-**Production-tested.** All 20 primitives were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 7,700+ tests and 14 CI workflows. The governance layer runs daily in production.
+**Production-tested.** All 20 primitives were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 14,900+ tests and 14 CI workflows. The governance layer runs daily in production.
 
 ## hummbl-governance vs Alternatives
 
