@@ -19,7 +19,7 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
@@ -46,6 +46,16 @@ from hummbl_governance.output_validator import (
 )
 from hummbl_governance.capability_fence import CapabilityFence, CapabilityDenied
 from hummbl_governance.reasoning import ReasoningEngine, ApplyResult
+from hummbl_governance.errors import FailureMode, HummblError, fm_to_errors
+from hummbl_governance.failure_modes import (
+    FailureModeRecord,
+    ErrorRecord,
+    all_failure_modes,
+    get_fm,
+    classify_subclass,
+    get_errors_for_fm,
+    all_error_records,
+)
 
 __all__ = [
     "__version__",
@@ -94,4 +104,15 @@ __all__ = [
     "CapabilityDenied",
     "ReasoningEngine",
     "ApplyResult",
+    # Error taxonomy (v0.4.0)
+    "FailureMode",
+    "HummblError",
+    "fm_to_errors",
+    "FailureModeRecord",
+    "ErrorRecord",
+    "all_failure_modes",
+    "get_fm",
+    "classify_subclass",
+    "get_errors_for_fm",
+    "all_error_records",
 ]

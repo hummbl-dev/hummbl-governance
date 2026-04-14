@@ -10,7 +10,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -31,21 +31,21 @@ class ApplyResult:
 
     model: str
     name: str
-    analysis: Dict[str, Any]
+    analysis: dict[str, Any]
     recommendation: str
     confidence: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class ReasoningEngine:
     """Core logic for the Reasoning primitive."""
 
-    def __init__(self, models_path: Optional[Path] = None):
+    def __init__(self, models_path: Path | None = None):
         if models_path is None:
             models_path = Path(__file__).parent / "data" / "base120_models.json"
         
         self.models_path = models_path
-        self.models: Dict[str, Base120Model] = {}
+        self.models: dict[str, Base120Model] = {}
         self._load_models()
 
     def _load_models(self) -> None:
@@ -67,7 +67,7 @@ class ReasoningEngine:
         except Exception as e:
             logger.error(f"Failed to load Base120 models: {e}")
 
-    def get_model(self, code: str) -> Optional[Base120Model]:
+    def get_model(self, code: str) -> Base120Model | None:
         """Get a model by its code."""
         return self.models.get(code)
 
