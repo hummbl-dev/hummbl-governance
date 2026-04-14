@@ -32,6 +32,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any, Literal
 
+from hummbl_governance.errors import HummblError
+
 logger = logging.getLogger(__name__)
 
 
@@ -130,8 +132,6 @@ class DelegationToken:
             and self.subject == subject
         )
 
-
-from hummbl_governance.errors import HummblError
 
 # Error code shorthands — resolved from the unified HummblError enum.
 E_TOKEN_INVALID = HummblError.TOKEN_INVALID.value
