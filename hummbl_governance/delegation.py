@@ -32,6 +32,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any, Literal
 
+from hummbl_governance.errors import HummblError
+
 logger = logging.getLogger(__name__)
 
 
@@ -131,11 +133,11 @@ class DelegationToken:
         )
 
 
-# Error codes
-E_TOKEN_INVALID = "E_TOKEN_INVALID"
-E_TOKEN_EXPIRED = "E_TOKEN_EXPIRED"
-E_BINDING_MISMATCH = "E_BINDING_MISMATCH"
-E_DCT_VIOLATION = "E_DCT_VIOLATION"
+# Error code shorthands — resolved from the unified HummblError enum.
+E_TOKEN_INVALID = HummblError.TOKEN_INVALID.value
+E_TOKEN_EXPIRED = HummblError.TOKEN_EXPIRED.value
+E_BINDING_MISMATCH = HummblError.BINDING_MISMATCH.value
+E_DCT_VIOLATION = HummblError.DCT_VIOLATION.value
 
 
 class DelegationTokenManager:
