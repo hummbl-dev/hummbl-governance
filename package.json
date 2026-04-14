@@ -1,0 +1,15 @@
+{
+  "name": "hummbl-governance-graphs",
+  "version": "1.0.0",
+  "description": "Live visualization scripts for hummbl-governance data",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "governance-timeline": "node scripts/governance-timeline.js ./governance",
+    "governance-timeline:watch": "node scripts/governance-timeline.js ./governance --watch",
+    "governance-timeline:founder": "node scripts/governance-timeline.js $FOUNDER_MODE_DIR/_state/governance --watch"
+  },
+  "devDependencies": {
+    "d3": "^7.9.0"
+  }
+}
