@@ -13,6 +13,7 @@ Standalone, stdlib-only Python package providing:
 - HealthCollector: Composable health probe framework with latency tracking
 - OutputValidator: Rule-based content validation for agent outputs (ASI-06)
 - CapabilityFence: Soft sandbox enforcing capability boundaries (ASI-07)
+- EAL: Execution Assurance Layer — deterministic receipt validation against contracts
 
 All modules use only Python stdlib. Zero third-party runtime dependencies.
 
@@ -46,6 +47,11 @@ from hummbl_governance.output_validator import (
 )
 from hummbl_governance.capability_fence import CapabilityFence, CapabilityDenied
 from hummbl_governance.reasoning import ReasoningEngine, ApplyResult
+from hummbl_governance.eal import (
+    evaluate_validation as eal_validate,
+    evaluate_temporal_validation as eal_revalidate,
+    evaluate_compat as eal_compat,
+)
 from hummbl_governance.errors import FailureMode, HummblError, fm_to_errors
 from hummbl_governance.failure_modes import (
     FailureModeRecord,
@@ -104,6 +110,10 @@ __all__ = [
     "CapabilityDenied",
     "ReasoningEngine",
     "ApplyResult",
+    # Execution Assurance Layer (v0.4.0)
+    "eal_validate",
+    "eal_revalidate",
+    "eal_compat",
     # Error taxonomy (v0.4.0)
     "FailureMode",
     "HummblError",
