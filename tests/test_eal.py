@@ -15,7 +15,6 @@ from pathlib import Path
 import pytest
 
 from hummbl_governance.eal import (
-    EAL_PRECEDENCE,
     EAL_PRECEDENCE_INDEX,
     COMPAT_PRECEDENCE_INDEX,
     evaluate_validation,
