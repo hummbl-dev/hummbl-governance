@@ -1,8 +1,9 @@
 """Tests for LamportClock."""
 
+import pytest
 import threading
 
-from hummbl_governance.lamport_clock import LamportClock
+from hummbl_governance.lamport_clock import LamportClock, LamportTimestamp
 
 
 class TestLamportClockBasic:
@@ -66,18 +67,18 @@ class TestLamportClockStamp:
         assert s1[0] < s2[0]
 
     def test_happened_before_lower_timestamp(self):
-        assert LamportClock.happened_before((1, "a"), (2, "b")) is True
+        assert LamportClock.happened_before(LamportTimestamp(1, "a"), LamportTimestamp(2, "b")) is True
 
     def test_happened_before_higher_timestamp(self):
-        assert LamportClock.happened_before((5, "a"), (3, "b")) is False
+        assert LamportClock.happened_before(LamportTimestamp(5, "a"), LamportTimestamp(3, "b")) is False
 
     def test_happened_before_same_timestamp_tie_break(self):
         # "a" < "b" lexicographically
-        assert LamportClock.happened_before((5, "a"), (5, "b")) is True
-        assert LamportClock.happened_before((5, "b"), (5, "a")) is False
+        assert LamportClock.happened_before(LamportTimestamp(5, "a"), LamportTimestamp(5, "b")) is True
+        assert LamportClock.happened_before(LamportTimestamp(5, "b"), LamportTimestamp(5, "a")) is False
 
     def test_happened_before_same_agent_same_timestamp(self):
-        assert LamportClock.happened_before((5, "a"), (5, "a")) is None
+        assert LamportClock.happened_before(LamportTimestamp(5, "a"), LamportTimestamp(5, "a")) is None
 
 
 class TestLamportClockThreadSafety:
@@ -130,3 +131,21 @@ class TestLamportClockAgentId:
     def test_custom_agent_id(self):
         clock = LamportClock(agent_id="orchestrator")
         assert clock.agent_id == "orchestrator"
+
+
+class TestLamportClockHardening:
+    """Vulnerability and hardening tests (v0.5.0)."""
+
+    def test_forward_jump_attack(self):
+        """A malicious remote timestamp should not cause a massive clock jump."""
+        clock = LamportClock(initial=100)
+        # Malicious actor sends a timestamp far in the future
+        malicious_timestamp = 100 + 2000
+        clock.receive(malicious_timestamp)
+        # With hardening, the clock should only increment by 1, not jump to 2001.
+        assert clock.value == 101
+
+    def test_negative_timestamp_receive_raises(self):
+        clock = LamportClock()
+        with pytest.raises(ValueError):
+            clock.receive(-1)
