@@ -75,6 +75,32 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Arbiter with analyzers
-        run: pip install arbiter[analyzers]
+        run: pip install "arbiter-dev[analyzers]"
       - name: Arbiter Audit
-        run: arbiter score . --fail-under 90
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          import sys
+
+          result = subprocess.run(
+              ["arbiter", "score", ".", "--json"],
+              capture_output=True,
+              text=True,
+          )
+          sys.stdout.write(result.stdout)
+          sys.stderr.write(result.stderr)
+          if result.returncode != 0:
+              raise SystemExit(result.returncode)
+
+          payload_start = result.stdout.find("{")
+          if payload_start == -1:
+              raise SystemExit("arbiter score did not emit JSON output")
+
+          report = json.loads(result.stdout[payload_start:])
+          score = float(report["overall"])
+          if score < 90.0:
+              raise SystemExit(f"Arbiter score {score} is below the 90.0 threshold")
+
+          print(f"Arbiter score {score} meets threshold")
+          PY

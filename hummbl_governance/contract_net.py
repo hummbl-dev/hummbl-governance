@@ -86,7 +86,7 @@ class TaskAnnouncement:
     @property
     def is_expired(self) -> bool:
         """Check if the bidding deadline has passed."""
-        return (time.monotonic() - self.created_at) > self.deadline_seconds
+        return (time.monotonic() - self.created_at) >= self.deadline_seconds
 
 
 # Built-in evaluation strategies

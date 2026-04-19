@@ -1,5 +1,9 @@
-import pytest
-from hummbl_governance.physical_governor import KinematicGovernor, pHRISafetyMonitor, PhysicalSafetyMode
+from hummbl_governance.physical_governor import (
+    KinematicGovernor,
+    PhysicalSafetyMode,
+    pHRISafetyMonitor,
+)
+
 
 def test_kinematic_governor_enforces_velocity():
     gov = KinematicGovernor(max_velocity=1.0)
@@ -33,11 +37,7 @@ def test_phri_monitor_collision_detection():
     assert "Collision detected" in result["reason"]
 
 def test_kinematic_governor_dynamic_scaling():
-    # Scale limits based on safety mode
     gov = KinematicGovernor(max_velocity=1.0)
-    # NORMAL mode: 100%
     assert gov.get_scaled_velocity(PhysicalSafetyMode.NORMAL) == 1.0
-    # CAUTION mode: 25% (default)
     assert gov.get_scaled_velocity(PhysicalSafetyMode.CAUTION) == 0.25
-    # EMERGENCY mode: 0%
     assert gov.get_scaled_velocity(PhysicalSafetyMode.EMERGENCY) == 0.0

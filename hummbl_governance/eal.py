@@ -146,6 +146,14 @@ def _read_non_empty_str(obj: dict[str, Any], key: str) -> str:
     return value
 
 
+def _read_optional_score(value: Any, key: str) -> float | None:
+    if value is None:
+        return None
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise ValueError(f"invalid {key}")
+    return float(value)
+
+
 def _sha_prefixed(value: str) -> str:
     if value.startswith("sha256:"):
         return value
@@ -303,8 +311,16 @@ def normalize_validation_receipt(receipt: dict[str, Any]) -> NormalizedValidatio
         
         # v0.4.0 code quality
         quality = receipt.get("code_quality")
-        min_score = quality.get("min_arbiter_score") if isinstance(quality, dict) else None
-        actual_score = quality.get("actual_arbiter_score") if isinstance(quality, dict) else None
+        min_score = (
+            _read_optional_score(quality.get("min_arbiter_score"), "min_arbiter_score")
+            if isinstance(quality, dict)
+            else None
+        )
+        actual_score = (
+            _read_optional_score(quality.get("actual_arbiter_score"), "actual_arbiter_score")
+            if isinstance(quality, dict)
+            else None
+        )
     else:
         receipt_id = _read_non_empty_str(receipt, "receipt_id")
         contract_id = _read_non_empty_str(receipt, "contract_id")
@@ -341,8 +357,8 @@ def normalize_validation_receipt(receipt: dict[str, Any]) -> NormalizedValidatio
         actions = [_normalize_validation_action_schema(action) for action in actions_raw]
         
         # v0.4.0 code quality
-        min_score = receipt.get("min_arbiter_score")
-        actual_score = receipt.get("actual_arbiter_score")
+        min_score = _read_optional_score(receipt.get("min_arbiter_score"), "min_arbiter_score")
+        actual_score = _read_optional_score(receipt.get("actual_arbiter_score"), "actual_arbiter_score")
 
     return NormalizedValidationReceipt(
         receipt_id=receipt_id,
