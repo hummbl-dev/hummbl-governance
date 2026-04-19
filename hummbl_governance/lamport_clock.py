@@ -1,116 +1,92 @@
-"""Lamport Clock -- Logical clock for causal ordering of distributed events.
-
-Implements Lamport's (1978) logical clock algorithm for establishing
-total causal ordering of events in a distributed multi-agent system
-where wall clocks may disagree or have insufficient resolution.
-
-Each message gets a monotonically increasing sequence number. When an
-agent receives a message, it advances its clock to max(local, received) + 1.
-This guarantees: if event A happened-before event B, then clock(A) < clock(B).
-
-Usage::
-
-    from hummbl_governance.lamport_clock import LamportClock
-
-    clock = LamportClock()
-    t1 = clock.tick()        # Local event: 1
-    t2 = clock.tick()        # Local event: 2
-    t3 = clock.receive(10)   # Received msg with ts=10: max(2,10)+1 = 11
-    t4 = clock.tick()        # Local event: 12
-
-Stdlib-only. Thread-safe.
-
-Reference:
-    Lamport, L. (1978). Time, Clocks, and the Ordering of Events in a
-    Distributed System. Communications of the ACM, 21(7), 558-565.
-    DOI: 10.1145/359545.359563
-"""
+"""Causal ordering for distributed agent events via Lamport logical clock."""
 
 from __future__ import annotations
 
 import threading
+from typing import NamedTuple
+
+
+class LamportTimestamp(NamedTuple):
+    """Timestamp + Agent ID for total ordering."""
+    time: int
+    agent_id: str
 
 
 class LamportClock:
-    """Thread-safe Lamport logical clock.
+    """A Lamport logical clock for causal ordering of distributed events.
 
-    Args:
-        initial: Starting value for the clock (default 0).
-        agent_id: Optional identifier for tie-breaking when two events
-            have the same logical timestamp. Lamport's algorithm uses
-            process IDs for total ordering.
+    This implementation is thread-safe.
+    v0.5.0 adds hardening against "forward-jump" attacks via `max_delta`.
     """
 
-    def __init__(self, initial: int = 0, agent_id: str = "") -> None:
-        self._counter = initial
+    def __init__(self, initial: int = 0, agent_id: str = "", max_delta: int = 1000):
+        if initial < 0:
+            raise ValueError("Initial clock value cannot be negative.")
+        self._time = initial
         self._agent_id = agent_id
+        self._max_delta = max_delta
         self._lock = threading.Lock()
 
     @property
     def value(self) -> int:
-        """Current clock value (read without advancing)."""
+        """Return the current clock value without advancing it."""
         with self._lock:
-            return self._counter
+            return self._time
 
     @property
     def agent_id(self) -> str:
-        """Agent identifier used for tie-breaking."""
+        """Return the agent ID associated with this clock."""
         return self._agent_id
 
     def tick(self) -> int:
-        """Record a local event. Increments and returns the new clock value."""
+        """Advance the clock and return the new value.
+
+        Used when an internal event occurs.
+        """
         with self._lock:
-            self._counter += 1
-            return self._counter
+            self._time += 1
+            return self._time
 
     def receive(self, remote_timestamp: int) -> int:
-        """Update clock on receiving a message from another agent.
+        """Advance the clock based on a received timestamp.
 
-        Sets local clock to max(local, remote) + 1.
-
-        Args:
-            remote_timestamp: The logical timestamp from the received message.
-
-        Returns:
-            The updated local clock value.
+        Used when receiving a message from another agent.
+        Hardened to prevent massive clock jumps.
         """
+        if remote_timestamp < 0:
+            raise ValueError("Remote timestamp cannot be negative.")
+
         with self._lock:
-            self._counter = max(self._counter, remote_timestamp) + 1
-            return self._counter
+            # v0.5.0 hardening: cap the delta
+            if remote_timestamp > self._time + self._max_delta:
+                # Malicious or out-of-sync timestamp; increment locally instead of jumping
+                self._time += 1
+            else:
+                self._time = max(self._time, remote_timestamp) + 1
+            return self._time
 
-    def stamp(self) -> tuple[int, str]:
-        """Generate a (timestamp, agent_id) pair for total ordering.
-
-        Two events with the same Lamport timestamp are concurrent.
-        The agent_id breaks ties for a total order.
-
-        Returns:
-            Tuple of (logical_timestamp, agent_id).
-        """
-        ts = self.tick()
-        return (ts, self._agent_id)
+    def stamp(self) -> LamportTimestamp:
+        """Create a new timestamp for an event to be sent."""
+        new_time = self.tick()
+        return LamportTimestamp(new_time, self.agent_id)
 
     @staticmethod
-    def happened_before(
-        a: tuple[int, str], b: tuple[int, str]
-    ) -> bool | None:
-        """Compare two stamped events for causal ordering.
-
-        Args:
-            a: (timestamp, agent_id) from event A.
-            b: (timestamp, agent_id) from event B.
+    def happened_before(ts1: LamportTimestamp, ts2: LamportTimestamp) -> bool | None:
+        """Determine if ts1 happened before ts2.
 
         Returns:
-            True if A happened before B, False if B happened before A,
-            None if events are concurrent (same timestamp, different agents).
+            True if ts1 happened before ts2.
+            False if ts2 happened before ts1.
+            None if they are concurrent (or identical).
         """
-        ts_a, id_a = a
-        ts_b, id_b = b
-        if ts_a < ts_b:
+        if ts1.time < ts2.time:
             return True
-        if ts_a > ts_b:
+        if ts1.time > ts2.time:
             return False
-        # Same timestamp: use agent_id for total ordering
-        if id_a == id_b:
-            return None  # Same agent, same timestamp — should not happen
-        return id_a < id_b
+        # Timestamps are equal, use agent ID as tie-breaker
+        if ts1.agent_id < ts2.agent_id:
+            return True
+        if ts1.agent_id > ts2.agent_id:
+            return False
+        # Identical timestamps from the same agent
+        return None

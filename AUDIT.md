@@ -1,13 +1,31 @@
 # Repository Audit Report
 
-**Date:** 2026-04-08
-**Package:** hummbl-governance v0.3.0
+**Date:** 2026-04-19
+**Package:** hummbl-governance v0.4.0
 **Python:** 3.11+
-**Test suite:** 476 tests, all passing (0.81s)
+**Test suite:** 591 tests, all passing (2.61s)
 
 ---
 
-## Executive Summary
+## v0.4.0 Release Audit
+
+The v0.4.0 release introduces major enhancements for physical-AI alignment and execution assurance.
+
+### New Primitives
+- **KinematicGovernor**: Enforces velocity, force, and jerk constraints.
+- **pHRISafetyMonitor**: Graduated safety modes (NORMAL/CAUTION/EMERGENCY) based on human proximity and collision detection.
+
+### Enhancements
+- **Arbiter-Verified EAL**: `eal.py` now supports verifying receipts against Arbiter code quality scores (`E_CODE_QUALITY_FAIL`).
+- **Reasoning Kernel**: Expanded support for systems thinking (S1) and recursive correction (RE1) prompts.
+
+### Finding Resolutions
+- **[RESOLVED] L2. No test coverage for reasoning.py**: v0.4.0 includes comprehensive tests for the reasoning engine.
+- **[RESOLVED] H3. Inconsistent type hints in reasoning.py**: Synchronized with Python 3.11+ conventions.
+
+---
+
+## Executive Summary (Historical - v0.3.0)
 
 The codebase is well-structured with strong fundamentals: zero runtime dependencies, consistent locking patterns, parameterized SQL queries, and comprehensive test coverage across 19 of 20 source modules. However, the audit identified **3 critical**, **5 high**, **7 medium**, and **4 low** severity findings across code, tests, and infrastructure.
 

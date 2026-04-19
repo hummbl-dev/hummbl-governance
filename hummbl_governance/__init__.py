@@ -14,13 +14,15 @@ Standalone, stdlib-only Python package providing:
 - OutputValidator: Rule-based content validation for agent outputs (ASI-06)
 - CapabilityFence: Soft sandbox enforcing capability boundaries (ASI-07)
 - EAL: Execution Assurance Layer — deterministic receipt validation against contracts
+- PhysicalGovernor: Safety and kinematic constraints for physical AI (pHRI)
+- LamportClock: Hardened logical clock for causal ordering (v0.5.0)
 
 All modules use only Python stdlib. Zero third-party runtime dependencies.
 
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
@@ -36,7 +38,7 @@ except ImportError:
     PolicyLevel = None
 from hummbl_governance.compliance_mapper import ComplianceMapper, ComplianceReport
 from hummbl_governance.health_probe import HealthCollector, HealthProbe, HealthReport, ProbeResult
-from hummbl_governance.lamport_clock import LamportClock
+from hummbl_governance.lamport_clock import LamportClock, LamportTimestamp
 from hummbl_governance.stride_mapper import StrideMapper, StrideReport, Interaction, ThreatFinding
 from hummbl_governance.lifecycle import GovernanceLifecycle, AuthorizationDecision, GovernanceStatus
 from hummbl_governance.contract_net import ContractNetManager, Bid, TaskAnnouncement, ContractPhase
@@ -52,6 +54,7 @@ from hummbl_governance.eal import (
     evaluate_temporal_validation as eal_revalidate,
     evaluate_compat as eal_compat,
 )
+from hummbl_governance.physical_governor import KinematicGovernor, pHRISafetyMonitor, PhysicalSafetyMode
 from hummbl_governance.errors import FailureMode, HummblError, fm_to_errors
 from hummbl_governance.failure_modes import (
     FailureModeRecord,
@@ -85,6 +88,7 @@ __all__ = [
     "HealthReport",
     "ProbeResult",
     "LamportClock",
+    "LamportTimestamp",
     "StrideMapper",
     "StrideReport",
     "Interaction",
@@ -110,6 +114,9 @@ __all__ = [
     "CapabilityDenied",
     "ReasoningEngine",
     "ApplyResult",
+    "KinematicGovernor",
+    "pHRISafetyMonitor",
+    "PhysicalSafetyMode",
     # Execution Assurance Layer (v0.4.0)
     "eal_validate",
     "eal_revalidate",

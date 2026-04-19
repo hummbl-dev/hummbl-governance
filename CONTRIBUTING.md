@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to hummbl-governance.
 
+Before contributing, please review our [ROADMAP.md](ROADMAP.md) to understand our current focus and planned evolution toward v1.0.0.
+
 ## Setup
 
 ```bash

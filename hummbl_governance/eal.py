@@ -15,6 +15,7 @@ EAL_PRECEDENCE = [
     "E_SIG_INVALID",
     "E_HASH_MISMATCH",
     "E_EVIDENCE_MISSING",
+    "E_CODE_QUALITY_FAIL",
     "E_EPOCH_AMBIGUOUS",
     "E_ACTION_OUT_OF_SPACE",
     "E_BOUNDARY_MISMATCH",
@@ -34,6 +35,7 @@ EAL_CODE_CLASS = {
     "E_SIG_INVALID": "INVALID",
     "E_HASH_MISMATCH": "INVALID",
     "E_CONTRACT_VERSION_COLLISION": "INVALID",
+    "E_CODE_QUALITY_FAIL": "INVALID",
     "E_ACTION_OUT_OF_SPACE": "INVALID",
     "E_BOUNDARY_MISMATCH": "INVALID",
     "E_LOG_CHAIN_BREAK": "INVALID",
@@ -97,6 +99,9 @@ class NormalizedValidationReceipt:
     log_chain_break: bool
     log_sequence_gap: bool
     replay_detected: bool
+    # New for v0.4.0: code quality metadata
+    min_arbiter_score: float | None = None
+    actual_arbiter_score: float | None = None
 
 
 @dataclass(frozen=True)
@@ -139,6 +144,14 @@ def _read_non_empty_str(obj: dict[str, Any], key: str) -> str:
     if not isinstance(value, str) or not value:
         raise ValueError(f"missing or invalid {key}")
     return value
+
+
+def _read_optional_score(value: Any, key: str) -> float | None:
+    if value is None:
+        return None
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise ValueError(f"invalid {key}")
+    return float(value)
 
 
 def _sha_prefixed(value: str) -> str:
@@ -295,6 +308,19 @@ def normalize_validation_receipt(receipt: dict[str, Any]) -> NormalizedValidatio
         if not isinstance(actions_raw, list):
             raise ValueError("invalid actions")
         actions = [_normalize_validation_action_schema(action) for action in actions_raw]
+        
+        # v0.4.0 code quality
+        quality = receipt.get("code_quality")
+        min_score = (
+            _read_optional_score(quality.get("min_arbiter_score"), "min_arbiter_score")
+            if isinstance(quality, dict)
+            else None
+        )
+        actual_score = (
+            _read_optional_score(quality.get("actual_arbiter_score"), "actual_arbiter_score")
+            if isinstance(quality, dict)
+            else None
+        )
     else:
         receipt_id = _read_non_empty_str(receipt, "receipt_id")
         contract_id = _read_non_empty_str(receipt, "contract_id")
@@ -329,6 +355,10 @@ def normalize_validation_receipt(receipt: dict[str, Any]) -> NormalizedValidatio
         if not isinstance(actions_raw, list):
             raise ValueError("invalid actions")
         actions = [_normalize_validation_action_schema(action) for action in actions_raw]
+        
+        # v0.4.0 code quality
+        min_score = _read_optional_score(receipt.get("min_arbiter_score"), "min_arbiter_score")
+        actual_score = _read_optional_score(receipt.get("actual_arbiter_score"), "actual_arbiter_score")
 
     return NormalizedValidationReceipt(
         receipt_id=receipt_id,
@@ -344,6 +374,8 @@ def normalize_validation_receipt(receipt: dict[str, Any]) -> NormalizedValidatio
         log_chain_break=log_chain_break,
         log_sequence_gap=log_sequence_gap,
         replay_detected=replay_detected,
+        min_arbiter_score=min_score,
+        actual_arbiter_score=actual_score,
     )
 
 
@@ -414,6 +446,12 @@ def evaluate_validation(
     evidence_missing = n_receipt.evidence_count == 0
     if evidence_missing:
         reason_codes.append("E_EVIDENCE_MISSING")
+        
+    # v0.4.0 Code Quality Check
+    if (n_receipt.min_arbiter_score is not None and 
+        n_receipt.actual_arbiter_score is not None and
+        n_receipt.actual_arbiter_score < n_receipt.min_arbiter_score):
+        reason_codes.append("E_CODE_QUALITY_FAIL")
 
     if n_receipt.epoch_explicit and n_receipt.epoch_number is None:
         reason_codes.append("E_EPOCH_AMBIGUOUS")
