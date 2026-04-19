@@ -8,10 +8,11 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ["3.11", "3.12"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -19,6 +20,42 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[test]"
       - run: python -m pytest tests/ -v
+
+  install-smoke:
+    name: install-smoke (${{ matrix.os }}, ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Clean install from PyPI
+        run: pip install hummbl-governance
+      - name: Smoke test — all primitives importable
+        run: |
+          python -c "
+          from hummbl_governance import (
+              KillSwitch, CircuitBreaker, CostGovernor, BusWriter,
+              DelegationTokenManager, AgentRegistry, OutputValidator,
+              ReasoningEngine, BehaviorMonitor, SchemaValidator,
+              CapabilityFence, ComplianceMapper, ConvergenceDetector,
+              LamportClock, GovernanceLifecycle, ContractNetManager,
+              StrideMapper, AuditLog, HealthCollector
+          )
+          print('All 19 primitives imported successfully')
+          "
+      - name: Verify zero dependencies
+        run: |
+          python -c "
+          import importlib.metadata
+          requires = importlib.metadata.requires('hummbl-governance') or []
+          runtime = [r for r in requires if 'extra ==' not in r]
+          assert len(runtime) == 0, f'Unexpected runtime deps: {runtime}'
+          print('Zero runtime dependencies confirmed')
+          "
 
   lint:
     runs-on: ubuntu-latest
