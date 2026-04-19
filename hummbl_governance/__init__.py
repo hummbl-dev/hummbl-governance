@@ -14,6 +14,7 @@ Standalone, stdlib-only Python package providing:
 - OutputValidator: Rule-based content validation for agent outputs (ASI-06)
 - CapabilityFence: Soft sandbox enforcing capability boundaries (ASI-07)
 - EAL: Execution Assurance Layer — deterministic receipt validation against contracts
+- PhysicalGovernor: Safety and kinematic constraints for physical AI (pHRI)
 
 All modules use only Python stdlib. Zero third-party runtime dependencies.
 
@@ -52,6 +53,7 @@ from hummbl_governance.eal import (
     evaluate_temporal_validation as eal_revalidate,
     evaluate_compat as eal_compat,
 )
+from hummbl_governance.physical_governor import KinematicGovernor, pHRISafetyMonitor, PhysicalSafetyMode
 from hummbl_governance.errors import FailureMode, HummblError, fm_to_errors
 from hummbl_governance.failure_modes import (
     FailureModeRecord,
@@ -110,6 +112,9 @@ __all__ = [
     "CapabilityDenied",
     "ReasoningEngine",
     "ApplyResult",
+    "KinematicGovernor",
+    "pHRISafetyMonitor",
+    "PhysicalSafetyMode",
     # Execution Assurance Layer (v0.4.0)
     "eal_validate",
     "eal_revalidate",

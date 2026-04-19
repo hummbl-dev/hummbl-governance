@@ -113,6 +113,16 @@ class ReasoningEngine:
                 "For P1, reduce the problem to its most fundamental"
                 " truths. List 'axioms' and 'derived_conclusions'."
             )
+        elif model.code == "S1":
+            prompt.append(
+                "For S1, analyze the feedback loops and emergent behaviors."
+                " Identify 'positive_feedback' and 'balancing_loops'."
+            )
+        elif model.code == "RE1":
+            prompt.append(
+                "For RE1, identify patterns that repeat across scales."
+                " Analyze 'base_case' and 'recursive_step'."
+            )
 
         return "\n".join(prompt)
 
