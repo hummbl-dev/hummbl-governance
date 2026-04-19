@@ -3,17 +3,17 @@
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-476%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-583%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 
-**hummbl-governance** is a Python library that provides 20 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, and audit logging. It has zero third-party dependencies (stdlib only), 476 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 20 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, and audit logging. It has zero third-party dependencies (stdlib only), 583 passing tests, and supports Python 3.11 through 3.14.
 
 ```bash
 pip install hummbl-governance
 ```
 
-## What's New in v0.3.0
+## What's New in v0.3.0 (on PyPI, GitHub release tag pending)
 
 - **ReasoningEngine** -- structured governance reasoning with rule application, conflict detection, and decision tracing. Enables agents to explain *why* a governance decision was made, not just what the decision was.
 - **ValidationError** -- now a top-level export from `hummbl_governance`, making it easier to catch and handle schema validation failures without importing from submodules.
@@ -38,7 +38,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 ## Features
 
 - **20 governance primitives** covering safety, cost, identity, compliance, reasoning, and coordination
-- **476 tests** with full coverage across all modules
+- **583 tests** with full coverage across all modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
@@ -77,7 +77,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety.
 
-**Production-tested.** All 20 primitives were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 14,900+ tests and 14 CI workflows. The governance layer runs daily in production.
+**Production-tested.** All 20 primitives were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows. The governance layer runs daily in production.
 
 ## hummbl-governance vs Alternatives
 
