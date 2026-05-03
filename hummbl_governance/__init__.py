@@ -16,6 +16,7 @@ Standalone, stdlib-only Python package providing:
 - EAL: Execution Assurance Layer — deterministic receipt validation against contracts
 - PhysicalGovernor: Safety and kinematic constraints for physical AI (pHRI)
 - LamportClock: Hardened logical clock for causal ordering (v0.5.0)
+- EvolutionLineage: In-memory lineage tracking for eAI variants
 
 All modules use only Python stdlib. Zero third-party runtime dependencies.
 
@@ -64,6 +65,12 @@ from hummbl_governance.failure_modes import (
     classify_subclass,
     get_errors_for_fm,
     all_error_records,
+)
+from hummbl_governance.evolution_lineage import (
+    EvolutionLineage,
+    VariantRecord,
+    ModificationRecord,
+    EvolutionDriftReport,
 )
 
 __all__ = [
@@ -132,4 +139,9 @@ __all__ = [
     "classify_subclass",
     "get_errors_for_fm",
     "all_error_records",
+    # eAI governance foundation
+    "EvolutionLineage",
+    "VariantRecord",
+    "ModificationRecord",
+    "EvolutionDriftReport",
 ]
