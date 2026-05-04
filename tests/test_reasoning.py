@@ -85,3 +85,97 @@ def test_parse_invalid_output_graceful():
     result = engine.parse_llm_output("DE1", "not json")
     assert result.confidence == 0.0
     assert "error" in result.analysis
+
+
+def _make_engine(*codes_and_names) -> "ReasoningEngine":
+    """Helper: build an engine with given (code, name) model pairs."""
+    import tempfile
+    models = [
+        {
+            "code": code,
+            "name": name,
+            "transformation": "Test",
+            "definition": f"Test definition for {code}",
+        }
+        for code, name in codes_and_names
+    ]
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tf:
+        json.dump(models, tf)
+        tf_path = Path(tf.name)
+    engine = ReasoningEngine(models_path=tf_path)
+    tf_path.unlink()
+    return engine
+
+
+def test_generate_system_prompt_unknown_code_raises():
+    engine = _make_engine(("DE1", "5 Whys"))
+    try:
+        engine.generate_system_prompt("UNKNOWN")
+        assert False, "Should have raised ValueError"
+    except ValueError as e:
+        assert "UNKNOWN" in str(e)
+
+
+def test_generate_system_prompt_in2_branch():
+    engine = _make_engine(("IN2", "Pre-Mortem"))
+    prompt = engine.generate_system_prompt("IN2")
+    assert "ALREADY" in prompt or "failed" in prompt.lower()
+
+
+def test_generate_system_prompt_s1_branch():
+    engine = _make_engine(("S1", "Systems Thinking"))
+    prompt = engine.generate_system_prompt("S1")
+    assert "feedback" in prompt.lower() or "loops" in prompt.lower()
+
+
+def test_generate_system_prompt_re1_branch():
+    engine = _make_engine(("RE1", "Recursion"))
+    prompt = engine.generate_system_prompt("RE1")
+    assert "recursive" in prompt.lower() or "base_case" in prompt
+
+
+def test_parse_llm_output_unknown_code_raises():
+    engine = _make_engine(("DE1", "5 Whys"))
+    try:
+        engine.parse_llm_output("UNKNOWN", '{"analysis": {}, "recommendation": "x", "confidence": 0.5}')
+        assert False, "Should have raised ValueError"
+    except ValueError as e:
+        assert "UNKNOWN" in str(e)
+
+
+def test_parse_llm_output_no_json_fence():
+    engine = _make_engine(("DE1", "5 Whys"))
+    output = '{"analysis": {"step": "ok"}, "recommendation": "Do it", "confidence": 0.7}'
+    result = engine.parse_llm_output("DE1", output)
+    assert result.confidence == 0.7
+    assert result.model == "DE1"
+
+
+def test_reasoning_engine_missing_file():
+    engine = ReasoningEngine(models_path=Path("/nonexistent/path/models.json"))
+    assert len(engine.models) == 0
+    assert engine.get_model("DE1") is None
+
+
+def test_reasoning_engine_corrupt_json_file(tmp_path):
+    corrupt = tmp_path / "models.json"
+    corrupt.write_text("not valid json")
+    engine = ReasoningEngine(models_path=corrupt)
+    assert len(engine.models) == 0
+
+
+def test_apply_result_metadata_default():
+    from hummbl_governance.reasoning import ApplyResult
+    result = ApplyResult(
+        model="DE1",
+        name="5 Whys",
+        analysis={"x": 1},
+        recommendation="ok",
+        confidence=0.8,
+    )
+    assert result.metadata == {}
+
+
+def test_get_model_returns_none_for_unknown():
+    engine = _make_engine(("DE1", "5 Whys"))
+    assert engine.get_model("NOTHERE") is None

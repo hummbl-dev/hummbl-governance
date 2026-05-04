@@ -159,3 +159,79 @@ class TestBudgetStatusSerialization:
         d = status.to_dict()
         assert d["decision"] == "WARN"
         assert d["current_spend"] == 42.0
+
+
+class TestCostGovernorFileDB:
+    """Test CostGovernor with a real filesystem path (covers Path branch)."""
+
+    def test_creates_parent_dir(self, tmp_path):
+        db_path = tmp_path / "subdir" / "costs.db"
+        gov = CostGovernor(db_path, soft_cap=10.0, hard_cap=20.0)
+        assert db_path.parent.exists()
+        gov.record_usage("anthropic", "claude-4", 100, 50, 0.5)
+        assert gov.get_daily_spend() == pytest.approx(0.5)
+
+    def test_string_db_path_non_memory(self, tmp_path):
+        db_path = str(tmp_path / "test.db")
+        gov = CostGovernor(db_path, soft_cap=10.0, hard_cap=20.0)
+        gov.record_usage("openai", "gpt-4", 100, 50, 0.3)
+        assert gov.get_daily_spend() == pytest.approx(0.3)
+
+
+class TestCostGovernorCleanup:
+    """Test cleanup and count with date-range filtering."""
+
+    def test_cleanup_removes_old_records(self):
+        gov = CostGovernor(":memory:", soft_cap=100.0, hard_cap=200.0)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 1.0)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 2.0)
+        assert gov.count() == 2
+        # Cleanup with 'before' set to far future removes everything
+        from datetime import timedelta
+        future = datetime.now(timezone.utc) + timedelta(days=365)
+        deleted = gov.cleanup(before=future)
+        assert deleted == 2
+        assert gov.count() == 0
+
+    def test_cleanup_default_retention(self):
+        gov = CostGovernor(":memory:", soft_cap=100.0, hard_cap=200.0, retention_days=30)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 1.0)
+        # Default cleanup: should not delete recent records
+        deleted = gov.cleanup()
+        assert deleted == 0
+        assert gov.count() == 1
+
+    def test_count_with_start_filter(self):
+        gov = CostGovernor(":memory:", soft_cap=100.0, hard_cap=200.0)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 1.0)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 2.0)
+        future = datetime.now(timezone.utc).replace(year=2099)
+        count = gov.count(start=future)
+        assert count == 0
+
+    def test_count_with_end_filter(self):
+        gov = CostGovernor(":memory:", soft_cap=100.0, hard_cap=200.0)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 1.0)
+        past = datetime.now(timezone.utc).replace(year=2000)
+        count = gov.count(end=past)
+        assert count == 0
+
+    def test_count_with_start_and_end_filter(self):
+        gov = CostGovernor(":memory:", soft_cap=100.0, hard_cap=200.0)
+        gov.record_usage("anthropic", "claude-4", 100, 50, 1.0)
+        now = datetime.now(timezone.utc)
+        from datetime import timedelta
+        start = now - timedelta(minutes=5)
+        end = now + timedelta(minutes=5)
+        count = gov.count(start=start, end=end)
+        assert count == 1
+
+    def test_alert_callback_on_deny(self):
+        alerts = []
+        gov = CostGovernor(
+            ":memory:", soft_cap=1.0, hard_cap=2.0,
+            on_budget_alert=lambda s: alerts.append(s),
+        )
+        gov.record_usage("anthropic", "claude-4", 100, 50, 5.0)
+        assert len(alerts) >= 1
+        assert alerts[0].decision == "DENY"

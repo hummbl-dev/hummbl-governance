@@ -255,3 +255,129 @@ class TestAuditLogRetention:
             deleted = log.enforce_retention()
             assert deleted == 0
             log.close()
+
+    def test_enforce_retention_deletes_old_file(self):
+        import shutil
+        import os
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Manually create a stale governance file with old date
+            old_file = os.path.join(tmpdir, "audit-2020-01-01.jsonl")
+            with open(old_file, "w") as f:
+                f.write("{}\n")
+            log = AuditLog(tmpdir, retention_days=30, file_prefix="audit")
+            deleted = log.enforce_retention()
+            assert deleted == 1
+            assert not os.path.exists(old_file)
+            log.close()
+
+
+class TestAuditLogAsync:
+    """Test async (buffered) append mode."""
+
+    def test_async_append_buffered(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False, enable_async=True)
+            # Append fewer than 100 entries — stays in buffer
+            ok, err = log.append("i1", "t1", "CONTRACT", {"n": 1})
+            assert ok is True
+            assert err is None
+            # Closing flushes the buffer
+            log.close()
+
+            # Now re-open in sync mode and verify it was persisted
+            log2 = AuditLog(tmpdir, require_signature=False)
+            results = list(log2.query_by_intent("i1"))
+            assert len(results) == 1
+            log2.close()
+
+    def test_async_flush_on_100_entries(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False, enable_async=True)
+            # Fill buffer to trigger auto-flush at 100
+            for i in range(100):
+                log.append(f"i{i}", f"t{i}", "CONTRACT", {"n": i})
+            # After 100th append, buffer should be flushed
+            log.close()
+            log2 = AuditLog(tmpdir, require_signature=False)
+            results = list(log2.query_by_intent("i0"))
+            assert len(results) >= 1
+            log2.close()
+
+
+class TestAuditLogExplain:
+    """Test explain() chain tracing."""
+
+    def test_explain_returns_empty_for_unknown_entry(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False)
+            chain = log.explain("nonexistent-id")
+            assert chain == []
+            log.close()
+
+    def test_explain_single_entry(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False)
+            ok, _ = log.append("i1", "t1", "CONTRACT", {"n": 1})
+            assert ok
+            # Get the entry_id
+            entries = list(log.query_by_intent("i1"))
+            assert len(entries) == 1
+            eid = entries[0].entry_id
+            chain = log.explain(eid)
+            assert len(chain) == 1
+            assert chain[0].entry_id == eid
+            log.close()
+
+    def test_explain_amendment_chain(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False)
+            # Write root entry
+            log.append("i1", "t1", "CONTRACT", {"n": 1})
+            root_entries = list(log.query_by_intent("i1"))
+            root_id = root_entries[0].entry_id
+            # Write amendment pointing to root
+            log.append("i2", "t2", "CONTRACT", {"n": 2}, amendment_of=root_id)
+            amendment_entries = list(log.query_by_intent("i2"))
+            amend_id = amendment_entries[0].entry_id
+            # Explain the amendment — should include both entries
+            chain = log.explain(amend_id)
+            entry_ids = [e.entry_id for e in chain]
+            assert root_id in entry_ids
+            assert amend_id in entry_ids
+            log.close()
+
+    def test_explain_capability_token_chain(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False)
+            # Write DCT (capability token)
+            log.append("i_dct", "t1", "DCT", {"issuer": "system"})
+            dct_entries = list(log.query_by_intent("i_dct"))
+            dct_id = dct_entries[0].entry_id
+            # Write action that references the DCT
+            log.append("i_action", "t2", "INTENT", {"agent": "claude"},
+                       capability_token_id=dct_id)
+            action_entries = list(log.query_by_intent("i_action"))
+            action_id = action_entries[0].entry_id
+            chain = log.explain(action_id)
+            entry_ids = [e.entry_id for e in chain]
+            assert dct_id in entry_ids
+            assert action_id in entry_ids
+            log.close()
+
+
+class TestAuditLogClose:
+    """Test close() idempotency and double-close safety."""
+
+    def test_close_idempotent(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False)
+            log.append("i1", "t1", "CONTRACT", {"n": 1})
+            log.close()
+            # Second close should not raise
+            log.close()
+
+    def test_close_without_writes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, require_signature=False)
+            # Should not raise even with no file handle open
+            log.close()
