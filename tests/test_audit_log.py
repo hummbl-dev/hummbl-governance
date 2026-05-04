@@ -257,7 +257,6 @@ class TestAuditLogRetention:
             log.close()
 
     def test_enforce_retention_deletes_old_file(self):
-        import shutil
         import os
         with tempfile.TemporaryDirectory() as tmpdir:
             # Manually create a stale governance file with old date

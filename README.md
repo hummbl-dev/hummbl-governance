@@ -72,7 +72,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 ## Features
 
 - **25 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, and execution assurance
-- **637 tests** with full coverage across all modules
+- **927 tests** with full coverage across all modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
@@ -116,7 +116,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety.
 
-**Production-tested.** The governance primitives were extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows across its full surface. The governance layer extracted here has 637 dedicated tests and runs daily in production.
+**Production-tested.** The governance primitives were extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows across its full surface. The governance layer extracted here has 927 dedicated tests and runs daily in production.
 
 ## hummbl-governance vs Alternatives
 

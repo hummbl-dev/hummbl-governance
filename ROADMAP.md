@@ -4,42 +4,30 @@ This document outlines the strategic direction and technical evolution of the **
 
 ---
 
-## Current Status: v0.4.0 (Physical-AI & Execution Assurance)
-**Focus:** Sovereignty over the physical-digital boundary and runtime code quality.
+## Current Status: v0.8.0 (MCP Servers — Full Primitive Exposure)
+**Focus:** Expose all 25 governance primitives as Model Context Protocol tools.
 
-*   ✅ **KinematicGovernor**: Deterministic motion constraints (Velocity, Force, Jerk).
-*   ✅ **pHRISafetyMonitor**: Graduated pHRI safety modes (NORMAL/CAUTION/EMERGENCY).
-*   ✅ **Arbiter-Verified EAL**: Code quality verification in execution receipts (`E_CODE_QUALITY_FAIL`).
-*   ✅ **Reasoning Kernel**: Expanded Base120 support for Systems Thinking (S1) and Recursion (RE1).
-
----
-
-## Phase 3: Coordination & Distribution (v0.5.0 - v0.6.0)
-**Focus:** Epistemic Governance & Causal Integrity in multi-agent fleets.
-
-### v0.5.0: Distributed State & Causal Integrity
-*   **Lamport Clock Hardening**: Implementation of causal integrity checks for distributed audit logs.
-*   **Coordination Bus 2.0**: Enhanced mutual exclusion patterns and tamper-evident message passing.
-*   **Epoch-Aware State**: Standardized handling of governance epochs across distributed agents.
-
-### v0.6.0: Market-Based Allocation & Power-Seeking Detection
-*   **Contract Net Protocol**: Production-grade task auctioning with automated bid verification.
-*   **Convergence Guard**: Detection of instrumental convergence patterns (agents accumulating unnecessary resources or power).
-*   **Reward Gaming Detection**: Statistical monitoring for "reward gaming" behavior in agentic loops.
+*   ✅ **mcp_server.py** (v0.7.0): KillSwitch, CircuitBreaker, CostGovernor, AuditLog, ComplianceMapper, HealthCollector via 10 JSON-RPC tools.
+*   ✅ **mcp_compliance.py** (v0.7.0): NIST AI RMF, SOC2, ISO crosswalk, STRIDE, evidence export via 5 tools.
+*   ✅ **mcp_sandbox.py** (v0.7.0): CapabilityFence / OutputValidator sandbox via 5 tools.
+*   ✅ **mcp_identity.py** (v0.8.0): AgentRegistry, DelegationTokenManager, LamportClock via 10 tools.
+*   ✅ **mcp_agent_monitor.py** (v0.8.0): BehaviorMonitor, ConvergenceDetector, GovernanceLifecycle, EvolutionLineage via 11 tools.
+*   ✅ **mcp_reasoning.py** (v0.8.0): ReasoningEngine, SchemaValidator, ContractNetManager.
+*   ✅ **mcp_physical.py** (v0.8.0): KinematicGovernor, pHRISafetyMonitor via 6 tools.
+*   ✅ **927 tests** — all passing. 7 MCP servers, 4 CLI entry points.
 
 ---
 
-## Phase 4: Compliance & Ecosystem (v0.7.0 - v0.9.0)
+## Shipped: v0.4.0 — v0.6.0
+
+*   ✅ **v0.4.0** — KinematicGovernor, pHRISafetyMonitor, EAL, ReasoningEngine, FailureModes taxonomy.
+*   ✅ **v0.5.0** — LamportClock hardening, EvolutionLineage, CI matrix (3 OS × 3 Python).
+*   ✅ **v0.6.0** — NIST AI RMF report, EU AI Act report, ComplianceMapper extended.
+
+---
+
+## Phase 4: Compliance & Ecosystem (v0.9.0+)
 **Focus:** Regulatory Alignment (EU AI Act, ISO 42001) and Framework Integration.
-
-### v0.7.0: Compliance Automation
-*   **Automated Evidence Ledger**: One-click generation of SOC2, GDPR, and NIST AI RMF evidence reports from `AuditLog`.
-*   **STRIDE Automation**: Real-time threat model generation and mitigation suggestions based on live interaction traces.
-*   **Reasoning kernel (Explainability)**: Mapping Base120 reasoning traces to regulatory transparency requirements.
-
-### v0.8.0: High-Security & Air-Gapped Deployment
-*   **Zero-Dependency Hardening**: Final verification of stdlib-only architecture for IL4/IL5 environments.
-*   **Arbiter Deep Integration**: Automated repository scoring for every agent-generated module before execution.
 
 ### v0.9.0: Ecosystem Adapters
 *   **First-Class Adapters**: Standardized "Governed Tool" wrappers for:
