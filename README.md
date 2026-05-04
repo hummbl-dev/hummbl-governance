@@ -3,20 +3,29 @@
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-583%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-637%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 
-**hummbl-governance** is a Python library that provides 20 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, and audit logging. It has zero third-party dependencies (stdlib only), 583 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 637 passing tests, and supports Python 3.11 through 3.14.
 
 ```bash
 pip install hummbl-governance
 ```
 
-## What's New in v0.3.0 (on PyPI, GitHub release tag pending)
+## What's New in v0.5.0
 
-- **ReasoningEngine** -- structured governance reasoning with rule application, conflict detection, and decision tracing. Enables agents to explain *why* a governance decision was made, not just what the decision was.
-- **ValidationError** -- now a top-level export from `hummbl_governance`, making it easier to catch and handle schema validation failures without importing from submodules.
+- **LamportClock hardening** -- causal integrity checks for distributed audit logs; epoch-aware state handling across agents.
+- **EvolutionLineage** -- in-memory lineage tracking for eAI variants; `VariantRecord`, `ModificationRecord`, `EvolutionDriftReport`.
+- **FailureModes catalog** -- structured `FailureModeRecord` and `ErrorRecord` taxonomy; `all_failure_modes()`, `classify_subclass()`, `get_errors_for_fm()`.
+- **Errors taxonomy** -- `HummblError`, `FailureMode`, `fm_to_errors()` as top-level exports.
+
+### v0.4.0 highlights
+- **KinematicGovernor** -- deterministic motion constraints (velocity, force, jerk) for physical-AI safety.
+- **pHRISafetyMonitor** -- graduated pHRI safety modes (NORMAL/CAUTION/EMERGENCY).
+- **Execution Assurance Layer (EAL)** -- Arbiter-verified code quality in execution receipts (`E_CODE_QUALITY_FAIL`).
+- **ReasoningEngine** -- structured governance reasoning with rule application, conflict detection, and decision tracing.
+- **ValidationError** -- top-level export from `hummbl_governance`.
 
 ## Usage Example
 
@@ -37,14 +46,14 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 ## Features
 
-- **20 governance primitives** covering safety, cost, identity, compliance, reasoning, and coordination
-- **583 tests** with full coverage across all modules
+- **25 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, and execution assurance
+- **637 tests** with full coverage across all modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
 - **Python 3.11 - 3.14** supported and tested
 
-## All 20 Primitives
+## All 25 Primitives
 
 | Module | Description |
 |--------|-------------|
@@ -65,8 +74,13 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `contract_net` | Market-based task allocation protocol for multi-agent systems |
 | `convergence_guard` | Detect instrumental convergence patterns in agent behavior |
 | `reward_monitor` | Behavioral drift and reward gaming detector |
-| `lamport_clock` | Logical clock for causal ordering of distributed agent events |
+| `lamport_clock` | Hardened logical clock for causal ordering of distributed agent events (v0.5.0) |
 | `reasoning` | Structured governance reasoning engine with rule application, conflict detection, and decision tracing |
+| `eal` | Execution Assurance Layer -- Arbiter-verified code quality in execution receipts |
+| `physical_governor` | Kinematic constraints and pHRI safety modes for physical-AI deployments |
+| `errors` | `HummblError`, `FailureMode`, and `fm_to_errors()` -- typed error taxonomy |
+| `failure_modes` | Structured failure mode catalog with classification and error cross-reference |
+| `evolution_lineage` | In-memory lineage tracking for eAI variants with drift detection |
 | `ValidationError` | Top-level exception for schema validation failures (exported from `schema_validator`) |
 
 ## Why hummbl-governance?
@@ -77,7 +91,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety.
 
-**Production-tested.** All 20 primitives were extracted from [founder-mode](https://github.com/foundermode-ai/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows. The governance layer runs daily in production.
+**Production-tested.** The governance primitives were extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows across its full surface. The governance layer extracted here has 637 dedicated tests and runs daily in production.
 
 ## hummbl-governance vs Alternatives
 
@@ -109,12 +123,12 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI04** Supply Chain | Zero dependencies | — | Stdlib-only. No transitive dependencies to compromise. `pip audit` finds nothing because there is nothing to audit. |
 | **ASI05** Unexpected Code Execution | [`OutputValidator`](hummbl_governance/output_validator.py), [`InjectionDetector`](hummbl_governance/output_validator.py) | [49](tests/test_output_validator.py) | Prompt injection detection, blocked-term filtering, and content validation before agent output reaches downstream systems. |
 | **ASI06** Memory & Context Poisoning | [`BusWriter`](hummbl_governance/coordination_bus.py), [`AuditLog`](hummbl_governance/audit_log.py) | [63](tests/test_coordination_bus.py) + [17](tests/test_audit_log.py) | Append-only governance bus with content hashing. Tamper-evident audit log. Poisoned entries are detectable. |
-| **ASI07** Insecure Inter-Agent Comms | [`LamportClock`](hummbl_governance/lamport_clock.py), [`ContractNetManager`](hummbl_governance/contract_net.py) | [18](tests/test_lamport_clock.py) + [19](tests/test_contract_net.py) | Logical clocks for causal ordering. Contract Net protocol for structured multi-agent task allocation with bid verification. |
+| **ASI07** Insecure Inter-Agent Comms | [`LamportClock`](hummbl_governance/lamport_clock.py), [`ContractNetManager`](hummbl_governance/contract_net.py) | [20](tests/test_lamport_clock.py) + [19](tests/test_contract_net.py) | Hardened logical clocks for causal ordering. Contract Net protocol for structured multi-agent task allocation with bid verification. |
 | **ASI08** Cascading Failures | [`CircuitBreaker`](hummbl_governance/circuit_breaker.py), [`HealthProbe`](hummbl_governance/health_probe.py) | [17](tests/test_circuit_breaker.py) + [30](tests/test_health_probe.py) | CLOSED/HALF_OPEN/OPEN state machine isolates failing components. Health probes detect degradation before cascade. |
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [34](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Total: 583 tests across 20 primitives. 10/10 OWASP coverage. Zero dependencies.**
+**Total: 637 tests across 25 primitives. 10/10 OWASP coverage. Zero dependencies.**
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 
