@@ -11,3 +11,4 @@ build/
 # Generated graph reports
 reports/*.html
 reports/*.json
+.coverage
