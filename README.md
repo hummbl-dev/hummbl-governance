@@ -3,18 +3,24 @@
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-637%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-673%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 
-**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 637 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 673 passing tests, and supports Python 3.11 through 3.14.
 
 ```bash
 pip install hummbl-governance
 ```
 
-## What's New in v0.5.0
+## What's New in v0.6.0
 
+- **NIST AI RMF report** (`generate_nist_rmf_report()`) -- Maps governance traces to the four core functions: GOVERN, MAP, MEASURE, MANAGE. Evidence-backed controls aligned to NIST AI 100-1 (2023).
+- **EU AI Act report** (`generate_eu_ai_act_report()`) -- Maps governance traces to Articles 9, 10, 12, 13, 14, 17 for High-Risk AI (Annex III). Includes `human_initiated` flag on KILLSWITCH events for Art.14 human oversight evidence.
+- **CHANGELOG.md** -- full version history from v0.1.0.
+- **673 tests** -- 36 new tests covering all NIST RMF and EU AI Act mappings.
+
+### v0.5.0 highlights
 - **LamportClock hardening** -- causal integrity checks for distributed audit logs; epoch-aware state handling across agents.
 - **EvolutionLineage** -- in-memory lineage tracking for eAI variants; `VariantRecord`, `ModificationRecord`, `EvolutionDriftReport`.
 - **FailureModes catalog** -- structured `FailureModeRecord` and `ErrorRecord` taxonomy; `all_failure_modes()`, `classify_subclass()`, `get_errors_for_fm()`.

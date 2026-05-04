@@ -430,3 +430,353 @@ class TestCLI:
         assert rc == 0
         parsed = json.loads(output_path.read_text())
         assert len(parsed["controls"]["CC6.1"]) == 0
+
+    def test_framework_nist_rmf(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        rc = main(["--framework", "nist-rmf", "--dir", str(tmp_path)])
+        assert rc == 0
+
+    def test_framework_eu_ai_act(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        rc = main(["--framework", "eu-ai-act", "--dir", str(tmp_path)])
+        assert rc == 0
+
+
+# ---------------------------------------------------------------------------
+# Fixtures shared between NIST/EU tests
+# ---------------------------------------------------------------------------
+
+def _attest_entry(entry_id: str = "e7") -> dict:
+    return {
+        "entry_id": entry_id,
+        "timestamp": "2026-03-23T11:00:00Z",
+        "task_id": "t6",
+        "intent_id": "i6",
+        "signature": "sigattest",
+        "tuple_type": "ATTEST",
+        "tuple_data": {
+            "claim": "output validated",
+            "outcome": "PASS",
+        },
+    }
+
+
+def _cost_governor_entry(entry_id: str = "e8") -> dict:
+    return {
+        "entry_id": entry_id,
+        "timestamp": "2026-03-23T11:01:00Z",
+        "task_id": "t7",
+        "intent_id": "i7",
+        "signature": None,
+        "tuple_type": "COST_GOVERNOR",
+        "tuple_data": {
+            "agent": "claude",
+            "decision": "ALLOW",
+            "spend": 0.05,
+            "budget": 10.0,
+        },
+    }
+
+
+# ---------------------------------------------------------------------------
+# TestComplianceMapperNISTRMF
+# ---------------------------------------------------------------------------
+
+class TestComplianceMapperNISTRMF:
+    def test_all_controls_initialized(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert report.framework == "NIST_AI_RMF"
+        expected = {
+            "GOVERN-1.1", "GOVERN-1.7",
+            "MAP-1.1", "MAP-2.2",
+            "MEASURE-2.5", "MEASURE-2.8",
+            "MANAGE-1.3", "MANAGE-2.4",
+        }
+        assert set(report.controls.keys()) == expected
+
+    def test_intent_maps_to_govern_1_1(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["GOVERN-1.1"]) == 1
+        evidence = report.controls["GOVERN-1.1"][0]
+        assert evidence["agent"] == "claude"
+        assert evidence["objective"] == "generate briefing"
+        assert evidence["phase"] == "SPECIFICATION"
+
+    def test_circuit_breaker_maps_to_govern_1_7(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_circuit_breaker_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["GOVERN-1.7"]) == 1
+        evidence = report.controls["GOVERN-1.7"][0]
+        assert evidence["tuple_type"] == "CIRCUIT_BREAKER"
+        assert evidence["state"] == "OPEN"
+
+    def test_killswitch_maps_to_govern_1_7_and_manage_1_3(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["GOVERN-1.7"]) == 1
+        assert len(report.controls["MANAGE-1.3"]) == 1
+        evidence = report.controls["MANAGE-1.3"][0]
+        assert evidence["tuple_type"] == "KILLSWITCH"
+        assert evidence["state"] == "HALT_ALL"
+
+    def test_circuit_breaker_maps_to_manage_2_4(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_circuit_breaker_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MANAGE-2.4"]) == 1
+
+    def test_dct_maps_to_map_1_1(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MAP-1.1"]) == 1
+        evidence = report.controls["MAP-1.1"][0]
+        assert evidence["tuple_type"] == "DCT"
+        assert evidence["delegator"] == "system"
+        assert evidence["delegatee"] == "agent-1"
+
+    def test_dctx_maps_to_map_1_1(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MAP-1.1"]) == 1
+        evidence = report.controls["MAP-1.1"][0]
+        assert evidence["tuple_type"] == "DCTX"
+        assert evidence["delegator"] == "agent-1"
+
+    def test_contract_maps_to_map_1_1(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_contract_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MAP-1.1"]) == 1
+
+    def test_attest_maps_to_map_2_2(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_attest_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MAP-2.2"]) == 1
+        evidence = report.controls["MAP-2.2"][0]
+        assert evidence["tuple_type"] == "ATTEST"
+        assert evidence["claim"] == "output validated"
+        assert evidence["outcome"] == "PASS"
+
+    def test_signed_maps_to_measure_2_5(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry(signed=True)])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MEASURE-2.5"]) == 1
+
+    def test_unsigned_skips_measure_2_5(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry(signed=False)])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MEASURE-2.5"]) == 0
+
+    def test_cost_governor_maps_to_measure_2_8(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_cost_governor_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["MEASURE-2.8"]) == 1
+        evidence = report.controls["MEASURE-2.8"][0]
+        assert evidence["agent"] == "claude"
+        assert evidence["decision"] == "ALLOW"
+        assert evidence["spend"] == 0.05
+        assert evidence["budget"] == 10.0
+
+    def test_empty_dir_all_controls_empty(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        for control_items in report.controls.values():
+            assert control_items == []
+
+    def test_multiple_entries_accumulate(self, tmp_path):
+        _write_governance_file(
+            tmp_path, _today_str(),
+            [_intent_entry("e1"), _intent_entry("e2"), _circuit_breaker_entry("e3")],
+        )
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["GOVERN-1.1"]) == 2
+        assert len(report.controls["GOVERN-1.7"]) == 1
+
+    def test_report_to_json_roundtrip(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        parsed = json.loads(report.to_json())
+        assert parsed["framework"] == "NIST_AI_RMF"
+        assert len(parsed["controls"]["GOVERN-1.1"]) == 1
+
+    def test_date_filter_excludes_old(self, tmp_path):
+        _write_governance_file(tmp_path, _days_ago_str(60), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["GOVERN-1.1"]) == 0
+
+    def test_date_filter_includes_recent(self, tmp_path):
+        _write_governance_file(tmp_path, _days_ago_str(15), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_rmf_report(days=30)
+        assert len(report.controls["GOVERN-1.1"]) == 1
+
+
+# ---------------------------------------------------------------------------
+# TestComplianceMapperEUAIAct
+# ---------------------------------------------------------------------------
+
+class TestComplianceMapperEUAIAct:
+    def test_all_controls_initialized(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert report.framework == "EU_AI_ACT"
+        expected = {"Art.9", "Art.10", "Art.12", "Art.13", "Art.14", "Art.17"}
+        assert set(report.controls.keys()) == expected
+
+    def test_circuit_breaker_maps_to_art9(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_circuit_breaker_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.9"]) == 1
+        evidence = report.controls["Art.9"][0]
+        assert evidence["tuple_type"] == "CIRCUIT_BREAKER"
+        assert evidence["state"] == "OPEN"
+        assert evidence["adapter"] == "github"
+
+    def test_killswitch_maps_to_art9(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.9"]) == 1
+        evidence = report.controls["Art.9"][0]
+        assert evidence["tuple_type"] == "KILLSWITCH"
+
+    def test_attest_maps_to_art10(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_attest_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.10"]) == 1
+        evidence = report.controls["Art.10"][0]
+        assert evidence["claim"] == "output validated"
+        assert evidence["outcome"] == "PASS"
+
+    def test_signed_maps_to_art12(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry(signed=True)])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.12"]) == 1
+
+    def test_unsigned_skips_art12(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry(signed=False)])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.12"]) == 0
+
+    def test_intent_maps_to_art13(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.13"]) == 1
+        evidence = report.controls["Art.13"][0]
+        assert evidence["agent"] == "claude"
+        assert evidence["objective"] == "generate briefing"
+
+    def test_killswitch_maps_to_art14(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.14"]) == 1
+        evidence = report.controls["Art.14"][0]
+        assert evidence["state"] == "HALT_ALL"
+        assert evidence["human_initiated"] is True
+
+    def test_killswitch_disengaged_not_human_initiated(self, tmp_path):
+        entry = {
+            "entry_id": "e_dis",
+            "timestamp": "2026-03-23T10:05:00Z",
+            "task_id": "t5",
+            "intent_id": "i5",
+            "signature": "sigdis",
+            "tuple_type": "KILLSWITCH",
+            "tuple_data": {"state": "DISENGAGED", "adapter": None},
+        }
+        _write_governance_file(tmp_path, _today_str(), [entry])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.14"]) == 1
+        assert report.controls["Art.14"][0]["human_initiated"] is False
+
+    def test_killswitch_emergency_is_human_initiated(self, tmp_path):
+        entry = {
+            "entry_id": "e_emerg",
+            "timestamp": "2026-03-23T10:06:00Z",
+            "task_id": "t6",
+            "intent_id": "i6",
+            "signature": "sigemerg",
+            "tuple_type": "KILLSWITCH",
+            "tuple_data": {"state": "EMERGENCY", "adapter": None},
+        }
+        _write_governance_file(tmp_path, _today_str(), [entry])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert report.controls["Art.14"][0]["human_initiated"] is True
+
+    def test_dctx_maps_to_art17(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.17"]) == 1
+        evidence = report.controls["Art.17"][0]
+        assert evidence["delegator"] == "agent-1"
+        assert evidence["delegatee"] == "agent-2"
+        assert evidence["event"] == "task_delegated"
+
+    def test_non_dctx_skips_art17(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry(), _intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.17"]) == 0
+
+    def test_empty_dir_all_controls_empty(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        for control_items in report.controls.values():
+            assert control_items == []
+
+    def test_multiple_entries_accumulate(self, tmp_path):
+        _write_governance_file(
+            tmp_path, _today_str(),
+            [_killswitch_entry("e1"), _killswitch_entry("e2"), _dctx_entry("e3")],
+        )
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.9"]) == 2
+        assert len(report.controls["Art.14"]) == 2
+        assert len(report.controls["Art.17"]) == 1
+
+    def test_report_to_json_roundtrip(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        parsed = json.loads(report.to_json())
+        assert parsed["framework"] == "EU_AI_ACT"
+        assert len(parsed["controls"]["Art.9"]) == 1
+        assert len(parsed["controls"]["Art.14"]) == 1
+
+    def test_date_filter_excludes_old(self, tmp_path):
+        _write_governance_file(tmp_path, _days_ago_str(60), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.9"]) == 0
+
+    def test_date_filter_includes_recent(self, tmp_path):
+        _write_governance_file(tmp_path, _days_ago_str(15), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.9"]) == 1

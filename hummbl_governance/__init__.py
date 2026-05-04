@@ -9,7 +9,7 @@ Standalone, stdlib-only Python package providing:
 - AgentRegistry: Configurable agent identity, aliases, and trust tiers
 - SchemaValidator: Stdlib-only JSON Schema validator (Draft 2020-12 subset)
 - BusWriter: Append-only TSV coordination bus with flock locking and HMAC signing
-- ComplianceMapper: Map governance traces to SOC2, GDPR, and OWASP controls
+- ComplianceMapper: Map governance traces to SOC2, GDPR, OWASP, NIST AI RMF, and EU AI Act controls
 - HealthCollector: Composable health probe framework with latency tracking
 - OutputValidator: Rule-based content validation for agent outputs (ASI-06)
 - CapabilityFence: Soft sandbox enforcing capability boundaries (ASI-07)
@@ -23,7 +23,7 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
