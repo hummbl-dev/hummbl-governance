@@ -3,17 +3,27 @@
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-784%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-927%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 
-**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 784 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 927 passing tests, and supports Python 3.11 through 3.14.
 
 ```bash
 pip install hummbl-governance
 ```
 
-## What's New in v0.7.0
+## What's New in v0.8.0
+
+- **Four new MCP servers** — expose 15 previously unexposed governance primitives as 32 JSON-RPC tools. Zero additional dependencies.
+  - `mcp_identity.py` — 10 tools: `identity_register`, `identity_lookup`, `identity_list`, `identity_validate`, `delegation_create`, `delegation_validate`, `delegation_check_op`, `clock_tick`, `clock_receive`, `clock_compare` (wraps `AgentRegistry`, `DelegationTokenManager`, `LamportClock`)
+  - `mcp_agent_monitor.py` — 11 tools: `behavior_record`, `behavior_snapshot_baseline`, `behavior_detect_drift`, `convergence_record`, `convergence_check`, `convergence_scores`, `lifecycle_authorize`, `lifecycle_status`, `lineage_record_variant`, `lineage_get`, `lineage_drift` (wraps `BehaviorMonitor`, `ConvergenceDetector`, `GovernanceLifecycle`, `EvolutionLineage`)
+  - `mcp_reasoning.py` — reasoning, schema, and contract-net tools (wraps `ReasoningEngine`, `SchemaValidator`, `ContractNetManager`)
+  - `mcp_physical.py` — 6 tools: `kinematic_check_motion`, `kinematic_get_limits`, `kinematic_scaled_velocity`, `phri_check_safety`, `phri_get_config`, `phri_batch_check` (wraps `KinematicGovernor`, `pHRISafetyMonitor`)
+- **4 new CLI entry points**: `hummbl-identity-mcp`, `hummbl-agent-monitor-mcp`, `hummbl-reasoning-mcp`, `hummbl-physical-mcp`
+- **143 new tests** — 927 total (784 → 927)
+
+### v0.7.0 highlights
 
 - **Three MCP servers** -- expose all governance primitives as Model Context Protocol tools via stdio JSON-RPC. Zero additional dependencies.
   - `mcp_server.py` -- 10 tools: `governance_status`, `kill_switch_status/engage/disengage`, `circuit_breaker_status`, `cost_budget_check/record_usage`, `audit_query`, `compliance_report`, `health_check`

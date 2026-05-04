@@ -7,7 +7,7 @@ def test_init_exports_all_present():
 
 def test_version_canonical():
     """Verify version matches current release."""
-    assert hummbl_governance.__version__ == "0.7.0"
+    assert hummbl_governance.__version__ == "0.8.0"
 
 def test_new_primitives_exported():
     """Verify v0.4.0, v0.5.0, and v0.6.0 primitives are exported."""

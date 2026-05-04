@@ -23,7 +23,7 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
