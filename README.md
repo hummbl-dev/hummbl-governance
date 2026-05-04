@@ -3,17 +3,26 @@
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-673%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-784%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 
-**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 673 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 784 passing tests, and supports Python 3.11 through 3.14.
 
 ```bash
 pip install hummbl-governance
 ```
 
-## What's New in v0.6.0
+## What's New in v0.7.0
+
+- **Three MCP servers** -- expose all governance primitives as Model Context Protocol tools via stdio JSON-RPC. Zero additional dependencies.
+  - `mcp_server.py` -- 10 tools: `governance_status`, `kill_switch_status/engage/disengage`, `circuit_breaker_status`, `cost_budget_check/record_usage`, `audit_query`, `compliance_report`, `health_check`
+  - `mcp_compliance.py` -- 5 tools: `nist_map_controls`, `soc2_assess`, `iso_crosswalk`, `stride_analysis`, `compliance_evidence_export`
+  - `mcp_sandbox.py` -- 5 tools: `sandbox_create/check/validate_output/status/destroy`
+- **84 new tests** covering all MCP tool handlers and protocol-level JSON-RPC round-trips (30 + 25 + 29)
+- **784 total tests** (700 → 784)
+
+### v0.6.0 highlights
 
 - **NIST AI RMF report** (`generate_nist_rmf_report()`) -- Maps governance traces to the four core functions: GOVERN, MAP, MEASURE, MANAGE. Evidence-backed controls aligned to NIST AI 100-1 (2023).
 - **EU AI Act report** (`generate_eu_ai_act_report()`) -- Maps governance traces to Articles 9, 10, 12, 13, 14, 17 for High-Risk AI (Annex III). Includes `human_initiated` flag on KILLSWITCH events for Art.14 human oversight evidence.
@@ -134,7 +143,7 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [34](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Total: 637 tests across 25 primitives. 10/10 OWASP coverage. Zero dependencies.**
+**Total: 784 tests across 25 primitives + 3 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 
@@ -244,6 +253,66 @@ registry.register_agent("orchestrator", trust="high")
 registry.add_alias("orch-1", "orchestrator")
 registry.canonicalize("orch-1")  # -> "orchestrator"
 ```
+
+## MCP Servers
+
+hummbl-governance ships three [Model Context Protocol](https://modelcontextprotocol.io/) servers that expose governance primitives as tools to any MCP-compatible client (Claude Code, Claude Desktop, etc.).
+
+### hummbl-governance (core)
+
+```json
+{
+  "mcpServers": {
+    "hummbl-governance": {
+      "command": "python",
+      "args": ["/path/to/hummbl-governance/mcp_server.py"],
+      "env": {
+        "GOVERNANCE_STATE_DIR": "/path/to/state"
+      }
+    }
+  }
+}
+```
+
+**10 tools:** `governance_status`, `kill_switch_status`, `kill_switch_engage`, `kill_switch_disengage`, `circuit_breaker_status`, `cost_budget_check`, `cost_record_usage`, `audit_query`, `compliance_report`, `health_check`
+
+### hummbl-compliance
+
+```json
+{
+  "mcpServers": {
+    "hummbl-compliance": {
+      "command": "python",
+      "args": ["/path/to/hummbl-governance/mcp_compliance.py"],
+      "env": {
+        "GOVERNANCE_AUDIT_DIR": "/path/to/audit"
+      }
+    }
+  }
+}
+```
+
+**5 tools:** `nist_map_controls`, `soc2_assess`, `iso_crosswalk`, `stride_analysis`, `compliance_evidence_export`
+
+### agent-sandbox
+
+```json
+{
+  "mcpServers": {
+    "agent-sandbox": {
+      "command": "python",
+      "args": ["/path/to/hummbl-governance/mcp_sandbox.py"],
+      "env": {
+        "SANDBOX_STATE_DIR": "/path/to/sandbox"
+      }
+    }
+  }
+}
+```
+
+**5 tools:** `sandbox_create`, `sandbox_check`, `sandbox_validate_output`, `sandbox_status`, `sandbox_destroy`
+
+All three servers use stdio JSON-RPC and have zero third-party dependencies.
 
 ## Design Principles
 
