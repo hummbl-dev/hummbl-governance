@@ -6,13 +6,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-import pytest
 
 # Import the module under test directly
 MCP_PATH = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(MCP_PATH))
 
-import mcp_identity as mcp
+import mcp_identity as mcp  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -21,7 +20,6 @@ import mcp_identity as mcp
 
 def fresh_module():
     """Re-import to get a clean server state between test classes."""
-    import importlib
     import mcp_identity
     importlib.reload(mcp_identity)
     return mcp_identity

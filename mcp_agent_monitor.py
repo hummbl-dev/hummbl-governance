@@ -24,7 +24,6 @@ import os
 import sys
 import tempfile
 import traceback
-import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -33,12 +32,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from hummbl_governance.reward_monitor import BehaviorMonitor
 from hummbl_governance.convergence_guard import ConvergenceDetector
 from hummbl_governance.lifecycle import GovernanceLifecycle
-from hummbl_governance.evolution_lineage import EvolutionLineage, VariantRecord, ModificationRecord
+from hummbl_governance.evolution_lineage import EvolutionLineage, VariantRecord
 from hummbl_governance.kill_switch import KillSwitch
 from hummbl_governance.circuit_breaker import CircuitBreaker
 from hummbl_governance.cost_governor import CostGovernor
 from hummbl_governance.identity import AgentRegistry
-from hummbl_governance.audit_log import AuditLog
 
 SERVER_NAME = "hummbl-agent-monitor"
 SERVER_VERSION = "0.1.0"

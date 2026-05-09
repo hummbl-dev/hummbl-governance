@@ -11,7 +11,7 @@ import pytest
 MCP_PATH = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(MCP_PATH))
 
-import mcp_reasoning as mcp
+import mcp_reasoning as mcp  # noqa: E402
 
 
 def fresh_module():
