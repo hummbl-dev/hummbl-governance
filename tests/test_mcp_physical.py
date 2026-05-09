@@ -6,12 +6,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-import pytest
 
 MCP_PATH = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(MCP_PATH))
 
-import mcp_physical as mcp
+import mcp_physical as mcp  # noqa: E402
 
 
 def fresh_module():
