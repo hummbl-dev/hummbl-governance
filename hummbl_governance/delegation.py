@@ -37,100 +37,107 @@ from hummbl_governance.errors import HummblError
 logger = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True)
-class ResourceSelector:
-    """Resource selector specifying accessible resources."""
+try:
+    from hummbl_library.governance.types import (
+        Caveat,
+        DelegationToken,
+        ResourceSelector,
+        TokenBinding,
+    )
+except ImportError:
+    # Fallback for environments without hummbl-library installed
 
-    resource_type: str
-    resource_id: str = "*"
-    constraints: dict[str, Any] = field(default_factory=dict)
+    @dataclass(frozen=True)
+    class ResourceSelector:
+        """Resource selector specifying accessible resources."""
 
+        resource_type: str
+        resource_id: str = "*"
+        constraints: dict[str, Any] = field(default_factory=dict)
 
-@dataclass(frozen=True)
-class Caveat:
-    """Caveat constraining capability use."""
+    @dataclass(frozen=True)
+    class Caveat:
+        """Caveat constraining capability use."""
 
-    caveat_id: str
-    type: Literal["TIME_BOUND", "RATE_LIMIT", "APPROVAL_REQUIRED", "AUDIT_REQUIRED"]
-    parameters: dict[str, Any] = field(default_factory=dict)
+        caveat_id: str
+        type: Literal["TIME_BOUND", "RATE_LIMIT", "APPROVAL_REQUIRED", "AUDIT_REQUIRED"]
+        parameters: dict[str, Any] = field(default_factory=dict)
 
+    @dataclass(frozen=True)
+    class TokenBinding:
+        """Binding linking a token to a specific task and contract."""
 
-@dataclass(frozen=True)
-class TokenBinding:
-    """Binding linking a token to a specific task and contract."""
+        task_id: str
+        contract_id: str
 
-    task_id: str
-    contract_id: str
+    @dataclass(frozen=True)
+    class DelegationToken:
+        """HMAC-SHA256 signed delegation capability token.
 
+        Immutable after creation (frozen dataclass).
+        """
 
-@dataclass(frozen=True)
-class DelegationToken:
-    """HMAC-SHA256 signed delegation capability token.
+        token_id: str
+        issuer: str
+        subject: str
+        resource_selectors: tuple[ResourceSelector, ...] = field(default_factory=tuple)
+        ops_allowed: tuple[str, ...] = field(default_factory=tuple)
+        caveats: tuple[Caveat, ...] = field(default_factory=tuple)
+        expiry: str | None = None
+        binding: TokenBinding | None = None
+        signature: str = ""
 
-    Immutable after creation (frozen dataclass).
-    """
+        def to_dict(self) -> dict[str, Any]:
+            """Serialize token to dictionary (excluding signature for signing)."""
+            return {
+                "token_id": self.token_id,
+                "issuer": self.issuer,
+                "subject": self.subject,
+                "resource_selectors": [
+                    {
+                        "resource_type": r.resource_type,
+                        "resource_id": r.resource_id,
+                        "constraints": r.constraints,
+                    }
+                    for r in self.resource_selectors
+                ],
+                "ops_allowed": list(self.ops_allowed),
+                "caveats": [
+                    {"caveat_id": c.caveat_id, "type": c.type, "parameters": c.parameters}
+                    for c in self.caveats
+                ],
+                "expiry": self.expiry,
+                "binding": (
+                    {"task_id": self.binding.task_id, "contract_id": self.binding.contract_id}
+                    if self.binding
+                    else None
+                ),
+            }
 
-    token_id: str
-    issuer: str
-    subject: str
-    resource_selectors: tuple[ResourceSelector, ...] = field(default_factory=tuple)
-    ops_allowed: tuple[str, ...] = field(default_factory=tuple)
-    caveats: tuple[Caveat, ...] = field(default_factory=tuple)
-    expiry: str | None = None
-    binding: TokenBinding | None = None
-    signature: str = ""
+        def verify_signature(self, secret: bytes) -> bool:
+            """Verify HMAC-SHA256 signature matches token content."""
+            expected = _compute_signature(self.to_dict(), secret)
+            return hmac.compare_digest(self.signature, expected)
 
-    def to_dict(self) -> dict[str, Any]:
-        """Serialize token to dictionary (excluding signature for signing)."""
-        return {
-            "token_id": self.token_id,
-            "issuer": self.issuer,
-            "subject": self.subject,
-            "resource_selectors": [
-                {
-                    "resource_type": r.resource_type,
-                    "resource_id": r.resource_id,
-                    "constraints": r.constraints,
-                }
-                for r in self.resource_selectors
-            ],
-            "ops_allowed": list(self.ops_allowed),
-            "caveats": [
-                {"caveat_id": c.caveat_id, "type": c.type, "parameters": c.parameters}
-                for c in self.caveats
-            ],
-            "expiry": self.expiry,
-            "binding": (
-                {"task_id": self.binding.task_id, "contract_id": self.binding.contract_id}
-                if self.binding
-                else None
-            ),
-        }
+        def is_expired(self) -> bool:
+            """Check if token has expired."""
+            if self.expiry is None:
+                return False
+            try:
+                expiry_dt = datetime.fromisoformat(self.expiry.replace("Z", "+00:00"))
+                return datetime.now(timezone.utc) > expiry_dt
+            except (ValueError, TypeError):
+                return True
 
-    def verify_signature(self, secret: bytes) -> bool:
-        """Verify HMAC-SHA256 signature matches token content."""
-        expected = _compute_signature(self.to_dict(), secret)
-        return hmac.compare_digest(self.signature, expected)
-
-    def is_expired(self) -> bool:
-        """Check if token has expired."""
-        if self.expiry is None:
-            return False
-        try:
-            expiry_dt = datetime.fromisoformat(self.expiry.replace("Z", "+00:00"))
-            return datetime.now(timezone.utc) > expiry_dt
-        except (ValueError, TypeError):
-            return True
-
-    def validate_binding(self, task_id: str, contract_id: str, subject: str) -> bool:
-        """Validate token is bound to expected task/contract/subject."""
-        if self.binding is None:
-            return False
-        return (
-            self.binding.task_id == task_id
-            and self.binding.contract_id == contract_id
-            and self.subject == subject
-        )
+        def validate_binding(self, task_id: str, contract_id: str, subject: str) -> bool:
+            """Validate token is bound to expected task/contract/subject."""
+            if self.binding is None:
+                return False
+            return (
+                self.binding.task_id == task_id
+                and self.binding.contract_id == contract_id
+                and self.subject == subject
+            )
 
 
 # Error code shorthands — resolved from the unified HummblError enum.

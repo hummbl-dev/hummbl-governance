@@ -33,16 +33,19 @@ from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable
 
+try:
+    from hummbl_library.governance.types import KillSwitchMode
+except ImportError:
+    # Fallback for environments without hummbl-library installed
+    class KillSwitchMode(Enum):
+        """Kill switch engagement modes."""
+
+        DISENGAGED = auto()
+        HALT_NONCRITICAL = auto()
+        HALT_ALL = auto()
+        EMERGENCY = auto()
+
 logger = logging.getLogger(__name__)
-
-
-class KillSwitchMode(Enum):
-    """Kill switch engagement modes."""
-
-    DISENGAGED = auto()
-    HALT_NONCRITICAL = auto()
-    HALT_ALL = auto()
-    EMERGENCY = auto()
 
 
 @dataclass(frozen=True)

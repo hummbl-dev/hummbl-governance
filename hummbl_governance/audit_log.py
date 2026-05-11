@@ -54,59 +54,64 @@ TUPLE_TYPES = ("DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM")
 TupleType = Literal["DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM"]
 
 
-@dataclass(frozen=True)
-class AuditEntry:
-    """Single entry in the governance audit log."""
+try:
+    from hummbl_library.governance.types import AuditEntry
+except ImportError:
+    # Fallback for environments without hummbl-library installed
 
-    timestamp: str
-    entry_id: str
-    intent_id: str
-    task_id: str
-    tuple_type: str
-    tuple_data: dict[str, Any]
-    signature: str | None = None
-    contract_id: str | None = None
-    capability_token_id: str | None = None
-    verification_id: str | None = None
-    amendment_of: str | None = None
+    @dataclass(frozen=True)
+    class AuditEntry:
+        """Single entry in the governance audit log."""
 
-    def to_jsonl(self) -> str:
-        """Serialize to JSONL line."""
-        data: dict[str, Any] = {
-            "timestamp": self.timestamp,
-            "entry_id": self.entry_id,
-            "intent_id": self.intent_id,
-            "task_id": self.task_id,
-            "tuple_type": self.tuple_type,
-            "tuple_data": self.tuple_data,
-            "signature": self.signature,
-        }
-        if self.contract_id is not None:
-            data["contract_id"] = self.contract_id
-        if self.capability_token_id is not None:
-            data["capability_token_id"] = self.capability_token_id
-        if self.verification_id is not None:
-            data["verification_id"] = self.verification_id
-        if self.amendment_of is not None:
-            data["amendment_of"] = self.amendment_of
-        return json.dumps(data, sort_keys=True, separators=(",", ":"))
+        timestamp: str
+        entry_id: str
+        intent_id: str
+        task_id: str
+        tuple_type: str
+        tuple_data: dict[str, Any]
+        signature: str | None = None
+        contract_id: str | None = None
+        capability_token_id: str | None = None
+        verification_id: str | None = None
+        amendment_of: str | None = None
 
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> AuditEntry:
-        """Deserialize from dictionary."""
-        return cls(
-            timestamp=data["timestamp"],
-            entry_id=data["entry_id"],
-            intent_id=data["intent_id"],
-            task_id=data["task_id"],
-            tuple_type=data["tuple_type"],
-            tuple_data=data["tuple_data"],
-            signature=data.get("signature"),
-            contract_id=data.get("contract_id"),
-            capability_token_id=data.get("capability_token_id"),
-            verification_id=data.get("verification_id"),
-            amendment_of=data.get("amendment_of"),
-        )
+        def to_jsonl(self) -> str:
+            """Serialize to JSONL line."""
+            data: dict[str, Any] = {
+                "timestamp": self.timestamp,
+                "entry_id": self.entry_id,
+                "intent_id": self.intent_id,
+                "task_id": self.task_id,
+                "tuple_type": self.tuple_type,
+                "tuple_data": self.tuple_data,
+                "signature": self.signature,
+            }
+            if self.contract_id is not None:
+                data["contract_id"] = self.contract_id
+            if self.capability_token_id is not None:
+                data["capability_token_id"] = self.capability_token_id
+            if self.verification_id is not None:
+                data["verification_id"] = self.verification_id
+            if self.amendment_of is not None:
+                data["amendment_of"] = self.amendment_of
+            return json.dumps(data, sort_keys=True, separators=(",", ":"))
+
+        @classmethod
+        def from_dict(cls, data: dict[str, Any]) -> AuditEntry:
+            """Deserialize from dictionary."""
+            return cls(
+                timestamp=data["timestamp"],
+                entry_id=data["entry_id"],
+                intent_id=data["intent_id"],
+                task_id=data["task_id"],
+                tuple_type=data["tuple_type"],
+                tuple_data=data["tuple_data"],
+                signature=data.get("signature"),
+                contract_id=data.get("contract_id"),
+                capability_token_id=data.get("capability_token_id"),
+                verification_id=data.get("verification_id"),
+                amendment_of=data.get("amendment_of"),
+            )
 
 
 class AuditLog:
