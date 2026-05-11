@@ -51,35 +51,39 @@ MAX_PAYLOAD_FIELDS = 64
 # ---------------------------------------------------------------------------
 
 
-class PolicyLevel(Enum):
-    """Security policy levels for bus message validation.
+try:
+    from hummbl_library.bus.types import PolicyLevel
+except ImportError:
+    # Fallback for environments without hummbl-library installed
+    class PolicyLevel(Enum):
+        """Security policy levels for bus message validation.
 
-    Levels are ordered by strictness: PERMISSIVE < WARN < STRICT.
-    """
+        Levels are ordered by strictness: PERMISSIVE < WARN < STRICT.
+        """
 
-    PERMISSIVE = 1  # Accept all messages, no validation
-    WARN = 2  # Accept all, log warnings for unsigned
-    STRICT = 3  # Reject unsigned messages
+        PERMISSIVE = 1  # Accept all messages, no validation
+        WARN = 2  # Accept all, log warnings for unsigned
+        STRICT = 3  # Reject unsigned messages
 
-    def __lt__(self, other: object) -> bool:
-        if not isinstance(other, PolicyLevel):
-            return NotImplemented
-        return self.value < other.value
+        def __lt__(self, other: object) -> bool:
+            if not isinstance(other, PolicyLevel):
+                return NotImplemented
+            return self.value < other.value
 
-    def __le__(self, other: object) -> bool:
-        if not isinstance(other, PolicyLevel):
-            return NotImplemented
-        return self.value <= other.value
+        def __le__(self, other: object) -> bool:
+            if not isinstance(other, PolicyLevel):
+                return NotImplemented
+            return self.value <= other.value
 
-    def __gt__(self, other: object) -> bool:
-        if not isinstance(other, PolicyLevel):
-            return NotImplemented
-        return self.value > other.value
+        def __gt__(self, other: object) -> bool:
+            if not isinstance(other, PolicyLevel):
+                return NotImplemented
+            return self.value > other.value
 
-    def __ge__(self, other: object) -> bool:
-        if not isinstance(other, PolicyLevel):
-            return NotImplemented
-        return self.value >= other.value
+        def __ge__(self, other: object) -> bool:
+            if not isinstance(other, PolicyLevel):
+                return NotImplemented
+            return self.value >= other.value
 
 
 # ---------------------------------------------------------------------------

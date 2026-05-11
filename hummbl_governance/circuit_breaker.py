@@ -26,15 +26,18 @@ import time
 from enum import Enum, auto
 from typing import Any, Callable, Optional
 
+try:
+    from hummbl_library.governance.types import CircuitBreakerState
+except ImportError:
+    # Fallback for environments without hummbl-library installed
+    class CircuitBreakerState(Enum):
+        """Circuit breaker states."""
+
+        CLOSED = auto()
+        OPEN = auto()
+        HALF_OPEN = auto()
+
 logger = logging.getLogger(__name__)
-
-
-class CircuitBreakerState(Enum):
-    """Circuit breaker states."""
-
-    CLOSED = auto()
-    OPEN = auto()
-    HALF_OPEN = auto()
 
 
 class CircuitBreakerOpen(Exception):
