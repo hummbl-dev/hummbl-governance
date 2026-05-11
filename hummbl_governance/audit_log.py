@@ -96,22 +96,22 @@ except ImportError:
                 data["amendment_of"] = self.amendment_of
             return json.dumps(data, sort_keys=True, separators=(",", ":"))
 
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> AuditEntry:
-        """Deserialize from dictionary."""
-        return cls(
-            timestamp=data["timestamp"],
-            entry_id=data["entry_id"],
-            intent_id=data["intent_id"],
-            task_id=data["task_id"],
-            tuple_type=data["tuple_type"],
-            tuple_data=data["tuple_data"],
-            signature=data.get("signature"),
-            contract_id=data.get("contract_id"),
-            capability_token_id=data.get("capability_token_id"),
-            verification_id=data.get("verification_id"),
-            amendment_of=data.get("amendment_of"),
-        )
+        @classmethod
+        def from_dict(cls, data: dict[str, Any]) -> AuditEntry:
+            """Deserialize from dictionary."""
+            return cls(
+                timestamp=data["timestamp"],
+                entry_id=data["entry_id"],
+                intent_id=data["intent_id"],
+                task_id=data["task_id"],
+                tuple_type=data["tuple_type"],
+                tuple_data=data["tuple_data"],
+                signature=data.get("signature"),
+                contract_id=data.get("contract_id"),
+                capability_token_id=data.get("capability_token_id"),
+                verification_id=data.get("verification_id"),
+                amendment_of=data.get("amendment_of"),
+            )
 
 
 class AuditLog:
