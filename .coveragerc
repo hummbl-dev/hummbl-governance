@@ -1,0 +1,13 @@
+[run]
+source = hummbl_governance
+omit =
+    tests/*
+    */tests/*
+    demo/*
+    */demo/*
+    examples/*
+    */examples/*
+
+[report]
+show_missing = true
+skip_covered = true
