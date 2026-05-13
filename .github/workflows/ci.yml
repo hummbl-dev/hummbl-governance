@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[test]"
-      - run: python -m pytest tests/ -v
+      - run: python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
 
   install-smoke:
     name: install-smoke (${{ matrix.os }}, ${{ matrix.python-version }})
