@@ -225,3 +225,22 @@ def test_readme_fleet_totals_match_script_output():
     assert int(m.group("unmarked")) == fleet_unmarked, (
         f"README fleet Unmarked={m.group('unmarked')} vs counted={fleet_unmarked}"
     )
+
+
+def test_readme_narrative_totals_match_script_output():
+    """Narrative count sentence must not drift from generated fleet counts."""
+    readme = (COVERAGE_DIR / "README.md").read_text(encoding="utf-8")
+    narrative_re = re.compile(
+        r"The \*\*(?P<fulfilled>\d+) ✅ Fulfilled\*\* rows.*?"
+        r"The \*\*(?P<partial>\d+) 🟡 Partial\*\* rows.*?"
+        r"The \*\*(?P<boundary>\d+) ⚪ Boundary\*\* rows",
+    )
+    match = narrative_re.search(readme)
+    assert match, "README narrative count sentence not found"
+
+    data = _run_counter()
+    fleet = data["fleet_totals"]
+
+    assert int(match.group("fulfilled")) == fleet["✅"]
+    assert int(match.group("partial")) == fleet["🟡"]
+    assert int(match.group("boundary")) == fleet["⚪"]
