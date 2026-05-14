@@ -45,7 +45,7 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 5 | Principles relating to processing — lawfulness, fairness, transparency, purpose limitation, data minimisation, accuracy, storage limitation, integrity & confidentiality, accountability | ✅ INTENT tuples capture purpose; data-governance tuples track minimisation + accuracy + retention; integrity via HMAC-signed entries; accountability via append-only governance bus. | `cognition/ledger_writer.py`, INTENT/DATASET tuple schemas |
+| Art. 5 | Principles relating to processing — lawfulness, fairness, transparency, purpose limitation, data minimisation, accuracy, storage limitation, integrity & confidentiality, accountability | ✅ INTENT tuples capture purpose; data-governance tuples track minimisation + accuracy + retention; integrity via HMAC-signed entries; accountability via append-only governance bus. | `hummbl_governance/audit_log.py`, INTENT/DATASET tuple schemas |
 | Art. 6 | Lawfulness of processing — one of 6 lawful bases must apply (consent, contract, legal obligation, vital interests, public task, legitimate interests) | 🟡 Partial: lawful-basis tuple type records which Art. 6(1) basis applies per processing activity. Determination of basis is controller-org decision. | lawful-basis tuple schema |
 | Art. 7 | Conditions for consent — demonstrable, distinguishable, withdrawable, freely given | ✅ Consent-record tuples capture timestamp + scope + withdrawal-link. Append-only, so consent history is provable. | consent-record tuple schema |
 | Art. 8 | Conditions applicable to child's consent (information society services) | 🟡 Partial: age-verification tuple type for under-16 cases; parental-consent capture. Age threshold per Member State is controller-org configuration. | age-verification + parental-consent tuples |
@@ -63,9 +63,9 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 13 | Information to be provided where data collected from data subject | ✅ Privacy-notice generator from data-flow tuples per processing activity. | `compliance_mapper --export privacy-notice` |
+| Art. 13 | Information to be provided where data collected from data subject | ✅ Privacy-notice generator from data-flow tuples per processing activity. | `[DRAFT — planned per ADR-001] compliance_mapper --export privacy-notice` |
 | Art. 14 | Information to be provided where data NOT obtained from data subject (within 1 month) | ✅ Indirect-collection privacy-notice + 1-month-window tracker. | privacy-notice + notification SLA |
-| Art. 15 | Right of access — confirmation of processing, copy of personal data, processing details | ✅ DSAR (data subject access request) export — generates copy of personal data + Art. 15 disclosures from governance bus. | `compliance_mapper --export dsar --subject <id>` |
+| Art. 15 | Right of access — confirmation of processing, copy of personal data, processing details | ✅ DSAR (data subject access request) export — generates copy of personal data + Art. 15 disclosures from governance bus. | `[DRAFT — planned per ADR-001] compliance_mapper --export dsar --subject <id>` |
 
 ### Section 3 — Rectification and erasure (Art. 16–20)
 
@@ -75,7 +75,7 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 | Art. 17 | Right to erasure ('right to be forgotten') — 6 grounds, 5 exceptions | ✅ Erasure tuple + tombstone pattern. Append-only governance bus preserves audit trail (Art. 17(3)(b) exception for legal claims); query layer suppresses subject's PII per erasure record. | erasure tuple + tombstone |
 | Art. 18 | Right to restriction of processing | ✅ Restriction-flag tuple — processing primitives consult flag and block on match. | restriction-flag tuple |
 | Art. 19 | Notification obligation regarding rectification or erasure or restriction | ✅ Downstream-notification tuples — when controller has shared data with third parties (per DCT delegation chain), erasure/rectification events propagate via signed notifications. | notification fan-out via DCT chain |
-| Art. 20 | Right to data portability — receive in structured, commonly used, machine-readable format; transmit to another controller | ✅ Portability export — JSON/CSV format per Art. 20(1). Direct controller-to-controller transmission per Art. 20(2) where technically feasible. | `compliance_mapper --export portability --subject <id>` |
+| Art. 20 | Right to data portability — receive in structured, commonly used, machine-readable format; transmit to another controller | ✅ Portability export — JSON/CSV format per Art. 20(1). Direct controller-to-controller transmission per Art. 20(2) where technically feasible. | `[DRAFT — planned per ADR-001] compliance_mapper --export portability --subject <id>` |
 
 ### Section 4 — Right to object (Art. 21–22)
 
@@ -98,10 +98,10 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 | Art. 25 | Data protection by design and by default — Art. 25(1) embed at design time; Art. 25(2) defaults minimise data | ✅ Tuple schemas enforce minimisation (only declared fields accepted); INTENT tuples document design-time consideration. | tuple schemas + INTENT chain |
 | Art. 26 | Joint controllers — arrangement transparently determined | 🟡 Partial: joint-controller tuple type captures arrangement metadata; arrangement-doc authorship is org responsibility. | joint-controller tuple |
 | Art. 27 | Representatives of controllers/processors not established in EU | ⚪ Boundary: corporate-legal designation |
-| Art. 28 | Processor — binding contract per Art. 28(3); processing only on documented instructions | 🟡 Partial: DCT tuples (delegation tokens) implement Art. 28(3) instruction discipline — processor scope cryptographically bound. DPA contract is legal artifact, separate from technical primitive. | `services/delegation_token.py` for instruction binding |
-| Art. 29 | Processing under the authority of the controller or processor | ✅ DCT chain enforces — no processing without authorising delegation. | `delegation_context.py` |
-| Art. 30 | Records of processing activities — Art. 30(1) controllers, Art. 30(2) processors; maintain in writing including electronic | ✅ Governance bus IS the Art. 30 record. Required fields (name, contact, purposes, categories, recipients, transfers, retention, security measures) generated from tuple aggregations. | `compliance_mapper --export art-30-records` |
-| Art. 31 | Cooperation with the supervisory authority | ✅ Export-on-demand per Art. 21 (mirroring EU AI Act). | `compliance_mapper --export authority-bundle` |
+| Art. 28 | Processor — binding contract per Art. 28(3); processing only on documented instructions | 🟡 Partial: DCT tuples (delegation tokens) implement Art. 28(3) instruction discipline — processor scope cryptographically bound. DPA contract is legal artifact, separate from technical primitive. | `hummbl_governance/delegation.py` for instruction binding |
+| Art. 29 | Processing under the authority of the controller or processor | ✅ DCT chain enforces — no processing without authorising delegation. | `hummbl_governance/delegation.py` |
+| Art. 30 | Records of processing activities — Art. 30(1) controllers, Art. 30(2) processors; maintain in writing including electronic | ✅ Governance bus IS the Art. 30 record. Required fields (name, contact, purposes, categories, recipients, transfers, retention, security measures) generated from tuple aggregations. | `[DRAFT — planned per ADR-001] compliance_mapper --export art-30-records` |
+| Art. 31 | Cooperation with the supervisory authority | ✅ Export-on-demand per Art. 21 (mirroring EU AI Act). | `[DRAFT — planned per ADR-001] compliance_mapper --export authority-bundle` |
 
 ### Section 2 — Security of personal data (Art. 32–34)
 
@@ -115,7 +115,7 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 35 | DPIA — required for high-risk processing (Art. 35(3): solely-automated decisions, large-scale special-category, large-scale public monitoring); content per Art. 35(7) | 🟡 Partial: DPIA template + evidence-bundle generator pulling from governance bus. Authorship of risk assessment is controller-org responsibility. | `compliance_mapper --export dpia-template --activity <id>` |
+| Art. 35 | DPIA — required for high-risk processing (Art. 35(3): solely-automated decisions, large-scale special-category, large-scale public monitoring); content per Art. 35(7) | 🟡 Partial: DPIA template + evidence-bundle generator pulling from governance bus. Authorship of risk assessment is controller-org responsibility. | `[DRAFT — planned per ADR-001] compliance_mapper --export dpia-template --activity <id>` |
 | Art. 36 | Prior consultation — controller shall consult supervisory authority where DPIA indicates high residual risk | ⚪ Boundary: authority engagement is controller-org responsibility |
 
 ### Section 4 — DPO (Art. 37–39)

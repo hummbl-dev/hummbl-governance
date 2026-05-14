@@ -23,7 +23,7 @@ Local Law 144 applies to employers + employment agencies using "automated employ
 |---|---|---|
 | AEDT shall not be used unless bias audit conducted within 1 year prior | 🟡 Partial: audit-cadence tuple + scheduling primitive; independent audit engagement is org responsibility |
 | Audit summary made publicly available on employer/agency website | 🟡 Partial: audit-result tuple + publication primitive; publication action is org task |
-| Audit must include: selection rates per category, impact ratios per category, number of individuals assessed | ✅ Selection-rate + impact-ratio + assessment-count metrics computed from governance bus | `compliance_mapper --export ll144-bias-audit-data` |
+| Audit must include: selection rates per category, impact ratios per category, number of individuals assessed | ✅ Selection-rate + impact-ratio + assessment-count metrics computed from governance bus | `[DRAFT — planned per ADR-001] compliance_mapper --export ll144-bias-audit-data` |
 | Audit summary must include date of audit, source + explanation of data used, categories assessed | ✅ Audit-metadata tuple captures all 3 fields | audit-metadata schema |
 
 ### Candidate notice (§ 20-870(c))
@@ -32,7 +32,7 @@ Local Law 144 applies to employers + employment agencies using "automated employ
 |---|---|---|
 | Notice to candidate residing in NYC at least 10 business days before AEDT use — that AEDT will be used + job qualifications + characteristics AEDT uses | ✅ Pre-AEDT notification primitive + 10-business-day SLA tracker | candidate-notice tuple |
 | Allow candidate to request alternative selection process or accommodation | ✅ Alternative-process tuple + accommodation request primitive | alternative-process schema |
-| Information about data type + source + retention policy | ✅ Data-disclosure generator | `compliance_mapper --export ll144-data-disclosure` |
+| Information about data type + source + retention policy | ✅ Data-disclosure generator | `[DRAFT — planned per ADR-001] compliance_mapper --export ll144-data-disclosure` |
 
 ### Audit data + retention
 

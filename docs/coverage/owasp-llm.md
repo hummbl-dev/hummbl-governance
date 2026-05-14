@@ -41,7 +41,7 @@ OWASP LLM Top 10 is a **risk catalog**, not a regulation. No certification. Cove
 - ✅ kill_switch_core: 4-mode halt available for runaway agent behavior
 - 🟡 Application-layer: prompt template hardening, content-filtering, jailbreak-detection — product/app responsibility
 
-**Evidence**: `services/kill_switch_core.py`, `delegation_token.py`, INTENT-deviation detection tuples
+**Evidence**: `hummbl_governance/kill_switch.py`, `hummbl_governance/delegation.py`, INTENT-deviation detection tuples
 
 ### LLM02:2025 — Sensitive Information Disclosure ✅
 
@@ -101,7 +101,7 @@ OWASP LLM Top 10 is a **risk catalog**, not a regulation. No certification. Cove
 - ✅ Human-in-the-loop required for INTENT classes outside delegation scope
 - ✅ kill_switch_core 4-mode halt for runaway agency
 
-**Evidence**: `services/delegation_token.py`, `services/kill_switch_core.py`, depth-limit constants
+**Evidence**: `hummbl_governance/delegation.py`, `hummbl_governance/kill_switch.py`, depth-limit constants
 
 ### LLM07:2025 — System Prompt Leakage ✅
 
@@ -145,10 +145,10 @@ OWASP LLM Top 10 is a **risk catalog**, not a regulation. No certification. Cove
 **HUMMBL coverage**:
 - ✅ Circuit-breaker primitives (CLOSED/HALF_OPEN/OPEN) per integration
 - ✅ Rate-limit + token-budget primitives per DCT
-- ✅ Cost-tracker integration (cross-ref `integrations/cost_tracker.py`)
+- ✅ Cost-governor integration (cross-ref `hummbl_governance/cost_governor.py`)
 - ✅ kill_switch_core HALT_NONCRITICAL mode for cost runaway
 
-**Evidence**: `services/circuit_breaker.py`, `integrations/cost_tracker.py`, kill-switch modes
+**Evidence**: `hummbl_governance/circuit_breaker.py`, `hummbl_governance/cost_governor.py`, kill-switch modes
 
 ---
 
