@@ -30,6 +30,8 @@ def count_rows(path: Path) -> dict:
 
     counts = {s: 0 for s in STATES}
     data_row_count = 0
+    unmarked_rows = 0
+    multi_glyph_rows: list[int] = []  # line numbers where a row has >1 glyph
 
     i = 0
     while i < n:
@@ -60,24 +62,49 @@ def count_rows(path: Path) -> dict:
         ):
             i += 1
             continue
-        # Skip the chapter/section breakdown rows in summary tables, which have
-        # multiple integer cells but represent breakdown, not data. Heuristic:
-        # if the line has a state glyph in a body cell (not in cell 0 alone),
-        # it's a data row. Summary breakdown rows typically have integers in
-        # cells 2+ but no inline state glyphs.
-        has_glyph = any(state in line for state in STATES)
-        if not has_glyph:
+        # Skip summary breakdown rows: rows with 3+ integer-only cells
+        # (possibly bolded). Aggregate tables either look like
+        # "| Model AI Governance | 4 | 2 | 2 | 0 |" (1 label + integer
+        # cells) or "| I | General provisions | Art. 1–4 | 0 | 0 | 4 | 0 |"
+        # (multiple label cells + integer cells). Either way, ≥3 integer
+        # cells in a row is the summary-table fingerprint.
+        def _is_int_cell(c: str) -> bool:
+            c = c.strip().strip("*").strip()
+            return c.isdigit() or (c.startswith("-") and c[1:].isdigit())
+
+        int_cell_count = sum(1 for c in cells if _is_int_cell(c))
+        if int_cell_count >= 3:
             i += 1
             continue
-        # Count occurrences in this row
+
+        # Data-row classification:
+        # - A row with no state glyph at all is an UNMARKED data row. Per
+        #   issue #30 acceptance criterion 4 ("Flag unmarked rows"), these
+        #   are counted but tracked separately so the deletion-as-shortcut
+        #   path is visible.
+        # - A row with multiple state glyphs is ambiguous (one row, one
+        #   state per ADR-001 row invariant); we count it once toward the
+        #   FIRST state present and record the line number for review.
+        glyphs_present = [s for s in STATES if s in line]
         data_row_count += 1
-        for state in STATES:
-            counts[state] += line.count(state)
+        if not glyphs_present:
+            unmarked_rows += 1
+            i += 1
+            continue
+        if len(glyphs_present) > 1:
+            multi_glyph_rows.append(i + 1)
+        # One row, one state — fix from peer P1 (Goodhart channel). The
+        # earlier `line.count(state)` form let a row with `| ✅ ✅ ✅ |` tally
+        # as 3 toward ✅, gradient-tilting toward glyph addition rather than
+        # coverage improvement.
+        counts[glyphs_present[0]] += 1
         i += 1
 
     return {
         "path": str(path),
         "rows_counted": data_row_count,
+        "unmarked_rows": unmarked_rows,
+        "multi_glyph_rows": multi_glyph_rows,
         "counts": counts,
         "total_markers": sum(counts.values()),
     }
