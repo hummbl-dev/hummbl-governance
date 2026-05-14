@@ -59,10 +59,27 @@ The **259 ✅ Fulfilled** rows concentrate in the technical / measurement / acce
 - Standards updates trigger matrix re-review (annual minimum, on-publication for binding-law updates)
 - New frameworks added by appending to this index and creating `<slug>.md` under `docs/coverage/` per ADR-001
 
+## Evidence validation
+
+For each Fulfilled (✅) row, the Evidence cell should point to a runnable command or resolvable artifact. The validator surfaces row-level hardening gaps:
+
+```bash
+# validate one matrix
+python -m hummbl_governance.compliance_mapper --validate docs/coverage/eu-ai-act.md
+
+# regenerate the fleet-wide report
+python scripts/build_evidence_validation_report.py
+```
+
+Current state: [`EVIDENCE_VALIDATION.md`](./EVIDENCE_VALIDATION.md) · machine-readable [`EVIDENCE_VALIDATION.json`](./EVIDENCE_VALIDATION.json)
+
+A row is **validated** when ALL of its evidence references resolve to an existing artifact OR to a documented Tier-2/EXTERNAL marker (see `_MODULE_ALIASES` in `hummbl_governance/compliance_mapper.py`). Validated coverage is the gate for promoting matrices from DRAFT scaffolds to public claim support.
+
 ## Related artifacts
 
 - [ADR-001 — Coverage matrix, not self-grade](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-- [Compliance-mapper module](../../hummbl_governance/compliance_mapper.py) — runtime evidence generators
+- [Evidence Validation Report](./EVIDENCE_VALIDATION.md) — current hardening state per matrix
+- [Compliance-mapper module](../../hummbl_governance/compliance_mapper.py) — runtime evidence generators + matrix validator
 - Prior partial mapping docs (now starter material, superseded by the matrices above):
   - [`docs/gdpr-mapping.md`](../gdpr-mapping.md)
   - [`docs/iso27001-mapping.md`](../iso27001-mapping.md)

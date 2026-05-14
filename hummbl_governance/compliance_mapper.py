@@ -45,6 +45,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -782,8 +783,27 @@ def main(argv: list[str] | None = None) -> int:
         "--dir", type=str, default="governance", help="Governance directory"
     )
     parser.add_argument("--output", type=str, help="Output JSON file path")
+    parser.add_argument(
+        "--validate", type=str, metavar="MATRIX.md",
+        help="Validate a coverage matrix .md file and report pass/fail per cell",
+    )
+    parser.add_argument(
+        "--repo-root", type=str, default=".",
+        help="Repository root for resolving relative evidence paths (default: CWD)",
+    )
+    parser.add_argument(
+        "--validate-json", action="store_true",
+        help="Output validation results as JSON instead of terminal table",
+    )
 
     args = parser.parse_args(argv)
+
+    if args.validate:
+        return _validate_matrix(
+            args.validate,
+            repo_root=args.repo_root,
+            json_output=args.validate_json,
+        )
 
     mapper = ComplianceMapper(governance_dir=Path(args.dir))
     if args.framework == "gdpr":
@@ -810,6 +830,311 @@ def main(argv: list[str] | None = None) -> int:
         print(json_output)
 
     return 0
+
+
+# Module alias map: legacy reference paths (founder-mode services/ layout)
+# mapped to canonical paths in the standalone hummbl-governance package.
+# Origin: matrices were authored against founder-mode layout; primitives
+# extracted to standalone package use different module names.
+_MODULE_ALIASES: dict[str, str] = {
+    # kill switch
+    "services/kill_switch_core.py": "hummbl_governance/kill_switch.py",
+    "services/kill_switch.py": "hummbl_governance/kill_switch.py",
+    "kill_switch_core.py": "hummbl_governance/kill_switch.py",
+    # circuit breaker
+    "services/circuit_breaker.py": "hummbl_governance/circuit_breaker.py",
+    # delegation
+    "services/delegation_token.py": "hummbl_governance/delegation.py",
+    "services/delegation_context.py": "hummbl_governance/delegation.py",
+    "delegation_context.py": "hummbl_governance/delegation.py",
+    "delegation_token.py": "hummbl_governance/delegation.py",
+    # governance bus
+    "services/governance_bus.py": "hummbl_governance/coordination_bus.py",
+    "governance_bus.py": "hummbl_governance/coordination_bus.py",
+    # cognition ledger
+    "cognition/ledger_writer.py": "hummbl_governance/audit_log.py",
+    # external state surfaces (referenced for evidence; not files in this repo)
+    "_state/coordination/messages.tsv": "EXTERNAL:founder-mode/_state/coordination/messages.tsv",
+    "_state/cognition/ledger.jsonl": "EXTERNAL:founder-mode/_state/cognition/ledger.jsonl",
+    # services that exist as Tier-2 admission packets (NOT shipped code)
+    "services/c2pa_mcp": "TIER2_ADMITTED:services/c2pa_mcp (Tier-2 packet, not shipped)",
+    "services/incident_reporting": "TIER2_ADMITTED:services/incident_reporting (Tier-2 packet, not shipped)",
+}
+
+
+# Coverage state glyphs (from docs/coverage/README.md legend)
+_STATE_FULFILLED = "\u2705"  # green check
+_STATE_PARTIAL = "\U0001f7e1"  # yellow circle
+_STATE_BOUNDARY = "\u26aa"  # white circle
+_STATE_OUT_OF_SCOPE = "\u26d4"  # no-entry
+_ALL_STATES = (_STATE_FULFILLED, _STATE_PARTIAL, _STATE_BOUNDARY, _STATE_OUT_OF_SCOPE)
+
+
+def _parse_matrix_rows(text: str) -> list[dict]:
+    """Parse markdown coverage-matrix data rows.
+
+    Returns a list of dicts: {state, control_id, requirement, coverage, evidence, line_no}.
+    Skips legend tables (header contains 'Glyph'+'State'), summary tables
+    (header contains 'Chapter' or 'Section'+'Title'), and separator rows.
+    Only matrix data rows are yielded \u2014 those containing one of the
+    four state glyphs in any cell.
+    """
+    rows: list[dict] = []
+    lines = text.split("\n")
+    in_legend = False
+    in_summary = False
+    for idx, line in enumerate(lines, start=1):
+        stripped = line.strip()
+        if not stripped.startswith("|"):
+            in_legend = False
+            in_summary = False
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        if not cells:
+            continue
+        header_join = " ".join(cells).lower()
+        if "glyph" in header_join and "state" in header_join:
+            in_legend = True
+            continue
+        if "chapter" in header_join or ("section" in header_join and "title" in header_join):
+            in_summary = True
+            continue
+        # Separator row
+        if all(set(c) <= set("-: ") for c in cells if c):
+            continue
+        if in_legend or in_summary:
+            continue
+        if len(cells) < 3:
+            continue
+        state = None
+        coverage_idx = None
+        for i, c in enumerate(cells):
+            for g in _ALL_STATES:
+                if g in c:
+                    state = g
+                    coverage_idx = i
+                    break
+            if state:
+                break
+        if state is None:
+            continue
+        requirement = cells[1] if len(cells) > 1 else ""
+        coverage = cells[coverage_idx] if coverage_idx is not None else ""
+        evidence = (
+            cells[coverage_idx + 1]
+            if coverage_idx is not None and coverage_idx + 1 < len(cells)
+            else ""
+        )
+        rows.append({
+            "state": state,
+            "control_id": cells[0],
+            "requirement": requirement,
+            "coverage": coverage,
+            "evidence": evidence,
+            "line_no": idx,
+        })
+    return rows
+
+
+def _extract_refs(cell: str) -> list[str]:
+    """Extract backtick-quoted file/path references from a single cell.
+
+    Skips generic backtick text (tuple-type identifiers like `INTENT`, `DCT`,
+    inline code without path semantics). A token qualifies if it contains
+    '/' or ends in a known file extension.
+    """
+    refs: list[str] = []
+    for match in re.finditer(r"`([^`\n]+)`", cell):
+        token = match.group(1).strip()
+        if not token or len(token) > 200:
+            continue
+        if token.startswith("http"):
+            continue
+        has_slash = "/" in token
+        has_ext = any(
+            token.endswith(ext)
+            for ext in (".py", ".md", ".ts", ".tsv", ".jsonl", ".json", ".yml", ".yaml", ".toml")
+        )
+        if has_slash or has_ext:
+            refs.append(token)
+    return refs
+
+
+def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: bool = False) -> int:
+    """Validate a coverage matrix .md file (row-aware).
+
+    For each \u2705 Fulfilled row, extract evidence-cell file references and
+    resolve them against the package layout (with legacy alias support).
+    Reports per-row pass/fail and aggregate coverage %.
+
+    A row is "validated" when ALL of its evidence refs resolve to an
+    existing artifact OR to a documented Tier-2/EXTERNAL marker.
+
+    Returns:
+      0 \u2014 all \u2705 rows have validated evidence
+      1 \u2014 some \u2705 rows have unresolved evidence (hardening needed)
+      2 \u2014 matrix file not found
+    """
+    path = Path(matrix_path)
+    if not path.exists():
+        print(f"ERROR: Matrix file not found: {matrix_path}", file=sys.stderr)
+        return 2
+
+    root = Path(repo_root).resolve()
+    text = path.read_text(encoding="utf-8")
+    rows = _parse_matrix_rows(text)
+
+    fulfilled_rows = [r for r in rows if r["state"] == _STATE_FULFILLED]
+    partial_rows = [r for r in rows if r["state"] == _STATE_PARTIAL]
+    boundary_rows = [r for r in rows if r["state"] == _STATE_BOUNDARY]
+    oos_rows = [r for r in rows if r["state"] == _STATE_OUT_OF_SCOPE]
+
+    row_results: list[dict] = []
+    row_passed = 0
+    row_failed = 0
+    rows_without_refs = 0
+
+    for row in fulfilled_rows:
+        refs = _extract_refs(row["evidence"]) + _extract_refs(row["coverage"])
+        seen: set[str] = set()
+        refs = [r for r in refs if not (r in seen or seen.add(r))]
+        if not refs:
+            rows_without_refs += 1
+            row_results.append({
+                "control_id": row["control_id"],
+                "line_no": row["line_no"],
+                "refs": [],
+                "status": "fail",
+                "detail": "no evidence references found in row",
+            })
+            row_failed += 1
+            continue
+        resolutions = [_resolve_evidence(r, root) for r in refs]
+        all_pass = all(res["status"] in ("pass", "tier2", "external") for res in resolutions)
+        row_results.append({
+            "control_id": row["control_id"],
+            "line_no": row["line_no"],
+            "refs": [{"ref": r, **res} for r, res in zip(refs, resolutions)],
+            "status": "pass" if all_pass else "fail",
+            "detail": (
+                "all refs resolve"
+                if all_pass
+                else f"{sum(1 for r in resolutions if r['status'] == 'fail')} of {len(resolutions)} refs unresolved"
+            ),
+        })
+        if all_pass:
+            row_passed += 1
+        else:
+            row_failed += 1
+
+    summary = {
+        "matrix": str(path),
+        "totals": {
+            "fulfilled": len(fulfilled_rows),
+            "partial": len(partial_rows),
+            "boundary": len(boundary_rows),
+            "out_of_scope": len(oos_rows),
+        },
+        "fulfilled_validation": {
+            "rows_passed": row_passed,
+            "rows_failed": row_failed,
+            "rows_without_refs": rows_without_refs,
+            "coverage_pct": (
+                round(100.0 * row_passed / len(fulfilled_rows), 1)
+                if fulfilled_rows
+                else 0.0
+            ),
+        },
+        "rows": row_results,
+    }
+
+    if json_output:
+        import json as _json
+        print(_json.dumps(summary, indent=2, ensure_ascii=False))
+    else:
+        print(f"Matrix: {path.name}")
+        # ASCII-safe terminal output for Windows cp1252 consoles.
+        # JSON output above preserves the full unicode state glyphs.
+        print(
+            f"  Rows: FUL {len(fulfilled_rows)} | PAR {len(partial_rows)} | BND {len(boundary_rows)} | OOS {len(oos_rows)}"
+        )
+        print(
+            f"  FUL rows validated: {row_passed}/{len(fulfilled_rows)} ({summary['fulfilled_validation']['coverage_pct']}%)"
+        )
+        if rows_without_refs:
+            print(f"  WARN: {rows_without_refs} FUL row(s) have NO evidence refs (hardening gap)")
+        for r in row_results:
+            if r["status"] == "fail":
+                print(f"  [FAIL] line {r['line_no']}: {r['control_id']} - {r['detail']}")
+                for sub in r["refs"]:
+                    if isinstance(sub, dict) and sub.get("status") == "fail":
+                        print(f"           -> {sub['ref']} (not found)")
+
+    return 0 if row_failed == 0 else 1
+
+
+def _resolve_evidence(ref: str, repo_root: Path) -> dict:
+    """Resolve an evidence reference to a file path and check existence.
+
+    Resolution order:
+    1. Module alias map (legacy path -> canonical, plus TIER2/EXTERNAL markers)
+    2. Direct: repo_root / ref
+    3. Package: repo_root / hummbl_governance / ref
+    4. Tests: repo_root / tests / ref
+    5. Workflows: repo_root / .github / ref
+    6. Docs: repo_root / docs / ref
+    7. Failing those, .py / .md suffix tries
+    """
+    root = repo_root
+
+    alias = _MODULE_ALIASES.get(ref)
+    if alias is not None:
+        if alias.startswith("TIER2_ADMITTED:"):
+            return {
+                "path": alias,
+                "status": "tier2",
+                "detail": "Tier-2 admitted dependency, not in shipped code",
+            }
+        if alias.startswith("EXTERNAL:"):
+            return {"path": alias, "status": "external", "detail": "external surface (other repo)"}
+        candidate = root / alias
+        if candidate.exists():
+            return {
+                "path": str(candidate),
+                "status": "pass",
+                "detail": f"resolved via alias -> {alias}",
+            }
+        return {"path": str(candidate), "status": "fail", "detail": f"alias target missing: {alias}"}
+
+    candidates = [
+        root / ref,
+        root / "hummbl_governance" / ref,
+        root / "tests" / ref,
+        root / ".github" / ref,
+        root / "docs" / ref,
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return {"path": str(candidate), "status": "pass", "detail": "file exists"}
+
+    if not ref.endswith(
+        (".py", ".md", ".ts", ".tsv", ".jsonl", ".json", ".yml", ".yaml", ".toml")
+    ):
+        for candidate in candidates:
+            for ext in (".py", ".md"):
+                ext_candidate = (
+                    candidate.with_suffix(ext)
+                    if candidate.suffix
+                    else Path(str(candidate) + ext)
+                )
+                if ext_candidate.exists():
+                    return {
+                        "path": str(ext_candidate),
+                        "status": "pass",
+                        "detail": f"file exists ({ext})",
+                    }
+
+    return {"path": str(candidates[0]), "status": "fail", "detail": "file not found"}
 
 
 if __name__ == "__main__":
