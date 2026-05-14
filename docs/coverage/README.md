@@ -4,7 +4,7 @@ Every applicable control across every named framework, row-by-row.
 Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness, not score**.
 
 **HUMMBL version**: hummbl-governance v0.8.0
-**Last index update**: 2026-05-14
+**Last index update**: 2026-05-15
 **Coverage state legend**: ✅ Fulfilled · 🟡 Partial · ⚪ Boundary · ⛔ Out of scope
 
 ---
@@ -27,7 +27,10 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | NYC Local Law 144 (AEDT) | 9 obligations | 9 | 6 | 2 | 1 | 0 | [`nyc-ll144.md`](./nyc-ll144.md) |
 | Singapore IMDA Model AI Governance + Generative AI | 13 dimensions | 13 | 7 | 5 | 1 | 0 | [`imda-agentic.md`](./imda-agentic.md) |
 | G7 Hiroshima AI Process Code of Conduct | 11 principles | 12 | 6 | 3 | 2 | 1 | [`g7-ai-code.md`](./g7-ai-code.md) |
-| **FLEET (12 frameworks)** | **~657 controls in source standards** | **661 data rows** | **259** | **154** | **206** | **42** | — |
+| ONC Health IT Certification (HTI-1) | 12 certification criteria | 12 | 6 | 3 | 3 | 0 | [`onc-hti1.md`](./onc-hti1.md) |
+| FDA Predetermined Change Control Plan | 12 PCCP elements | 12 | 12 | 0 | 0 | 0 | [`fda-pccp.md`](./fda-pccp.md) |
+| HIPAA (45 CFR 160/164) | 28 standards across 5 sections | 28 | 17 | 5 | 6 | 0 | [`hipaa.md`](./hipaa.md) |
+| **FLEET (15 frameworks)** | **~670 controls in source standards** | **713 data rows** | **293** | **162** | **216** | **42** | — |
 
 > **These counts are enumeration evidence, not a score.** "Rows" is the count of data rows in each matrix file (some matrices include both Clause-level and Annex/control-level rows, so row count may exceed the source-standard surface count). ✅ + 🟡 + ⚪ + Unmarked = Rows for each matrix. The **Unmarked** column counts data rows in the matrix file that do NOT yet have a state glyph assigned — these are drafting gaps per ADR-001 row invariant (every row must be ✅/🟡/⚪/⛔). Surfacing them is intentional: PR #28 review identified silent unmarked-row dropping as a Goodhart channel (`feedback_no_self_grades_on_public_surface.md`). There is no implied "259 / 661 = 39%" coverage rate — the denominator includes 206 ⚪ Boundary rows (control is customer/regulator responsibility) and 42 Unmarked rows (drafting gap, not implemented coverage). Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts.
 
@@ -37,7 +40,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
-The **259 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **154 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **206 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
+The **293 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **162 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **216 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
 
 ## What this does NOT claim
 
