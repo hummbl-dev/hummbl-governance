@@ -21,11 +21,11 @@ OWASP LLM Top 10 is a **risk catalog**, not a regulation. No certification. Cove
 | LLM03:2025 | Supply Chain | ✅ Fulfilled |
 | LLM04:2025 | Data and Model Poisoning | 🟡 Partial |
 | LLM05:2025 | Improper Output Handling | ✅ Fulfilled |
-| LLM06:2025 | Excessive Agency | ✅ Fulfilled |
-| LLM07:2025 | System Prompt Leakage | ✅ Fulfilled |
-| LLM08:2025 | Vector and Embedding Weaknesses | ✅ Fulfilled |
-| LLM09:2025 | Misinformation | ✅ Fulfilled |
-| LLM10:2025 | Unbounded Consumption | ✅ Fulfilled |
+| LLM06:2025 | Excessive Agency | ✅ Fulfilled — DCT scope binding, delegation depth limits, kill-switch | `hummbl_governance/delegation.py`, `hummbl_governance/kill_switch.py` |
+| LLM07:2025 | System Prompt Leakage | ✅ Fulfilled — no secrets in code, secret-scan CI, prompt-template isolation | secret-scan CI workflow, env-var policy |
+| LLM08:2025 | Vector and Embedding Weaknesses | ✅ Fulfilled — retrieval-source DCT, embedding provenance chain | `hummbl_governance/coordination_bus.py` (retrieval-DCT), embedding provenance |
+| LLM09:2025 | Misinformation | ✅ Fulfilled — output-confidence tuples, hallucination detection, citation enforcement | confidence tuples, citation-enforcement primitives |
+| LLM10:2025 | Unbounded Consumption | ✅ Fulfilled — circuit-breaker, rate-limit, cost-governor | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/cost_governor.py` |
 
 ---
 

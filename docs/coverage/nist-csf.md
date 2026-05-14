@@ -224,7 +224,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | RS.AN-03 | Analysis performed to establish what has taken place + scope of incident | ✅ Forensic-analysis tuples; append-only bus = strong evidence |
 | RS.AN-06 | Actions performed during investigation recorded, integrity preserved | ✅ Investigation-action tuples (append-only) |
 | RS.AN-07 | Incident data + metadata collected, integrity preserved | ✅ Evidence-collection tuple |
-| RS.AN-08 | Magnitude of incident estimated + validated | ✅ Magnitude-estimate tuple |
+| RS.AN-08 | Magnitude of incident estimated + validated | ✅ Magnitude-estimate tuple | `hummbl_governance/coordination_bus.py` (magnitude-estimate tuple), `hummbl_governance/audit_log.py` |
 
 ### RS.CO — Incident Response Reporting + Communication (2)
 
@@ -237,7 +237,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 | ID | Coverage |
 |---|---|
-| RS.MI-01 | Incidents contained | ✅ Containment primitive: `kill_switch_core` (4 modes) |
+| RS.MI-01 | Incidents contained | ✅ Containment primitive: `kill_switch_core` (4 modes) | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 | RS.MI-02 | Incidents eradicated | 🟡 Partial: eradication tuples; remediation execution varies |
 
 ## RECOVER (RC) — 2 Categories, 7 Subcategories
@@ -246,12 +246,12 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 | ID | Coverage |
 |---|---|
-| RC.RP-01 | Recovery portion of IR plan executed once initiated by IR process | ✅ Recovery-plan execution tuple |
+| RC.RP-01 | Recovery portion of IR plan executed once initiated by IR process | ✅ Recovery-plan execution tuple | `hummbl_governance/coordination_bus.py` (recovery tuple), `hummbl_governance/lifecycle.py` |
 | RC.RP-02 | Recovery actions selected, scoped, prioritized, performed | 🟡 Partial: recovery-action tuples; selection is org |
 | RC.RP-03 | Integrity of backups + other restoration assets verified before use | ⚪ Boundary: backup integrity is infra |
 | RC.RP-04 | Critical mission functions + cybersecurity risk mgmt considered in restoration of normal operating capabilities | 🟡 Partial: mission-function tuples; consideration is org |
-| RC.RP-05 | Integrity of restored assets verified, systems + services restored, normal status confirmed | ✅ Restoration-verification tuple |
-| RC.RP-06 | End of incident recovery declared based on criteria, incident-related documentation completed | ✅ Recovery-end-declaration tuple |
+| RC.RP-05 | Integrity of restored assets verified, systems + services restored, normal status confirmed | ✅ Restoration-verification tuple | `hummbl_governance/audit_log.py` (restoration verification), `hummbl_governance/coordination_bus.py` |
+| RC.RP-06 | End of incident recovery declared based on criteria, incident-related documentation completed | ✅ Recovery-end-declaration tuple | `hummbl_governance/coordination_bus.py` (recovery-end tuple), `hummbl_governance/audit_log.py` |
 
 ### RC.CO — Incident Recovery Communication (2)
 

@@ -186,22 +186,22 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 | MG-2.1 | Resources for managing risks allocated, regularly updated | 🟡 Partial: resource-allocation tuples; budget is org |
 | MG-2.2 | Mechanisms in place + applied to sustain AI system value | 🟡 Partial: monitoring + improvement primitives; value-mgmt is org |
 | MG-2.3 | Procedures in place + followed for system-replacement decisions | ✅ Replacement-decision tuple + decommission primitives |
-| MG-2.4 | Procedures in place + followed to respond + recover from previously unknown risks | ✅ Unknown-risk-response tuple + kill-switch escalation |
+| MG-2.4 | Procedures in place + followed to respond + recover from previously unknown risks | ✅ Unknown-risk-response tuple + kill-switch escalation | `hummbl_governance/kill_switch.py`, `hummbl_governance/coordination_bus.py` (unknown-risk tuple) |
 
 ### MANAGE 3 — Risks from third-party entities managed
 
 | ID | Subcategory | Coverage |
 |---|---|---|
-| MG-3.1 | Risks tracked for third-party data + tools + AI | ✅ Third-party-risk tuple + supplier-DCT |
+| MG-3.1 | Risks tracked for third-party data + tools + AI | ✅ Third-party-risk tuple + supplier-DCT | `hummbl_governance/delegation.py` (supplier-DCT), `hummbl_governance/coordination_bus.py` (third-party-risk tuple) |
 | MG-3.2 | Pre-trained models reviewed for risks before deployment | 🟡 Partial: model-review tuple; review practice is org |
 
 ### MANAGE 4 — Risk treatments + responses monitored
 
 | ID | Subcategory | Coverage |
 |---|---|---|
-| MG-4.1 | Mechanisms in place to monitor risk treatment effectiveness | ✅ Treatment-monitoring tuple |
-| MG-4.2 | Measurable activities tracked for unexpected negative impacts | ✅ Negative-impact monitoring tuple |
-| MG-4.3 | Incidents + errors communicated, with explanations + remediation | ✅ Incident-comm tuple + remediation tracking |
+| MG-4.1 | Mechanisms in place to monitor risk treatment effectiveness | ✅ Treatment-monitoring tuple | `hummbl_governance/coordination_bus.py` (treatment-monitoring tuple) |
+| MG-4.2 | Measurable activities tracked for unexpected negative impacts | ✅ Negative-impact monitoring tuple | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
+| MG-4.3 | Incidents + errors communicated, with explanations + remediation | ✅ Incident-comm tuple + remediation tracking | `hummbl_governance/coordination_bus.py` (incident-comm tuple), `hummbl_governance/audit_log.py` |
 
 ---
 

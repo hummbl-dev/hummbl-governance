@@ -24,11 +24,11 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 | Dimension | Coverage | Notes |
 |---|---|---|
 | 1. Accountability | 🟡 Partial | DCTX delegation chain = accountability allocation; org policy completes |
-| 2. Data | ✅ | Dataset tuples + provenance chain + quality primitives (cross-ref ISO 42001 A.7) |
-| 3. Trusted Development + Deployment | ✅ | Lifecycle tuple + V&V + deployment tuples + signed audit trail |
-| 4. Incident Reporting | ✅ | Incident tuple + notification SLA + escalation (cross-ref EU AI Act Art. 73) |
-| 5. Testing + Assurance | ✅ | 927 governance tests + redteam tuples + safety-eval primitives |
-| 6. Security | ✅ | HMAC-SHA256 delegation tokens + Bandit/Semgrep + pip-audit blocking |
+| 2. Data | ✅ Dataset tuples + provenance chain + quality primitives (cross-ref ISO 42001 A.7) | `hummbl_governance/coordination_bus.py` (DATASET tuple type), dataset-card schema |
+| 3. Trusted Development + Deployment | ✅ Lifecycle tuple + V&V + deployment tuples + signed audit trail | `hummbl_governance/coordination_bus.py` (lifecycle tuples), `hummbl_governance/audit_log.py` (signed trail) |
+| 4. Incident Reporting | ✅ Incident tuple + notification SLA + escalation (cross-ref EU AI Act Art. 73) | `hummbl_governance/coordination_bus.py` (incident tuple), `hummbl_governance/lifecycle.py` (SLA) |
+| 5. Testing + Assurance | ✅ 927 governance tests + redteam tuples + safety-eval primitives | `tests/` (927 tests), `hummbl_governance/testing.py` |
+| 6. Security | ✅ HMAC-SHA256 delegation tokens + Bandit/Semgrep + pip-audit blocking | `hummbl_governance/delegation.py`, `hummbl_governance/security_adapter.py`, `.github/workflows/ci.yml` |
 | 7. Content Provenance | 🟡 | Content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra) per `founder_mode/docs/research/2026-05-01_adr-001-admission-c2pa-stack.md`; implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today. |
 | 8. Safety + Alignment | 🟡 Partial | Alignment-eval tuples + RLHF-evidence primitives; alignment-evaluation methodology is research |
 | 9. AI for Public Good | ⚪ Boundary | Civic-impact framing is org strategy |

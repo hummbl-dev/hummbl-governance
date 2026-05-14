@@ -19,16 +19,16 @@ The G7 Hiroshima Code of Conduct is **voluntary** guidance for organizations dev
 | # | Principle | Coverage |
 |---|---|---|
 | 1 | Take appropriate measures throughout AI lifecycle to identify, evaluate, mitigate risks (including pre-deployment, throughout deployment) | ✅ Lifecycle tuple + `INTENT` + adverse-event + risk-treatment + monitoring; risk-register integration per Krineia connector spec (cross-ref NIST AI RMF MAP/MEASURE/MANAGE, EU AI Act Art. 9) |
-| 2 | Identify + mitigate vulnerabilities, incidents, patterns of misuse after deployment (including market) | ✅ Vulnerability tuple + incident-detection + post-market monitoring (cross-ref EU AI Act Art. 72-73) |
-| 3 | Publicly report advanced AI systems' capabilities, limitations, domains of appropriate + inappropriate use | ✅ Capability-disclosure generator (cross-ref EU AI Act Art. 13, Singapore Generative AI Framework Dimension 3) |
+| 2 | Identify + mitigate vulnerabilities, incidents, patterns of misuse after deployment (including market) | ✅ Vulnerability tuple + incident-detection + post-market monitoring (cross-ref EU AI Act Art. 72-73) | `hummbl_governance/audit_log.py` (vulnerability + incident tuples), `hummbl_governance/coordination_bus.py` |
+| 3 | Publicly report advanced AI systems' capabilities, limitations, domains of appropriate + inappropriate use | ✅ Capability-disclosure generator (cross-ref EU AI Act Art. 13, Singapore Generative AI Framework Dimension 3) | `hummbl_governance/compliance_mapper.py` + governance bus |
 | 4 | Work towards responsible information sharing + incident reporting among orgs developing advanced AI systems | 🟡 Partial: information-sharing tuples + incident-disclosure; participation in industry forums is org task |
-| 5 | Develop, implement, disclose AI governance + risk management policies based on risk-based approach | ✅ Risk-based governance substrate: risk-tier classification + treatment-tier mapping (cross-ref NIST AI RMF) |
-| 6 | Invest in + implement robust security controls — physical security, cybersecurity, insider threats | 🟡 Partial: cybersecurity ✅ (cross-ref OWASP LLM Top 10, NIST CSF, ISO 27001 A.8); physical + insider-threat are org programs |
+| 5 | Develop, implement, disclose AI governance + risk management policies based on risk-based approach | ✅ Risk-based governance substrate: risk-tier classification + treatment-tier mapping (cross-ref NIST AI RMF) | `hummbl_governance/compliance_mapper.py` (risk-tuple infrastructure) |
+| 6 | Invest in + implement robust security controls — physical security, cybersecurity, insider threats | 🟡 Partial: cybersecurity ✅ (cross-ref OWASP LLM Top 10, NIST CSF, ISO 27001 A.8); physical + insider-threat are org programs | `hummbl_governance/security_adapter.py`, `hummbl_governance/circuit_breaker.py` |
 | 7 | Develop + deploy reliable content authentication + provenance mechanisms — watermarking, identification | 🟡 Partial: content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra) per `founder_mode/docs/research/2026-05-01_adr-001-admission-c2pa-stack.md`; implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today (cross-ref Singapore Dimension 7). |
 | 8 | Prioritize research to mitigate societal, safety, security risks; prioritize investment in effective mitigation measures | ⚪ Boundary: research-program is org strategy |
 | 9 | Prioritize development of advanced AI systems to address world's greatest challenges (climate, health, education) | ⚪ Boundary: strategic direction |
 | 10 | Advance development + adoption of international technical standards | 🟡 Partial: standards-adoption is org strategy; this matrix index = HUMMBL adoption |
-| 11 | Implement appropriate data input measures + protections for personal data + intellectual property | ✅ Data-input controls (cross-ref GDPR matrix); IP-respect tuple type for training-data provenance |
+| 11 | Implement appropriate data input measures + protections for personal data + intellectual property | ✅ Data-input controls (cross-ref GDPR matrix); IP-respect tuple type for training-data provenance | `hummbl_governance/coordination_bus.py` (IP-respect tuples), `hummbl_governance/audit_log.py` |
 
 ## Summary
 

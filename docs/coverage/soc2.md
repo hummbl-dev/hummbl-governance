@@ -138,7 +138,7 @@ Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
 | PI1.2 | ✅ Procedures to detect + correct errors during processing — error tuples + correction primitives |
 | PI1.3 | ✅ Procedures to ensure complete, valid, accurate processing — append-only + signed processing tuples |
 | PI1.4 | 🟡 Partial | Outputs delivered timely, complete, accurate — delivery-confirmation tuples; SLA tracking is config |
-| PI1.5 | ✅ Procedures protect data inputs, processing, outputs through retention | Append-only governance bus + signed entries + retention policy |
+| PI1.5 | ✅ Procedures protect data inputs, processing, outputs through retention | `hummbl_governance/coordination_bus.py` (append-only bus), `hummbl_governance/delegation.py` (signed entries), `hummbl_governance/lifecycle.py` (retention) |
 
 ## Confidentiality (C) — 2 criteria
 

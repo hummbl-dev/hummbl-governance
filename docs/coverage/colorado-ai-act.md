@@ -38,8 +38,8 @@ The Act applies to "high-risk artificial intelligence systems" — defined as sy
 | Specific impact-assessment contents — purpose, intended use cases, deployment context, benefits, analysis of risks, transparency measures, post-deployment monitoring | ✅ All 7 components captured as tuple-types; assessment generator produces complete document | `[DRAFT — planned per ADR-001] compliance_mapper --export colorado-impact-assessment` |
 | Notify consumer of high-risk AI system use before/at time of consequential decision | ✅ Pre-decision notification primitive | notification tuple |
 | Provide consumer with statement disclosing — purpose, decision basis, principal factors, sources, right to opt out (where applicable) | ✅ Consumer-disclosure generator | `[DRAFT — planned per ADR-001] compliance_mapper --export colorado-consumer-disclosure` |
-| Provide opportunity to correct incorrect personal data | ✅ Rectification tuple (cross-ref GDPR Art. 16) | rectification primitives |
-| Provide opportunity to appeal adverse consequential decision to human reviewer | ✅ Appeal tuple + human-review delegation | appeal-routing primitive |
+| Provide opportunity to correct incorrect personal data | ✅ Rectification tuple (cross-ref GDPR Art. 16) | `hummbl_governance/coordination_bus.py` (rectification tuple type) |
+| Provide opportunity to appeal adverse consequential decision to human reviewer | ✅ Appeal tuple + human-review delegation | `hummbl_governance/coordination_bus.py` (appeal tuple), `hummbl_governance/delegation.py` (human review delegation) |
 | Public statement summarizing types of high-risk AI systems deployed | 🟡 Partial: same as developer obligation |
 | Disclose to attorney general within 90 days of discovering high-risk AI system has caused algorithmic discrimination | ✅ Same 90-day SLA primitive | discrimination-event SLA |
 
@@ -47,13 +47,13 @@ The Act applies to "high-risk artificial intelligence systems" — defined as sy
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| AI system interacting with consumer shall disclose AI involvement (unless obvious) | ✅ Transparency-notification primitive (cross-ref EU AI Act Art. 50) | transparency tuples |
+| AI system interacting with consumer shall disclose AI involvement (unless obvious) | ✅ Transparency-notification primitive (cross-ref EU AI Act Art. 50) | `hummbl_governance/coordination_bus.py` (transparency tuple) |
 
 ### Affirmative defense + safe harbor
 
 | Provision | Coverage | Evidence |
 |---|---|---|
-| Affirmative defense for developers + deployers using nationally/internationally recognized risk-management framework (e.g., NIST AI RMF) | ✅ This very matrix + NIST AI RMF coverage matrix = framework adoption evidence; governance bus = continuous compliance demonstration | NIST AI RMF matrix |
+| Affirmative defense for developers + deployers using nationally/internationally recognized risk-management framework (e.g., NIST AI RMF) | ✅ This very matrix + NIST AI RMF coverage matrix = framework adoption evidence; governance bus = continuous compliance demonstration | `hummbl_governance/coordination_bus.py` (continuous compliance bus), `docs/coverage/nist-ai-rmf.md` cross-ref |
 
 ## Summary
 
