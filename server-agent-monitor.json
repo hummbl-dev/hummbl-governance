@@ -1,0 +1,234 @@
+{
+  "name": "hummbl-agent-monitor",
+  "description": "HUMMBL Agent Behavioral Monitoring MCP Server — provides drift detection, instrumental convergence analysis, NIST AI RMF governance lifecycle authorization, and evolution lineage tracking for AI agent fleets.",
+  "version": "0.1.0",
+  "tools": [
+    {
+      "name": "monitor_record",
+      "description": "Record an agent action for drift and behavioral analysis",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Unique identifier of the agent"
+          },
+          "action_type": {
+            "type": "string",
+            "description": "Category of action (e.g. read, write, execute, delegate)"
+          }
+        },
+        "required": ["agent_id", "action_type"]
+      }
+    },
+    {
+      "name": "monitor_snapshot",
+      "description": "Snapshot current action distribution as the baseline for drift comparison",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Unique identifier of the agent"
+          }
+        },
+        "required": ["agent_id"]
+      }
+    },
+    {
+      "name": "monitor_detect_drift",
+      "description": "Run Jensen-Shannon divergence drift detection and entropy-based gaming detection for an agent",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Unique identifier of the agent"
+          },
+          "window": {
+            "type": "integer",
+            "description": "Override window size for drift analysis (default: 100)"
+          }
+        },
+        "required": ["agent_id"]
+      }
+    },
+    {
+      "name": "convergence_record",
+      "description": "Record an agent action and classify it against convergent goal patterns (Bostrom 2014)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Unique identifier of the agent"
+          },
+          "action_type": {
+            "type": "string",
+            "description": "Category of action performed"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional action metadata"
+          }
+        },
+        "required": ["agent_id", "action_type"]
+      }
+    },
+    {
+      "name": "convergence_check",
+      "description": "Check an agent for instrumental convergence indicators",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Unique identifier of the agent"
+          },
+          "threshold": {
+            "type": "number",
+            "description": "Override convergence threshold (0.0-1.0)"
+          }
+        },
+        "required": ["agent_id"]
+      }
+    },
+    {
+      "name": "convergence_scores",
+      "description": "Get per-convergent-goal scores for an agent",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Unique identifier of the agent"
+          }
+        },
+        "required": ["agent_id"]
+      }
+    },
+    {
+      "name": "lifecycle_authorize",
+      "description": "Run a full NIST AI RMF governance authorization check (kill switch + identity + circuit breaker + cost governor)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agent": {
+            "type": "string",
+            "description": "Agent identifier requesting authorization"
+          },
+          "target": {
+            "type": "string",
+            "description": "Target resource or system (default: 'default')"
+          },
+          "action": {
+            "type": "string",
+            "description": "Action being requested"
+          },
+          "cost": {
+            "type": "number",
+            "description": "Estimated cost in USD"
+          },
+          "provider": {
+            "type": "string",
+            "description": "LLM provider name"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model identifier"
+          }
+        },
+        "required": ["agent", "action"]
+      }
+    },
+    {
+      "name": "lifecycle_status",
+      "description": "Get a full governance lifecycle status snapshot across all NIST functions",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "lineage_record_variant",
+      "description": "Register a new AI variant in the evolution lineage graph",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique variant identifier"
+          },
+          "parent_id": {
+            "type": "string",
+            "description": "Parent variant ID (null for root)"
+          },
+          "generation": {
+            "type": "integer",
+            "description": "Generation number"
+          },
+          "fitness": {
+            "type": "object",
+            "description": "Metric -> float fitness scores"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional variant metadata"
+          }
+        },
+        "required": ["id"]
+      }
+    },
+    {
+      "name": "lineage_get",
+      "description": "Get variant details, children list, and optionally full ancestry",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "variant_id": {
+            "type": "string",
+            "description": "Variant identifier to look up"
+          },
+          "include_lineage": {
+            "type": "boolean",
+            "description": "Include full ancestry chain (default: false)"
+          }
+        },
+        "required": ["variant_id"]
+      }
+    },
+    {
+      "name": "lineage_drift",
+      "description": "Detect parent-to-child fitness drift across all registered variants",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "threshold": {
+            "type": "number",
+            "description": "Drift detection threshold"
+          },
+          "include_non_drifted": {
+            "type": "boolean",
+            "description": "Include non-drifted variants in results (default: false)"
+          }
+        },
+        "required": []
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "publisher": "hummbl-dev",
+      "description": "HUMMBL Agent Behavioral Monitoring — drift detection, convergence analysis, and NIST AI RMF lifecycle governance",
+      "homepage": "https://github.com/hummbl-dev/hummbl-governance",
+      "license": "Apache-2.0",
+      "capabilities": [
+        "behavioral-drift-detection",
+        "instrumental-convergence-analysis",
+        "nist-ai-rmf-lifecycle",
+        "evolution-lineage-tracking",
+        "agent-fleet-monitoring"
+      ]
+    }
+  }
+}

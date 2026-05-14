@@ -1,0 +1,200 @@
+{
+  "name": "hummbl-reasoning",
+  "description": "HUMMBL Reasoning, Schema Validation, and Contract Net MCP Server — provides Base120 mental-model reasoning, stdlib-only JSON Schema Draft 2020-12 validation, and Contract Net Protocol task allocation for AI agent governance.",
+  "version": "0.1.0",
+  "tools": [
+    {
+      "name": "reasoning_list_models",
+      "description": "List all available Base120 mental models",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "reasoning_get_model",
+      "description": "Get details of a specific Base120 mental model by code (e.g. DE1, IN2, P1)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Model code (e.g. DE1, IN2, P1)"
+          }
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "name": "reasoning_system_prompt",
+      "description": "Generate a specialized system prompt for a Base120 mental model at a given reasoning depth",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Model code (e.g. DE1, IN2, P1)"
+          },
+          "depth": {
+            "type": "integer",
+            "description": "Reasoning depth multiplier (default 1)"
+          }
+        },
+        "required": ["code"]
+      }
+    },
+    {
+      "name": "schema_validate",
+      "description": "Validate a JSON value against a JSON Schema (Draft 2020-12 subset, stdlib-only)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "instance": {
+            "description": "The JSON value to validate"
+          },
+          "schema": {
+            "type": "object",
+            "description": "JSON Schema (Draft 2020-12 subset)"
+          }
+        },
+        "required": ["instance", "schema"]
+      }
+    },
+    {
+      "name": "schema_validate_dict",
+      "description": "Validate a Python dict against a JSON Schema, returning (valid, errors)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "entry": {
+            "type": "object",
+            "description": "The dict to validate"
+          },
+          "schema": {
+            "type": "object",
+            "description": "JSON Schema (Draft 2020-12 subset)"
+          }
+        },
+        "required": ["entry", "schema"]
+      }
+    },
+    {
+      "name": "contract_announce",
+      "description": "Announce a task for bidding via the Contract Net Protocol",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "announcer": {
+            "type": "string",
+            "description": "Identifier of the announcing agent"
+          },
+          "task_id": {
+            "type": "string",
+            "description": "Unique task identifier"
+          },
+          "requirements": {
+            "type": "object",
+            "description": "Task requirements specification"
+          },
+          "deadline_seconds": {
+            "type": "number",
+            "description": "Bidding deadline in seconds (default 30)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional task metadata"
+          }
+        },
+        "required": ["announcer", "task_id"]
+      }
+    },
+    {
+      "name": "contract_bid",
+      "description": "Submit a bid on an announced task",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "announcement_id": {
+            "type": "string",
+            "description": "The announcement ID to bid on"
+          },
+          "bidder": {
+            "type": "string",
+            "description": "Identifier of the bidding agent"
+          },
+          "cost": {
+            "type": "number",
+            "description": "Estimated cost"
+          },
+          "capability": {
+            "type": "number",
+            "description": "Capability score (0-1)"
+          },
+          "estimated_seconds": {
+            "type": "number",
+            "description": "Estimated execution time in seconds"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional bid metadata"
+          }
+        },
+        "required": ["announcement_id", "bidder"]
+      }
+    },
+    {
+      "name": "contract_evaluate",
+      "description": "Evaluate bids and select a winner using a strategy (lowest_cost, highest_capability, best_ratio)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "announcement_id": {
+            "type": "string",
+            "description": "The announcement ID to evaluate"
+          },
+          "strategy": {
+            "type": "string",
+            "description": "Selection strategy: lowest_cost, highest_capability, best_ratio"
+          }
+        },
+        "required": ["announcement_id"]
+      }
+    },
+    {
+      "name": "contract_status",
+      "description": "Get the current phase, bid count, and winner for an announcement",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "announcement_id": {
+            "type": "string",
+            "description": "The announcement ID to query"
+          }
+        },
+        "required": ["announcement_id"]
+      }
+    },
+    {
+      "name": "contract_summary",
+      "description": "Count all contract announcements by phase (bidding, awarded, failed, expired)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "publisher": "hummbl-dev",
+      "description": "HUMMBL Governance Primitives — zero-dependency AI governance for agent orchestration",
+      "homepage": "https://github.com/hummbl-dev/hummbl-governance",
+      "license": "Apache-2.0",
+      "capabilities": [
+        "base120-reasoning",
+        "json-schema-validation",
+        "contract-net-protocol",
+        "ai-governance-primitives"
+      ]
+    }
+  }
+}
