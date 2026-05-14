@@ -104,3 +104,49 @@ jobs:
 
           print(f"Arbiter score {score} meets threshold")
           PY
+
+  coverage-matrix-validate:
+    name: coverage-matrix-validate (advisory)
+    runs-on: ubuntu-latest
+    # Advisory while matrices are DRAFT scaffolds per docs/coverage/README.md.
+    # Flip continue-on-error to false once docs/coverage/EVIDENCE_VALIDATION.md
+    # shows acceptable coverage % per ADR-001.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[test]"
+      - name: Validate coverage matrix evidence cells
+        run: |
+          MATRICES_DIR="docs/coverage"
+          if [ ! -d "$MATRICES_DIR" ]; then
+            echo "No coverage matrices directory - skipping validation"
+            exit 0
+          fi
+          FAILED=0
+          for matrix in "$MATRICES_DIR"/*.md; do
+            [ -f "$matrix" ] || continue
+            base=$(basename "$matrix")
+            # Skip generated reports and the index
+            case "$base" in
+              README.md|EVIDENCE_VALIDATION.md) continue ;;
+            esac
+            echo "Validating: $matrix"
+            python -m hummbl_governance.compliance_mapper \
+              --validate "$matrix" \
+              --repo-root . \
+              || FAILED=1
+          done
+          if [ "$FAILED" -ne 0 ]; then
+            echo "::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)"
+            exit 0
+          fi
+          echo "All coverage matrices pass evidence validation"
+      - name: Regenerate evidence-validation report
+        run: |
+          python scripts/build_evidence_validation_report.py
+          echo "::group::EVIDENCE_VALIDATION.md summary"
+          head -40 docs/coverage/EVIDENCE_VALIDATION.md
+          echo "::endgroup::"
