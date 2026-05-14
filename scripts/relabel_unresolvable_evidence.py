@@ -21,6 +21,7 @@ from pathlib import Path
 UNREAL_FLAGS = ("--export", "--section", "--control", "--activity", "--subject")
 
 DRAFT_PREFIX = "[DRAFT — planned per ADR-001] "
+GENERATED_MATRIX_REPORTS = {"README.md", "EVIDENCE_VALIDATION.md"}
 
 # Match a backtick-wrapped compliance_mapper invocation
 INVOCATION_RE = re.compile(
@@ -73,7 +74,7 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     files = sorted(
-        f for f in args.matrix_dir.glob("*.md") if f.name != "README.md"
+        f for f in args.matrix_dir.glob("*.md") if f.name not in GENERATED_MATRIX_REPORTS
     )
     total_relabeled = 0
     total_skipped = 0

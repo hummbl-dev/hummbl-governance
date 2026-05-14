@@ -78,6 +78,42 @@ def test_parse_matrix_rows_skips_chapter_summary():
     assert any(r["control_id"] == "Art. 8" for r in rows)
 
 
+def test_parse_matrix_rows_skips_state_count_summary_tables():
+    text = (
+        "| Section | Obligations | ✅ | \U0001f7e1 | ⚪ |\n"
+        "|---|---|---:|---:|---:|\n"
+        "| Access | Identity controls | 3 | 1 | 0 |\n"
+        "\n"
+        "| Function | Validated | ✅ | \U0001f7e1 |\n"
+        "|---|---:|---:|---:|\n"
+        "| GOVERN | 2 | 4 | 1 |\n"
+        "\n"
+        "| Article | Requirement | HUMMBL coverage | Evidence |\n"
+        "|---|---|---|---|\n"
+        "| Art. 8 | Compliance | ✅ Done | `hummbl_governance/kill_switch.py` |\n"
+    )
+    rows = _parse_matrix_rows(text)
+    assert [r["control_id"] for r in rows] == ["Art. 8"]
+
+
+def test_parse_matrix_rows_skips_summary_without_evidence_column():
+    text = (
+        "| TSC | Description | Coverage |\n"
+        "|---|---|---|\n"
+        "| CC6 | Access controls | ✅ Fulfilled |\n"
+        "\n"
+        "| Component | Coverage |\n"
+        "|---|---|\n"
+        "| Agent registry | ✅ Fulfilled |\n"
+        "\n"
+        "| Control | Requirement | Coverage | Evidence |\n"
+        "|---|---|---|---|\n"
+        "| C1 | Compliance | ✅ Done | `hummbl_governance/kill_switch.py` |\n"
+    )
+    rows = _parse_matrix_rows(text)
+    assert [r["control_id"] for r in rows] == ["C1"]
+
+
 def test_parse_matrix_rows_boundary_state():
     text = (
         "| Article | Requirement | HUMMBL coverage | Evidence |\n"
@@ -161,6 +197,8 @@ def test_resolve_evidence_direct_existing_path():
     root = Path(__file__).resolve().parent.parent
     res = _resolve_evidence("hummbl_governance/kill_switch.py", root)
     assert res["status"] == "pass"
+    assert res["path"] == "hummbl_governance/kill_switch.py"
+    assert not Path(res["path"]).is_absolute()
 
 
 # ---------- _validate_matrix end-to-end ----------

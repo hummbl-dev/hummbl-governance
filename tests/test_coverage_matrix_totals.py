@@ -144,7 +144,8 @@ def _parse_readme_rows() -> dict:
 def test_readme_table_parses_all_matrices():
     """README table must list every matrix in `docs/coverage/`."""
     parsed = _parse_readme_rows()
-    on_disk = {f.stem for f in COVERAGE_DIR.glob("*.md") if f.name != "README.md"}
+    generated = {"README.md", "EVIDENCE_VALIDATION.md"}
+    on_disk = {f.stem for f in COVERAGE_DIR.glob("*.md") if f.name not in generated}
     missing = on_disk - set(parsed)
     assert not missing, f"Matrices on disk but not in README table: {sorted(missing)}"
 

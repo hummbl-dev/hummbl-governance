@@ -29,6 +29,7 @@ COMPLIANCE_MAPPER_FRAMEWORKS = {
 
 # Patterns to extract code references from matrix files.
 BACKTICK_RE = re.compile(r"`([^`\n]+)`")
+GENERATED_MATRIX_REPORTS = {"README.md", "EVIDENCE_VALIDATION.md"}
 
 # Patterns identifying claim types within backticks.
 RE_COMPLIANCE_MAPPER = re.compile(r"^compliance_mapper\b")
@@ -137,7 +138,7 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     files = sorted(
-        f for f in args.matrix_dir.glob("*.md") if f.name != "README.md"
+        f for f in args.matrix_dir.glob("*.md") if f.name not in GENERATED_MATRIX_REPORTS
     )
     fleet_unresolvable = 0
     results = []

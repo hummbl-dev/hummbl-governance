@@ -874,8 +874,7 @@ def _parse_matrix_rows(text: str) -> list[dict]:
     """Parse markdown coverage-matrix data rows.
 
     Returns a list of dicts: {state, control_id, requirement, coverage, evidence, line_no}.
-    Skips legend tables (header contains 'Glyph'+'State'), summary tables
-    (header contains 'Chapter' or 'Section'+'Title'), and separator rows.
+    Skips legend tables, summary/count tables, and separator rows.
     Only matrix data rows are yielded \u2014 those containing one of the
     four state glyphs in any cell.
     """
@@ -892,11 +891,26 @@ def _parse_matrix_rows(text: str) -> list[dict]:
         cells = [c.strip() for c in stripped.strip("|").split("|")]
         if not cells:
             continue
+        next_line = lines[idx].strip() if idx < len(lines) else ""
+        next_cells = [c.strip() for c in next_line.strip("|").split("|")]
+        next_is_separator = next_line.startswith("|") and all(
+            set(c) <= set("-: ") for c in next_cells if c
+        )
         header_join = " ".join(cells).lower()
-        if "glyph" in header_join and "state" in header_join:
+        if next_is_separator and "glyph" in header_join and "state" in header_join:
             in_legend = True
             continue
-        if "chapter" in header_join or ("section" in header_join and "title" in header_join):
+        lower_cells = [c.lower() for c in cells]
+        first_cell = lower_cells[0] if lower_cells else ""
+        has_state_count_columns = any(g in c for c in cells for g in _ALL_STATES)
+        lacks_evidence_column = "evidence" not in lower_cells
+        summary_first_cells = {"annex", "chapter", "section", "function", "component", "tsc"}
+        if next_is_separator and (
+            has_state_count_columns
+            or "chapter" in header_join
+            or ("section" in header_join and "title" in header_join)
+            or (first_cell in summary_first_cells and lacks_evidence_column)
+        ):
             in_summary = True
             continue
         # Separator row
@@ -1101,11 +1115,15 @@ def _resolve_evidence(ref: str, repo_root: Path) -> dict:
         candidate = root / alias
         if candidate.exists():
             return {
-                "path": str(candidate),
+                "path": _display_path(candidate, root),
                 "status": "pass",
                 "detail": f"resolved via alias -> {alias}",
             }
-        return {"path": str(candidate), "status": "fail", "detail": f"alias target missing: {alias}"}
+        return {
+            "path": _display_path(candidate, root),
+            "status": "fail",
+            "detail": f"alias target missing: {alias}",
+        }
 
     candidates = [
         root / ref,
@@ -1116,7 +1134,7 @@ def _resolve_evidence(ref: str, repo_root: Path) -> dict:
     ]
     for candidate in candidates:
         if candidate.exists():
-            return {"path": str(candidate), "status": "pass", "detail": "file exists"}
+            return {"path": _display_path(candidate, root), "status": "pass", "detail": "file exists"}
 
     if not ref.endswith(
         (".py", ".md", ".ts", ".tsv", ".jsonl", ".json", ".yml", ".yaml", ".toml")
@@ -1130,12 +1148,20 @@ def _resolve_evidence(ref: str, repo_root: Path) -> dict:
                 )
                 if ext_candidate.exists():
                     return {
-                        "path": str(ext_candidate),
+                        "path": _display_path(ext_candidate, root),
                         "status": "pass",
                         "detail": f"file exists ({ext})",
                     }
 
-    return {"path": str(candidates[0]), "status": "fail", "detail": "file not found"}
+    return {"path": _display_path(candidates[0], root), "status": "fail", "detail": "file not found"}
+
+
+def _display_path(path: Path, repo_root: Path) -> str:
+    """Return a deterministic repo-relative path for validator JSON output."""
+    try:
+        return path.resolve().relative_to(repo_root.resolve()).as_posix()
+    except ValueError:
+        return path.as_posix()
 
 
 if __name__ == "__main__":

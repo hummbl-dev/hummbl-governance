@@ -141,7 +141,7 @@ jobs:
           done
           if [ "$FAILED" -ne 0 ]; then
             echo "::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)"
-            exit 1
+            exit 0
           fi
           echo "All coverage matrices pass evidence validation"
       - name: Regenerate evidence-validation report

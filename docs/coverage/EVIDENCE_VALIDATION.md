@@ -11,10 +11,10 @@ Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled row
 
 ## Aggregate (as of 2026-05-14)
 
-- **220 Fulfilled rows** across 12 matrices
-- **8 rows validated** (3.6%) — refs fully resolve
-- **212 rows fail validation** — hardening gap
-- **211 rows carry NO evidence references** at all (subset of failing)
+- **198 Fulfilled rows** across 12 matrices
+- **5 rows validated** (2.5%) — refs fully resolve
+- **193 rows fail validation** — hardening gap
+- **191 rows carry NO evidence references** at all (subset of failing)
 
 Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this report quantifies the residual hardening work.
 
@@ -22,19 +22,19 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 
 | Matrix | Fulfilled | Validated | Coverage | No Refs |
 |---|---:|---:|---:|---:|
-| [`colorado-ai-act.md`](./colorado-ai-act.md) | 17 | 0 | 0.0% | 17 |
-| [`eu-ai-act.md`](./eu-ai-act.md) | 22 | 4 | 18.2% | 17 |
-| [`g7-ai-code.md`](./g7-ai-code.md) | 7 | 1 | 14.3% | 6 |
+| [`colorado-ai-act.md`](./colorado-ai-act.md) | 16 | 0 | 0.0% | 16 |
+| [`eu-ai-act.md`](./eu-ai-act.md) | 16 | 3 | 18.8% | 11 |
+| [`g7-ai-code.md`](./g7-ai-code.md) | 6 | 0 | 0.0% | 6 |
 | [`gdpr.md`](./gdpr.md) | 20 | 2 | 10.0% | 18 |
-| [`imda-agentic.md`](./imda-agentic.md) | 9 | 1 | 11.1% | 8 |
-| [`iso-27001.md`](./iso-27001.md) | 36 | 0 | 0.0% | 36 |
-| [`iso-42001.md`](./iso-42001.md) | 3 | 0 | 0.0% | 3 |
-| [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 36 | 0 | 0.0% | 36 |
-| [`nist-csf.md`](./nist-csf.md) | 47 | 0 | 0.0% | 47 |
-| [`nyc-ll144.md`](./nyc-ll144.md) | 7 | 0 | 0.0% | 7 |
+| [`imda-agentic.md`](./imda-agentic.md) | 7 | 0 | 0.0% | 7 |
+| [`iso-27001.md`](./iso-27001.md) | 35 | 0 | 0.0% | 35 |
+| [`iso-42001.md`](./iso-42001.md) | 2 | 0 | 0.0% | 2 |
+| [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 35 | 0 | 0.0% | 35 |
+| [`nist-csf.md`](./nist-csf.md) | 46 | 0 | 0.0% | 46 |
+| [`nyc-ll144.md`](./nyc-ll144.md) | 6 | 0 | 0.0% | 6 |
 | [`owasp-llm.md`](./owasp-llm.md) | 8 | 0 | 0.0% | 8 |
-| [`soc2.md`](./soc2.md) | 8 | 0 | 0.0% | 8 |
-| **TOTAL** | **220** | **8** | **3.6%** | **211** |
+| [`soc2.md`](./soc2.md) | 1 | 0 | 0.0% | 1 |
+| **TOTAL** | **198** | **5** | **2.5%** | **191** |
 
 ## How to harden a row
 
@@ -74,13 +74,13 @@ python scripts/build_evidence_validation_report.py
 | 44 | Disclose to attorney general within 90 days of dis | fail | no evidence references found in row |
 | 50 | AI system interacting with consumer shall disclose | fail | no evidence references found in row |
 | 56 | Affirmative defense for developers + deployers usi | fail | no evidence references found in row |
-| 60 | Section | fail | no evidence references found in row |
 
 ### eu-ai-act.md
 
 | Line | Control | Status | Detail |
 |---:|---|---|---|
 | 76 | Art. 8 | fail | no evidence references found in row |
+| 77 | Art. 9 | fail | 1 of 2 refs unresolved |
 | 78 | Art. 10 | fail | no evidence references found in row |
 | 79 | Art. 11 | fail | no evidence references found in row |
 | 81 | Art. 13 | fail | no evidence references found in row |
@@ -92,12 +92,6 @@ python scripts/build_evidence_validation_report.py
 | 132 | Art. 49 | fail | no evidence references found in row |
 | 189 | Art. 72 | fail | no evidence references found in row |
 | 223 | Art. 91 | fail | no evidence references found in row |
-| 279 | III | fail | no evidence references found in row |
-| 280 | IV | fail | no evidence references found in row |
-| 281 | V | fail | no evidence references found in row |
-| 282 | VI | fail | no evidence references found in row |
-| 284 | VIII | fail | no evidence references found in row |
-| 285 | IX | fail | no evidence references found in row |
 
 ### g7-ai-code.md
 
@@ -144,14 +138,12 @@ python scripts/build_evidence_validation_report.py
 | 29 | 4. Incident Reporting | fail | no evidence references found in row |
 | 30 | 5. Testing + Assurance | fail | no evidence references found in row |
 | 31 | 6. Security | fail | no evidence references found in row |
-| 38 | Component | fail | no evidence references found in row |
 
 ### iso-27001.md
 
 | Line | Control | Status | Detail |
 |---:|---|---|---|
 | 29 | 10 | fail | no evidence references found in row |
-| 33 | Theme | fail | no evidence references found in row |
 | 63 | A.5.3 | fail | no evidence references found in row |
 | 69 | A.5.9 | fail | no evidence references found in row |
 | 72 | A.5.12 | fail | no evidence references found in row |
@@ -180,7 +172,8 @@ python scripts/build_evidence_validation_report.py
 | 160 | A.8.24 | fail | no evidence references found in row |
 | 161 | A.8.25 | fail | no evidence references found in row |
 | 162 | A.8.26 | fail | no evidence references found in row |
-| ... | (+6 more rows) | | see EVIDENCE_VALIDATION.json |
+| 163 | A.8.27 | fail | no evidence references found in row |
+| ... | (+5 more rows) | | see EVIDENCE_VALIDATION.json |
 
 ### iso-42001.md
 
@@ -188,13 +181,11 @@ python scripts/build_evidence_validation_report.py
 |---:|---|---|---|
 | 33 | 9 | fail | no evidence references found in row |
 | 34 | 10 | fail | no evidence references found in row |
-| 38 | Control objective | fail | no evidence references found in row |
 
 ### nist-ai-rmf.md
 
 | Line | Control | Status | Detail |
 |---:|---|---|---|
-| 19 | Function | fail | no evidence references found in row |
 | 42 | GV-1.6 | fail | no evidence references found in row |
 | 43 | GV-1.7 | fail | no evidence references found in row |
 | 65 | GV-4.2 | fail | no evidence references found in row |
@@ -224,13 +215,13 @@ python scripts/build_evidence_validation_report.py
 | 178 | MG-1.2 | fail | no evidence references found in row |
 | 179 | MG-1.3 | fail | no evidence references found in row |
 | 180 | MG-1.4 | fail | no evidence references found in row |
-| ... | (+6 more rows) | | see EVIDENCE_VALIDATION.json |
+| 188 | MG-2.3 | fail | no evidence references found in row |
+| ... | (+5 more rows) | | see EVIDENCE_VALIDATION.json |
 
 ### nist-csf.md
 
 | Line | Control | Status | Detail |
 |---:|---|---|---|
-| 21 | Function | fail | no evidence references found in row |
 | 104 | ID.AM-01 | fail | no evidence references found in row |
 | 105 | ID.AM-02 | fail | no evidence references found in row |
 | 106 | ID.AM-03 | fail | no evidence references found in row |
@@ -260,7 +251,8 @@ python scripts/build_evidence_validation_report.py
 | 194 | DE.CM-06 | fail | no evidence references found in row |
 | 195 | DE.CM-09 | fail | no evidence references found in row |
 | 201 | DE.AE-02 | fail | no evidence references found in row |
-| ... | (+17 more rows) | | see EVIDENCE_VALIDATION.json |
+| 202 | DE.AE-03 | fail | no evidence references found in row |
+| ... | (+16 more rows) | | see EVIDENCE_VALIDATION.json |
 
 ### nyc-ll144.md
 
@@ -272,7 +264,6 @@ python scripts/build_evidence_validation_report.py
 | 34 | Allow candidate to request alternative selection p | fail | no evidence references found in row |
 | 35 | Information about data type + source + retention p | fail | no evidence references found in row |
 | 41 | Employer/agency must retain audit data for period  | fail | no evidence references found in row |
-| 51 | Section | fail | no evidence references found in row |
 
 ### owasp-llm.md
 
@@ -291,14 +282,7 @@ python scripts/build_evidence_validation_report.py
 
 | Line | Control | Status | Detail |
 |---:|---|---|---|
-| 28 | TSC | fail | no evidence references found in row |
 | 141 | PI1.5 | fail | no evidence references found in row |
-| 156 | P1 — Privacy notice | fail | no evidence references found in row |
-| 157 | P2 — Choice + consent | fail | no evidence references found in row |
-| 158 | P3 — Collection | fail | no evidence references found in row |
-| 159 | P4 — Use, retention, disposal | fail | no evidence references found in row |
-| 160 | P5 — Access | fail | no evidence references found in row |
-| 162 | P7 — Quality | fail | no evidence references found in row |
 
 ---
 

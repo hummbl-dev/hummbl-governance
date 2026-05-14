@@ -21,6 +21,7 @@ STATES = ("✅", "🟡", "⚪", "⛔")
 ROW_RE = re.compile(r"^\s*\|[^|\n]+(?:\|[^|\n]*)+\|\s*$")
 SEPARATOR_RE = re.compile(r"^\s*\|(?:\s*:?-{3,}:?\s*\|)+\s*$")
 LEGEND_LABELS = ("Fulfilled", "Partial", "Boundary", "Out of scope")
+GENERATED_MATRIX_REPORTS = {"README.md", "EVIDENCE_VALIDATION.md"}
 
 
 def count_rows(path: Path) -> dict:
@@ -117,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     files = sorted(
-        f for f in args.matrix_dir.glob("*.md") if f.name != "README.md"
+        f for f in args.matrix_dir.glob("*.md") if f.name not in GENERATED_MATRIX_REPORTS
     )
     fleet = {s: 0 for s in STATES}
     fleet_rows = 0

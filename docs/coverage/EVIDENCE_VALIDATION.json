@@ -1,16 +1,16 @@
 {
   "colorado-ai-act.md": {
-    "matrix": "docs\\coverage\\colorado-ai-act.md",
+    "matrix": "docs/coverage/colorado-ai-act.md",
     "totals": {
-      "fulfilled": 17,
+      "fulfilled": 16,
       "partial": 0,
       "boundary": 0,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 17,
-      "rows_without_refs": 17,
+      "rows_failed": 16,
+      "rows_without_refs": 16,
       "coverage_pct": 0.0
     },
     "rows": [
@@ -125,29 +125,22 @@
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "Section",
-        "line_no": 60,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
       }
     ]
   },
   "eu-ai-act.md": {
-    "matrix": "docs\\coverage\\eu-ai-act.md",
+    "matrix": "docs/coverage/eu-ai-act.md",
     "totals": {
-      "fulfilled": 22,
-      "partial": 18,
-      "boundary": 71,
+      "fulfilled": 16,
+      "partial": 15,
+      "boundary": 67,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 4,
-      "rows_failed": 18,
-      "rows_without_refs": 17,
-      "coverage_pct": 18.2
+      "rows_passed": 3,
+      "rows_failed": 13,
+      "rows_without_refs": 11,
+      "coverage_pct": 18.8
     },
     "rows": [
       {
@@ -162,14 +155,20 @@
         "line_no": 77,
         "refs": [
           {
-            "ref": "cognition/ledger_writer.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\audit_log.py",
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/audit_log.py"
+            "detail": "file exists"
+          },
+          {
+            "ref": "founder_mode/docs/design/krineia/CONNECTOR_RISK_REGISTER_SPEC.md",
+            "path": "founder_mode/docs/design/krineia/CONNECTOR_RISK_REGISTER_SPEC.md",
+            "status": "fail",
+            "detail": "file not found"
           }
         ],
-        "status": "pass",
-        "detail": "all refs resolve"
+        "status": "fail",
+        "detail": "1 of 2 refs unresolved"
       },
       {
         "control_id": "Art. 10",
@@ -217,22 +216,22 @@
         "line_no": 82,
         "refs": [
           {
-            "ref": "services/kill_switch_core.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\kill_switch.py",
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/kill_switch.py"
+            "detail": "file exists"
           },
           {
-            "ref": "delegation_context.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\delegation.py",
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/delegation.py"
+            "detail": "file exists"
           },
           {
-            "ref": "governance_bus.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\coordination_bus.py",
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/coordination_bus.py"
+            "detail": "file exists"
           }
         ],
         "status": "pass",
@@ -243,20 +242,20 @@
         "line_no": 83,
         "refs": [
           {
-            "ref": "services/circuit_breaker.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\circuit_breaker.py",
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/circuit_breaker.py"
+            "detail": "file exists"
           },
           {
-            "ref": "services/delegation_token.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\delegation.py",
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/delegation.py"
+            "detail": "file exists"
           },
           {
             "ref": ".github/workflows/security.yml",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\.github\\workflows\\security.yml",
+            "path": ".github/workflows/security.yml",
             "status": "fail",
             "detail": "file not found"
           }
@@ -326,64 +325,22 @@
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "III",
-        "line_no": 279,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "IV",
-        "line_no": 280,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "V",
-        "line_no": 281,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "VI",
-        "line_no": 282,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "VIII",
-        "line_no": 284,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "IX",
-        "line_no": 285,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
       }
     ]
   },
   "g7-ai-code.md": {
-    "matrix": "docs\\coverage\\g7-ai-code.md",
+    "matrix": "docs/coverage/g7-ai-code.md",
     "totals": {
-      "fulfilled": 7,
-      "partial": 2,
+      "fulfilled": 6,
+      "partial": 3,
       "boundary": 2,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 1,
+      "rows_passed": 0,
       "rows_failed": 6,
       "rows_without_refs": 6,
-      "coverage_pct": 14.3
+      "coverage_pct": 0.0
     },
     "rows": [
       {
@@ -422,20 +379,6 @@
         "detail": "no evidence references found in row"
       },
       {
-        "control_id": "7",
-        "line_no": 27,
-        "refs": [
-          {
-            "ref": "services/c2pa_mcp",
-            "path": "TIER2_ADMITTED:services/c2pa_mcp (Tier-2 packet, not shipped)",
-            "status": "tier2",
-            "detail": "Tier-2 admitted dependency, not in shipped code"
-          }
-        ],
-        "status": "pass",
-        "detail": "all refs resolve"
-      },
-      {
         "control_id": "11",
         "line_no": 31,
         "refs": [],
@@ -445,11 +388,11 @@
     ]
   },
   "gdpr.md": {
-    "matrix": "docs\\coverage\\gdpr.md",
+    "matrix": "docs/coverage/gdpr.md",
     "totals": {
       "fulfilled": 20,
-      "partial": 10,
-      "boundary": 36,
+      "partial": 11,
+      "boundary": 42,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
@@ -464,10 +407,10 @@
         "line_no": 48,
         "refs": [
           {
-            "ref": "cognition/ledger_writer.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\audit_log.py",
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/audit_log.py"
+            "detail": "file exists"
           }
         ],
         "status": "pass",
@@ -576,10 +519,10 @@
         "line_no": 102,
         "refs": [
           {
-            "ref": "delegation_context.py",
-            "path": "C:\\Users\\Owner\\_internal\\worktrees\\hummbl-governance-evidence-validation\\hummbl_governance\\delegation.py",
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
             "status": "pass",
-            "detail": "resolved via alias -> hummbl_governance/delegation.py"
+            "detail": "file exists"
           }
         ],
         "status": "pass",
@@ -616,18 +559,18 @@
     ]
   },
   "imda-agentic.md": {
-    "matrix": "docs\\coverage\\imda-agentic.md",
+    "matrix": "docs/coverage/imda-agentic.md",
     "totals": {
-      "fulfilled": 9,
-      "partial": 4,
+      "fulfilled": 7,
+      "partial": 5,
       "boundary": 1,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 1,
-      "rows_failed": 8,
-      "rows_without_refs": 8,
-      "coverage_pct": 11.1
+      "rows_passed": 0,
+      "rows_failed": 7,
+      "rows_without_refs": 7,
+      "coverage_pct": 0.0
     },
     "rows": [
       {
@@ -678,55 +621,27 @@
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "7. Content Provenance",
-        "line_no": 32,
-        "refs": [
-          {
-            "ref": "services/c2pa_mcp",
-            "path": "TIER2_ADMITTED:services/c2pa_mcp (Tier-2 packet, not shipped)",
-            "status": "tier2",
-            "detail": "Tier-2 admitted dependency, not in shipped code"
-          }
-        ],
-        "status": "pass",
-        "detail": "all refs resolve"
-      },
-      {
-        "control_id": "Component",
-        "line_no": 38,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
       }
     ]
   },
   "iso-27001.md": {
-    "matrix": "docs\\coverage\\iso-27001.md",
+    "matrix": "docs/coverage/iso-27001.md",
     "totals": {
-      "fulfilled": 36,
+      "fulfilled": 35,
       "partial": 24,
       "boundary": 41,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 36,
-      "rows_without_refs": 36,
+      "rows_failed": 35,
+      "rows_without_refs": 35,
       "coverage_pct": 0.0
     },
     "rows": [
       {
         "control_id": "10",
         "line_no": 29,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "Theme",
-        "line_no": 33,
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
@@ -972,17 +887,17 @@
     ]
   },
   "iso-42001.md": {
-    "matrix": "docs\\coverage\\iso-42001.md",
+    "matrix": "docs/coverage/iso-42001.md",
     "totals": {
-      "fulfilled": 3,
+      "fulfilled": 2,
       "partial": 3,
       "boundary": 2,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 3,
-      "rows_without_refs": 3,
+      "rows_failed": 2,
+      "rows_without_refs": 2,
       "coverage_pct": 0.0
     },
     "rows": [
@@ -999,38 +914,24 @@
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "Control objective",
-        "line_no": 38,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
       }
     ]
   },
   "nist-ai-rmf.md": {
-    "matrix": "docs\\coverage\\nist-ai-rmf.md",
+    "matrix": "docs/coverage/nist-ai-rmf.md",
     "totals": {
-      "fulfilled": 36,
+      "fulfilled": 35,
       "partial": 24,
       "boundary": 13,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 36,
-      "rows_without_refs": 36,
+      "rows_failed": 35,
+      "rows_without_refs": 35,
       "coverage_pct": 0.0
     },
     "rows": [
-      {
-        "control_id": "Function",
-        "line_no": 19,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
       {
         "control_id": "GV-1.6",
         "line_no": 42,
@@ -1279,27 +1180,20 @@
     ]
   },
   "nist-csf.md": {
-    "matrix": "docs\\coverage\\nist-csf.md",
+    "matrix": "docs/coverage/nist-csf.md",
     "totals": {
-      "fulfilled": 47,
+      "fulfilled": 46,
       "partial": 21,
       "boundary": 13,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 47,
-      "rows_without_refs": 47,
+      "rows_failed": 46,
+      "rows_without_refs": 46,
       "coverage_pct": 0.0
     },
     "rows": [
-      {
-        "control_id": "Function",
-        "line_no": 21,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
       {
         "control_id": "ID.AM-01",
         "line_no": 104,
@@ -1625,17 +1519,17 @@
     ]
   },
   "nyc-ll144.md": {
-    "matrix": "docs\\coverage\\nyc-ll144.md",
+    "matrix": "docs/coverage/nyc-ll144.md",
     "totals": {
-      "fulfilled": 7,
+      "fulfilled": 6,
       "partial": 0,
       "boundary": 0,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 7,
-      "rows_without_refs": 7,
+      "rows_failed": 6,
+      "rows_without_refs": 6,
       "coverage_pct": 0.0
     },
     "rows": [
@@ -1680,18 +1574,11 @@
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "Section",
-        "line_no": 51,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
       }
     ]
   },
   "owasp-llm.md": {
-    "matrix": "docs\\coverage\\owasp-llm.md",
+    "matrix": "docs/coverage/owasp-llm.md",
     "totals": {
       "fulfilled": 8,
       "partial": 2,
@@ -1764,72 +1651,23 @@
     ]
   },
   "soc2.md": {
-    "matrix": "docs\\coverage\\soc2.md",
+    "matrix": "docs/coverage/soc2.md",
     "totals": {
-      "fulfilled": 8,
-      "partial": 13,
+      "fulfilled": 1,
+      "partial": 11,
       "boundary": 6,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
       "rows_passed": 0,
-      "rows_failed": 8,
-      "rows_without_refs": 8,
+      "rows_failed": 1,
+      "rows_without_refs": 1,
       "coverage_pct": 0.0
     },
     "rows": [
       {
-        "control_id": "TSC",
-        "line_no": 28,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
         "control_id": "PI1.5",
         "line_no": 141,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "P1 — Privacy notice",
-        "line_no": 156,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "P2 — Choice + consent",
-        "line_no": 157,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "P3 — Collection",
-        "line_no": 158,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "P4 — Use, retention, disposal",
-        "line_no": 159,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "P5 — Access",
-        "line_no": 160,
-        "refs": [],
-        "status": "fail",
-        "detail": "no evidence references found in row"
-      },
-      {
-        "control_id": "P7 — Quality",
-        "line_no": 162,
         "refs": [],
         "status": "fail",
         "detail": "no evidence references found in row"
