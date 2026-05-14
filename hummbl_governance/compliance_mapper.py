@@ -1,4 +1,4 @@
-"""Compliance Mapper -- Map governance traces to SOC2, GDPR, OWASP, NIST AI RMF, EU AI Act, ISO 27001, and NIST CSF controls.
+"""Compliance Mapper -- Map governance traces to common security and AI controls.
 
 This module parses append-only governance bus JSONL files and extracts
 cryptographic evidence to satisfy specific regulatory controls.
