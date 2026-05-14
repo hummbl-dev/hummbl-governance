@@ -848,8 +848,9 @@ def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: boo
     root = Path(repo_root).resolve()
     text = path.read_text(encoding="utf-8")
 
-    # Match backtick-quoted file references containing known path patterns
-    file_ref = re.compile(r"`([^`]*(?:services/|hummbl_governance/|tests/|\.py|\.md|\.ts)[^`]*)`")
+    # Match backtick-quoted file references containing known path patterns.
+    # The leading .*? is non-greedy so the alternation group can match.
+    file_ref = re.compile(r"`(.*?(?:services/|hummbl_governance/|tests/|\.py|\.md|\.ts).*?)`")
 
     results: list[dict] = []
     passed = 0
@@ -908,3 +909,7 @@ def _resolve_evidence(ref: str, repo_root: Path) -> dict:
                 return {"path": str(py_candidate), "status": "pass", "detail": "file exists (.py)"}
 
     return {"path": str(candidates[0]), "status": "fail", "detail": "file not found"}
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -10,6 +10,7 @@ from pathlib import Path
 from hummbl_governance.compliance_mapper import (
     ComplianceMapper,
     ComplianceReport,
+    _validate_matrix,
     main,
 )
 
@@ -1001,3 +1002,31 @@ class TestComplianceMapperNISTCSF:
         parsed = json.loads(report.to_json())
         assert parsed["framework"] == "NIST_CSF"
         assert len(parsed["controls"]["GOVERN"]) == 1
+
+    # ------------------------------------------------------------------
+    # Coverage matrix validation
+    # ------------------------------------------------------------------
+
+    def test_validate_real_file_passes(self, tmp_path):
+        matrix = tmp_path / "matrix.md"
+        matrix.write_text(
+            "| ID | Evidence |\n|---|---|\n"
+            "| C1 | `tests/test_compliance_mapper.py` |\n",
+            encoding="utf-8",
+        )
+        rc = _validate_matrix(str(matrix), repo_root=str(Path(__file__).parent.parent))
+        assert rc == 0  # file exists
+
+    def test_validate_phantom_file_fails(self, tmp_path):
+        matrix = tmp_path / "matrix.md"
+        matrix.write_text(
+            "| ID | Evidence |\n|---|---|\n"
+            "| C1 | `services/nonexistent_c2pa_mcp.py` |\n",
+            encoding="utf-8",
+        )
+        rc = _validate_matrix(str(matrix), repo_root=str(Path(__file__).parent.parent))
+        assert rc == 1  # file not found
+
+    def test_validate_missing_matrix_file(self, tmp_path):
+        rc = _validate_matrix(str(tmp_path / "nonexistent.md"))
+        assert rc == 2  # file not found
