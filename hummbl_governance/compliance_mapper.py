@@ -45,6 +45,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -782,8 +783,27 @@ def main(argv: list[str] | None = None) -> int:
         "--dir", type=str, default="governance", help="Governance directory"
     )
     parser.add_argument("--output", type=str, help="Output JSON file path")
+    parser.add_argument(
+        "--validate", type=str, metavar="MATRIX.md",
+        help="Validate a coverage matrix .md file and report pass/fail per cell",
+    )
+    parser.add_argument(
+        "--repo-root", type=str, default=".",
+        help="Repository root for resolving relative evidence paths (default: CWD)",
+    )
+    parser.add_argument(
+        "--validate-json", action="store_true",
+        help="Output validation results as JSON instead of terminal table",
+    )
 
     args = parser.parse_args(argv)
+
+    if args.validate:
+        return _validate_matrix(
+            args.validate,
+            repo_root=args.repo_root,
+            json_output=args.validate_json,
+        )
 
     mapper = ComplianceMapper(governance_dir=Path(args.dir))
     if args.framework == "gdpr":
@@ -812,5 +832,79 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: bool = False) -> int:
+    """Validate a coverage matrix .md file.
+
+    Parses evidence cells, resolves file references against repo_root,
+    and checks file existence. Reports pass/fail per evidence cell.
+
+    Returns 0 if all evidence cells pass, 1 if any fail.
+    """
+    path = Path(matrix_path)
+    if not path.exists():
+        print(f"ERROR: Matrix file not found: {matrix_path}", file=sys.stderr)
+        return 2
+
+    root = Path(repo_root).resolve()
+    text = path.read_text(encoding="utf-8")
+
+    # Match backtick-quoted file references containing known path patterns
+    file_ref = re.compile(r"`([^`]*(?:services/|hummbl_governance/|tests/|\.py|\.md|\.ts)[^`]*)`")
+
+    results: list[dict] = []
+    passed = 0
+    failed = 0
+
+    for match in file_ref.finditer(text):
+        ref = match.group(1).strip()
+        # Skip markdown formatting, URLs, generic descriptions
+        if ref.startswith("http") or len(ref) > 200:
+            continue
+        if "/" not in ref and "." not in ref:
+            continue
+        resolved = _resolve_evidence(ref, root)
+        cell = {"evidence": ref, "resolved": resolved["path"], "status": resolved["status"], "detail": resolved["detail"]}
+        results.append(cell)
+        if resolved["status"] == "pass":
+            passed += 1
+        else:
+            failed += 1
+
+    if json_output:
+        import json as _json
+        print(_json.dumps({"total": passed + failed, "passed": passed, "failed": failed, "results": results}, indent=2))
+    else:
+        print(f"Matrix validation: {passed + failed} evidence cells")
+        print(f"  Passed: {passed}")
+        print(f"  Failed: {failed}")
+        for r in results:
+            icon = "PASS" if r["status"] == "pass" else "FAIL"
+            print(f"  [{icon}] {r['evidence']} -> {r['resolved']} ({r['detail']})")
+
+    return 0 if failed == 0 else 1
+
+
+def _resolve_evidence(ref: str, repo_root: Path) -> dict:
+    """Resolve an evidence reference to a file path and check existence."""
+    root = repo_root
+
+    # Known file references — try common locations
+    candidates = [
+        root / ref,                              # relative to repo root
+        root / "hummbl_governance" / ref,         # within package
+        root / "tests" / ref,                     # within tests
+        root / "hummbl_governance" / ref.replace("/", "/"),  # normalize
+    ]
+
+    for candidate in candidates:
+        if candidate.exists():
+            return {"path": str(candidate), "status": "pass", "detail": "file exists"}
+
+    # Try with .py extension
+    if not ref.endswith(".py") and not ref.endswith(".md"):
+        for candidate in candidates:
+            py_candidate = candidate.with_suffix(".py")
+            if py_candidate.exists():
+                return {"path": str(py_candidate), "status": "pass", "detail": "file exists (.py)"}
+
+    return {"path": str(candidates[0]), "status": "fail", "detail": "file not found"}
