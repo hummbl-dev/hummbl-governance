@@ -76,8 +76,8 @@ The claim does NOT assert:
 ```
 | Article / Control | Requirement (≤1 line) | HUMMBL coverage | Evidence artifact |
 |---|---|---|---|
-| EU AI Act Art. 9 | Continuous iterative risk mgmt across lifecycle | ✅ governance bus + risk register tuples + signed audit log | `compliance_mapper --framework eu-ai-act --control art-9` |
-| EU AI Act Art. 5 | Prohibited AI practices (8 categories) | 🟡 Customer policy (not platform-enforceable). HUMMBL provides use-case classification + red-flag detection + kill-switch. | `services/kill_switch_core.py` + use-case taxonomy |
+| EU AI Act Art. 9 | Continuous iterative risk mgmt across lifecycle | ✅ governance bus + risk register tuples + signed audit log | `compliance_mapper --framework eu-ai-act` |
+| EU AI Act Art. 5 | Prohibited AI practices (8 categories) | 🟡 Customer policy (not platform-enforceable). HUMMBL provides use-case classification + red-flag detection + kill-switch. | `hummbl_governance/kill_switch.py` + use-case taxonomy |
 | EU AI Act Art. 71 | EU institutional structure (AI Office) | ⚪ Boundary: organizational/regulatory. HUMMBL provides notification interface. | n/a — boundary row |
 | EU AI Act Art. 99 | Penalties (Tier 2: €15M / 3% turnover) | ⚪ Boundary: regulatory penalty structure (not a software control). | n/a — informational row |
 ```

@@ -67,6 +67,19 @@ jobs:
       - run: pip install ruff
       - run: ruff check .
 
+  coverage-matrix-invariants:
+    name: coverage-matrix invariants (ADR-001)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Row totals match declared counts
+        run: python scripts/count_coverage_rows.py
+      - name: Evidence cells are resolvable or explicitly drafted
+        run: python scripts/validate_evidence_cells.py --strict
+
   arbiter-governance:
     runs-on: ubuntu-latest
     steps:

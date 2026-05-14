@@ -5,10 +5,19 @@ Inspects every code-reference in matrix Evidence cells and classifies as:
   - DRAFT — already explicitly marked [DRAFT] or "planned"
   - UNRESOLVABLE — claims a CLI flag or path that does not exist
 
-Stdlib-only. Implements hummbl-governance#29 — validate or relabel draft cells.
+Stdlib-only. Implements hummbl-governance#29 (CLI surface) and
+hummbl-governance#31 (path-resolution against actual hummbl_governance package).
 
-The validator reads compliance_mapper.py's argparse surface to determine what
-flags exist. Unresolvable cells are reported for manual relabeling.
+Two classes of unresolvable references the validator catches:
+
+1. CLI invocations with flags or framework values outside the real
+   compliance_mapper argparse surface.
+2. Python file paths under founder_mode/, services/, cognition/, integrations/
+   that do not exist in the hummbl-governance package layout. The
+   hummbl-governance package uses `hummbl_governance/*` paths
+   (kill_switch.py, delegation.py, coordination_bus.py, audit_log.py, ...);
+   founder-mode-style paths are package-context errors that must be
+   translated or labeled planned/external.
 """
 
 from __future__ import annotations
@@ -79,28 +88,31 @@ def classify_reference(ref: str) -> tuple[str, str]:
 
     # Python file paths
     if RE_PYTHON_MODULE_PATH.match(ref):
-        # Common founder-mode primitives we've verified
-        known_paths = {
-            "services/kill_switch_core.py",
-            "services/delegation_token.py",
-            "services/delegation_context.py",
-            "services/governance_bus.py",
-            "services/circuit_breaker.py",
-            "cognition/ledger_writer.py",
-            "founder_mode/cognition/ledger_writer.py",
-            "founder_mode/services/kill_switch_core.py",
-            "founder_mode/services/delegation_token.py",
-            "founder_mode/services/delegation_context.py",
-            "founder_mode/services/governance_bus.py",
-            "founder_mode/services/circuit_breaker.py",
-        }
-        if ref in known_paths or ref.replace("`", "") in known_paths:
-            return "file-path", "valid"
+        # Check actual hummbl-governance package layout (#31).
+        # Paths under hummbl_governance/* are resolvable; founder-mode-style
+        # paths (services/, cognition/, integrations/) do not exist in this
+        # package and must be translated or labeled planned/external.
+        if ref.startswith("hummbl_governance/"):
+            pkg_path = Path(__file__).resolve().parent.parent / ref
+            if pkg_path.exists():
+                return "file-path", "valid"
+            return "file-path", "unresolvable"
+
+        # founder-mode-style paths in a hummbl-governance matrix
+        if ref.startswith(("services/", "cognition/", "integrations/", "bus/")):
+            return "file-path", "unresolvable"
+
         return "file-path", "unknown-path"
 
-    # Founder-mode paths (broader)
+    # Founder-mode paths — file references to the founder-mode repo cited
+    # from hummbl-governance matrices need to be labeled external: or
+    # planned: rather than presented as if they resolve in-package.
     if RE_FOUNDER_MODE_PATH.match(ref):
-        return "founder-mode-path", "external-ref"
+        # Spec/doc paths are legitimate external references.
+        if "/docs/" in ref or ref.endswith(".md"):
+            return "founder-mode-path", "external-ref"
+        # Python module paths under founder_mode are unresolvable in-package.
+        return "founder-mode-path", "unresolvable"
 
     # Docs path
     if RE_DOCS_PATH.match(ref):
