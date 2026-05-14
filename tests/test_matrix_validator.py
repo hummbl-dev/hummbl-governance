@@ -13,8 +13,6 @@ import sys
 from io import StringIO
 from pathlib import Path
 
-import pytest
-
 from hummbl_governance.compliance_mapper import (
     _MODULE_ALIASES,
     _STATE_BOUNDARY,
