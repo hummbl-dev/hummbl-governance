@@ -12,6 +12,11 @@ from __future__ import annotations
 import subprocess
 import sys
 from pathlib import Path
+from tempfile import TemporaryDirectory
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from scripts.validate_evidence_cells import classify_reference, scan_matrix
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = REPO_ROOT / "scripts" / "validate_evidence_cells.py"
@@ -31,6 +36,24 @@ def test_validator_script_runs():
     """The validator runs against current matrices."""
     result = _run_validator_strict()
     assert result.returncode in (0, 1), f"Validator crashed: {result.stderr}"
+
+
+def test_missing_python_paths_are_unresolvable():
+    """Missing Python path evidence must fail strict accounting, not pass as unknown."""
+    kind, status = classify_reference("services/kill_switch_core.py")
+    assert kind == "file-path"
+    assert status == "unresolvable"
+
+
+def test_scan_matrix_counts_missing_python_paths_as_unresolvable():
+    """Strict-mode callers rely on the unresolvable counter, so missing paths must increment it."""
+    with TemporaryDirectory() as tmp:
+        matrix = Path(tmp) / "sample.md"
+        matrix.write_text("| Evidence |\n|---|\n| `missing/local_path.py` |\n", encoding="utf-8")
+
+        result = scan_matrix(matrix, repo_root=Path(tmp))
+
+    assert result["by_status"]["unresolvable"] == 1
 
 
 def test_no_unresolvable_evidence_cells_in_strict_mode():

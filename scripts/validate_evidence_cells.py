@@ -63,7 +63,10 @@ def classify_compliance_mapper_invocation(text: str) -> tuple[str, str]:
     return "valid", "matches CLI surface"
 
 
-def classify_reference(ref: str) -> tuple[str, str]:
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def classify_reference(ref: str, repo_root: Path = REPO_ROOT) -> tuple[str, str]:
     """Classify a backtick-quoted reference. Returns (kind, status)."""
     # Strip wrapping whitespace
     ref = ref.strip()
@@ -79,24 +82,9 @@ def classify_reference(ref: str) -> tuple[str, str]:
 
     # Python file paths
     if RE_PYTHON_MODULE_PATH.match(ref):
-        # Common founder-mode primitives we've verified
-        known_paths = {
-            "services/kill_switch_core.py",
-            "services/delegation_token.py",
-            "services/delegation_context.py",
-            "services/governance_bus.py",
-            "services/circuit_breaker.py",
-            "cognition/ledger_writer.py",
-            "founder_mode/cognition/ledger_writer.py",
-            "founder_mode/services/kill_switch_core.py",
-            "founder_mode/services/delegation_token.py",
-            "founder_mode/services/delegation_context.py",
-            "founder_mode/services/governance_bus.py",
-            "founder_mode/services/circuit_breaker.py",
-        }
-        if ref in known_paths or ref.replace("`", "") in known_paths:
+        if (repo_root / ref).is_file():
             return "file-path", "valid"
-        return "file-path", "unknown-path"
+        return "file-path", "unresolvable"
 
     # Founder-mode paths (broader)
     if RE_FOUNDER_MODE_PATH.match(ref):
@@ -113,14 +101,14 @@ def classify_reference(ref: str) -> tuple[str, str]:
     return "other", "uncategorized"
 
 
-def scan_matrix(path: Path) -> dict:
+def scan_matrix(path: Path, repo_root: Path = REPO_ROOT) -> dict:
     """Scan a matrix file and return reference classification."""
     text = path.read_text(encoding="utf-8")
     refs: list[dict] = []
 
     for match in BACKTICK_RE.finditer(text):
         ref = match.group(1)
-        kind, status = classify_reference(ref)
+        kind, status = classify_reference(ref, repo_root)
         # Skip uninteresting categories
         if kind in ("draft-marker", "config-token"):
             continue
