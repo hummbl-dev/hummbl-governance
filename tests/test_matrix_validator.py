@@ -231,6 +231,20 @@ def test_validate_matrix_returns_zero_on_clean_matrix(tmp_path):
     assert data["totals"]["boundary"] == 1
 
 
+def test_validate_matrix_json_uses_posix_repo_relative_matrix_path():
+    root = Path(__file__).resolve().parent.parent
+    matrix = root / "docs" / "coverage" / "eu-ai-act.md"
+    buf = StringIO()
+    old_stdout = sys.stdout
+    sys.stdout = buf
+    try:
+        _validate_matrix(str(matrix), repo_root=str(root), json_output=True)
+    finally:
+        sys.stdout = old_stdout
+    data = json.loads(buf.getvalue())
+    assert data["matrix"] == "docs/coverage/eu-ai-act.md"
+
+
 def test_validate_matrix_returns_one_on_unresolved_refs(tmp_path):
     matrix = tmp_path / "tiny.md"
     matrix.write_text(

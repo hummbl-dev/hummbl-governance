@@ -18,6 +18,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[1]
 COVERAGE_DIR = REPO_ROOT / "docs" / "coverage"
 SCRIPT = REPO_ROOT / "scripts" / "count_coverage_rows.py"
+REPORT_SCRIPT = REPO_ROOT / "scripts" / "build_evidence_validation_report.py"
 
 STATES = ("✅", "🟡", "⚪", "⛔")
 
@@ -40,6 +41,20 @@ def test_count_script_runs():
     data = _run_counter()
     assert "matrices" in data
     assert len(data["matrices"]) > 0
+
+
+def test_report_builder_uses_posix_repo_relative_paths():
+    """Report builder must produce stable matrix paths on Windows and POSIX."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("build_evidence_validation_report", REPORT_SCRIPT)
+    assert spec is not None
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
+    matrix = REPO_ROOT / "docs" / "coverage" / "eu-ai-act.md"
+    assert module._repo_relative_posix(matrix, REPO_ROOT) == "docs/coverage/eu-ai-act.md"
 
 
 def test_no_unverified_totals_claim_in_readme():

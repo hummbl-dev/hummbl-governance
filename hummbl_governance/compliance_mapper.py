@@ -1042,7 +1042,7 @@ def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: boo
             row_failed += 1
 
     summary = {
-        "matrix": str(path),
+        "matrix": _display_path(path, root),
         "totals": {
             "fulfilled": len(fulfilled_rows),
             "partial": len(partial_rows),

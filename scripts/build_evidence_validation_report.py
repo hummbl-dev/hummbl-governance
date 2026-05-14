@@ -23,6 +23,11 @@ import sys
 from pathlib import Path
 
 
+def _repo_relative_posix(path: str | Path, repo_root: Path) -> str:
+    """Return repo-relative paths with stable POSIX separators."""
+    return Path(path).relative_to(repo_root).as_posix()
+
+
 def main() -> int:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from hummbl_governance.compliance_mapper import _validate_matrix
@@ -42,7 +47,7 @@ def main() -> int:
         saved_stdout = sys.stdout
         sys.stdout = buf
         try:
-            _validate_matrix(str(Path(path_str).relative_to(repo_root)), repo_root=str(repo_root), json_output=True)
+            _validate_matrix(_repo_relative_posix(path_str, repo_root), repo_root=str(repo_root), json_output=True)
         finally:
             sys.stdout = saved_stdout
         data = json.loads(buf.getvalue())
