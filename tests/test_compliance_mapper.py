@@ -1030,3 +1030,23 @@ class TestComplianceMapperNISTCSF:
     def test_validate_missing_matrix_file(self, tmp_path):
         rc = _validate_matrix(str(tmp_path / "nonexistent.md"))
         assert rc == 2  # file not found
+
+    def test_validate_cross_root_resolves(self, tmp_path):
+        # Create a "founder-mode" root with a service file
+        other_root = tmp_path / "founder-mode"
+        svc = other_root / "services"
+        svc.mkdir(parents=True)
+        (svc / "kill_switch_core.py").write_text("# test", encoding="utf-8")
+
+        matrix = tmp_path / "matrix.md"
+        matrix.write_text(
+            "| ID | Evidence |\n|---|---|\n"
+            "| C1 | `services/kill_switch_core.py` |\n",
+            encoding="utf-8",
+        )
+        rc = _validate_matrix(
+            str(matrix),
+            repo_root=str(tmp_path),
+            evidence_roots=[str(other_root)],
+        )
+        assert rc == 0  # found via cross-repo root

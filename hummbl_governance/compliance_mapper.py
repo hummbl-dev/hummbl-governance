@@ -789,7 +789,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--repo-root", type=str, default=".",
-        help="Repository root for resolving relative evidence paths (default: CWD)",
+        help="Repository root for resolving relative evidence paths (default: CWD). "
+             "Use --evidence-roots for cross-repo resolution.",
+    )
+    parser.add_argument(
+        "--evidence-roots", type=str, nargs="*", default=None,
+        help="Additional repository roots for cross-repo evidence resolution. "
+             "Use when matrices reference paths in multiple repos (e.g. founder-mode).",
     )
     parser.add_argument(
         "--validate-json", action="store_true",
@@ -802,6 +808,7 @@ def main(argv: list[str] | None = None) -> int:
         return _validate_matrix(
             args.validate,
             repo_root=args.repo_root,
+            evidence_roots=args.evidence_roots or [],
             json_output=args.validate_json,
         )
 
@@ -832,11 +839,12 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
-def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: bool = False) -> int:
+def _validate_matrix(matrix_path: str, *, repo_root: str = ".", evidence_roots: list[str] | None = None, json_output: bool = False) -> int:
     """Validate a coverage matrix .md file.
 
-    Parses evidence cells, resolves file references against repo_root,
-    and checks file existence. Reports pass/fail per evidence cell.
+    Parses evidence cells, resolves file references against repo_root and
+    optional additional evidence_roots (for cross-repo resolution), and
+    checks file existence. Reports pass/fail per evidence cell.
 
     Returns 0 if all evidence cells pass, 1 if any fail.
     """
@@ -846,11 +854,12 @@ def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: boo
         return 2
 
     root = Path(repo_root).resolve()
+    extra_roots = [Path(r).resolve() for r in (evidence_roots or [])]
     text = path.read_text(encoding="utf-8")
 
-    # Match backtick-quoted file references containing known path patterns.
-    # The leading .*? is non-greedy so the alternation group can match.
-    file_ref = re.compile(r"`(.*?(?:services/|hummbl_governance/|tests/|\.py|\.md|\.ts).*?)`")
+    # Match backtick-quoted file references. Use non-greedy matching
+    # and anchor to avoid cross-cell pulls.
+    file_ref = re.compile(r"`([^`]*?(?:[^`\s]*/|[^`\s]*\.(?:py|md|ts|tsv|jsonl))[^`]*)`")
 
     results: list[dict] = []
     passed = 0
@@ -858,12 +867,14 @@ def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: boo
 
     for match in file_ref.finditer(text):
         ref = match.group(1).strip()
-        # Skip markdown formatting, URLs, generic descriptions
+        # Skip markdown formatting, URLs, non-ASCII, or very long refs
         if ref.startswith("http") or len(ref) > 200:
+            continue
+        if not ref.isascii():
             continue
         if "/" not in ref and "." not in ref:
             continue
-        resolved = _resolve_evidence(ref, root)
+        resolved = _resolve_evidence(ref, root, extra_roots)
         cell = {"evidence": ref, "resolved": resolved["path"], "status": resolved["status"], "detail": resolved["detail"]}
         results.append(cell)
         if resolved["status"] == "pass":
@@ -885,30 +896,32 @@ def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: boo
     return 0 if failed == 0 else 1
 
 
-def _resolve_evidence(ref: str, repo_root: Path) -> dict:
-    """Resolve an evidence reference to a file path and check existence."""
-    root = repo_root
+def _resolve_evidence(ref: str, repo_root: Path, extra_roots: list[Path] | None = None) -> dict:
+    """Resolve an evidence reference to a file path and check existence across multiple roots."""
+    all_roots = [repo_root] + (extra_roots or [])
 
-    # Known file references — try common locations
-    candidates = [
-        root / ref,                              # relative to repo root
-        root / "hummbl_governance" / ref,         # within package
-        root / "tests" / ref,                     # within tests
-        root / "hummbl_governance" / ref.replace("/", "/"),  # normalize
-    ]
-
-    for candidate in candidates:
-        if candidate.exists():
-            return {"path": str(candidate), "status": "pass", "detail": "file exists"}
-
-    # Try with .py extension
-    if not ref.endswith(".py") and not ref.endswith(".md"):
+    for root in all_roots:
+        candidates = [
+            root / ref,
+            root / "hummbl_governance" / ref,
+            root / "tests" / ref,
+            root / "founder_mode" / ref,
+            root / "founder_mode" / "services" / ref,
+            root / "founder_mode" / "cognition" / ref,
+            root / "services" / ref,
+        ]
         for candidate in candidates:
-            py_candidate = candidate.with_suffix(".py")
-            if py_candidate.exists():
-                return {"path": str(py_candidate), "status": "pass", "detail": "file exists (.py)"}
+            if candidate.exists():
+                return {"path": str(candidate), "status": "pass", "detail": f"file exists (via {root.name})"}
 
-    return {"path": str(candidates[0]), "status": "fail", "detail": "file not found"}
+        # Try with .py extension
+        if not ref.endswith(".py"):
+            for candidate in candidates[:4]:
+                py_candidate = candidate.with_suffix(".py")
+                if py_candidate.exists():
+                    return {"path": str(py_candidate), "status": "pass", "detail": f"file exists (.py via {root.name})"}
+
+    return {"path": f"Tried {len(all_roots)} root(s)", "status": "fail", "detail": "file not found in any root"}
 
 
 if __name__ == "__main__":
