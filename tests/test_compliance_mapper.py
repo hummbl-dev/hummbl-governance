@@ -838,10 +838,13 @@ class TestComplianceMapperEUAIAct:
         assert len(report.controls["Art.19"]) >= 1
         assert report.controls["Art.19"][0].get("auto_generated") is True
 
-    # ------------------------------------------------------------------
-    # ISO 27001
-    # ------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# TestComplianceMapperISO27001
+# ---------------------------------------------------------------------------
+
+
+class TestComplianceMapperISO27001:
     def test_iso27001_all_controls_initialized(self, tmp_path):
         mapper = ComplianceMapper(governance_dir=tmp_path)
         report = mapper.generate_iso27001_report(days=30)
@@ -907,10 +910,13 @@ class TestComplianceMapperEUAIAct:
         assert parsed["framework"] == "ISO27001"
         assert len(parsed["controls"]["A.9"]) == 1
 
-    # ------------------------------------------------------------------
-    # NIST CSF
-    # ------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# TestComplianceMapperNISTCSF
+# ---------------------------------------------------------------------------
+
+
+class TestComplianceMapperNISTCSF:
     def test_nist_csf_all_controls_initialized(self, tmp_path):
         mapper = ComplianceMapper(governance_dir=tmp_path)
         report = mapper.generate_nist_csf_report(days=30)
