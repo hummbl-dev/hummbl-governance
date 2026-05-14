@@ -1055,12 +1055,13 @@ def _validate_matrix(matrix_path: str, *, repo_root: str = ".", json_output: boo
         print(f"Matrix: {path.name}")
         # ASCII-safe terminal output for Windows cp1252 consoles.
         # JSON output above preserves the full unicode state glyphs.
-        print(
-            f"  Rows: FUL {len(fulfilled_rows)} | PAR {len(partial_rows)} | BND {len(boundary_rows)} | OOS {len(oos_rows)}"
-        )
-        print(
-            f"  FUL rows validated: {row_passed}/{len(fulfilled_rows)} ({summary['fulfilled_validation']['coverage_pct']}%)"
-        )
+        ful_n = len(fulfilled_rows)
+        par_n = len(partial_rows)
+        bnd_n = len(boundary_rows)
+        oos_n = len(oos_rows)
+        pct = summary["fulfilled_validation"]["coverage_pct"]
+        print(f"  Rows: FUL {ful_n} | PAR {par_n} | BND {bnd_n} | OOS {oos_n}")
+        print(f"  FUL rows validated: {row_passed}/{ful_n} ({pct}%)")
         if rows_without_refs:
             print(f"  WARN: {rows_without_refs} FUL row(s) have NO evidence refs (hardening gap)")
         for r in row_results:
