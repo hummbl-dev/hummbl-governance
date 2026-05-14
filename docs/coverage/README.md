@@ -23,9 +23,11 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | OWASP LLM Top 10 (2025) | 10 risk categories | 8 | 2 | 0 | [`owasp-llm.md`](./owasp-llm.md) |
 | Colorado AI Act (SB 24-205) | 18 obligations | 16 | 2 | 0 | [`colorado-ai-act.md`](./colorado-ai-act.md) |
 | NYC Local Law 144 (AEDT) | 9 obligations | 6 | 2 | 1 | [`nyc-ll144.md`](./nyc-ll144.md) |
-| Singapore IMDA Model AI Governance + Generative AI | 13 dimensions | 8 | 4 | 1 | [`imda-agentic.md`](./imda-agentic.md) |
-| G7 Hiroshima AI Process Code of Conduct | 11 principles | 6 | 3 | 2 | [`g7-ai-code.md`](./g7-ai-code.md) |
-| **TOTALS** | **~657 controls** | **217** | **165** | **259** | 12 frameworks |
+| Singapore IMDA Model AI Governance + Generative AI | 13 dimensions | 7 | 5 | 1 | [`imda-agentic.md`](./imda-agentic.md) |
+| G7 Hiroshima AI Process Code of Conduct | 11 principles | 5 | 4 | 2 | [`g7-ai-code.md`](./g7-ai-code.md) |
+| **TOTALS** | **~657 controls** | **215** | **167** | **259** | 12 frameworks |
+
+> **These counts are enumeration evidence, not a score.** ✅ + 🟡 + ⚪ sum to the full surface of every framework. There is no implied "215 / 657 = 33%" — the denominator includes 259 ⚪ Boundary rows that explicitly identify where the control is the customer organization's responsibility, the certification body's responsibility, or outside the AI-governance-platform scope. Boundary rows are not failures; they are part of the completeness claim. Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts, not aggregate marks.
 
 ---
 
@@ -33,7 +35,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
-The **217 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **165 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **259 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement.
+The **215 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **167 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **259 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement.
 
 ## What this does NOT claim
 

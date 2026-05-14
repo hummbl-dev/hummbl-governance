@@ -29,7 +29,7 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 | 4. Incident Reporting | ✅ | Incident tuple + notification SLA + escalation (cross-ref EU AI Act Art. 73) |
 | 5. Testing + Assurance | ✅ | 927 governance tests + redteam tuples + safety-eval primitives |
 | 6. Security | ✅ | HMAC-SHA256 delegation tokens + Bandit/Semgrep + pip-audit blocking |
-| 7. Content Provenance | ✅ | C2PA integration (`services/c2pa_mcp`) + content-provenance tuples |
+| 7. Content Provenance | 🟡 | Content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra) per `founder_mode/docs/research/2026-05-01_adr-001-admission-c2pa-stack.md`; implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today. |
 | 8. Safety + Alignment | 🟡 Partial | Alignment-eval tuples + RLHF-evidence primitives; alignment-evaluation methodology is research |
 | 9. AI for Public Good | ⚪ Boundary | Civic-impact framing is org strategy |
 
@@ -38,8 +38,8 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 | Component | Items | ✅ | 🟡 | ⚪ |
 |---|---|---|---|---|
 | Model AI Governance Framework (4 areas) | 4 | 2 | 2 | 0 |
-| Generative AI Framework (9 dimensions) | 9 | 6 | 2 | 1 |
-| **Totals** | **13** | **8** | **4** | **1** |
+| Generative AI Framework (9 dimensions) | 9 | 5 | 3 | 1 |
+| **Totals** | **13** | **7** | **5** | **1** |
 
 ---
 
@@ -47,8 +47,10 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 
 This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
+Counts above (7 ✅ / 5 🟡 / 1 ⚪) reflect the draft row classification after the c2pa Tier-2 admitted-dependency correction; do not headline these numbers externally until validation per ADR-001 evidence invariant.
+
 ## Cross-references
 
 - ADR: [`docs/adr/ADR-001-coverage-matrix-not-self-grade.md`](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-- Content-provenance overlap with C2PA — `services/c2pa_mcp` (Tier-2 admitted dep)
+- Content-provenance overlap with C2PA — admitted Tier-2 dependency, implementation per `founder_mode/docs/research/2026-05-01_c2pa-receipt-mcp-spec.md` spec, not yet shipped
 - Significant overlap with EU AI Act + NIST AI RMF + ISO 42001 — see those matrices

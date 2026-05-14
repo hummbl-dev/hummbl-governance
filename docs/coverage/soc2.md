@@ -68,7 +68,7 @@ Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
 
 | ID | Coverage | Notes |
 |---|---|---|
-| CC3.1 | 🟡 Partial | Risk objectives + categories — risk-register tuples |
+| CC3.1 | 🟡 Partial | Risk objectives + categories — `INTENT` + adverse-event tuples (risk-register integration per Krineia connector spec) |
 | CC3.2 | ✅ Identify + analyze risks — risk-identification tuples + analysis primitives |
 | CC3.3 | 🟡 Partial | Fraud risk — fraud-flag tuples; assessment is org |
 | CC3.4 | ⚪ Boundary | Significant change in risk profile — change-event triggers |

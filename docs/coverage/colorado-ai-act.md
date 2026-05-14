@@ -33,7 +33,7 @@ The Act applies to "high-risk artificial intelligence systems" — defined as sy
 | Obligation | Coverage | Evidence |
 |---|---|---|
 | Duty of reasonable care to avoid algorithmic discrimination | ✅ Same primitives as developer | bias-eval tuples |
-| Implement risk-management policy + program — iterative, identify+document+mitigate known/foreseeable risks | ✅ Risk-mgmt program substrate: risk-register tuples + treatment + monitoring (cross-ref NIST AI RMF + EU AI Act Art. 9) | risk-register tuple chain |
+| Implement risk-management policy + program — iterative, identify+document+mitigate known/foreseeable risks | ✅ Risk-mgmt program substrate: `INTENT` + adverse-event tuples + risk-treatment tuples + monitoring; risk-register integration per Krineia connector spec (cross-ref NIST AI RMF + EU AI Act Art. 9) | `INTENT` + adverse-event tuple chain + Krineia connector risk-register spec |
 | Complete impact assessment annually + within 90 days after intentional + substantial modification | ✅ Impact-assessment template + annual + modification-triggered scheduling primitive | impact-assessment scheduler |
 | Specific impact-assessment contents — purpose, intended use cases, deployment context, benefits, analysis of risks, transparency measures, post-deployment monitoring | ✅ All 7 components captured as tuple-types; assessment generator produces complete document | `compliance_mapper --export colorado-impact-assessment` |
 | Notify consumer of high-risk AI system use before/at time of consequential decision | ✅ Pre-decision notification primitive | notification tuple |
