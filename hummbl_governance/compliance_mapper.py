@@ -1,4 +1,4 @@
-"""Compliance Mapper -- Map governance traces to SOC2, GDPR, OWASP, NIST AI RMF, and EU AI Act controls.
+"""Compliance Mapper -- Map governance traces to SOC2, GDPR, OWASP, NIST AI RMF, EU AI Act, ISO 27001, and NIST CSF controls.
 
 This module parses append-only governance bus JSONL files and extracts
 cryptographic evidence to satisfy specific regulatory controls.
@@ -182,7 +182,12 @@ class ComplianceMapper:
         return report
 
     def generate_gdpr_report(self, days: int = 30) -> ComplianceReport:
-        """Generate a GDPR compliance report from recent governance traces."""
+        """Generate a GDPR compliance report from recent governance traces.
+
+        Maps governance entries to Articles 5, 6, 25, 28, 30, and 32.
+        These are the articles with direct technical evidence addressable
+        by code-level governance primitives.
+        """
         now = datetime.now(timezone.utc)
 
         report = ComplianceReport(
@@ -190,6 +195,10 @@ class ComplianceMapper:
             framework="GDPR",
         )
 
+        report.controls["Art.5"] = []   # Principles — lawfulness, fairness, transparency
+        report.controls["Art.6"] = []   # Lawfulness of processing
+        report.controls["Art.25"] = []  # Data protection by design and by default
+        report.controls["Art.28"] = []  # Processor obligations
         report.controls["Art.30"] = []  # Records of Processing
         report.controls["Art.32"] = []  # Security of Processing
 
@@ -200,6 +209,46 @@ class ComplianceMapper:
             evidence = self._base_evidence(entry)
             tuple_type = entry.get("tuple_type")
             tuple_data = entry.get("tuple_data", {})
+
+            # Art.5: Principles — INTENT captures purpose (transparency, purpose limitation)
+            if tuple_type == "INTENT":
+                princ_evidence = evidence.copy()
+                princ_evidence.update({
+                    "objective": tuple_data.get("objective"),
+                    "agent": tuple_data.get("agent"),
+                })
+                report.controls["Art.5"].append(princ_evidence)
+
+            # Art.6: Lawfulness — CONTRACT tuples prove consent/contract/legitimate interest basis
+            if tuple_type == "CONTRACT":
+                law_evidence = evidence.copy()
+                law_evidence.update({
+                    "issuer": tuple_data.get("issuer"),
+                    "operations": tuple_data.get("operations"),
+                })
+                report.controls["Art.6"].append(law_evidence)
+
+            # Art.25: Data protection by design — DCT ops_allowed + CapabilityFence restrict scope
+            if tuple_type == "DCT":
+                design_evidence = evidence.copy()
+                design_evidence.update({
+                    "ops_allowed": tuple_data.get("ops_allowed"),
+                    "resources": tuple_data.get("resource_selectors"),
+                })
+                report.controls["Art.25"].append(design_evidence)
+            if tuple_type == "CAPABILITY_FENCE":
+                design_evidence = evidence.copy()
+                design_evidence["action"] = tuple_data.get("action")
+                report.controls["Art.25"].append(design_evidence)
+
+            # Art.28: Processor obligations — DCTX delegation chains prove processor binding
+            if tuple_type == "DCTX":
+                proc_evidence = evidence.copy()
+                proc_evidence.update({
+                    "delegator": tuple_data.get("delegator"),
+                    "delegatee": tuple_data.get("delegatee"),
+                })
+                report.controls["Art.28"].append(proc_evidence)
 
             # Art.30: Records of Processing
             if tuple_type in ("DCTX", "CONTRACT", "ATTEST", "EVIDENCE"):
@@ -408,7 +457,7 @@ class ComplianceMapper:
     def generate_eu_ai_act_report(self, days: int = 30) -> ComplianceReport:
         """Generate an EU AI Act compliance report (High-Risk AI, Annex III).
 
-        Maps governance traces to Articles 9, 10, 12, 13, 14, and 17.
+        Maps governance traces to Articles 9, 10, 11, 12, 13, 14, 15, 16, 17, and 19.
         These are the core operational obligations for high-risk AI systems.
 
         Controls with no runtime evidence are initialised empty; they are
@@ -425,10 +474,14 @@ class ComplianceMapper:
 
         report.controls["Art.9"] = []   # Risk management system
         report.controls["Art.10"] = []  # Data and data governance
+        report.controls["Art.11"] = []  # Technical documentation
         report.controls["Art.12"] = []  # Record-keeping and logging
         report.controls["Art.13"] = []  # Transparency and information provision
         report.controls["Art.14"] = []  # Human oversight
+        report.controls["Art.15"] = []  # Accuracy, robustness, cybersecurity
+        report.controls["Art.16"] = []  # Obligations of providers
         report.controls["Art.17"] = []  # Quality management system
+        report.controls["Art.19"] = []  # Automatically generated logs
 
         files = self._collect_files(days)
         entries = self._read_entries(files)
@@ -494,6 +547,220 @@ class ComplianceMapper:
                 })
                 report.controls["Art.17"].append(qms_evidence)
 
+            # Art.11: Technical documentation — CONTRACT + ATTEST entries prove documented specs
+            if tuple_type in ("CONTRACT", "ATTEST"):
+                doc_evidence = evidence.copy()
+                doc_evidence["tuple_type"] = tuple_type
+                report.controls["Art.11"].append(doc_evidence)
+
+            # Art.15: Accuracy, robustness, cybersecurity — CB + KS events prove residual risk
+            if tuple_type in ("CIRCUIT_BREAKER", "KILLSWITCH"):
+                robust_evidence = evidence.copy()
+                robust_evidence.update({
+                    "tuple_type": tuple_type,
+                    "state": tuple_data.get("state"),
+                })
+                report.controls["Art.15"].append(robust_evidence)
+
+            # Art.16: Obligations of providers — DCTX delegation integrity + signed entries
+            if tuple_type == "DCTX" or entry.get("signature"):
+                prov_evidence = evidence.copy()
+                prov_evidence["tuple_type"] = tuple_type
+                report.controls["Art.16"].append(prov_evidence)
+
+            # Art.19: Automatically generated logs — ALL signed entries are auto-generated
+            if entry.get("signature"):
+                log_evidence = evidence.copy()
+                log_evidence["tuple_type"] = tuple_type
+                log_evidence["auto_generated"] = True
+                report.controls["Art.19"].append(log_evidence)
+
+        return report
+
+
+    def generate_iso27001_report(self, days: int = 30) -> ComplianceReport:
+        """Generate an ISO/IEC 27001:2022 compliance report from governance traces.
+
+        Maps governance entries to Annex A organizational controls (A.5–A.9, A.12).
+        These are the control families most directly addressable by code-level
+        governance primitives for AI agent orchestration.
+
+        Controls with no runtime evidence are initialised empty; they are
+        satisfied by organizational process documentation outside the library.
+
+        Reference: ISO/IEC 27001:2022, Annex A.
+        """
+        now = datetime.now(timezone.utc)
+
+        report = ComplianceReport(
+            generated_at=now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            framework="ISO27001",
+        )
+
+        report.controls["A.5"] = []   # Information security policies
+        report.controls["A.6"] = []   # Organization of information security
+        report.controls["A.7"] = []   # Human resource security
+        report.controls["A.8"] = []   # Asset management
+        report.controls["A.9"] = []   # Access control
+        report.controls["A.12"] = []  # Operations security — logging
+
+        files = self._collect_files(days)
+        entries = self._read_entries(files)
+
+        for entry in entries:
+            evidence = self._base_evidence(entry)
+            tuple_type = entry.get("tuple_type")
+            tuple_data = entry.get("tuple_data", {})
+
+            # A.5: Information security policies — INTENT tuples prove stated objectives
+            if tuple_type == "INTENT":
+                pol_evidence = evidence.copy()
+                pol_evidence.update({
+                    "agent": tuple_data.get("agent"),
+                    "objective": tuple_data.get("objective"),
+                })
+                report.controls["A.5"].append(pol_evidence)
+
+            # A.6: Organization — DCTX delegation chains show organizational structure
+            if tuple_type == "DCTX":
+                org_evidence = evidence.copy()
+                org_evidence.update({
+                    "delegator": tuple_data.get("delegator"),
+                    "delegatee": tuple_data.get("delegatee"),
+                    "event": tuple_data.get("event"),
+                })
+                report.controls["A.6"].append(org_evidence)
+
+            # A.7: Human resource security — identity validation and contract binding
+            if tuple_type in ("DCT", "CONTRACT"):
+                hr_evidence = evidence.copy()
+                hr_evidence.update({
+                    "issuer": tuple_data.get("issuer"),
+                    "subject": tuple_data.get("subject"),
+                    "ops": tuple_data.get("ops_allowed") or tuple_data.get("operations"),
+                })
+                report.controls["A.7"].append(hr_evidence)
+
+            # A.8: Asset management — DCT resource ownership and ATTEST evidence
+            if tuple_type in ("DCT", "ATTEST"):
+                asset_evidence = evidence.copy()
+                asset_evidence.update({
+                    "resources": tuple_data.get("resource_selectors") or tuple_data.get("resources"),
+                    "tuple_type": tuple_type,
+                })
+                report.controls["A.8"].append(asset_evidence)
+
+            # A.9: Access control — DCT ops_allowed and delegation binding
+            if tuple_type == "DCT":
+                access_evidence = evidence.copy()
+                access_evidence.update({
+                    "issuer": tuple_data.get("issuer"),
+                    "subject": tuple_data.get("subject"),
+                    "ops_allowed": tuple_data.get("ops_allowed"),
+                    "resources": tuple_data.get("resource_selectors"),
+                })
+                report.controls["A.9"].append(access_evidence)
+
+            # A.12: Operations security — signed entries prove logging and monitoring
+            if entry.get("signature"):
+                ops_evidence = evidence.copy()
+                ops_evidence["tuple_type"] = tuple_type
+                report.controls["A.12"].append(ops_evidence)
+
+        return report
+
+    def generate_nist_csf_report(self, days: int = 30) -> ComplianceReport:
+        """Generate a NIST Cybersecurity Framework 2.0 compliance report.
+
+        Maps governance traces to the six CSF Functions: GOVERN, IDENTIFY,
+        PROTECT, DETECT, RESPOND, RECOVER. Each function is mapped to the
+        governance primitives that produce technical evidence for that
+        function's outcomes.
+
+        Reference: NIST CSF 2.0 (2024).
+        """
+        now = datetime.now(timezone.utc)
+
+        report = ComplianceReport(
+            generated_at=now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            framework="NIST_CSF",
+        )
+
+        report.controls["GOVERN"] = []    # Organizational context and risk strategy
+        report.controls["IDENTIFY"] = []  # Asset and risk identification
+        report.controls["PROTECT"] = []   # Safeguards and access controls
+        report.controls["DETECT"] = []    # Continuous monitoring and anomaly detection
+        report.controls["RESPOND"] = []   # Incident response
+        report.controls["RECOVER"] = []   # Restoration and improvement
+
+        files = self._collect_files(days)
+        entries = self._read_entries(files)
+
+        for entry in entries:
+            evidence = self._base_evidence(entry)
+            tuple_type = entry.get("tuple_type")
+            tuple_data = entry.get("tuple_data", {})
+
+            # GOVERN: INTENT tuples and DCTX chains show organizational context
+            if tuple_type in ("INTENT", "DCTX"):
+                gov_evidence = evidence.copy()
+                gov_evidence["tuple_type"] = tuple_type
+                if tuple_type == "INTENT":
+                    gov_evidence["objective"] = tuple_data.get("objective")
+                else:
+                    gov_evidence["event"] = tuple_data.get("event")
+                report.controls["GOVERN"].append(gov_evidence)
+
+            # IDENTIFY: AgentRegistry identity and DCT asset binding
+            if tuple_type in ("DCT", "ATTEST"):
+                id_evidence = evidence.copy()
+                id_evidence.update({
+                    "issuer": tuple_data.get("issuer"),
+                    "subject": tuple_data.get("subject"),
+                    "tuple_type": tuple_type,
+                })
+                report.controls["IDENTIFY"].append(id_evidence)
+
+            # PROTECT: KillSwitch, CapabilityFence, DCT ops restrictions
+            if tuple_type in ("KILLSWITCH", "CAPABILITY_FENCE", "DCT"):
+                prot_evidence = evidence.copy()
+                prot_evidence["tuple_type"] = tuple_type
+                if tuple_type == "KILLSWITCH":
+                    prot_evidence["state"] = tuple_data.get("state")
+                elif tuple_type == "CAPABILITY_FENCE":
+                    prot_evidence["action"] = tuple_data.get("action")
+                else:
+                    prot_evidence["ops_allowed"] = tuple_data.get("ops_allowed")
+                report.controls["PROTECT"].append(prot_evidence)
+
+            # DETECT: CircuitBreaker, HealthProbe, BehaviorMonitor events
+            if tuple_type in ("CIRCUIT_BREAKER", "HEALTH_PROBE", "BEHAVIOR_MONITOR"):
+                detect_evidence = evidence.copy()
+                detect_evidence["tuple_type"] = tuple_type
+                if tuple_type == "CIRCUIT_BREAKER":
+                    detect_evidence["state"] = tuple_data.get("state")
+                report.controls["DETECT"].append(detect_evidence)
+
+            # RESPOND: KillSwitch HALT/EMERGENCY, CircuitBreaker OPEN
+            if tuple_type == "KILLSWITCH" and tuple_data.get("state") in ("HALT_ALL", "EMERGENCY"):
+                resp_evidence = evidence.copy()
+                resp_evidence["state"] = tuple_data.get("state")
+                report.controls["RESPOND"].append(resp_evidence)
+            if tuple_type == "CIRCUIT_BREAKER" and tuple_data.get("state") == "OPEN":
+                resp_evidence = evidence.copy()
+                resp_evidence["state"] = "OPEN"
+                report.controls["RESPOND"].append(resp_evidence)
+
+            # RECOVER: CircuitBreaker HALF_OPEN, CostGovernor budget decisions
+            if tuple_type == "CIRCUIT_BREAKER" and tuple_data.get("state") == "HALF_OPEN":
+                rec_evidence = evidence.copy()
+                rec_evidence["state"] = "HALF_OPEN"
+                report.controls["RECOVER"].append(rec_evidence)
+            if tuple_type == "COST_GOVERNOR":
+                rec_evidence = evidence.copy()
+                rec_evidence["decision"] = tuple_data.get("decision")
+                report.controls["RECOVER"].append(rec_evidence)
+
         return report
 
 
@@ -507,7 +774,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--framework",
-        choices=["soc2", "gdpr", "owasp", "nist-rmf", "eu-ai-act"],
+        choices=["soc2", "gdpr", "owasp", "nist-rmf", "eu-ai-act", "iso27001", "nist-csf"],
         default="soc2",
         help="Compliance framework",
     )
@@ -527,6 +794,10 @@ def main(argv: list[str] | None = None) -> int:
         report = mapper.generate_nist_rmf_report(days=args.days)
     elif args.framework == "eu-ai-act":
         report = mapper.generate_eu_ai_act_report(days=args.days)
+    elif args.framework == "iso27001":
+        report = mapper.generate_iso27001_report(days=args.days)
+    elif args.framework == "nist-csf":
+        report = mapper.generate_nist_csf_report(days=args.days)
     else:
         report = mapper.generate_soc2_report(days=args.days)
 

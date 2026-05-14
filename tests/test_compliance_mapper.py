@@ -275,6 +275,38 @@ class TestComplianceMapperGDPR:
         # contract_entry has signature=None
         assert len(report.controls["Art.32"]) == 0
 
+    def test_gdpr_all_controls_initialized(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_gdpr_report(days=30)
+        assert set(report.controls.keys()) == {"Art.5", "Art.6", "Art.25", "Art.28", "Art.30", "Art.32"}
+
+    def test_intent_maps_to_art5(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_gdpr_report(days=30)
+        assert len(report.controls["Art.5"]) == 1
+        assert report.controls["Art.5"][0]["objective"] == "generate briefing"
+
+    def test_contract_maps_to_art6(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_contract_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_gdpr_report(days=30)
+        assert len(report.controls["Art.6"]) == 1
+
+    def test_dct_maps_to_art25(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_gdpr_report(days=30)
+        assert len(report.controls["Art.25"]) == 1
+        assert "ops_allowed" in report.controls["Art.25"][0]
+
+    def test_dctx_maps_to_art28(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_gdpr_report(days=30)
+        assert len(report.controls["Art.28"]) == 1
+        assert report.controls["Art.28"][0]["delegator"] == "agent-1"
+
 
 # ---------------------------------------------------------------------------
 # TestComplianceMapperOWASP
@@ -636,7 +668,7 @@ class TestComplianceMapperEUAIAct:
         mapper = ComplianceMapper(governance_dir=tmp_path)
         report = mapper.generate_eu_ai_act_report(days=30)
         assert report.framework == "EU_AI_ACT"
-        expected = {"Art.9", "Art.10", "Art.12", "Art.13", "Art.14", "Art.17"}
+        expected = {"Art.9", "Art.10", "Art.11", "Art.12", "Art.13", "Art.14", "Art.15", "Art.16", "Art.17", "Art.19"}
         assert set(report.controls.keys()) == expected
 
     def test_circuit_breaker_maps_to_art9(self, tmp_path):
@@ -780,3 +812,186 @@ class TestComplianceMapperEUAIAct:
         mapper = ComplianceMapper(governance_dir=tmp_path)
         report = mapper.generate_eu_ai_act_report(days=30)
         assert len(report.controls["Art.9"]) == 1
+
+    def test_contract_maps_to_art11(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_contract_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.11"]) == 1
+
+    def test_killswitch_maps_to_art15(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.15"]) >= 1
+
+    def test_dctx_maps_to_art16(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.16"]) >= 1
+
+    def test_signed_maps_to_art19(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_eu_ai_act_report(days=30)
+        assert len(report.controls["Art.19"]) >= 1
+        assert report.controls["Art.19"][0].get("auto_generated") is True
+
+    # ------------------------------------------------------------------
+    # ISO 27001
+    # ------------------------------------------------------------------
+
+    def test_iso27001_all_controls_initialized(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert report.framework == "ISO27001"
+        assert set(report.controls.keys()) == {"A.5", "A.6", "A.7", "A.8", "A.9", "A.12"}
+
+    def test_iso27001_intent_maps_to_a5(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert len(report.controls["A.5"]) == 1
+        assert report.controls["A.5"][0]["objective"] == "generate briefing"
+
+    def test_iso27001_dctx_maps_to_a6(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert len(report.controls["A.6"]) == 1
+        assert report.controls["A.6"][0]["delegator"] == "agent-1"
+
+    def test_iso27001_dct_maps_to_a7_and_a8_and_a9(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert len(report.controls["A.7"]) == 1
+        assert len(report.controls["A.8"]) == 1
+        assert len(report.controls["A.9"]) == 1
+        assert report.controls["A.9"][0]["ops_allowed"] == ["read"]
+
+    def test_iso27001_signed_maps_to_a12(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert len(report.controls["A.12"]) >= 1
+
+    def test_iso27001_contract_maps_to_a7_and_a8(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_contract_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert len(report.controls["A.7"]) == 1
+
+    def test_iso27001_attest_maps_to_a8(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_attest_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        assert len(report.controls["A.8"]) == 1
+
+    def test_iso27001_cli(self, tmp_path):
+        rc = main(["--framework", "iso27001", "--dir", str(tmp_path)])
+        assert rc == 0
+
+    def test_iso27001_empty_dir(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        for ctrl in report.controls.values():
+            assert ctrl == []
+
+    def test_iso27001_report_to_json_roundtrip(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso27001_report(days=30)
+        parsed = json.loads(report.to_json())
+        assert parsed["framework"] == "ISO27001"
+        assert len(parsed["controls"]["A.9"]) == 1
+
+    # ------------------------------------------------------------------
+    # NIST CSF
+    # ------------------------------------------------------------------
+
+    def test_nist_csf_all_controls_initialized(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert report.framework == "NIST_CSF"
+        assert set(report.controls.keys()) == {"GOVERN", "IDENTIFY", "PROTECT", "DETECT", "RESPOND", "RECOVER"}
+
+    def test_nist_csf_intent_maps_to_govern(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["GOVERN"]) == 1
+
+    def test_nist_csf_dctx_maps_to_govern(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["GOVERN"]) == 1
+
+    def test_nist_csf_dct_maps_to_identify_and_protect(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["IDENTIFY"]) == 1
+        assert len(report.controls["PROTECT"]) == 1
+
+    def test_nist_csf_killswitch_maps_to_protect(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["PROTECT"]) >= 1
+
+    def test_nist_csf_killswitch_emergency_maps_to_respond(self, tmp_path):
+        entry = _killswitch_entry()
+        entry["tuple_data"]["state"] = "EMERGENCY"
+        _write_governance_file(tmp_path, _today_str(), [entry])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["RESPOND"]) >= 1
+
+    def test_nist_csf_circuit_breaker_maps_to_detect(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_circuit_breaker_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["DETECT"]) >= 1
+
+    def test_nist_csf_circuit_breaker_open_maps_to_respond(self, tmp_path):
+        entry = _circuit_breaker_entry()
+        entry["tuple_data"]["state"] = "OPEN"
+        _write_governance_file(tmp_path, _today_str(), [entry])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["RESPOND"]) >= 1
+
+    def test_nist_csf_circuit_breaker_half_open_maps_to_recover(self, tmp_path):
+        entry = _circuit_breaker_entry()
+        entry["tuple_data"]["state"] = "HALF_OPEN"
+        _write_governance_file(tmp_path, _today_str(), [entry])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["RECOVER"]) >= 1
+
+    def test_nist_csf_cost_governor_maps_to_recover(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_cost_governor_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        assert len(report.controls["RECOVER"]) >= 1
+
+    def test_nist_csf_cli(self, tmp_path):
+        rc = main(["--framework", "nist-csf", "--dir", str(tmp_path)])
+        assert rc == 0
+
+    def test_nist_csf_empty_dir(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        for ctrl in report.controls.values():
+            assert ctrl == []
+
+    def test_nist_csf_report_to_json_roundtrip(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry(), _killswitch_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_nist_csf_report(days=30)
+        parsed = json.loads(report.to_json())
+        assert parsed["framework"] == "NIST_CSF"
+        assert len(parsed["controls"]["GOVERN"]) == 1
