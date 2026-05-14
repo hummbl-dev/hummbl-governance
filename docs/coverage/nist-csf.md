@@ -28,7 +28,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | RECOVER (RC) | 2 | 7 | 2 | 2 | 3 |
 | **Totals** | **22** | **106** | **41** | **30** | **35** |
 
-**Claim supported**: every subcategory has a row. Load-bearing primitives concentrate in PROTECT (PR.AA Access Control, PR.DS Data Security, PR.IR Resilience), DETECT (governance bus = monitoring substrate), and RESPOND (incident-response primitives).
+**Draft coverage intent (not public claim): every subcategory has a row. Load-bearing primitives concentrate in PROTECT (PR.AA Access Control, PR.DS Data Security, PR.IR Resilience), DETECT (governance bus = monitoring substrate), and RESPOND (incident-response primitives).
 
 ---
 
@@ -262,11 +262,9 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills CSF 2.0 Functions PROTECT, DETECT, RESPOND, and large portions of RECOVER via named runtime primitives. GOVERN function maps largely to organizational policy and HUMMBL contributes the evidence substrate; IDENTIFY function is well-covered for digital assets and risk-assessment mechanics. Every subcategory has a row stating either the primitive or the boundary.**
-
-41 ✅ Fulfilled (concentrated PROTECT + DETECT + RESPOND), 30 🟡 Partial, 35 ⚪ Boundary (concentrated in GOVERN policy/leadership + physical-security subcategories of PROTECT).
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

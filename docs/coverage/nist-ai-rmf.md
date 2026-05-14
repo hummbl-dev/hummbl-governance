@@ -24,7 +24,7 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 | MANAGE | ~13 | 5 | 6 | 2 |
 | **Totals** | **~70** | **20** | **31** | **19** |
 
-**Claim supported**: every NIST AI RMF subcategory has a row. Load-bearing primitives concentrate in MEASURE (measurement infrastructure is what HUMMBL is) and MANAGE (kill-switch + incident-response primitives).
+**Draft coverage intent (not public claim): every NIST AI RMF subcategory has a row. Load-bearing primitives concentrate in MEASURE (measurement infrastructure is what HUMMBL is) and MANAGE (kill-switch + incident-response primitives).
 
 ---
 
@@ -205,11 +205,9 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills the measurement-infrastructure obligations (MEASURE function) and risk-management mechanics (MANAGE function) of NIST AI RMF 1.0 to the extent addressable by software. GOVERN and MAP functions concentrate on organizational policy and context-setting; HUMMBL provides the technical primitives that policy and context can be applied against. Every subcategory has a row stating either the primitive or the boundary.**
-
-20 ✅ Fulfilled rows (heavy in MEASURE), 31 🟡 Partial (technical primitive + org policy completion), 19 ⚪ Boundary (organizational culture, HR, governance structure).
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

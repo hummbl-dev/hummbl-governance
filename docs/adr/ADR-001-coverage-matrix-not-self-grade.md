@@ -27,11 +27,11 @@ This ADR codifies the structural distinction between the two.
 
 HUMMBL **does not** publish self-issued numeric or letter grades against external compliance frameworks on the public claim surface.
 
-HUMMBL **does** publish a complete **coverage matrix** that enumerates **every** control across **every** named framework, row-by-row, supporting the headline claim:
+HUMMBL **does** maintain coverage matrices as internal evidence workpapers. A matrix can become public claim support only after its row counts, evidence paths, command examples, and boundary classifications are validated.
 
-> *"HUMMBL fulfills all applicable controls in [enumerated standards] — every control has an explicit row stating either the HUMMBL primitive that implements it or the boundary disclaimer where the control is the customer organization's responsibility."*
+> *"HUMMBL maps applicable controls in [enumerated standards] to technical primitives, partial customer-policy splits, or explicit boundary statements. Public use requires validated evidence cells and operator/legal review."*
 
-The matrix replaces aggregate score claims as the public-facing artifact of compliance work.
+Validated matrices may replace aggregate score claims as the public-facing artifact of compliance work. Draft matrices are internal starter material only.
 
 ---
 
@@ -49,16 +49,16 @@ Any of the following on the public claim surface (hummbl.io, pitch deck, one-pag
 
 ### Coverage matrix (ACCEPTED)
 
-A complete enumeration of every control across every named framework, with the following invariants:
+A complete, validated enumeration of every control across every named framework, with the following invariants:
 
 1. **Completeness invariant**: every article/control/subcategory in every named framework has a row. No silent exclusions. Frameworks dropped from the matrix are dropped from the claim, not hidden.
 2. **Row invariant**: every row is either (a) fulfilled by a named HUMMBL primitive, (b) partially fulfilled with explicit description of what HUMMBL covers and what customer policy covers, or (c) a boundary row stating that the control is the customer organization's responsibility and HUMMBL provides the evidence interface.
-3. **Evidence invariant**: every "fulfilled" row points to a runnable evidence command or artifact (mapping doc, test, audit-log query, signed tuple type).
+3. **Evidence invariant**: every "fulfilled" row must point to a validated evidence command or resolvable artifact before public use. Draft rows may contain planned or external evidence targets only when explicitly labeled as such.
 4. **Attestation honesty**: where a framework requires third-party attestation (SOC 2 Type II, ISO 27001 certification, EU AI Act Notified Body conformity assessment), boundary disclaimers explicitly state this and do not claim the attestation. The matrix supports a claim of *"every applicable control mapped"*, not of *"holds the certification."*
 
 ### "Fulfills ALL" (PERMITTED)
 
-The headline claim *"HUMMBL fulfills all applicable compliance standards"* is permitted on the public surface **only when**:
+Any public headline claim that HUMMBL maps or fulfills applicable controls is permitted **only when**:
 
 - The matrix is complete (Completeness invariant)
 - "Applicable" is defined explicitly in each row (Row invariant)
@@ -86,7 +86,7 @@ The claim does NOT assert:
 
 | State | Glyph | Meaning |
 |---|---|---|
-| Fulfilled | ✅ | Named HUMMBL primitive implements the control; evidence artifact runnable |
+| Fulfilled | ✅ | Named HUMMBL primitive implements the control; evidence artifact must be validated before public use |
 | Partial | 🟡 | HUMMBL primitive provides part of the control; customer policy completes it. Both parts named explicitly. |
 | Boundary | ⚪ | Control is organizational, physical, regulatory, or otherwise outside what software can implement. HUMMBL provides evidence interface or notification mechanism where applicable. |
 | Out of scope | ⛔ | Control does not apply to the AI governance platform context (e.g., physical badge access for unmanned services). Row exists to explicitly disclaim, not to silently exclude. |
@@ -143,7 +143,7 @@ The existing 5 mapping docs (`gdpr-mapping.md`, `iso27001-mapping.md`, `nist-csf
 - ~500-700 rows of authoring work across 12 frameworks
 - Matrix must be kept current as standards evolve (annual recurring maintenance)
 - Some boundary rows will require legal review (especially statutory penalty rows, EU institutional structure rows)
-- Single contradicting row breaks the "fulfills ALL applicable" headline; rigor in row authoring is load-bearing
+- Single contradicting row breaks any public coverage headline; rigor in row authoring is load-bearing
 
 **Migration path:**
 1. **Pilot**: build EU AI Act matrix as the template (this PR's companion artifact). Establishes row syntax, boundary-row patterns, evidence-artifact pointers.
@@ -157,7 +157,7 @@ The existing 5 mapping docs (`gdpr-mapping.md`, `iso27001-mapping.md`, `nist-csf
 
 - **Q1**: Authority for boundary-row classification (especially regulatory penalty rows). Default: operator review for first matrix; pattern-replicate after.
 - **Q2**: Versioning policy for matrix updates as standards evolve. Default: matrix file versioned per HUMMBL release; standards-update sweep on every named-framework revision.
-- **Q3**: Whether boundary rows for non-applicable controls (Out of scope ⛔) should be retained as evidence-of-completeness or removed for compactness. Default: retain (otherwise "fulfills ALL applicable" loses the receipt that the exclusion was deliberate).
+- **Q3**: Whether boundary rows for non-applicable controls (Out of scope ⛔) should be retained as evidence-of-completeness or removed for compactness. Default: retain so exclusions remain deliberate and reviewable.
 - **Q4**: Translation of the matrix into hummbl.io UI (table, accordion, downloadable PDF, all three?). Defer to marketing surface work.
 
 ---

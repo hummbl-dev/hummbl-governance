@@ -41,11 +41,9 @@ The G7 Hiroshima Code of Conduct is **voluntary** guidance for organizations dev
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills 6 of the 11 G7 Hiroshima Code of Conduct principles via named runtime primitives — Lifecycle risk management, post-deployment vulnerability/incident management, capability + limitation disclosure, risk-based governance, content authentication + provenance, data + IP protections. The 3 🟡 Partial principles require platform + org program completion. The 2 ⚪ Boundary principles (research prioritization + societal-challenge focus) are organizational strategic-direction obligations outside what software primitives can implement.**
-
-6 ✅ Fulfilled, 3 🟡 Partial, 2 ⚪ Boundary.
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

@@ -42,7 +42,7 @@ Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
 | P — Privacy (8 sections) | ~18 | 6 | 9 | 3 |
 | **Totals** | **~61** | **32** | **20** | **9** |
 
-**Claim supported**: every Common Criterion + core TSC criterion has a row. Concentration of ✅ in CC6 (Access Control), CC7 (Operations), Availability, Processing Integrity, Confidentiality — the technically-implementable criteria.
+**Draft coverage intent (not public claim): every Common Criterion + core TSC criterion has a row. Concentration of ✅ in CC6 (Access Control), CC7 (Operations), Availability, Processing Integrity, Confidentiality — the technically-implementable criteria.
 
 ---
 
@@ -166,13 +166,9 @@ Per the GDPR matrix, the technical privacy criteria are ✅ Fulfilled. The bound
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills the technical Common Criteria of SOC 2 (CC4 Monitoring, CC5 Control Activities, CC6 Logical Access Control, CC7 System Operations, CC8 Change Management, CC9 Risk Mitigation) plus the Availability, Processing Integrity, and Confidentiality optional TSCs in their entirety. Privacy TSC criteria overlap with GDPR matrix coverage. The Control Environment criteria (CC1) and Communication/Information criteria (CC2) are organizational obligations that HUMMBL provides evidence substrate for. Every TSC criterion in scope has a row.**
-
-32 ✅ Fulfilled, 20 🟡 Partial, 9 ⚪ Boundary.
-
-**Important attestation caveat**: this matrix does NOT confer a SOC 2 attestation. A SOC 2 Type 1 or Type 2 report requires an examination by a licensed CPA firm. HUMMBL evidence artifacts support such an engagement; the engagement itself, the auditor's opinion, and the report issuance remain separate.
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

@@ -58,11 +58,9 @@ Local Law 144 applies to employers + employment agencies using "automated employ
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills the NYC Local Law 144 candidate-notice obligations (10 business days, AEDT disclosure, alternative-process accommodation, data-type disclosure) and the audit-data generation requirements (selection rates, impact ratios, assessment counts, audit metadata). The independent bias audit itself must be performed by a qualified third-party auditor; HUMMBL produces the data the auditor consumes and the public summary template the employer publishes.**
-
-6 ✅ Fulfilled, 2 🟡 Partial (audit-engagement scheduling + publication action), 1 ⚪ Boundary (penalty regime).
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

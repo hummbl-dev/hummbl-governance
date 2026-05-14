@@ -67,11 +67,9 @@ The Act applies to "high-risk artificial intelligence systems" — defined as sy
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills the Colorado AI Act developer + deployer technical obligations — algorithmic-discrimination duty of care, impact-assessment substrate, consumer notifications, opt-out/appeal/rectification mechanics, 90-day discrimination-event notification SLA. The 2 🟡 Partial rows are the public-statement publications (HUMMBL generates the content; org publishes). The affirmative-defense framework adoption is supported by the NIST AI RMF matrix and the broader governance-bus continuous-compliance substrate.**
-
-16 ✅ Fulfilled, 2 🟡 Partial, 0 ⚪ Boundary.
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

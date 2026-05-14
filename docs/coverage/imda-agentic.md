@@ -43,11 +43,9 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills the technical dimensions of Singapore's Generative AI Framework — Data, Trusted Development + Deployment, Incident Reporting, Testing + Assurance, Security, Content Provenance — and supports the Accountability dimension via DCT delegation chains. The Model AI Governance Framework's 4 key areas are 50% directly addressable (Human Involvement + Operations Management) and 50% require organizational completion (Internal Governance + Stakeholder Communication). Every dimension has a row.**
-
-8 ✅ Fulfilled, 4 🟡 Partial, 1 ⚪ Boundary (AI for Public Good — civic strategy framing).
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

@@ -41,7 +41,7 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 
 **Annexes**: 13 annexes. Annex I (high-risk list, NLF), Annex II (criminal offences for biometric ID), Annex III (high-risk use cases — 8 areas), Annex IV (technical documentation), Annex V (EU declaration of conformity), Annex VI–VII (conformity assessment procedures), Annex VIII (registration info), Annex IX (registration for law enforcement), Annex X (legislative acts), Annex XI–XII (GPAI documentation), Annex XIII (criteria for GPAI systemic risk).
 
-**Claim supported**: every article in EU AI Act has a row stating either a HUMMBL primitive that addresses it, a partial-coverage description, or an explicit boundary statement. No article is silently excluded.
+**Draft coverage intent (not public claim): every article in EU AI Act has a row stating either a HUMMBL primitive that addresses it, a partial-coverage description, or an explicit boundary statement. No article is silently excluded.
 
 ---
 
@@ -290,11 +290,9 @@ All boundary rows — implementing acts, amendments, repeals, transitional perio
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills all applicable controls in EU AI Act Chapter III Section 2 (Art. 8–15 high-risk requirements) plus the post-market and serious-incident reporting obligations (Art. 72–73, 86) via named runtime primitives, with explicit boundary statements for every remaining article. No EU AI Act article is silently excluded; the matrix above is the full row enumeration.**
-
-The 23 ✅ Fulfilled rows are concentrated in the load-bearing high-risk Section 2 obligations + post-market + technical-documentation + EU-database-registration controls. The 19 🟡 Partial rows are obligations where HUMMBL provides the technical primitive and the customer organization provides the policy/procedural completion. The 71 ⚪ Boundary rows are institutional, regulatory, or organizational obligations where HUMMBL provides interfaces (where applicable) and the customer organization or competent authority implements.
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

@@ -152,11 +152,9 @@ OWASP LLM Top 10 is a **risk catalog**, not a regulation. No certification. Cove
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills 8 of 10 OWASP LLM Top 10 (2025) risk categories at the platform layer — Sensitive Information Disclosure, Supply Chain, Improper Output Handling, Excessive Agency, System Prompt Leakage, Vector/Embedding Weaknesses, Misinformation, Unbounded Consumption. The remaining 2 categories (LLM01 Prompt Injection, LLM04 Data/Model Poisoning) require platform primitives PLUS application-layer completion; HUMMBL provides primitives at the platform layer and explicitly identifies the application-layer obligations in each row.**
-
-8 ✅ Fulfilled, 2 🟡 Partial, 0 ⚪ Boundary.
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

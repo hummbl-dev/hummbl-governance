@@ -28,7 +28,7 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 | XI — Final provisions | Art. 94–99 | 0 | 0 | 6 |
 | **Totals** | **99** | **16** | **15** | **68** |
 
-**Claim supported**: every article in GDPR has a row. Load-bearing primitives concentrate in Chapter II (Principles) and Chapter IV (Controller obligations).
+**Draft coverage intent (not public claim): every article in GDPR has a row. Load-bearing primitives concentrate in Chapter II (Principles) and Chapter IV (Controller obligations).
 
 ---
 
@@ -232,11 +232,9 @@ All ⚪ Boundary — authority-to-authority cooperation, no software primitive.
 
 ---
 
-## Headline claim supported
+## Draft coverage summary (not public claim)
 
-> **HUMMBL fulfills the controller- and processor-side technical obligations of GDPR Chapter II (Principles, Art. 5–11) and Chapter IV (Controller obligations, Art. 24–34), plus the data-subject rights mechanics of Chapter III (Art. 15–20, 22), via named primitives. Authority-side obligations (Chapter VI), inter-authority cooperation (Chapter VII), and Member-State legislative carve-outs (Chapter IX) are boundary rows — they do not require software primitives, and the matrix says so explicitly.**
-
-The 16 ✅ Fulfilled rows are in the obligation-side chapters (II, III, IV) where software actually does the work. The 15 🟡 Partial rows are where HUMMBL provides the technical primitive and customer-org policy/legal completes it (lawful-basis determination, DPIA authorship, DPA contracts, breach high-risk determination). The 68 ⚪ Boundary rows are authority-side procedure, Member-State legislative regimes, civil/criminal liability mechanisms.
+This matrix is internal starter material. It must not be used as public evidence that HUMMBL fulfills this framework until row counts, evidence commands, artifact paths, and boundary classifications are validated.
 
 ## Cross-references
 

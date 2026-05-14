@@ -29,9 +29,9 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 ---
 
-## Headline claim
+## Draft status
 
-> **HUMMBL fulfills the applicable technical controls across all 12 enumerated compliance standards via named runtime primitives. Every control has a row stating either the primitive that implements it (✅), the primitive-plus-customer-policy split (🟡), or the explicit boundary statement where the control is the customer organization's responsibility, the certification body's responsibility, or outside the AI-governance-platform scope (⚪). No control is silently excluded.**
+These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
 The **217 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **165 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **259 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement.
 
@@ -45,7 +45,7 @@ The **217 ✅ Fulfilled** rows concentrate in the technical / measurement / acce
 
 1. Start with the framework that applies to you (binding law for your jurisdiction, voluntary framework for your industry, attestation standard for your buyer).
 2. Read row-by-row. Every control has an explicit coverage state.
-3. For ✅ rows, the `Evidence` column points to a runnable command or artifact path.
+3. For ✅ rows, the `Evidence` column must point to a validated runnable command or resolvable artifact before public use; draft/planned evidence must be labeled explicitly.
 4. For 🟡 rows, both halves are named — what HUMMBL provides, what customer policy completes.
 5. For ⚪ rows, the boundary is stated — why this is not addressable by a software primitive.
 
