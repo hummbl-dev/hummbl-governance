@@ -11,6 +11,12 @@
 
 Repository health, validation, and stewardship expectations are tracked in [docs/REPO_HEALTH.md](docs/REPO_HEALTH.md).
 
+Evidence-readiness review receipt mapping for HUMMBL Legal/Paralegal packet
+work is tracked in
+[docs/evidence-readiness-review-receipt.md](docs/evidence-readiness-review-receipt.md),
+with the draft JSON schema at
+[`hummbl_governance/data/evidence_readiness_review_receipt.schema.json`](hummbl_governance/data/evidence_readiness_review_receipt.schema.json).
+
 ```bash
 pip install hummbl-governance
 ```
