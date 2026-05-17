@@ -4,7 +4,8 @@
 
 | Version | Supported |
 |---------|-----------|
-| 0.1.x   | Yes       |
+| 0.8.x   | Yes       |
+| < 0.8   | No        |
 
 ## Reporting a Vulnerability
 
@@ -17,6 +18,18 @@ If you discover a security vulnerability in hummbl-governance, please report it 
 
 ## Scope
 
-This policy covers the `hummbl_governance` Python package and its 7 modules:
-kill switch, circuit breaker, cost governor, delegation tokens, audit log,
-identity registry, and schema validator.
+This policy covers the `hummbl_governance` Python package and its 25 governance
+primitives covering safety, cost, identity, compliance, reasoning, coordination,
+physical-AI, and execution assurance. Full primitive inventory in the project
+README and `PRIMITIVES.md`.
+
+## Audit-log signature semantics
+
+The `AuditLog.append()` method requires a non-empty `signature` field on each
+entry by default (`require_signature=True`) but does NOT cryptographically
+verify the signature against the entry body — the field is presence-checked,
+not HMAC-verified. Tamper detection on the audit log is the responsibility of
+an external verifier; entries are an append-only attestation record, not a
+self-verifying cryptographic chain. See `hummbl_governance/audit_log.py` and
+`tests/test_audit_log.py` for current behavior. HMAC-verified append is
+tracked as a roadmap item.
