@@ -7,6 +7,7 @@ from hummbl_governance.audit_log import (
     AuditEntry,
     AuditLog,
     E_AUDIT_IMMUTABLE,
+    E_AUDIT_SIGNATURE_INVALID,
     E_AMENDMENT_TARGET_MISSING,
     E_EVIDENCE_REQUIRED,
     E_VERIFICATION_REF_INVALID,
@@ -380,3 +381,124 @@ class TestAuditLogClose:
             log = AuditLog(tmpdir, require_signature=False)
             # Should not raise even with no file handle open
             log.close()
+
+
+class TestHmacVerification:
+    """Test HMAC-SHA256 signature verification (opt-in via hmac_key)."""
+
+    KEY = b"test-key-do-not-use-in-production-32B"
+
+    def _sign(self, entry: AuditEntry) -> str:
+        import hmac as _hmac
+        from hashlib import sha256
+        return _hmac.new(
+            self.KEY, AuditLog.canonical_bytes(entry), sha256
+        ).hexdigest()
+
+    def _build_entry(
+        self, log: AuditLog, intent_id="i1", task_id="t1",
+        tuple_type="CONTRACT", tuple_data=None,
+    ) -> AuditEntry:
+        # Build an AuditEntry matching what AuditLog.append() will construct,
+        # so we can pre-compute the canonical signature.
+        from datetime import datetime, timezone
+        import uuid
+        return AuditEntry(
+            timestamp=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            entry_id=str(uuid.uuid4()),
+            intent_id=intent_id,
+            task_id=task_id,
+            tuple_type=tuple_type,
+            tuple_data=tuple_data or {"n": 1},
+        )
+
+    def test_no_key_preserves_presence_only_behavior(self):
+        """Backward compat: hmac_key=None (default) accepts any non-empty signature."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with AuditLog(tmpdir) as log:  # no hmac_key
+                ok, err = log.append("i1", "t1", "CONTRACT", {"n": 1}, signature="arbitrary")
+                assert ok, f"expected accept, got {err}"
+
+    def test_valid_signature_accepted(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, hmac_key=self.KEY)
+            # Reproduce the AuditLog.append flow: build entry then sign.
+            # The actual append() generates timestamp+entry_id internally,
+            # so we test via verify_entry() on a manually-built entry.
+            entry = self._build_entry(log)
+            sig = self._sign(entry)
+            signed = AuditEntry(
+                timestamp=entry.timestamp, entry_id=entry.entry_id,
+                intent_id=entry.intent_id, task_id=entry.task_id,
+                tuple_type=entry.tuple_type, tuple_data=entry.tuple_data,
+                signature=sig,
+            )
+            assert log.verify_entry(signed) is True
+
+    def test_tampered_signature_rejected(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, hmac_key=self.KEY)
+            entry = self._build_entry(log)
+            tampered = AuditEntry(
+                timestamp=entry.timestamp, entry_id=entry.entry_id,
+                intent_id=entry.intent_id, task_id=entry.task_id,
+                tuple_type=entry.tuple_type, tuple_data=entry.tuple_data,
+                signature="deadbeef" * 8,
+            )
+            assert log.verify_entry(tampered) is False
+
+    def test_tampered_data_rejected(self):
+        """Signature computed over original data fails when data mutated."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, hmac_key=self.KEY)
+            entry = self._build_entry(log, tuple_data={"n": 1})
+            sig = self._sign(entry)
+            mutated = AuditEntry(
+                timestamp=entry.timestamp, entry_id=entry.entry_id,
+                intent_id=entry.intent_id, task_id=entry.task_id,
+                tuple_type=entry.tuple_type,
+                tuple_data={"n": 2},  # mutated after signing
+                signature=sig,
+            )
+            assert log.verify_entry(mutated) is False
+
+    def test_append_rejects_bad_signature(self):
+        """append() returns E_AUDIT_SIGNATURE_INVALID when HMAC doesn't match."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, hmac_key=self.KEY)
+            ok, err = log.append(
+                "i1", "t1", "CONTRACT", {"n": 1}, signature="deadbeef" * 8,
+            )
+            assert ok is False
+            assert err == E_AUDIT_SIGNATURE_INVALID
+
+    def test_verify_entry_returns_false_when_no_key_configured(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir)  # no hmac_key
+            entry = self._build_entry(log)
+            signed = AuditEntry(
+                timestamp=entry.timestamp, entry_id=entry.entry_id,
+                intent_id=entry.intent_id, task_id=entry.task_id,
+                tuple_type=entry.tuple_type, tuple_data=entry.tuple_data,
+                signature="anything",
+            )
+            assert log.verify_entry(signed) is False
+
+    def test_verify_entry_returns_false_when_unsigned(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            log = AuditLog(tmpdir, hmac_key=self.KEY)
+            entry = self._build_entry(log)  # no signature
+            assert log.verify_entry(entry) is False
+
+    def test_canonical_bytes_excludes_signature(self):
+        """canonical_bytes() must be identical regardless of signature value."""
+        from dataclasses import replace
+        e1 = AuditEntry(
+            timestamp="2026-01-01T00:00:00Z", entry_id="e1",
+            intent_id="i1", task_id="t1", tuple_type="CONTRACT",
+            tuple_data={"n": 1}, signature="sig-a",
+        )
+        e2 = replace(e1, signature="sig-b")
+        e3 = replace(e1, signature=None)
+        assert AuditLog.canonical_bytes(e1) == AuditLog.canonical_bytes(e2)
+        assert AuditLog.canonical_bytes(e1) == AuditLog.canonical_bytes(e3)

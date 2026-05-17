@@ -24,12 +24,14 @@ Stdlib-only. Zero third-party dependencies.
 from __future__ import annotations
 
 import gzip
+import hmac
 import json
 import logging
 import os
 import shutil
 import threading
 import uuid
+from hashlib import sha256
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -48,6 +50,7 @@ E_AUDIT_IMMUTABLE = "E_AUDIT_IMMUTABLE"
 E_AMENDMENT_TARGET_MISSING = "E_AMENDMENT_TARGET_MISSING"
 E_VERIFICATION_REF_INVALID = "E_VERIFICATION_REF_INVALID"
 E_EVIDENCE_REQUIRED = "E_EVIDENCE_REQUIRED"
+E_AUDIT_SIGNATURE_INVALID = "E_AUDIT_SIGNATURE_INVALID"
 
 # Supported tuple types
 TUPLE_TYPES = ("DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM")
@@ -132,6 +135,13 @@ class AuditLog:
         enable_async: Enable async write buffering (default False).
         require_signature: If True (default), rejects unsigned entries.
         file_prefix: Prefix for log filenames (default "governance").
+        hmac_key: Optional HMAC-SHA256 key (bytes). When set, append()
+            cryptographically verifies caller-supplied signature against
+            HMAC-SHA256 over a canonical entry form, and verify_entry()
+            re-verifies any entry. When None (default, backward-compatible),
+            signature presence is checked but contents are not verified.
+            Callers should compute the signature as:
+                hmac.new(key, AuditLog.canonical_bytes(entry), sha256).hexdigest()
     """
 
     def __init__(
@@ -141,12 +151,14 @@ class AuditLog:
         enable_async: bool = False,
         require_signature: bool = True,
         file_prefix: str = "governance",
+        hmac_key: bytes | None = None,
     ):
         self._base_dir = Path(base_dir)
         self._retention_days = retention_days
         self._enable_async = enable_async
         self._require_signature = require_signature
         self._file_prefix = file_prefix
+        self._hmac_key = hmac_key
 
         self._base_dir.mkdir(parents=True, exist_ok=True)
         try:
@@ -265,6 +277,11 @@ class AuditLog:
             verification_id=verification_id,
             amendment_of=amendment_of,
         )
+
+        if self._hmac_key is not None and signature is not None:
+            expected = self._compute_signature(entry)
+            if not hmac.compare_digest(expected, signature):
+                return False, E_AUDIT_SIGNATURE_INVALID
 
         if self._enable_async:
             return self._append_async(entry)
@@ -477,6 +494,55 @@ class AuditLog:
             evidence = self.query_by_entry_id(entry.verification_id)
             if evidence:
                 self._trace_chain(evidence, chain, visited)
+
+    @staticmethod
+    def canonical_bytes(entry: AuditEntry) -> bytes:
+        """Return the canonical byte form of an entry for HMAC signing.
+
+        Canonical form = entry.to_jsonl() with signature replaced by None.
+        Same sort_keys + compact separators as on-disk JSONL. Encoded UTF-8.
+
+        Callers that opt into HMAC verification compute their signature as::
+
+            import hmac
+            from hashlib import sha256
+            sig = hmac.new(key, AuditLog.canonical_bytes(entry), sha256).hexdigest()
+
+        Signature is excluded from canonicalization so the same canonical
+        bytes are reproducible at verify time after the signature lands on
+        the entry.
+        """
+        from dataclasses import replace
+
+        canonical_entry = replace(entry, signature=None)
+        return canonical_entry.to_jsonl().encode("utf-8")
+
+    def _compute_signature(self, entry: AuditEntry) -> str:
+        """Compute expected HMAC-SHA256 hex digest for an entry.
+
+        Requires self._hmac_key to be set; callers gate on this.
+        """
+        assert self._hmac_key is not None, "HMAC key not configured"
+        return hmac.new(
+            self._hmac_key, self.canonical_bytes(entry), sha256
+        ).hexdigest()
+
+    def verify_entry(self, entry: AuditEntry) -> bool:
+        """Verify an entry's HMAC signature against the configured key.
+
+        Returns False if no HMAC key is configured, if the entry has no
+        signature, or if the signature does not match. Returns True only
+        on cryptographic match.
+
+        Useful for log replay verification:
+
+            for entry in log.query_by_intent("intent-1"):
+                assert log.verify_entry(entry), f"tampered: {entry.entry_id}"
+        """
+        if self._hmac_key is None or entry.signature is None:
+            return False
+        expected = self._compute_signature(entry)
+        return hmac.compare_digest(expected, entry.signature)
 
     def close(self) -> None:
         """Close file handles and flush buffers."""
