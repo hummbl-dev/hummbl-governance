@@ -15,6 +15,16 @@ def _failing_fn():
     raise RuntimeError("service down")
 
 
+def _wait_for_state(cb, expected_state, timeout=0.25, interval=0.005):
+    """Wait until circuit breaker enters *expected_state* within *timeout* seconds."""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if cb.state == expected_state:
+            return
+        time.sleep(interval)
+    pytest.fail(f"Timeout waiting for state {expected_state.name}")
+
+
 class TestCircuitBreakerBasic:
     def test_starts_closed(self):
         cb = CircuitBreaker()
@@ -66,14 +76,13 @@ class TestStateTransitions:
         with pytest.raises(RuntimeError):
             cb.call(_failing_fn)
         assert cb.state == CircuitBreakerState.OPEN
-        time.sleep(0.02)
-        assert cb.state == CircuitBreakerState.HALF_OPEN
+        _wait_for_state(cb, CircuitBreakerState.HALF_OPEN)
 
     def test_half_open_success_closes(self):
         cb = CircuitBreaker(failure_threshold=1, recovery_timeout=0.01)
         with pytest.raises(RuntimeError):
             cb.call(_failing_fn)
-        time.sleep(0.02)
+        _wait_for_state(cb, CircuitBreakerState.HALF_OPEN)
         result = cb.call(lambda: "recovered")
         assert result == "recovered"
         assert cb.state == CircuitBreakerState.CLOSED
@@ -82,7 +91,7 @@ class TestStateTransitions:
         cb = CircuitBreaker(failure_threshold=1, recovery_timeout=0.01)
         with pytest.raises(RuntimeError):
             cb.call(_failing_fn)
-        time.sleep(0.02)
+        _wait_for_state(cb, CircuitBreakerState.HALF_OPEN)
         with pytest.raises(RuntimeError):
             cb.call(_failing_fn)
         assert cb.state == CircuitBreakerState.OPEN
