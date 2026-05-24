@@ -43,28 +43,6 @@ jobs:
           import subprocess
           import sys
 
-          sdists = list(Path("dist-smoke").glob("hummbl_governance-*.tar.gz"))
-          if len(sdists) != 1:
-              raise SystemExit(f"expected exactly one sdist, found {len(sdists)}: {sdists}")
-          subprocess.check_call([
-              sys.executable,
-              "-m",
-              "pip",
-              "wheel",
-              str(sdists[0]),
-              "--no-deps",
-              "--wheel-dir",
-              "dist-from-sdist",
-          ])
-          PY
-      - name: Install wheel built from sdist
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import subprocess
-          import sys
-
           wheels = list(Path("dist-from-sdist").glob("hummbl_governance-*.whl"))
           if len(wheels) != 1:
               raise SystemExit(f"expected exactly one wheel, found {len(wheels)}: {wheels}")
