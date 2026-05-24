@@ -30,6 +30,7 @@ dependencies = []
 
 [project.optional-dependencies]
 test = [
+    "build>=1.0",
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "ruff>=0.4",
@@ -51,6 +52,20 @@ Issues = "https://github.com/hummbl-dev/hummbl-governance/issues"
 
 [tool.setuptools.packages.find]
 include = ["hummbl_governance*"]
+
+[tool.setuptools]
+py-modules = [
+    "mcp_agent_monitor",
+    "mcp_compliance",
+    "mcp_identity",
+    "mcp_physical",
+    "mcp_reasoning",
+    "mcp_sandbox",
+    "mcp_server",
+]
+
+[tool.setuptools.package-data]
+hummbl_governance = ["data/*.json"]
 
 [tool.vulture]
 exclude = [".venv", "demo", "src"]
