@@ -38,6 +38,7 @@ jobs:
       - name: Build sdist and wheel
         run: python -m build --sdist --wheel --outdir dist-smoke
       - name: Build wheel from sdist
+        shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -59,6 +60,7 @@ jobs:
           ])
           PY
       - name: Install wheel built from sdist
+        shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
