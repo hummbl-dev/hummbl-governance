@@ -176,3 +176,31 @@ jobs:
           echo "::group::EVIDENCE_VALIDATION.md summary"
           head -40 docs/coverage/EVIDENCE_VALIDATION.md
           echo "::endgroup::"
+
+  ci:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - install-smoke
+      - lint
+      - arbiter-governance
+      - coverage-matrix-validate
+    if: always()
+    steps:
+      - name: Verify required CI jobs
+        run: |
+          failed=0
+          check_result() {
+            job="$1"
+            result="$2"
+            if [ "$result" != "success" ]; then
+              echo "$job finished with result: $result"
+              failed=1
+            fi
+          }
+          check_result test "${{ needs.test.result }}"
+          check_result install-smoke "${{ needs['install-smoke'].result }}"
+          check_result lint "${{ needs.lint.result }}"
+          check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
+          check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
+          exit "$failed"
