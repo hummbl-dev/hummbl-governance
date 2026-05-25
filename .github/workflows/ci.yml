@@ -37,7 +37,6 @@ jobs:
         run: python -m build --sdist --wheel --outdir dist-smoke
       - name: Build wheel from sdist
         shell: bash
-<<<<<<< HEAD
 =======
         run: |
           python - <<'PY'
@@ -204,6 +203,7 @@ jobs:
           echo "::group::EVIDENCE_VALIDATION.md summary"
           head -40 docs/coverage/EVIDENCE_VALIDATION.md
           echo "::endgroup::"
+<<<<<<< HEAD
       - name: Ratchet gate
         id: ratchet
         run: |
@@ -227,14 +227,6 @@ jobs:
           if [ $RATCHET_RC -ne 0 ]; then
             echo "::warning::Ratchet gate FAILED — validated count regressed below baseline"
           fi
-
-  ci:
-    runs-on: ubuntu-latest
-    needs:
-      - test
-      - install-smoke
-      - lint
-      - release-readiness-gate
       - arbiter-governance
       - coverage-matrix-validate
     if: always()
