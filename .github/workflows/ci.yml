@@ -29,33 +29,59 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.11", "3.12", "3.13"]
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Clean install from PyPI
-        run: pip install hummbl-governance
-      - name: Smoke test — all primitives importable
+      - name: Install build frontend
+        run: python -m pip install build
+      - name: Build sdist and wheel
+        run: python -m build --sdist --wheel --outdir dist-smoke
+      - name: Build wheel from sdist
+        shell: bash
         run: |
-          python -c "
-          from hummbl_governance import (
-              KillSwitch, CircuitBreaker, CostGovernor, BusWriter,
-              DelegationTokenManager, AgentRegistry, OutputValidator,
-              ReasoningEngine, BehaviorMonitor, SchemaValidator,
-              CapabilityFence, ComplianceMapper, ConvergenceDetector,
-              LamportClock, GovernanceLifecycle, ContractNetManager,
-              StrideMapper, AuditLog, HealthCollector
-          )
-          print('All 19 primitives imported successfully')
-          "
-      - name: Verify zero dependencies
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          sdists = list(Path("dist-smoke").glob("hummbl_governance-*.tar.gz"))
+          if len(sdists) != 1:
+              raise SystemExit(f"expected exactly one sdist, found {len(sdists)}: {sdists}")
+          subprocess.check_call([
+              sys.executable,
+              "-m",
+              "pip",
+              "wheel",
+              str(sdists[0]),
+              "--no-deps",
+              "--wheel-dir",
+              "dist-from-sdist",
+          ])
+          PY
+      - name: Install wheel built from sdist
+        shell: bash
         run: |
-          python -c "
-          import importlib.metadata
-          requires = importlib.metadata.requires('hummbl-governance') or []
-          runtime = [r for r in requires if 'extra ==' not in r]
-          assert len(runtime) == 0, f'Unexpected runtime deps: {runtime}'
-          print('Zero runtime dependencies confirmed')
-          "
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          wheels = list(Path("dist-from-sdist").glob("hummbl_governance-*.whl"))
+          if len(wheels) != 1:
+              raise SystemExit(f"expected exactly one wheel, found {len(wheels)}: {wheels}")
+          subprocess.check_call([
+              sys.executable,
+              "-m",
+              "pip",
+              "install",
+              "--force-reinstall",
+              "--no-deps",
+              str(wheels[0]),
+          ])
+          PY
+      - name: Smoke test — installed wheel console scripts and data files
+        run: python scripts/smoke_installed_wheel.py
 
   lint:
     runs-on: ubuntu-latest
@@ -150,3 +176,31 @@ jobs:
           echo "::group::EVIDENCE_VALIDATION.md summary"
           head -40 docs/coverage/EVIDENCE_VALIDATION.md
           echo "::endgroup::"
+
+  ci:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - install-smoke
+      - lint
+      - arbiter-governance
+      - coverage-matrix-validate
+    if: always()
+    steps:
+      - name: Verify required CI jobs
+        run: |
+          failed=0
+          check_result() {
+            job="$1"
+            result="$2"
+            if [ "$result" != "success" ]; then
+              echo "$job finished with result: $result"
+              failed=1
+            fi
+          }
+          check_result test "${{ needs.test.result }}"
+          check_result install-smoke "${{ needs['install-smoke'].result }}"
+          check_result lint "${{ needs.lint.result }}"
+          check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
+          check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
+          exit "$failed"
