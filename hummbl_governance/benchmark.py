@@ -24,7 +24,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from hummbl_governance.statistical_framework import (
     bootstrap_confidence_interval,

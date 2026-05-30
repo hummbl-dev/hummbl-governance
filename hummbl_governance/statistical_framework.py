@@ -15,7 +15,7 @@ from __future__ import annotations
 import math
 import random
 from dataclasses import dataclass
-from typing import List, Tuple, Dict
+from typing import Dict, List, Tuple, Union
 from enum import Enum
 
 
