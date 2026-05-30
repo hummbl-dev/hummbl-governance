@@ -19,18 +19,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -e ".[test]"
+          ${{ steps.setup-python.outputs.python-path }} -m pip install --upgrade pip
+          ${{ steps.setup-python.outputs.python-path }} -m pip install -e ".[test]"
 
       - name: Run tests with coverage
         run: |
-          python3 -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
+          ${{ steps.setup-python.outputs.python-path }} -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
 
   install-smoke:
     name: install-smoke (py${{ matrix.python-version }})
@@ -44,24 +45,25 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install build frontend
-        run: python3 -m pip install build
+        run: ${{ steps.setup-python.outputs.python-path }} -m pip install build
 
       - name: Build sdist and wheel
-        run: python3 -m build --sdist --wheel --outdir dist-smoke
+        run: ${{ steps.setup-python.outputs.python-path }} -m build --sdist --wheel --outdir dist-smoke
 
       - name: Build wheel from sdist
-        run: python3 scripts/build_wheel_from_sdist.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/build_wheel_from_sdist.py
 
       - name: Install wheel built from sdist
-        run: python3 scripts/install_wheel_from_sdist.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/install_wheel_from_sdist.py
 
       - name: Smoke test — installed wheel console scripts and data files
-        run: python3 scripts/smoke_installed_wheel.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/smoke_installed_wheel.py
 
   lint:
     name: lint
@@ -71,12 +73,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install ruff
-        run: python3 -m pip install ruff
+        run: ${{ steps.setup-python.outputs.python-path }} -m pip install ruff
 
       - name: Run ruff check
         run: ruff check .
@@ -89,15 +92,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install Arbiter with analyzers
-        run: python3 -m pip install "arbiter-dev[analyzers]"
+        run: ${{ steps.setup-python.outputs.python-path }} -m pip install "arbiter-dev[analyzers]"
 
       - name: Arbiter Audit
-        run: python3 scripts/arbiter_audit.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/arbiter_audit.py
 
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
@@ -108,18 +112,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: python3 -m pip install -e ".[test]"
+        run: ${{ steps.setup-python.outputs.python-path }} -m pip install -e ".[test]"
 
       - name: Validate coverage matrix evidence cells
-        run: python3 scripts/validate_coverage_matrices.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/validate_coverage_matrices.py
 
       - name: Regenerate evidence-validation report
-        run: python3 scripts/build_evidence_validation_report.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/build_evidence_validation_report.py
 
   ci:
     name: ci-aggregate
@@ -136,6 +141,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
+        id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -147,4 +153,4 @@ jobs:
           NEEDS_LINT_RESULT: ${{ needs.lint.result }}
           NEEDS_ARBITER_GOVERNANCE_RESULT: ${{ needs['arbiter-governance'].result }}
           NEEDS_COVERAGE_MATRIX_VALIDATE_RESULT: ${{ needs['coverage-matrix-validate'].result }}
-        run: python3 scripts/verify_ci_jobs.py
+        run: ${{ steps.setup-python.outputs.python-path }} scripts/verify_ci_jobs.py
