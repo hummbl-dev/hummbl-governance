@@ -55,47 +55,10 @@ jobs:
         run: python -m build --sdist --wheel --outdir dist-smoke
 
       - name: Build wheel from sdist
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import subprocess
-          import sys
-
-          sdists = list(Path("dist-smoke").glob("hummbl_governance-*.tar.gz"))
-          if len(sdists) != 1:
-              raise SystemExit(f"expected exactly one sdist, found {len(sdists)}: {sdists}")
-          subprocess.check_call([
-              sys.executable,
-              "-m",
-              "pip",
-              "wheel",
-              str(sdists[0]),
-              "--no-deps",
-              "--wheel-dir",
-              "dist-from-sdist",
-          ])
-          PY
+        run: python scripts/build_wheel_from_sdist.py
 
       - name: Install wheel built from sdist
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import subprocess
-          import sys
-
-          wheels = list(Path("dist-from-sdist").glob("hummbl_governance-*.whl"))
-          if len(wheels) != 1:
-              raise SystemExit(f"expected exactly one wheel, found {len(wheels)}: {wheels}")
-          subprocess.check_call([
-              sys.executable,
-              "-m",
-              "pip",
-              "install",
-              "--force-reinstall",
-              "--no-deps",
-              str(wheels[0]),
-          ])
-          PY
+        run: python scripts/install_wheel_from_sdist.py
 
       - name: Smoke test — installed wheel console scripts and data files
         run: python scripts/smoke_installed_wheel.py
@@ -134,33 +97,7 @@ jobs:
         run: python -m pip install "arbiter-dev[analyzers]"
 
       - name: Arbiter Audit
-        run: |
-          python - <<'PY'
-          import json
-          import subprocess
-          import sys
-
-          result = subprocess.run(
-              ["arbiter", "score", ".", "--json"],
-              capture_output=True,
-              text=True,
-          )
-          sys.stdout.write(result.stdout)
-          sys.stderr.write(result.stderr)
-          if result.returncode != 0:
-              raise SystemExit(result.returncode)
-
-          payload_start = result.stdout.find("{")
-          if payload_start == -1:
-              raise SystemExit("arbiter score did not emit JSON output")
-
-          report = json.loads(result.stdout[payload_start:])
-          score = float(report["overall"])
-          if score < 90.0:
-              raise SystemExit(f"Arbiter score {score} is below the 90.0 threshold")
-
-          print(f"Arbiter score {score} meets threshold")
-          PY
+        run: python scripts/arbiter_audit.py
 
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
@@ -179,46 +116,10 @@ jobs:
         run: python -m pip install -e ".[test]"
 
       - name: Validate coverage matrix evidence cells
-        run: |
-          python - <<'PY'
-          import os
-          import subprocess
-          import sys
-
-          MATRICES_DIR = "docs/coverage"
-          if not os.path.isdir(MATRICES_DIR):
-              print("No coverage matrices directory - skipping validation")
-              sys.exit(0)
-
-          FAILED = 0
-          for matrix in os.listdir(MATRICES_DIR):
-              if not matrix.endswith(".md"):
-                  continue
-              if matrix in ("README.md", "EVIDENCE_VALIDATION.md"):
-                  continue
-              matrix_path = os.path.join(MATRICES_DIR, matrix)
-              print(f"Validating: {matrix_path}")
-              result = subprocess.run([
-                  sys.executable, "-m", "hummbl_governance.compliance_mapper",
-                  "--validate", matrix_path,
-                  "--repo-root", "."
-              ])
-              if result.returncode != 0:
-                  FAILED = 1
-
-          if FAILED != 0:
-              print("::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)")
-              sys.exit(0)
-
-          print("All coverage matrices pass evidence validation")
-          PY
+        run: python scripts/validate_coverage_matrices.py
 
       - name: Regenerate evidence-validation report
-        run: |
-          python scripts/build_evidence_validation_report.py
-          echo "::group::EVIDENCE_VALIDATION.md summary"
-          head -40 docs/coverage/EVIDENCE_VALIDATION.md
-          echo "::endgroup::"
+        run: python scripts/build_evidence_validation_report.py
 
   ci:
     name: ci-aggregate
@@ -232,23 +133,10 @@ jobs:
     if: always()
     steps:
       - name: Verify required CI jobs
-        run: |
-          python - <<'PY'
-          import sys
-
-          results = {
-              "test": "${{ needs.test.result }}",
-              "install-smoke": "${{ needs['install-smoke'].result }}",
-              "lint": "${{ needs.lint.result }}",
-              "arbiter-governance": "${{ needs['arbiter-governance'].result }}",
-              "coverage-matrix-validate": "${{ needs['coverage-matrix-validate'].result }}",
-          }
-
-          failed = 0
-          for job, result in results.items():
-              if result != "success":
-                  print(f"{job} finished with result: {result}")
-                  failed = 1
-
-          sys.exit(failed)
-          PY
+        env:
+          NEEDS_TEST_RESULT: ${{ needs.test.result }}
+          NEEDS_INSTALL_SMOKE_RESULT: ${{ needs['install-smoke'].result }}
+          NEEDS_LINT_RESULT: ${{ needs.lint.result }}
+          NEEDS_ARBITER_GOVERNANCE_RESULT: ${{ needs['arbiter-governance'].result }}
+          NEEDS_COVERAGE_MATRIX_VALIDATE_RESULT: ${{ needs['coverage-matrix-validate'].result }}
+        run: python scripts/verify_ci_jobs.py
