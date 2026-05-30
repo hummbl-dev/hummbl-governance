@@ -10,8 +10,6 @@ jobs:
   test:
     name: test (py${{ matrix.python-version }})
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    env:
-      AGENT_POLICY_ALLOW_MUTATION: "1"
     strategy:
       fail-fast: false
       matrix:
@@ -19,6 +17,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        shell: bash
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -40,8 +39,6 @@ jobs:
   install-smoke:
     name: install-smoke (py${{ matrix.python-version }})
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    env:
-      AGENT_POLICY_ALLOW_MUTATION: "1"
     strategy:
       fail-fast: false
       matrix:
@@ -49,6 +46,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        shell: bash
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -113,11 +111,10 @@ jobs:
   lint:
     name: lint
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    env:
-      AGENT_POLICY_ALLOW_MUTATION: "1"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -134,11 +131,10 @@ jobs:
   arbiter-governance:
     name: arbiter-governance
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    env:
-      AGENT_POLICY_ALLOW_MUTATION: "1"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -182,12 +178,11 @@ jobs:
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    env:
-      AGENT_POLICY_ALLOW_MUTATION: "1"
     continue-on-error: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -234,8 +229,6 @@ jobs:
   ci:
     name: ci-aggregate
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    env:
-      AGENT_POLICY_ALLOW_MUTATION: "1"
     needs:
       - test
       - install-smoke
