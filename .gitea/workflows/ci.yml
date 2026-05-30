@@ -82,8 +82,7 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        run: |
-          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        run: echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
       - name: Install ruff
@@ -101,8 +100,7 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        run: |
-          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        run: echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
       - name: Install Arbiter with analyzers
@@ -121,8 +119,7 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        run: |
-          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        run: echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
       - name: Install dependencies
@@ -150,8 +147,7 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        run: |
-          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        run: echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
       - name: Verify required CI jobs
