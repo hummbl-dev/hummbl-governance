@@ -6,64 +6,62 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  PYTHON: C:\gitea\runner\toolcache\Python\3.13.13\x64\python.exe
+
 jobs:
   test:
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
+      - name: Install dependencies
         shell: powershell
-        run: |
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - run: python -m pip install -e ".[test]"
-      - run: python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
+        run: '& "$env:PYTHON" -m pip install -e ".[test]"'
+      - name: Run tests
+        shell: powershell
+        run: '& "$env:PYTHON" -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80'
 
   install-smoke:
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
-        shell: powershell
-        run: |
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Install build frontend
-        run: python -m pip install build
+        shell: powershell
+        run: '& "$env:PYTHON" -m pip install build'
       - name: Build sdist and wheel
-        run: python -m build --sdist --wheel --outdir dist-smoke
+        shell: powershell
+        run: '& "$env:PYTHON" -m build --sdist --wheel --outdir dist-smoke'
       - name: Build wheel from sdist
-        run: python scripts/build_wheel_from_sdist.py
+        shell: powershell
+        run: '& "$env:PYTHON" scripts/build_wheel_from_sdist.py'
       - name: Install wheel built from sdist
-        run: python scripts/install_wheel_from_sdist.py
+        shell: powershell
+        run: '& "$env:PYTHON" scripts/install_wheel_from_sdist.py'
       - name: Smoke test — installed wheel console scripts and data files
-        run: python scripts/smoke_installed_wheel.py
+        shell: powershell
+        run: '& "$env:PYTHON" scripts/smoke_installed_wheel.py'
 
   lint:
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
+      - name: Install ruff
         shell: powershell
-        run: |
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - run: python -m pip install ruff
-      - run: ruff check .
+        run: '& "$env:PYTHON" -m pip install ruff'
+      - name: Run ruff
+        shell: powershell
+        run: '& "$env:PYTHON" -m ruff check .'
 
   arbiter-governance:
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
-        shell: powershell
-        run: |
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Install Arbiter with analyzers
-        run: python -m pip install "arbiter-dev[analyzers]"
+        shell: powershell
+        run: '& "$env:PYTHON" -m pip install "arbiter-dev[analyzers]"'
       - name: Arbiter Audit
-        run: python scripts/arbiter_audit.py
+        shell: powershell
+        run: '& "$env:PYTHON" scripts/arbiter_audit.py'
 
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
@@ -71,16 +69,15 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
+      - name: Install dependencies
         shell: powershell
-        run: |
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - run: python -m pip install -e ".[test]"
+        run: '& "$env:PYTHON" -m pip install -e ".[test]"'
       - name: Validate coverage matrix evidence cells
-        run: python scripts/validate_coverage_matrices.py
+        shell: powershell
+        run: '& "$env:PYTHON" scripts/validate_coverage_matrices.py'
       - name: Regenerate evidence-validation report
-        run: python scripts/build_evidence_validation_report.py
+        shell: powershell
+        run: '& "$env:PYTHON" scripts/build_evidence_validation_report.py'
 
   ci:
     name: ci-aggregate
@@ -94,16 +91,12 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
-        shell: powershell
-        run: |
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          "C:\gitea\runner\toolcache\Python\3.13.13\x64\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Verify required CI jobs
+        shell: powershell
         env:
           NEEDS_TEST_RESULT: ${{ needs.test.result }}
           NEEDS_INSTALL_SMOKE_RESULT: ${{ needs['install-smoke'].result }}
           NEEDS_LINT_RESULT: ${{ needs.lint.result }}
           NEEDS_ARBITER_GOVERNANCE_RESULT: ${{ needs['arbiter-governance'].result }}
           NEEDS_COVERAGE_MATRIX_VALIDATE_RESULT: ${{ needs['coverage-matrix-validate'].result }}
-        run: python scripts/verify_ci_jobs.py
+        run: '& "$env:PYTHON" scripts/verify_ci_jobs.py'
