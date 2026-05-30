@@ -20,9 +20,13 @@ jobs:
 
       - name: Set up Python ${{ matrix.python-version }}
         id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        run: |
+          if ('${{ matrix.python-version }}' -eq '3.12') {
+            echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+          } elseif ('${{ matrix.python-version }}' -eq '3.13') {
+            echo "python-path=C:\Python313\python.exe" >> $env:GITHUB_OUTPUT
+          }
+        shell: pwsh
 
       - name: Install dependencies
         run: |
@@ -46,9 +50,13 @@ jobs:
 
       - name: Set up Python ${{ matrix.python-version }}
         id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        run: |
+          if ('${{ matrix.python-version }}' -eq '3.12') {
+            echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+          } elseif ('${{ matrix.python-version }}' -eq '3.13') {
+            echo "python-path=C:\Python313\python.exe" >> $env:GITHUB_OUTPUT
+          }
+        shell: pwsh
 
       - name: Install build frontend
         run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install build'
@@ -74,9 +82,9 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        run: |
+          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        shell: pwsh
 
       - name: Install ruff
         run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install ruff'
@@ -93,9 +101,9 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        run: |
+          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        shell: pwsh
 
       - name: Install Arbiter with analyzers
         run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install "arbiter-dev[analyzers]"'
@@ -113,9 +121,9 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        run: |
+          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        shell: pwsh
 
       - name: Install dependencies
         run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install -e ".[test]"'
@@ -142,9 +150,9 @@ jobs:
 
       - name: Set up Python
         id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        run: |
+          echo "python-path=C:\Python312\python.exe" >> $env:GITHUB_OUTPUT
+        shell: pwsh
 
       - name: Verify required CI jobs
         env:
