@@ -8,12 +8,7 @@ on:
 
 jobs:
   test:
-    # Dual-label strategy for GitHub/Gitea portability:
-    # - GitHub: uses ubuntu-latest/windows-latest/macos-latest
-    # - Gitea: uses self-hosted custom labels
-    # - Both platforms must match ALL labels (AND logic)
-    # Note: Using only labels that Gitea API actually shows runner has
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -27,8 +22,7 @@ jobs:
 
   install-smoke:
     name: install-smoke (py${{ matrix.python-version }})
-    # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -88,8 +82,7 @@ jobs:
         run: python scripts/smoke_installed_wheel.py
 
   lint:
-    # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -99,8 +92,7 @@ jobs:
       - run: ruff check .
 
   arbiter-governance:
-    # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -139,8 +131,7 @@ jobs:
 
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
-    # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
+    runs-on: ubuntu-latest
     # Advisory while matrices are DRAFT scaffolds per docs/coverage/README.md.
     # Flip continue-on-error to false once docs/coverage/EVIDENCE_VALIDATION.md
     # shows acceptable coverage % per ADR-001.
@@ -185,8 +176,7 @@ jobs:
           echo "::endgroup::"
 
   ci:
-    # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
+    runs-on: ubuntu-latest
     needs:
       - test
       - install-smoke

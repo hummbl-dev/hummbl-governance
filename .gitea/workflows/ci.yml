@@ -8,32 +8,26 @@ on:
 
 jobs:
   test:
-    name: test (py${{ matrix.python-version }})
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.12.13", "3.13.13"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Setup Python
+        shell: powershell
+        run: |
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - run: pip install -e ".[test]"
       - run: python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
 
   install-smoke:
-    name: install-smoke (py${{ matrix.python-version }})
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.12.13", "3.13.13"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Setup Python
+        shell: powershell
+        run: |
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Install build frontend
         run: python -m pip install build
       - name: Build sdist and wheel
@@ -46,24 +40,26 @@ jobs:
         run: python scripts/smoke_installed_wheel.py
 
   lint:
-    name: lint
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12.13"
+      - name: Setup Python
+        shell: powershell
+        run: |
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - run: pip install ruff
       - run: ruff check .
 
   arbiter-governance:
-    name: arbiter-governance
     runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12.13"
+      - name: Setup Python
+        shell: powershell
+        run: |
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Install Arbiter with analyzers
         run: pip install "arbiter-dev[analyzers]"
       - name: Arbiter Audit
@@ -75,9 +71,11 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12.13"
+      - name: Setup Python
+        shell: powershell
+        run: |
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - run: pip install -e ".[test]"
       - name: Validate coverage matrix evidence cells
         run: python scripts/validate_coverage_matrices.py
@@ -96,9 +94,11 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12.13"
+      - name: Setup Python
+        shell: powershell
+        run: |
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          "C:\Users\Owner\AppData\Local\Programs\Python\Python313\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       - name: Verify required CI jobs
         env:
           NEEDS_TEST_RESULT: ${{ needs.test.result }}
