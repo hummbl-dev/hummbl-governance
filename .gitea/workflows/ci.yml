@@ -132,6 +132,9 @@ jobs:
       - coverage-matrix-validate
     if: always()
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Verify required CI jobs
         env:
           NEEDS_TEST_RESULT: ${{ needs.test.result }}
