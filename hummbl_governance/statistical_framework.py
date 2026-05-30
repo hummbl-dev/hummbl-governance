@@ -15,7 +15,7 @@ from __future__ import annotations
 import math
 import random
 from dataclasses import dataclass
-from typing import List, Tuple, Dict, Optional, Union
+from typing import List, Tuple, Dict
 from enum import Enum
 
 
@@ -115,7 +115,7 @@ def bootstrap_ci(
         
         # Calculate acceleration (a) - simplified version
         # Full BCa requires jackknife estimation; using approximation
-        a = 0.0  # Simplified - full implementation would compute jackknife acceleration
+        # Simplified - full implementation would compute jackknife acceleration
         
         # Adjust percentiles
         alpha = 1 - confidence_level
