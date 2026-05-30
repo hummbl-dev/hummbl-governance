@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 result = subprocess.run(
-    ["arbiter", "score", ".", "--json"],
+    [sys.executable, "-m", "arbiter", "score", ".", "--json"],
     capture_output=True,
     text=True,
 )
