@@ -17,7 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        shell: bash
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -25,13 +24,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        shell: bash
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[test]"
 
       - name: Run tests with coverage
-        shell: bash
         run: |
           python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
 
@@ -45,7 +42,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        shell: bash
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -59,7 +55,6 @@ jobs:
         run: python -m build --sdist --wheel --outdir dist-smoke
 
       - name: Build wheel from sdist
-        shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -82,7 +77,6 @@ jobs:
           PY
 
       - name: Install wheel built from sdist
-        shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -112,7 +106,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -131,7 +124,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -142,7 +134,6 @@ jobs:
         run: python -m pip install "arbiter-dev[analyzers]"
 
       - name: Arbiter Audit
-        shell: bash
         run: |
           python - <<'PY'
           import json
@@ -178,7 +169,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -189,34 +179,41 @@ jobs:
         run: python -m pip install -e ".[test]"
 
       - name: Validate coverage matrix evidence cells
-        shell: bash
         run: |
-          MATRICES_DIR="docs/coverage"
-          if [ ! -d "$MATRICES_DIR" ]; then
-            echo "No coverage matrices directory - skipping validation"
-            exit 0
-          fi
-          FAILED=0
-          for matrix in "$MATRICES_DIR"/*.md; do
-            [ -f "$matrix" ] || continue
-            base=$(basename "$matrix")
-            case "$base" in
-              README.md|EVIDENCE_VALIDATION.md) continue ;;
-            esac
-            echo "Validating: $matrix"
-            python -m hummbl_governance.compliance_mapper \
-              --validate "$matrix" \
-              --repo-root . \
-              || FAILED=1
-          done
-          if [ "$FAILED" -ne 0 ]; then
-            echo "::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)"
-            exit 0
-          fi
-          echo "All coverage matrices pass evidence validation"
+          python - <<'PY'
+          import os
+          import subprocess
+          import sys
+
+          MATRICES_DIR = "docs/coverage"
+          if not os.path.isdir(MATRICES_DIR):
+              print("No coverage matrices directory - skipping validation")
+              sys.exit(0)
+
+          FAILED = 0
+          for matrix in os.listdir(MATRICES_DIR):
+              if not matrix.endswith(".md"):
+                  continue
+              if matrix in ("README.md", "EVIDENCE_VALIDATION.md"):
+                  continue
+              matrix_path = os.path.join(MATRICES_DIR, matrix)
+              print(f"Validating: {matrix_path}")
+              result = subprocess.run([
+                  sys.executable, "-m", "hummbl_governance.compliance_mapper",
+                  "--validate", matrix_path,
+                  "--repo-root", "."
+              ])
+              if result.returncode != 0:
+                  FAILED = 1
+
+          if FAILED != 0:
+              print("::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)")
+              sys.exit(0)
+
+          print("All coverage matrices pass evidence validation")
+          PY
 
       - name: Regenerate evidence-validation report
-        shell: bash
         run: |
           python scripts/build_evidence_validation_report.py
           echo "::group::EVIDENCE_VALIDATION.md summary"
@@ -236,18 +233,22 @@ jobs:
     steps:
       - name: Verify required CI jobs
         run: |
-          failed=0
-          check_result() {
-            job="$1"
-            result="$2"
-            if [ "$result" != "success" ]; then
-              echo "$job finished with result: $result"
-              failed=1
-            fi
+          python - <<'PY'
+          import sys
+
+          results = {
+              "test": "${{ needs.test.result }}",
+              "install-smoke": "${{ needs['install-smoke'].result }}",
+              "lint": "${{ needs.lint.result }}",
+              "arbiter-governance": "${{ needs['arbiter-governance'].result }}",
+              "coverage-matrix-validate": "${{ needs['coverage-matrix-validate'].result }}",
           }
-          check_result test "${{ needs.test.result }}"
-          check_result install-smoke "${{ needs['install-smoke'].result }}"
-          check_result lint "${{ needs.lint.result }}"
-          check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
-          check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
-          exit "$failed"
+
+          failed = 0
+          for job, result in results.items():
+              if result != "success":
+                  print(f"{job} finished with result: {result}")
+                  failed = 1
+
+          sys.exit(failed)
+          PY
