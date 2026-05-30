@@ -12,7 +12,8 @@ jobs:
     # - GitHub: uses ubuntu-latest/windows-latest/macos-latest
     # - Gitea: uses self-hosted custom labels
     # - Both platforms must match ALL labels (AND logic)
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general, general]
+    # Note: Using only labels that Gitea API actually shows runner has
+    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -27,7 +28,7 @@ jobs:
   install-smoke:
     name: install-smoke (py${{ matrix.python-version }})
     # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general, general]
+    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -88,7 +89,7 @@ jobs:
 
   lint:
     # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general, general]
+    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -99,7 +100,7 @@ jobs:
 
   arbiter-governance:
     # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general, general]
+    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -139,7 +140,7 @@ jobs:
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
     # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general, general]
+    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
     # Advisory while matrices are DRAFT scaffolds per docs/coverage/README.md.
     # Flip continue-on-error to false once docs/coverage/EVIDENCE_VALIDATION.md
     # shows acceptable coverage % per ADR-001.
@@ -185,7 +186,7 @@ jobs:
 
   ci:
     # Dual-label strategy for GitHub/Gitea portability
-    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general, general]
+    runs-on: [ubuntu-latest, self-hosted, windows, python-ci, anvil, windows-general]
     needs:
       - test
       - install-smoke
