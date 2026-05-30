@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: test (py${{ matrix.python-version }})
-    runs-on: [self-hosted, linux, ubuntu-latest, python-ci, anvil-linux]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     strategy:
       fail-fast: false
       matrix:
@@ -36,7 +36,7 @@ jobs:
 
   install-smoke:
     name: install-smoke (py${{ matrix.python-version }})
-    runs-on: [self-hosted, linux, ubuntu-latest, python-ci, anvil-linux]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     strategy:
       fail-fast: false
       matrix:
@@ -106,7 +106,7 @@ jobs:
 
   lint:
     name: lint
-    runs-on: [self-hosted, linux, ubuntu-latest, python-ci, anvil-linux]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -124,7 +124,7 @@ jobs:
 
   arbiter-governance:
     name: arbiter-governance
-    runs-on: [self-hosted, linux, ubuntu-latest, python-ci, anvil-linux]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -168,7 +168,7 @@ jobs:
 
   coverage-matrix-validate:
     name: coverage-matrix-validate (advisory)
-    runs-on: [self-hosted, linux, ubuntu-latest, python-ci, anvil-linux]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     continue-on-error: true
     steps:
       - name: Checkout repository
@@ -217,7 +217,7 @@ jobs:
 
   ci:
     name: ci-aggregate
-    runs-on: [self-hosted, linux, ubuntu-latest, python-ci, anvil-linux]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
     needs:
       - test
       - install-smoke
