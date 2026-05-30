@@ -1,0 +1,245 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: test (py${{ matrix.python-version }})
+    runs-on: [self-hosted, linux, x64, anvil, wsl, hummbl-governance]
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+
+      - name: Run tests with coverage
+        shell: bash
+        run: |
+          python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80
+
+  install-smoke:
+    name: install-smoke (py${{ matrix.python-version }})
+    runs-on: [self-hosted, linux, x64, anvil, wsl, hummbl-governance]
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build frontend
+        run: python -m pip install build
+
+      - name: Build sdist and wheel
+        run: python -m build --sdist --wheel --outdir dist-smoke
+
+      - name: Build wheel from sdist
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          sdists = list(Path("dist-smoke").glob("hummbl_governance-*.tar.gz"))
+          if len(sdists) != 1:
+              raise SystemExit(f"expected exactly one sdist, found {len(sdists)}: {sdists}")
+          subprocess.check_call([
+              sys.executable,
+              "-m",
+              "pip",
+              "wheel",
+              str(sdists[0]),
+              "--no-deps",
+              "--wheel-dir",
+              "dist-from-sdist",
+          ])
+          PY
+
+      - name: Install wheel built from sdist
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          wheels = list(Path("dist-from-sdist").glob("hummbl_governance-*.whl"))
+          if len(wheels) != 1:
+              raise SystemExit(f"expected exactly one wheel, found {len(wheels)}: {wheels}")
+          subprocess.check_call([
+              sys.executable,
+              "-m",
+              "pip",
+              "install",
+              "--force-reinstall",
+              "--no-deps",
+              str(wheels[0]),
+          ])
+          PY
+
+      - name: Smoke test — installed wheel console scripts and data files
+        run: python scripts/smoke_installed_wheel.py
+
+  lint:
+    name: lint
+    runs-on: [self-hosted, linux, x64, anvil, wsl, hummbl-governance]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: python -m pip install ruff
+
+      - name: Run ruff check
+        run: ruff check .
+
+  arbiter-governance:
+    name: arbiter-governance
+    runs-on: [self-hosted, linux, x64, anvil, wsl, hummbl-governance]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Arbiter with analyzers
+        run: python -m pip install "arbiter-dev[analyzers]"
+
+      - name: Arbiter Audit
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          import sys
+
+          result = subprocess.run(
+              ["arbiter", "score", ".", "--json"],
+              capture_output=True,
+              text=True,
+          )
+          sys.stdout.write(result.stdout)
+          sys.stderr.write(result.stderr)
+          if result.returncode != 0:
+              raise SystemExit(result.returncode)
+
+          payload_start = result.stdout.find("{")
+          if payload_start == -1:
+              raise SystemExit("arbiter score did not emit JSON output")
+
+          report = json.loads(result.stdout[payload_start:])
+          score = float(report["overall"])
+          if score < 90.0:
+              raise SystemExit(f"Arbiter score {score} is below the 90.0 threshold")
+
+          print(f"Arbiter score {score} meets threshold")
+          PY
+
+  coverage-matrix-validate:
+    name: coverage-matrix-validate (advisory)
+    runs-on: [self-hosted, linux, x64, anvil, wsl, hummbl-governance]
+    continue-on-error: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -e ".[test]"
+
+      - name: Validate coverage matrix evidence cells
+        run: |
+          MATRICES_DIR="docs/coverage"
+          if [ ! -d "$MATRICES_DIR" ]; then
+            echo "No coverage matrices directory - skipping validation"
+            exit 0
+          fi
+          FAILED=0
+          for matrix in "$MATRICES_DIR"/*.md; do
+            [ -f "$matrix" ] || continue
+            base=$(basename "$matrix")
+            case "$base" in
+              README.md|EVIDENCE_VALIDATION.md) continue ;;
+            esac
+            echo "Validating: $matrix"
+            python -m hummbl_governance.compliance_mapper \
+              --validate "$matrix" \
+              --repo-root . \
+              || FAILED=1
+          done
+          if [ "$FAILED" -ne 0 ]; then
+            echo "::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)"
+            exit 0
+          fi
+          echo "All coverage matrices pass evidence validation"
+
+      - name: Regenerate evidence-validation report
+        run: |
+          python scripts/build_evidence_validation_report.py
+          echo "::group::EVIDENCE_VALIDATION.md summary"
+          head -40 docs/coverage/EVIDENCE_VALIDATION.md
+          echo "::endgroup::"
+
+  ci:
+    name: ci-aggregate
+    runs-on: [self-hosted, linux, x64, anvil, wsl, hummbl-governance]
+    needs:
+      - test
+      - install-smoke
+      - lint
+      - arbiter-governance
+      - coverage-matrix-validate
+    if: always()
+    steps:
+      - name: Verify required CI jobs
+        run: |
+          failed=0
+          check_result() {
+            job="$1"
+            result="$2"
+            if [ "$result" != "success" ]; then
+              echo "$job finished with result: $result"
+              failed=1
+            fi
+          }
+          check_result test "${{ needs.test.result }}"
+          check_result install-smoke "${{ needs['install-smoke'].result }}"
+          check_result lint "${{ needs.lint.result }}"
+          check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
+          check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
+          exit "$failed"
