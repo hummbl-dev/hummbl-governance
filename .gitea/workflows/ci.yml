@@ -135,6 +135,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Verify required CI jobs
         env:
           NEEDS_TEST_RESULT: ${{ needs.test.result }}
