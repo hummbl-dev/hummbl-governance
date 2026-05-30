@@ -194,6 +194,7 @@ jobs:
         run: python -m pip install -e ".[test]"
 
       - name: Validate coverage matrix evidence cells
+        shell: bash
         run: |
           MATRICES_DIR="docs/coverage"
           if [ ! -d "$MATRICES_DIR" ]; then
@@ -220,6 +221,7 @@ jobs:
           echo "All coverage matrices pass evidence validation"
 
       - name: Regenerate evidence-validation report
+        shell: bash
         run: |
           python scripts/build_evidence_validation_report.py
           echo "::group::EVIDENCE_VALIDATION.md summary"
