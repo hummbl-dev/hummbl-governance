@@ -27,7 +27,10 @@ for matrix in os.listdir(MATRICES_DIR):
         FAILED = 1
 
 if FAILED != 0:
-    print("::warning::Coverage matrix validation: one or more matrices have unresolved evidence references (advisory; matrices are DRAFT scaffolds)")
+    print(
+        "::warning::Coverage matrix validation: one or more matrices have "
+        "unresolved evidence references (advisory; matrices are DRAFT scaffolds)"
+    )
     sys.exit(0)
 
 print("All coverage matrices pass evidence validation")
