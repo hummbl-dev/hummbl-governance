@@ -30,8 +30,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          '& "${{ steps.setup-python.outputs.python-path }}" -m pip install --upgrade pip'
-          '& "${{ steps.setup-python.outputs.python-path }}" -m pip install -e ".[test]"'
+          '& "${{ steps.setup-python.outputs.python-path }}" -m pip install --upgrade pip --break-system-packages'
+          '& "${{ steps.setup-python.outputs.python-path }}" -m pip install -e ".[test]" --break-system-packages'
 
       - name: Run tests with coverage
         run: |
@@ -59,7 +59,7 @@ jobs:
         shell: pwsh
 
       - name: Install build frontend
-        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install build'
+        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install build --break-system-packages'
 
       - name: Build sdist and wheel
         run: '& "${{ steps.setup-python.outputs.python-path }}" -m build --sdist --wheel --outdir dist-smoke'
@@ -86,7 +86,7 @@ jobs:
         shell: pwsh
 
       - name: Install ruff
-        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install ruff'
+        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install ruff --break-system-packages'
 
       - name: Run ruff check
         run: ruff check .
@@ -104,7 +104,7 @@ jobs:
         shell: pwsh
 
       - name: Install Arbiter with analyzers
-        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install "arbiter-dev[analyzers]"'
+        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install "arbiter-dev[analyzers]" --break-system-packages'
 
       - name: Arbiter Audit
         run: '& "${{ steps.setup-python.outputs.python-path }}" scripts/arbiter_audit.py'
@@ -123,7 +123,7 @@ jobs:
         shell: pwsh
 
       - name: Install dependencies
-        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install -e ".[test]"'
+        run: '& "${{ steps.setup-python.outputs.python-path }}" -m pip install -e ".[test]" --break-system-packages'
 
       - name: Validate coverage matrix evidence cells
         run: '& "${{ steps.setup-python.outputs.python-path }}" scripts/validate_coverage_matrices.py'
