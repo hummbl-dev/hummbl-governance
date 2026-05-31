@@ -17,7 +17,7 @@ experimental notebooks. This plan covers the next two quarters of ecosystem work
 
 | Tier | Repos | Status |
 |------|-------|--------|
-| **SHIPPED** | hummbl-governance 0.8.0 | PyPI live, 927 tests |
+| **SHIPPED** | hummbl-governance 0.8.0 | PyPI live, 1031 tests |
 | **READY TO EXTRACT** | hummbl-crucible, hummbl-bus | Source extracted, tests empty |
 | **SPEC COMPLETE** | krineia (Krineia receipt chain), hummbl-contracts, hummbl-tuples | Schemas done, impl missing |
 | **SCAFFOLD** | hummbl-caes, hummbl-compliance, hummbl-mtsmu, hummbl-gaas, hummbl-rsi | README only |
@@ -98,14 +98,14 @@ hummbl-gaas (depends on most of the above)
 
 ### 4.1 Q2 2026 milestones
 
-| Date | Milestone | Deliverable |
-|------|-----------|-------------|
-| 2026-05-15 | krineia v1.0 | Frozen Krineia governance receipt schema (LOI gate) |
-| 2026-05-31 | hummbl-crucible v0.2.0 | Tests written, PyPI published |
-| 2026-05-31 | hummbl-bus v0.2.0 | Tests written, PyPI published |
-| 2026-06-15 | hummbl-compliance v0.1.0 | NIST AI RMF + ISO 42001 crosswalks live |
-| 2026-06-30 | hummbl-caes v0.1.0 | Framework specification frozen |
-| 2026-06-30 | hummbl-legal v0.5.0 | Provider evidence gate; SchemaValidator wired |
+| Date | Milestone | Deliverable | Status |
+|------|-----------|-------------|--------|
+| 2026-05-15 | krineia v1.0 | Frozen Krineia governance receipt schema (LOI gate) | ❌ MISSED — schema still FREEZE PENDING as of 2026-05-31 |
+| 2026-05-31 | hummbl-crucible v0.2.0 | Tests written, PyPI published | ⏳ Status unknown — verify against Gitea repo |
+| 2026-05-31 | hummbl-bus v0.2.0 | Tests written, PyPI published | ⏳ Status unknown — verify against Gitea repo |
+| 2026-06-15 | hummbl-compliance v0.1.0 | NIST AI RMF + ISO 42001 crosswalks live | 📋 Upcoming |
+| 2026-06-30 | hummbl-caes v0.1.0 | Framework specification frozen | 📋 Upcoming |
+| 2026-06-30 | hummbl-legal v0.5.0 | Provider evidence gate; SchemaValidator wired | 📋 Upcoming |
 
 ### 4.2 Q3 2026 milestones (planned)
 
@@ -327,7 +327,7 @@ A repo is considered **shipped** when:
 
 | Repo | Has src? | Has tests? | PyPI? | ADR? | PRD? |
 |------|----------|------------|-------|------|------|
-| hummbl-governance | ✅ | ✅ 927 | ✅ 0.8.0 | — | — |
+| hummbl-governance | ✅ | ✅ 1031 | ✅ 0.8.0 | — | — |
 | hummbl-crucible | ✅ | ❌ | ❌ | ❌ | 📋 this plan |
 | hummbl-bus | ✅ | ❌ | ❌ | ❌ | 📋 this plan |
 | krineia (Krineia receipt chain) | spec only | — | ❌ | ❌ | 📋 this plan |

@@ -14,7 +14,7 @@ This document outlines the strategic direction and technical evolution of the **
 *   ✅ **mcp_agent_monitor.py** (v0.8.0): BehaviorMonitor, ConvergenceDetector, GovernanceLifecycle, EvolutionLineage via 11 tools.
 *   ✅ **mcp_reasoning.py** (v0.8.0): ReasoningEngine, SchemaValidator, ContractNetManager.
 *   ✅ **mcp_physical.py** (v0.8.0): KinematicGovernor, pHRISafetyMonitor via 6 tools.
-*   ✅ **927 tests** — all passing. 7 MCP servers, 4 CLI entry points.
+*   ✅ **1031 tests** — all passing. 7 MCP servers, 4 CLI entry points.
 
 ---
 

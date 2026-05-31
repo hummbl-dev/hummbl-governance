@@ -255,11 +255,15 @@ Before using Mike with real client data, HUMMBL must verify that the underlying 
 
 | Control | Anthropic (as of 2026-05) | Status |
 |---------|--------------------------|--------|
-| ZDR available | Yes — API tier | ✅ |
-| DPA available | Yes — Enterprise | ✅ |
-| Region selection | Yes — US/EU | ✅ |
-| Prompt data training opt-out | Yes — API usage | ✅ |
-| Incident notification SLA | 72 hours | ✅ |
+| ZDR available | Yes — API tier | ❓ UNVERIFIED — see `docs/trackers/UNVERIFIED-CLAIMS.md` |
+| DPA available | Yes — Enterprise | ❓ UNVERIFIED — countersigned DPA not on file |
+| Region selection | Yes — US/EU | ❓ UNVERIFIED — no contractual routing clause confirmed |
+| Prompt data training opt-out | Yes — API usage | ❓ UNVERIFIED — standard API ToS assumed but not verified |
+| Incident notification SLA | 72 hours | ❓ UNVERIFIED — no SLA clause in current agreement |
+
+> **Note**: All five rows above are listed as open items in `docs/trackers/UNVERIFIED-CLAIMS.md`.
+> Do not treat this table as evidence. The `✅` markers were premature. Attach actual evidence
+> artifacts (DPA, ZDR confirmation, SLA clause) before advancing from SYNTHETIC_ONLY.
 
 **Decision after evidence gate**: SYNTHETIC_ONLY → CONTROLLED_PILOT (requires attorney sign-off
 on DPA terms and bar compliance review — ML-BLOCK-004, ML-BLOCK-005).

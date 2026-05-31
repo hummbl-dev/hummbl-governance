@@ -25,8 +25,7 @@ git remote add github git@github.com:hummbl-dev/<repo>.git
 # Remove origin to prevent accidental GitHub pushes
 git remote remove origin
 
-# Configure Gitea as fetch/push default
-git remote set-head origin gitea main
+# Configure Gitea as upstream for main
 git branch --set-upstream-to=gitea/main main
 ```
 
@@ -47,17 +46,31 @@ Create `.gitea/workflows/ci.yml` with self-hosted runner configuration:
 ```yaml
 jobs:
   test:
-    runs-on: [self-hosted, linux, x64, anvil, wsl, <repo-specific-label]
+    runs-on: [self-hosted, windows, python-ci, anvil, windows-general]
+    env:
+      PYTHON: C:\gitea\runner\toolcache\Python\3.13.13\x64\python.exe
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-      - run: python -m pytest tests/ -v
+      - name: Install dependencies
+        shell: powershell
+        run: '& "$env:PYTHON" -m pip install -e ".[test]"'
+      - name: Run tests
+        shell: powershell
+        run: '& "$env:PYTHON" -m pytest tests/ -v'
 ```
 
 **Key changes from GitHub Actions**:
-- Replace `ubuntu-latest` with `[self-hosted, linux, x64, anvil, wsl, <repo-label>]`
-- Add `shell: bash` to all steps for Windows compatibility
-- Use platform-specific runner labels (e.g., `windows, anvil` for Windows jobs)
+- Replace `ubuntu-latest` with `[self-hosted, windows, python-ci, anvil, windows-general]`
+- Do NOT use `actions/setup-python@v5` on Windows self-hosted runners — it requires admin
+  registry access unavailable to the `Owner` user. Use an explicit `PYTHON` env var pointing
+  to the toolcache executable instead.
+- Do NOT use `GITHUB_PATH` to inject Python into PATH — it is unreliable in the Gitea act
+  runner on Windows (other Python installations intercept the call). Use `& "$env:PYTHON"`
+  directly in every `run:` step with `shell: powershell`.
+- Add `shell: powershell` explicitly on every step; do not rely on implicit shell selection.
+- Subprocess-launched CLI tools (e.g. `arbiter`, `ruff`) must be called via
+  `& "$env:PYTHON" -m <tool>` rather than bare executable names — Scripts/ is not guaranteed
+  in subprocess PATH.
 
 ### 4. Port GitHub Actions Jobs
 
@@ -158,6 +171,5 @@ If Gitea Actions fails:
 
 - Gitea Actions API mirror configuration did not work via API; use sync script instead
 - GitHub Actions status checks are bypassed when pushing from Gitea (expected)
-- Self-hosted runner labels: `[self-hosted, linux, x64, anvil, wsl, <repo-label>]`
-- Windows runner labels: `[self-hosted, windows, anvil, <repo-label>]`
-- macOS runner labels: `[self-hosted, macos, nodezero, <repo-label>]
+- Windows runner labels: `[self-hosted, windows, python-ci, anvil, windows-general]`
+- macOS runner labels: `[self-hosted, macos, nodezero, <repo-label>]`

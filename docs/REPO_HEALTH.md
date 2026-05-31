@@ -43,13 +43,21 @@ git diff --check
 
 ## CI Expectations
 
-Expected GitHub Actions coverage:
+Two separate CI surfaces. Both must be green before release.
 
-- `.github/workflows/ci.yml` runs the test suite with coverage threshold 80 across Ubuntu, macOS, and Windows on Python 3.11, 3.12, and 3.13.
-- `.github/workflows/ci.yml` runs clean install smoke tests from PyPI across Ubuntu, macOS, and Windows on Python 3.11, 3.12, and 3.13.
-- `.github/workflows/ci.yml` verifies zero third-party runtime dependencies for the published package.
+### GitHub CI (mirror — public, ubuntu-latest)
+
+- `.github/workflows/ci.yml` runs test suite + coverage threshold 80 on **ubuntu-latest**, Python **3.11, 3.12, 3.13** matrix.
+- `.github/workflows/ci.yml` runs install-smoke tests on the same matrix.
+- `.github/workflows/ci.yml` verifies zero third-party runtime dependencies.
 - `.github/workflows/ci.yml` runs `ruff check .`.
-- `.github/workflows/ci.yml` runs an Arbiter governance score gate with a 90.0 minimum.
+
+### Gitea CI (canonical — self-hosted Windows, Python 3.13)
+
+- `.gitea/workflows/ci.yml` runs the same 5-job pipeline on a self-hosted Windows runner (`anvil-ci`), **Python 3.13.13 only** (toolcache path: `C:\gitea\runner\toolcache\Python\3.13.13\x64`).
+- Uses `& "$env:PYTHON"` explicit invocation. Do NOT use `actions/setup-python@v5` or bare `python` on this runner.
+- Includes Arbiter governance score gate (minimum 90.0).
+- Aspirational: expand Gitea CI to match GitHub multi-Python matrix in a future pass.
 
 ## Branch Protection Expectation
 
