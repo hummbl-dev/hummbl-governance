@@ -7,6 +7,21 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.0] — 2026-06-03
+
+### Added
+- **API Stability Guarantee** — Formal API stability policy with SemVer compliance. All 25 primitives have stable public interfaces guaranteed through v1.x.
+- **Complete Documentation** — Sphinx-based documentation with Read the Docs configuration. Full API reference, quick start guide, and examples for all 25 primitives.
+- **25 Usage Examples** — Complete example scripts for every primitive in the `examples/` directory.
+- **Performance Benchmarks** — Benchmark suite for core primitives (KillSwitch, CircuitBreaker, DelegationToken, AuditLog) in `benchmarks/`.
+- **Quick Start README** — "Getting Started in 5 Minutes" section with 60-second install+run, Mermaid architecture diagram, and runnable examples table.
+
+### Changed
+- `__version__` bumped to `1.0.0`.
+- Development status upgraded from Alpha to Production/Stable.
+
+---
+
 ## [0.8.0] — 2026-05-04
 
 ### Added
