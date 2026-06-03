@@ -20,6 +20,56 @@ with the draft JSON schema at
 pip install hummbl-governance
 ```
 
+**Or with [uv](https://docs.astral.sh/uv/)** (10-100x faster, 30-43% of new repos use it):
+
+```bash
+uv pip install hummbl-governance
+```
+
+[![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)]()
+[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)]()
+
+## Quick Start -- 5 Minutes
+
+Run a complete governance example in 60 seconds:
+
+```bash
+pip install hummbl-governance
+python -c "
+from hummbl_governance import KillSwitch, KillSwitchMode
+ks = KillSwitch()
+ks.engage(KillSwitchMode.HALT_NONCRITICAL, reason='Demo', triggered_by='user')
+print(ks.check_task_allowed('critical_task'))
+"
+```
+
+Explore all 25 primitives:
+
+```bash
+git clone https://github.com/hummbl-dev/hummbl-governance.git
+cd hummbl-governance
+python examples/kill_switch_modes.py
+python examples/circuit_breaker_wrap.py
+python examples/cost_governor.py
+```
+
+## Architecture
+
+```mermaid
+graph TD
+    A[Agent Action] --> B{KillSwitch}
+    B -->|ALLOWED| C{CircuitBreaker}
+    C -->|CLOSED| D[External API]
+    C -->|OPEN| E[Fast Fail]
+    D --> F{CostGovernor}
+    F -->|UNDER BUDGET| G[Execute]
+    F -->|OVER BUDGET| H[Block + Audit]
+    G --> I[AuditLog]
+    H --> I
+    I --> J[ComplianceMapper]
+    J --> K[SOC2 / GDPR / NIST Report]
+```
+
 ## What's New in v0.8.0
 
 - **Four new MCP servers** — expose 15 previously unexposed governance primitives as 32 JSON-RPC tools. Zero additional dependencies.
@@ -114,6 +164,44 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `failure_modes` | Structured failure mode catalog with classification and error cross-reference |
 | `evolution_lineage` | In-memory lineage tracking for eAI variants with drift detection |
 | `ValidationError` | Top-level exception for schema validation failures (exported from `schema_validator`) |
+
+## 25 Runnable Examples
+
+Every primitive has a standalone example in `examples/`. Each runs with just `python examples/<name>.py` -- no setup, no config.
+
+| Example | Primitive | What it shows |
+|---------|-----------|---------------|
+| `kill_switch_modes.py` | KillSwitch | 4 graduated halt modes |
+| `circuit_breaker_wrap.py` | CircuitBreaker | 3-state failure recovery |
+| `cost_governor.py` | CostGovernor | Soft/hard budget caps |
+| `delegate_task.py` | DelegationToken | HMAC-signed agent delegation |
+| `audit_log.py` | AuditLog | Append-only governance log |
+| `agent_registry.py` | AgentRegistry | Identity + trust tiers |
+| `schema_validator.py` | SchemaValidator | Stdlib JSON Schema validation |
+| `compliance_mapper.py` | ComplianceMapper | SOC2/GDPR evidence mapping |
+| `health_probe.py` | HealthProbe | Composable health checks |
+| `output_validator.py` | OutputValidator | Content safety filtering |
+| `capability_fence.py` | CapabilityFence | Role-based capability boundaries |
+| `stride_mapper.py` | StrideMapper | STRIDE threat analysis |
+| `lifecycle.py` | GovernanceLifecycle | NIST AI RMF orchestration |
+| `contract_net.py` | ContractNetManager | Multi-agent task allocation |
+| `convergence_guard.py` | ConvergenceGuard | Instrumental convergence detection |
+| `behavior_monitor.py` | BehaviorMonitor | Behavioral drift detection |
+| `lamport_clock.py` | LamportClock | Distributed causal ordering |
+| `reasoning.py` | ReasoningEngine | Structured governance reasoning |
+| `eal.py` | EAL | Execution assurance |
+| `physical_governor.py` | KinematicGovernor | Physical-AI safety limits |
+| `errors.py` | HummblError | Typed error taxonomy |
+| `failure_modes.py` | FailureMode | Failure classification |
+| `evolution_lineage.py` | EvolutionLineage | eAI variant lineage tracking |
+| `agent_runner.py` | -- | End-to-end agent with governance stack |
+| `failure_injection.py` | -- | Chaos testing with kill switch + circuit breaker |
+
+Run them all:
+
+```bash
+for f in examples/*.py; do echo "=== $f ==="; python "$f"; done
+```
 
 ## Why hummbl-governance?
 
