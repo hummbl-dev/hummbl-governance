@@ -446,6 +446,8 @@ This repo is part of the [HUMMBL](https://github.com/hummbl-dev) cognitive AI ar
 | [base120](https://github.com/hummbl-dev/base120) | Deterministic cognitive framework -- 120 mental models across 6 transformations |
 | [mcp-server](https://github.com/hummbl-dev/mcp-server) | Model Context Protocol server for Base120 integration |
 | [arbiter](https://github.com/hummbl-dev/arbiter) | Agent-aware code quality scoring and attribution |
+| [hummbl-agent](https://github.com/hummbl-dev/hummbl-agent) | Governed control plane for AI agent systems |
+| [hummbl-bibliography](https://github.com/hummbl-dev/hummbl-bibliography) | Bibliography for the HUMMBL cognitive framework |
 | [agentic-patterns](https://github.com/hummbl-dev/agentic-patterns) | Stdlib-only safety patterns for agentic AI systems |
 | [governed-iac-reference](https://github.com/hummbl-dev/governed-iac-reference) | Reference architecture for governed infrastructure-as-code |
 
