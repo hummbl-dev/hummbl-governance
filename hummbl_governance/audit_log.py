@@ -58,6 +58,12 @@ TUPLE_TYPES = ("DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM")
 TupleType = Literal["DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM"]
 
 
+<<<<<<< HEAD
+=======
+from hummbl_governance._types import AuditEntry
+
+
+>>>>>>> a042e6b (security(wargame-fixes): address P1, P2, P4 residuals from adversarial exercise)
 class AuditLog:
     """Append-only governance audit log.
 
