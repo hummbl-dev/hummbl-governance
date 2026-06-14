@@ -29,21 +29,10 @@ import os
 import threading
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable
 
-try:
-    from hummbl_library.governance.types import KillSwitchMode
-except ImportError:
-    # Fallback for environments without hummbl-library installed
-    class KillSwitchMode(Enum):
-        """Kill switch engagement modes."""
-
-        DISENGAGED = auto()
-        HALT_NONCRITICAL = auto()
-        HALT_ALL = auto()
-        EMERGENCY = auto()
+from hummbl_governance._types import KillSwitchMode
 
 logger = logging.getLogger(__name__)
 

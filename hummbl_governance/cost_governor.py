@@ -18,77 +18,12 @@ from __future__ import annotations
 
 import json
 import sqlite3
-import uuid
 from contextlib import contextmanager
-from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterator
 
-try:
-    from hummbl_library.governance.types import BudgetStatus, UsageRecord
-except ImportError:
-    # Fallback for environments without hummbl-library installed
-
-    @dataclass(frozen=True, slots=True)
-    class UsageRecord:
-        """A single API usage record."""
-
-        record_id: str
-        timestamp: str
-        provider: str
-        model: str
-        tokens_in: int
-        tokens_out: int
-        cost: float
-        meta: dict[str, Any] = field(default_factory=dict)
-
-        @classmethod
-        def create(
-            cls,
-            provider: str,
-            model: str,
-            tokens_in: int,
-            tokens_out: int,
-            cost: float,
-            timestamp: datetime | None = None,
-            meta: dict[str, Any] | None = None,
-        ) -> "UsageRecord":
-            """Factory method with auto-generated IDs."""
-            ts = timestamp or datetime.now(timezone.utc)
-            return cls(
-                record_id=f"usage-{uuid.uuid4().hex[:12]}",
-                timestamp=ts.isoformat().replace("+00:00", "Z"),
-                provider=provider,
-                model=model,
-                tokens_in=tokens_in,
-                tokens_out=tokens_out,
-                cost=cost,
-                meta=meta or {},
-            )
-
-    @dataclass(frozen=True, slots=True)
-    class BudgetStatus:
-        """Budget status report with governance decision."""
-
-        current_spend: float
-        soft_cap: float
-        hard_cap: float | None
-        currency: str
-        threshold_percent: float
-        decision: str
-        rationale: str
-
-        def to_dict(self) -> dict[str, Any]:
-            return {
-                "current_spend": self.current_spend,
-                "soft_cap": self.soft_cap,
-                "hard_cap": self.hard_cap,
-                "currency": self.currency,
-                "threshold_percent": self.threshold_percent,
-                "decision": self.decision,
-                "rationale": self.rationale,
-            }
+from hummbl_governance._types import BudgetStatus, UsageRecord
 
 
 class CostGovernor:

@@ -30,7 +30,7 @@ from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerStat
 from hummbl_governance.cost_governor import CostGovernor
 from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
-from hummbl_governance.identity import AgentRegistry
+from hummbl_governance.identity import AgentRegistry, TrustTier
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 try:
     from hummbl_governance.coordination_bus import BusWriter, PolicyLevel
@@ -84,6 +84,7 @@ __all__ = [
     "DelegationTokenManager",
     "AuditLog",
     "AgentRegistry",
+    "TrustTier",
     "SchemaValidator",
     "ValidationError",
     "BusWriter",

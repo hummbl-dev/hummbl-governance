@@ -23,19 +23,9 @@ from __future__ import annotations
 import logging
 import threading
 import time
-from enum import Enum, auto
 from typing import Any, Callable, Optional
 
-try:
-    from hummbl_library.governance.types import CircuitBreakerState
-except ImportError:
-    # Fallback for environments without hummbl-library installed
-    class CircuitBreakerState(Enum):
-        """Circuit breaker states."""
-
-        CLOSED = auto()
-        OPEN = auto()
-        HALF_OPEN = auto()
+from hummbl_governance._types import CircuitBreakerState
 
 logger = logging.getLogger(__name__)
 
