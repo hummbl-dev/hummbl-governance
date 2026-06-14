@@ -1,0 +1,271 @@
+# hummbl-governance — llms.txt
+# AI-readable index of the HUMMBL governance library.
+# 25 governance primitives, 7 MCP servers, 1031 tests. Last updated: 2026-06-14.
+#
+# Query API: LLMs can parse this file to understand governance capabilities
+# Installation: pip install hummbl-governance
+# Documentation: https://github.com/hummbl-dev/hummbl-governance
+#
+# Compliance mappings:
+#   NIST AI RMF: GOVERN MAP MEASURE MANAGE
+#   ISO 42001: Clauses 4-10
+#   SOC 2: CC1-CC9
+#   EU AI Act: Articles 9-15 (high-risk systems)
+#
+# HUMMBL governance categories:
+#   HUMMBL:SA  Safety primitives (kill switch, circuit breaker, output validator)
+#   HUMMBL:CO  Cost governance (budget enforcement, spend tracking)
+#   HUMMBL:ID  Identity & delegation (agent registry, delegation tokens)
+#   HUMMBL:AUDIT Audit logging (append-only governance bus, evidence trails)
+#   HUMMBL:COMP Compliance mapping (NIST, ISO, SOC 2, EU AI Act)
+#   HUMMBL:RE  Reasoning & contracts (reasoning engine, schema validation)
+#   HUMMBL:COORD Coordination (bus protocol, lamport clocks, convergence)
+#   HUMMBL:HEALTH Health monitoring (probes, lifecycle, behavior monitoring)
+#   HUMMBL:PHYS Physical AI safety (kinematic governor, pHRI safety)
+#   HUMMBL:EAL  Execution assurance levels (EAL1-EAL4)
+
+## Governance Primitives (25 total)
+
+### Safety Primitives (4)
+
+- **KillSwitch** (`hummbl_governance.kill_switch`)
+  Emergency shutdown with 4 modes: DISENGAGED, HALT_NONCRITICAL, HALT_ALL, EMERGENCY
+  Keywords: HUMMBL:SA HUMMBL:COMP [NIST:GOVERN MANAGE]
+
+- **CircuitBreaker** (`hummbl_governance.circuit_breaker`)
+  Resilience primitive with 3 states: CLOSED, HALF_OPEN, OPEN. Failure counting, timeout, backoff.
+  Keywords: HUMMBL:SA HUMMBL:COORD [NIST:MANAGE]
+
+- **OutputValidator** (`hummbl_governance.output_validator`)
+  Schema-based output validation with rejection policies
+  Keywords: HUMMBL:SA HUMMBL:RE [NIST:MEASURE]
+
+- **CapabilityFence** (`hummbl_governance.capability_fence`)
+  Sandbox capability restriction (file access, network, subprocess)
+  Keywords: HUMMBL:SA HUMMBL:COMP [NIST:GOVERN MANAGE]
+
+### Cost & Budget (1)
+
+- **CostGovernor** (`hummbl_governance.cost_governor`)
+  Per-agent budget enforcement, spend tracking, alert thresholds, rate limiting
+  Keywords: HUMMBL:CO HUMMBL:COMP [NIST:GOVERN MANAGE]
+
+### Identity & Auth (2)
+
+- **AgentRegistry** (`hummbl_governance.identity`)
+  Agent identity management, registration, metadata, trust scoring
+  Keywords: HUMMBL:ID HUMMBL:COMP [NIST:GOVERN]
+
+- **DelegationTokenManager** (`hummbl_governance.delegation`)
+  HMAC-SHA256 delegation tokens with chain-depth enforcement, expiration, revocation
+  Keywords: HUMMBL:ID HUMMBL:SA [NIST:GOVERN MANAGE]
+
+### Audit & Compliance (3)
+
+- **AuditLog** (`hummbl_governance.audit_log`)
+  Append-only JSONL governance bus with message types: PROPOSAL, ACK, STATUS, BLOCKED, DECISION
+  Keywords: HUMMBL:AUDIT HUMMBL:COMP [NIST:GOVERN MANAGE]
+
+- **ComplianceMapper** (`hummbl_governance.compliance_mapper`)
+  Maps controls to NIST AI RMF, ISO 42001, SOC 2, EU AI Act with gap analysis
+  Keywords: HUMMBL:COMP HUMMBL:AUDIT [NIST:GOVERN MAP MEASURE]
+
+- **STRIDEMapper** (`hummbl_governance.stride_mapper`)
+  STRIDE threat modeling with mitigation mapping to controls
+  Keywords: HUMMBL:SA HUMMBL:COMP [NIST:MAP MANAGE]
+
+### Reasoning & Contracts (3)
+
+- **ReasoningEngine** (`hummbl_governance.reasoning`)
+  Chain-of-thought reasoning with step-by-step validation, confidence scoring
+  Keywords: HUMMBL:RE HUMMBL:COORD [NIST:MEASURE]
+
+- **SchemaValidator** (`hummbl_governance.schema_validator`)
+  JSON schema validation with custom rules, ValidationError export
+  Keywords: HUMMBL:RE HUMMBL:SA [NIST:MEASURE]
+
+- **ContractNetManager** (`hummbl_governance.contract_net`)
+  Contract Net Protocol for multi-agent task allocation, bidding, awarding
+  Keywords: HUMMBL:RE HUMMBL:COORD [NIST:MANAGE]
+
+### Coordination (3)
+
+- **CoordinationBus** (`hummbl_governance.coordination_bus`)
+  TSV bus protocol with timestamp, from, to, type, message fields
+  Keywords: HUMMBL:COORD HUMMBL:AUDIT [NIST:GOVERN]
+
+- **LamportClock** (`hummbl_governance.lamport_clock`)
+  Logical timestamps for distributed event ordering
+  Keywords: HUMMBL:COORD HUMMBL:RE [NIST:MANAGE]
+
+- **ConvergenceGuard** (`hummbl_governance.convergence_guard`)
+  Detects non-convergent multi-agent states, triggers rollback
+  Keywords: HUMMBL:COORD HUMMBL:SA [NIST:MANAGE]
+
+### Behavior & Health (3)
+
+- **RewardMonitor** (`hummbl_governance.reward_monitor`)
+  Tracks reward signals, detects reward hacking, drift, specification gaming
+  Keywords: HUMMBL:HEALTH HUMMBL:SA [NIST:MEASURE]
+
+- **HealthProbe** (`hummbl_governance.health_probe`)
+  HTTP health checks with latency measurement, status codes, uptime tracking
+  Keywords: HUMMBL:HEALTH HUMMBL:COORD [NIST:MEASURE]
+
+- **GovernanceLifecycle** (`hummbl_governance.lifecycle`)
+  Agent lifecycle management (startup, shutdown, restart, phase transitions)
+  Keywords: HUMMBL:HEALTH HUMMBL:COORD [NIST:MANAGE]
+
+### Physical AI (1)
+
+- **PhysicalGovernor** (`hummbl_governance.physical_governor`)
+  Kinematic safety limits, pHRI (physical human-robot interaction) monitoring, emergency stop
+  Keywords: HUMMBL:PHYS HUMMBL:SA [NIST:GOVERN MANAGE]
+
+### Execution Assurance (1)
+
+- **EAL** (`hummbl_governance.eal`)
+  Execution Assurance Levels (EAL1-EAL4) with validation gates, rollback triggers
+  Keywords: HUMMBL:EAL HUMMBL:SA HUMMBL:COMP [NIST:GOVERN MANAGE]
+
+### Error Taxonomy (3)
+
+- **GovernanceError** (`hummbl_governance.errors`)
+  Base error class with governance context, severity, remediation
+  Keywords: HUMMBL:SA HUMMBL:COMP [NIST:MANAGE]
+
+- **FailureModes** (`hummbl_governance.failure_modes`)
+  Classified failure modes (safety, cost, identity, compliance) with detection rules
+  Keywords: HUMMBL:SA HUMMBL:COMP [NIST:MAP MEASURE]
+
+- **EvolutionLineage** (`hummbl_governance.evolution_lineage`)
+  Tracks agent evolution, version history, breaking changes, migration paths
+  Keywords: HUMMBL:RE HUMMBL:COMP [NIST:GOVERN]
+
+## MCP Servers (7 total)
+
+### Core MCP Server (`mcp_server.py`)
+- 10 tools: KillSwitch, CircuitBreaker, CostGovernor, AuditLog, ComplianceMapper, HealthProbe, SchemaValidator, OutputValidator, CapabilityFence, STRIDEMapper
+- Entry point: `hummbl-governance-mcp` or `python -m hummbl_governance.mcp_server`
+
+### Compliance MCP Server (`mcp_compliance.py`)
+- 5 tools: NIST AI RMF mapper, SOC 2 mapper, ISO 42001 crosswalk, STRIDE mapper, evidence export
+- Entry point: `hummbl-compliance-mcp` or `python -m hummbl_governance.mcp_compliance`
+
+### Sandbox MCP Server (`mcp_sandbox.py`)
+- 5 tools: CapabilityFence, OutputValidator, file access control, network control, subprocess control
+- Entry point: `hummbl-sandbox-mcp` or `python -m hummbl_governance.mcp_sandbox`
+
+### Identity MCP Server (`mcp_identity.py`)
+- 10 tools: AgentRegistry, DelegationTokenManager, LamportClock, identity query, token validation, chain verification
+- Entry point: `hummbl-identity-mcp` or `python -m hummbl_governance.mcp_identity`
+
+### Agent Monitor MCP Server (`mcp_agent_monitor.py`)
+- 11 tools: BehaviorMonitor, ConvergenceDetector, GovernanceLifecycle, EvolutionLineage, health checks, drift detection
+- Entry point: `hummbl-agent-monitor-mcp` or `python -m hummbl_governance.mcp_agent_monitor`
+
+### Reasoning MCP Server (`mcp_reasoning.py`)
+- Tools: ReasoningEngine, SchemaValidator, ContractNetManager, confidence scoring, step validation
+- Entry point: `hummbl-reasoning-mcp` or `python -m hummbl_governance.mcp_reasoning`
+
+### Physical AI MCP Server (`mcp_physical.py`)
+- 6 tools: KinematicGovernor, pHRISafetyMonitor, emergency stop, kinematic limits, collision detection, safety zone enforcement
+- Entry point: `hummbl-physical-mcp` or `python -m hummbl_governance.mcp_physical`
+
+## Quick Start Examples
+
+### Kill Switch
+```python
+from hummbl_governance import KillSwitch, KillSwitchMode
+ks = KillSwitch()
+ks.engage(KillSwitchMode.HALT_NONCRITICAL, reason='Demo', triggered_by='user')
+print(ks.check_task_allowed('critical_task'))  # True
+print(ks.check_task_allowed('non_critical_task'))  # False
+```
+
+### Circuit Breaker
+```python
+from hummbl_governance import CircuitBreaker, CircuitMode
+cb = CircuitBreaker(failure_threshold=5, timeout_seconds=60)
+result = cb.call(risky_function)
+if cb.mode == CircuitMode.OPEN:
+    print("Circuit breaker is open, blocking calls")
+```
+
+### Cost Governor
+```python
+from hummbl_governance import CostGovernor
+gov = CostGovernor(budget_usd=100.0, alert_threshold=0.8)
+gov.record_spend(agent_id='claude-code', amount_usd=0.50)
+if gov.check_budget_exceeded():
+    print("Budget exceeded, blocking spend")
+```
+
+### Audit Log
+```python
+from hummbl_governance import AuditLog
+log = AuditLog(path='governance_bus.tsv')
+log.append(from_='agent', to='system', type='DECISION', message='Approved task')
+```
+
+## Compliance Framework Mapping
+
+### NIST AI RMF Functions
+- **GOVERN**: KillSwitch, CostGovernor, AgentRegistry, DelegationTokenManager, AuditLog, EAL
+- **MAP**: STRIDEMapper, ComplianceMapper, FailureModes
+- **MEASURE**: OutputValidator, RewardMonitor, HealthProbe, ReasoningEngine
+- **MANAGE**: CircuitBreaker, ConvergenceGuard, GovernanceLifecycle, PhysicalGovernor
+
+### ISO 42001 Clauses
+- **Clause 4 (Context)**: AgentRegistry, EvolutionLineage
+- **Clause 5 (Leadership)**: AuditLog, ComplianceMapper
+- **Clause 6 (Planning)**: CostGovernor, EAL
+- **Clause 7 (Support)**: HealthProbe, GovernanceLifecycle
+- **Clause 8 (Operation)**: KillSwitch, CircuitBreaker, OutputValidator
+- **Clause 9 (Performance)**: RewardMonitor, ConvergenceGuard
+- **Clause 10 (Improvement)**: FailureModes, EvolutionLineage
+
+### SOC 2 Trust Services Criteria
+- **CC1 (Security)**: KillSwitch, DelegationTokenManager, CapabilityFence
+- **CC2 (Availability)**: CircuitBreaker, HealthProbe, ConvergenceGuard
+- **CC3 (Processing Integrity)**: OutputValidator, SchemaValidator, ReasoningEngine
+- **CC4 (Confidentiality)**: DelegationTokenManager, AuditLog
+- **CC5 (Privacy)**: AuditLog, ComplianceMapper
+
+### EU AI Act (High-Risk Systems)
+- **Article 9 (Risk Management)**: KillSwitch, CircuitBreaker, STRIDEMapper
+- **Article 10 (Data Governance)**: AuditLog, SchemaValidator
+- **Article 11 (Technical Documentation)**: EvolutionLineage, ComplianceMapper
+- **Article 12 (Record Keeping)**: AuditLog, LamportClock
+- **Article 13 (Transparency)**: OutputValidator, ReasoningEngine
+- **Article 14 (Human Oversight)**: KillSwitch, HealthProbe, GovernanceLifecycle
+- **Article 15 (Accuracy)**: OutputValidator, RewardMonitor, ReasoningEngine
+
+## Installation
+
+```bash
+pip install hummbl-governance
+```
+
+Or with uv (10-100x faster):
+
+```bash
+uv pip install hummbl-governance
+```
+
+## Testing
+
+```bash
+python -m pytest tests/ -v --cov=hummbl_governance --cov-fail-under=80
+```
+
+## License
+
+Apache 2.0
+
+## Links
+
+- GitHub: https://github.com/hummbl-dev/hummbl-governance
+- PyPI: https://pypi.org/project/hummbl-governance/
+- Documentation: https://github.com/hummbl-dev/hummbl-governance/blob/main/README.md
+- Issues: https://github.com/hummbl-dev/hummbl-governance/issues
