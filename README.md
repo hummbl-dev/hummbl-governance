@@ -9,6 +9,8 @@
 
 **hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1031 passing tests, and supports Python 3.11 through 3.14.
 
+Learn more at [hummbl.io](https://hummbl.io).
+
 Repository health, validation, and stewardship expectations are tracked in [docs/REPO_HEALTH.md](docs/REPO_HEALTH.md).
 
 Evidence-readiness review receipt mapping for HUMMBL Legal/Paralegal packet
