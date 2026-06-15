@@ -70,7 +70,7 @@ except ImportError:
         entry_id: str
         intent_id: str
         task_id: str
-        tuple_type: str
+        tuple_type: TupleType
         tuple_data: dict[str, Any]
         signature: str | None = None
         contract_id: str | None = None
@@ -204,7 +204,7 @@ class AuditLog:
 
     def _validate_append(
         self,
-        tuple_type: str,
+        tuple_type: TupleType,
         signature: str | None,
         require_signature: bool | None,
         verification_id: str | None,
@@ -232,7 +232,7 @@ class AuditLog:
         self,
         intent_id: str,
         task_id: str,
-        tuple_type: str,
+        tuple_type: TupleType,
         tuple_data: dict[str, Any],
         signature: str | None = None,
         require_signature: bool | None = None,
@@ -337,7 +337,7 @@ class AuditLog:
                 return False, E_AUDIT_INCOMPLETE
 
     def query_by_intent(
-        self, intent_id: str, tuple_type: str | None = None, since: str | None = None
+        self, intent_id: str, tuple_type: TupleType | None = None, since: str | None = None
     ) -> Iterator[AuditEntry]:
         """Query entries by intent_id."""
         yield from self._query(
@@ -345,7 +345,7 @@ class AuditLog:
         )
 
     def query_by_task(
-        self, task_id: str, tuple_type: str | None = None
+        self, task_id: str, tuple_type: TupleType | None = None
     ) -> Iterator[AuditEntry]:
         """Query entries by task_id."""
         yield from self._query(lambda e: e.task_id == task_id, tuple_type=tuple_type)
@@ -357,7 +357,7 @@ class AuditLog:
         return None
 
     def query_by_contract(
-        self, contract_id: str, tuple_type: str | None = None
+        self, contract_id: str, tuple_type: TupleType | None = None
     ) -> Iterator[AuditEntry]:
         """Query entries by contract_id cross-link."""
         yield from self._query(
@@ -383,7 +383,7 @@ class AuditLog:
     def _query(
         self,
         predicate: Callable[[AuditEntry], bool],
-        tuple_type: str | None = None,
+        tuple_type: TupleType | None = None,
         since: str | None = None,
     ) -> Iterator[AuditEntry]:
         """Internal query implementation."""
