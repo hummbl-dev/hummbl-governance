@@ -94,6 +94,20 @@ class KillSwitch:
             or DCT_SECRET env vars.
         critical_tasks: Set of task types that are always allowed in HALT_NONCRITICAL
             and HALT_ALL modes. Defaults to common safety tasks.
+
+    Examples:
+        >>> ks = KillSwitch()
+        >>> ks.mode
+        <KillSwitchMode.DISENGAGED: 1>
+        >>> ks.engaged
+        False
+
+        With persistent state and a custom critical-tasks set:
+
+        >>> from pathlib import Path
+        >>> ks = KillSwitch(state_dir=Path("/tmp/ks"), require_hmac=False)
+        >>> ks.mode
+        <KillSwitchMode.DISENGAGED: 1>
     """
 
     DEFAULT_CRITICAL_TASKS: frozenset[str] = frozenset([
@@ -292,6 +306,18 @@ class KillSwitch:
 
         Raises:
             ValueError: If mode is DISENGAGED.
+
+        Examples:
+            >>> ks = KillSwitch()
+            >>> event = ks.engage(
+            ...     KillSwitchMode.HALT_ALL,
+            ...     reason="Budget exceeded",
+            ...     triggered_by="cost_governor",
+            ... )
+            >>> event.mode
+            <KillSwitchMode.HALT_ALL: 3>
+            >>> ks.engaged
+            True
         """
         if mode == KillSwitchMode.DISENGAGED:
             raise ValueError("Use disengage() to clear kill switch, not engage()")
@@ -315,6 +341,15 @@ class KillSwitch:
 
         Returns:
             KillSwitchEvent record.
+
+        Examples:
+            >>> ks = KillSwitch()
+            >>> _ = ks.engage(KillSwitchMode.HALT_ALL, reason="Over budget", triggered_by="monitor")
+            >>> event = ks.disengage(triggered_by="operator", reason="Budget restored")
+            >>> ks.engaged
+            False
+            >>> event.mode
+            <KillSwitchMode.DISENGAGED: 1>
         """
         with self._lock:
             previous_mode = self._mode
@@ -375,7 +410,21 @@ class KillSwitch:
             raise KillSwitchEngagedError(result["reason"], self._mode)
 
     def get_status(self) -> dict[str, Any]:
-        """Get current kill switch status summary."""
+        """Get current kill switch status summary.
+
+        Returns:
+            Dict with mode, engaged flag, engagement_count, last_engagement, and total_events.
+
+        Examples:
+            >>> ks = KillSwitch()
+            >>> status = ks.get_status()
+            >>> status['mode']
+            'DISENGAGED'
+            >>> status['engaged']
+            False
+            >>> status['engagement_count']
+            0
+        """
         engagement_count = len([e for e in self._history if e.mode != KillSwitchMode.DISENGAGED])
 
         last_engagement = None
