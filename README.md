@@ -2,11 +2,14 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-1031%20passing-brightgreen)]()
+[![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
+[![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
 
 **hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1031 passing tests, and supports Python 3.11 through 3.14.
+
+Learn more at [hummbl.io](https://hummbl.io).
 
 Repository health, validation, and stewardship expectations are tracked in [docs/REPO_HEALTH.md](docs/REPO_HEALTH.md).
 
@@ -19,6 +22,63 @@ with the draft JSON schema at
 ```bash
 pip install hummbl-governance
 ```
+
+**Or with [uv](https://docs.astral.sh/uv/)** (10-100x faster, 30-43% of new repos use it):
+
+```bash
+uv pip install hummbl-governance
+```
+
+[![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)]()
+[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)]()
+
+## Quick Start -- 5 Minutes
+
+Run a complete governance example in 60 seconds:
+
+```bash
+pip install hummbl-governance
+python -c "
+from hummbl_governance import KillSwitch, KillSwitchMode
+ks = KillSwitch()
+ks.engage(KillSwitchMode.HALT_NONCRITICAL, reason='Demo', triggered_by='user')
+print(ks.check_task_allowed('critical_task'))
+"
+```
+
+Explore all 25 primitives:
+
+```bash
+git clone https://github.com/hummbl-dev/hummbl-governance.git
+cd hummbl-governance
+python examples/kill_switch_modes.py
+python examples/circuit_breaker_wrap.py
+python examples/cost_governor.py
+```
+
+## Architecture
+
+```mermaid
+graph TD
+    A[Agent Action] --> B{KillSwitch}
+    B -->|ALLOWED| C{CircuitBreaker}
+    C -->|CLOSED| D[External API]
+    C -->|OPEN| E[Fast Fail]
+    D --> F{CostGovernor}
+    F -->|UNDER BUDGET| G[Execute]
+    F -->|OVER BUDGET| H[Block + Audit]
+    G --> I[AuditLog]
+    H --> I
+    I --> J[ComplianceMapper]
+    J --> K[SOC2 / GDPR / NIST Report]
+```
+
+## What's New in v1.0.0
+
+- **API Stability Guarantee** — Formal API stability policy with SemVer compliance. All 25 primitives have stable public interfaces guaranteed through v1.x.
+- **Complete Documentation** — Sphinx-based documentation with Read the Docs configuration. Full API reference, quick start guide, and examples for all 25 primitives.
+- **25 Usage Examples** — Complete example scripts for every primitive in the `examples/` directory.
+- **Performance Benchmarks** — Benchmark suite for core primitives (KillSwitch, CircuitBreaker, DelegationToken, AuditLog) in `benchmarks/`.
 
 ## What's New in v0.8.0
 
@@ -114,6 +174,44 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `failure_modes` | Structured failure mode catalog with classification and error cross-reference |
 | `evolution_lineage` | In-memory lineage tracking for eAI variants with drift detection |
 | `ValidationError` | Top-level exception for schema validation failures (exported from `schema_validator`) |
+
+## 25 Runnable Examples
+
+Every primitive has a standalone example in `examples/`. Each runs with just `python examples/<name>.py` -- no setup, no config.
+
+| Example | Primitive | What it shows |
+|---------|-----------|---------------|
+| `kill_switch_modes.py` | KillSwitch | 4 graduated halt modes |
+| `circuit_breaker_wrap.py` | CircuitBreaker | 3-state failure recovery |
+| `cost_governor.py` | CostGovernor | Soft/hard budget caps |
+| `delegate_task.py` | DelegationToken | HMAC-signed agent delegation |
+| `audit_log.py` | AuditLog | Append-only governance log |
+| `agent_registry.py` | AgentRegistry | Identity + trust tiers |
+| `schema_validator.py` | SchemaValidator | Stdlib JSON Schema validation |
+| `compliance_mapper.py` | ComplianceMapper | SOC2/GDPR evidence mapping |
+| `health_probe.py` | HealthProbe | Composable health checks |
+| `output_validator.py` | OutputValidator | Content safety filtering |
+| `capability_fence.py` | CapabilityFence | Role-based capability boundaries |
+| `stride_mapper.py` | StrideMapper | STRIDE threat analysis |
+| `lifecycle.py` | GovernanceLifecycle | NIST AI RMF orchestration |
+| `contract_net.py` | ContractNetManager | Multi-agent task allocation |
+| `convergence_guard.py` | ConvergenceGuard | Instrumental convergence detection |
+| `behavior_monitor.py` | BehaviorMonitor | Behavioral drift detection |
+| `lamport_clock.py` | LamportClock | Distributed causal ordering |
+| `reasoning.py` | ReasoningEngine | Structured governance reasoning |
+| `eal.py` | EAL | Execution assurance |
+| `physical_governor.py` | KinematicGovernor | Physical-AI safety limits |
+| `errors.py` | HummblError | Typed error taxonomy |
+| `failure_modes.py` | FailureMode | Failure classification |
+| `evolution_lineage.py` | EvolutionLineage | eAI variant lineage tracking |
+| `agent_runner.py` | -- | End-to-end agent with governance stack |
+| `failure_injection.py` | -- | Chaos testing with kill switch + circuit breaker |
+
+Run them all:
+
+```bash
+for f in examples/*.py; do echo "=== $f ==="; python "$f"; done
+```
 
 ## Why hummbl-governance?
 
@@ -355,6 +453,8 @@ This repo is part of the [HUMMBL](https://github.com/hummbl-dev) cognitive AI ar
 | [base120](https://github.com/hummbl-dev/base120) | Deterministic cognitive framework -- 120 mental models across 6 transformations |
 | [mcp-server](https://github.com/hummbl-dev/mcp-server) | Model Context Protocol server for Base120 integration |
 | [arbiter](https://github.com/hummbl-dev/arbiter) | Agent-aware code quality scoring and attribution |
+| [hummbl-agent](https://github.com/hummbl-dev/hummbl-agent) | Governed control plane for AI agent systems |
+| [hummbl-bibliography](https://github.com/hummbl-dev/hummbl-bibliography) | Bibliography for the HUMMBL cognitive framework |
 | [agentic-patterns](https://github.com/hummbl-dev/agentic-patterns) | Stdlib-only safety patterns for agentic AI systems |
 | [governed-iac-reference](https://github.com/hummbl-dev/governed-iac-reference) | Reference architecture for governed infrastructure-as-code |
 

@@ -2,7 +2,7 @@
 
 ## Project
 
-**hummbl-governance** — Governance primitives for AI agent orchestration. v0.8.0, 1031 tests, zero third-party runtime dependencies.
+**hummbl-governance** — Governance primitives for AI agent orchestration. v1.0.0, ~979 tests, zero third-party runtime dependencies.
 
 Standalone Python package extracted from founder-mode. Provides 25 governance primitives across safety, cost, identity, compliance, reasoning, coordination, physical-AI, and execution assurance. Ships 7 MCP servers exposing all primitives as JSON-RPC tools.
 
