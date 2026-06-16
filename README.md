@@ -11,6 +11,8 @@
 
 Learn more at [hummbl.io](https://hummbl.io).
 
+Learn more at [hummbl.io](https://hummbl.io).
+
 Repository health, validation, and stewardship expectations are tracked in [docs/REPO_HEALTH.md](docs/REPO_HEALTH.md).
 
 Evidence-readiness review receipt mapping for HUMMBL Legal/Paralegal packet
@@ -72,13 +74,6 @@ graph TD
     I --> J[ComplianceMapper]
     J --> K[SOC2 / GDPR / NIST Report]
 ```
-
-## What's New in v1.0.0
-
-- **API Stability Guarantee** — Formal API stability policy with SemVer compliance. All 25 primitives have stable public interfaces guaranteed through v1.x.
-- **Complete Documentation** — Sphinx-based documentation with Read the Docs configuration. Full API reference, quick start guide, and examples for all 25 primitives.
-- **25 Usage Examples** — Complete example scripts for every primitive in the `examples/` directory.
-- **Performance Benchmarks** — Benchmark suite for core primitives (KillSwitch, CircuitBreaker, DelegationToken, AuditLog) in `benchmarks/`.
 
 ## What's New in v0.8.0
 
