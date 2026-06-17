@@ -1,0 +1,280 @@
+"""Kernel — Main orchestrator for all seven engines.
+
+The Kernel is the operating system of the fleet. It guarantees
+invariants K1-K7 through seven specialized engines.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import os
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+from .authority_engine import AuthorityCheck, AuthorityEngine
+from .evidence_engine import EvidenceEngine, EvidenceGrade
+from .identity_engine import AgentIdentity, IdentityEngine
+from .invariants import KernelInvariant, KernelPanic
+from .law_engine import LawEngine, ScalingLaw, Violation
+from .receipt_engine import Receipt, ReceiptEngine
+from .schedule_engine import LoopSchedule, ScheduleEngine
+from .sequence_engine import SequenceEngine
+
+logger = logging.getLogger(__name__)
+
+def _default_state_dir() -> Path:
+    """Return the default Kernel state directory.
+
+    Resolution order:
+    1. HUMMBL_KERNEL_STATE_DIR environment variable
+    2. XDG_DATA_HOME/hummbl-governance/kernel (Unix)
+    3. ~/.local/share/hummbl-governance/kernel (fallback)
+    """
+    if env_dir := os.environ.get("HUMMBL_KERNEL_STATE_DIR"):
+        return Path(env_dir)
+    xdg = os.environ.get("XDG_DATA_HOME")
+    if xdg:
+        return Path(xdg) / "hummbl-governance" / "kernel"
+    return Path.home() / ".local" / "share" / "hummbl-governance" / "kernel"
+
+
+DEFAULT_STATE_DIR = _default_state_dir()
+
+
+class Kernel:
+    """The Governance Kernel for multi-agent AI systems.
+
+    Usage:
+        kernel = Kernel.boot()
+        receipt = kernel.receipt.create(agent_id="devin", action_type="STATUS")
+        violations = kernel.law.evaluate(receipt.__dict__)
+        kernel.receipt.store(receipt)
+    """
+
+    def __init__(self, state_dir: Path | None = None) -> None:
+        self.state_dir = state_dir or DEFAULT_STATE_DIR
+        self.state_dir.mkdir(parents=True, exist_ok=True)
+
+        # Initialize all seven engines
+        self.receipt = ReceiptEngine(self.state_dir)
+        self.law = LawEngine()
+        self.identity = IdentityEngine(self.state_dir)
+        self.sequence = SequenceEngine(self.state_dir)
+        self.evidence = EvidenceEngine()
+        self.authority = AuthorityEngine(self.state_dir)
+        self.schedule = ScheduleEngine(self.state_dir)
+
+        self.booted = False
+        self.boot_receipt_id: str = ""
+
+    @classmethod
+    def boot(cls, state_dir: Path | None = None) -> "Kernel":
+        """Boot the Kernel through its 7-phase sequence.
+
+        Returns an initialized and validated Kernel instance.
+        Raises KernelPanic if any phase fails.
+        """
+        kernel = cls(state_dir)
+        kernel._boot_sequence()
+        return kernel
+
+    def _boot_sequence(self) -> None:
+        """Execute the 7-phase Kernel boot sequence."""
+        logger.info("KERNEL BOOT: Phase 0 — Hardware/OS check")
+        # Phase 0: Basic system check
+        if not os.access(self.state_dir, os.W_OK):
+            raise KernelPanic(
+                KernelInvariant.RECEIPT,
+                f"State directory not writable: {self.state_dir}",
+            )
+
+        logger.info("KERNEL BOOT: Phase 1 — Identity bootstrap")
+        # Phase 1: Verify identity registry
+        if not self.identity.registry_file.exists():
+            logger.warning("Identity registry not found; creating empty registry")
+            self.identity.registry_file.touch()
+
+        logger.info("KERNEL BOOT: Phase 2 — Law bootstrap")
+        # Phase 2: Verify scaling law atlas
+        if not self.law.laws:
+            logger.warning("Scaling Law Atlas not found; operating in degraded mode")
+
+        logger.info("KERNEL BOOT: Phase 3 — Receipt engine init")
+        # Phase 3: Verify receipt storage
+        self.receipt.receipts_dir.mkdir(parents=True, exist_ok=True)
+
+        logger.info("KERNEL BOOT: Phase 4 — Role registration")
+        # Phase 4: Load active roles from identity engine
+        for agent_id, identity in self.identity._identities.items():
+            for role_id in identity.active_roles:
+                logger.info(f"  Registered role {role_id} for {agent_id}")
+
+        logger.info("KERNEL BOOT: Phase 5 — Bus init")
+        # Phase 5: Verify bus connectivity (simplified)
+        # In full implementation, verify TSV integrity and bridge
+
+        logger.info("KERNEL BOOT: Phase 6 — Loop start")
+        # Phase 6: Register default schedules
+        # Officer roles will register their own loops
+
+        logger.info("KERNEL BOOT: Phase 7 — Handoff")
+        # Phase 7: Post KERNEL_BOOT receipt
+        seq_id = self.sequence.next("kernel")
+        receipt = self.receipt.create(
+            agent_id="kernel",
+            action_type="KERNEL_BOOT",
+            payload={
+                "phase": 7,
+                "laws_loaded": len(self.law.laws),
+                "identities_loaded": len(self.identity._identities),
+                "schedules_loaded": len(self.schedule._schedules),
+            },
+            law_checks=["SL-07"],
+            sequence_id=seq_id,
+        )
+        self.boot_receipt_id = self.receipt.store(receipt)
+        self.booted = True
+
+        logger.info(f"KERNEL BOOT COMPLETE: receipt={self.boot_receipt_id}")
+
+    def health(self) -> dict[str, Any]:
+        """Return Kernel health status."""
+        if not self.booted:
+            return {"status": "NOT_BOOTED", "healthy": False}
+
+        engine_health = {
+            "receipt_engine": True,
+            "law_engine": True,  # Engine healthy even if atlas empty (degraded mode)
+            "identity_engine": self.identity.registry_file.exists(),
+            "sequence_engine": self.sequence.counters_file.exists(),
+            "evidence_engine": True,
+            "authority_engine": True,  # Engine healthy even if no exercises yet
+            "schedule_engine": True,  # Engine healthy even if no schedules yet
+        }
+
+        all_healthy = all(engine_health.values())
+
+        return {
+            "status": "HEALTHY" if all_healthy else "DEGRADED",
+            "healthy": all_healthy,
+            "booted": self.booted,
+            "boot_receipt_id": self.boot_receipt_id,
+            "engines": engine_health,
+            "laws_loaded": len(self.law.laws),
+            "identities_loaded": len(self.identity._identities),
+            "schedules_active": len(self.schedule._schedules),
+        }
+
+    def create_receipt(
+        self,
+        agent_id: str,
+        action_type: str,
+        payload: dict[str, Any] | None = None,
+        law_checks: list[str] | None = None,
+        evidence_grade: str = "UNGRADED",
+    ) -> Receipt:
+        """Create a receipt with automatic sequence_id assignment.
+
+        This is the primary syscall for agent actions.
+        """
+        if not self.booted:
+            raise KernelPanic(
+                KernelInvariant.RECEIPT,
+                "Kernel not booted; cannot create receipts",
+            )
+
+        # K4: Assign sequence_id
+        seq_id = self.sequence.next(agent_id)
+
+        # K1: Get previous receipt hash for chain
+        last_receipt = self.receipt.last_for_agent(agent_id)
+        prev_hash = last_receipt.compute_hash() if last_receipt else ""
+
+        # K5: Grade evidence if claims present
+        grade = evidence_grade
+        if grade == "UNGRADED" and payload and payload.get("claims"):
+            acceptable, reasons = self.evidence.validate_receipt_claims(payload)
+            grade = "A" if acceptable else "C"
+
+        receipt = self.receipt.create(
+            agent_id=agent_id,
+            action_type=action_type,
+            payload=payload or {},
+            law_checks=law_checks or [],
+            evidence_grade=grade,
+            prev_receipt_hash=prev_hash,
+            sequence_id=seq_id,
+        )
+        return receipt
+
+    def store_receipt(self, receipt: Receipt) -> str:
+        """Store a receipt and evaluate against laws."""
+        # K2: Evaluate against laws
+        violations = self.law.evaluate(receipt.__dict__)
+        if violations:
+            logger.warning(
+                f"Receipt {receipt.receipt_id} has {len(violations)} law violations"
+            )
+
+        receipt_id = self.receipt.store(receipt)
+
+        # Update identity last_receipt_time
+        identity = self.identity.resolve(receipt.agent_id)
+        if identity:
+            identity.last_receipt_time = receipt.timestamp
+            self.identity._save_identities()
+
+        return receipt_id
+
+    def check_authority(
+        self,
+        agent_id: str,
+        role_id: str,
+        authority: str,
+        context: dict[str, Any] | None = None,
+    ) -> AuthorityCheck:
+        """Check if an agent can exercise an authority."""
+        check = self.authority.check(
+            agent_id=agent_id,
+            role_id=role_id,
+            authority=authority,
+            context=context or {},
+        )
+        return check
+
+    def exercise_authority(
+        self,
+        agent_id: str,
+        role_id: str,
+        authority: str,
+        context: dict[str, Any] | None = None,
+    ) -> AuthorityCheck:
+        """Exercise an authority with full logging."""
+        check = self.check_authority(agent_id, role_id, authority, context)
+
+        # Create receipt for the authority exercise
+        receipt = self.create_receipt(
+            agent_id=agent_id,
+            action_type="AUTHORITY_EXERCISE",
+            payload={
+                "role_id": role_id,
+                "authority": authority,
+                "permitted": check.permitted,
+                "context": context or {},
+            },
+            law_checks=["SL-07"],
+        )
+        receipt_id = self.store_receipt(receipt)
+
+        # Log to authority engine
+        self.authority.log_exercise(
+            agent_id=agent_id,
+            role_id=role_id,
+            authority=authority,
+            check=check,
+            receipt_id=receipt_id,
+        )
+
+        return check
