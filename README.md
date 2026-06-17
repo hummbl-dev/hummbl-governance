@@ -2,14 +2,12 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![CI](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml/badge.svg)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-1032%20passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
 
-**hummbl-governance** is a Python library that provides 25 governance primitives for AI agent orchestration, including kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1026 passing tests, and supports Python 3.11 through 3.13 (CI-tested). Python 3.14 support is tracked but not yet validated in CI.
-
-Learn more at [hummbl.io](https://hummbl.io).
+**hummbl-governance** is a Python library that provides 26 governance primitives for AI agent orchestration, including a governance Kernel (receipts, identity, roles, laws, evidence), kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1032 passing tests, and supports Python 3.11 through 3.14.
 
 Learn more at [hummbl.io](https://hummbl.io).
 
@@ -48,7 +46,7 @@ print(ks.check_task_allowed('critical_task'))
 "
 ```
 
-Explore all 25 primitives:
+Explore all 26 primitives:
 
 ```bash
 git clone https://github.com/hummbl-dev/hummbl-governance.git
@@ -133,8 +131,8 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 
 ## Features
 
-- **25 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, and execution assurance
-- **1026 tests** with full coverage across all modules
+- **26 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel
+- **1032 tests** with full coverage across all modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
@@ -170,7 +168,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `evolution_lineage` | In-memory lineage tracking for eAI variants with drift detection |
 | `ValidationError` | Top-level exception for schema validation failures (exported from `schema_validator`) |
 
-## 25 Runnable Examples
+## 26 Runnable Examples
 
 Every primitive has a standalone example in `examples/`. Each runs with just `python examples/<name>.py` -- no setup, no config.
 
@@ -253,7 +251,7 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [34](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Total: 1026 tests across 25 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
+**Total: 1032 tests across 26 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 
