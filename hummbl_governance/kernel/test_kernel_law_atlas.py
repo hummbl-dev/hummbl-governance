@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Integration tests for LawEngine with real Scaling Law Atlas records.
 
-Verifies that the Kernel can load all 17 scaling laws and evaluate
-receipts against empirically tested laws.
+Verifies that the Kernel can load all 18 scaling laws (17 base + SL-EXP003)
+and evaluate receipts against empirically tested laws.
 
 Usage:
     python -m pytest hummbl_governance/kernel/test_kernel_law_atlas.py -v
@@ -20,12 +20,12 @@ from hummbl_governance.kernel.law_engine import ScalingLaw, Violation
 
 
 class TestLawAtlasLoading:
-    """Verify all 17 scaling laws load correctly from disk."""
+    """Verify all 18 scaling laws load correctly from disk (17 base + SL-EXP003)."""
 
-    def test_all_17_laws_loaded(self) -> None:
+    def test_all_18_laws_loaded(self) -> None:
         engine = LawEngine()
         laws = engine.list_laws()
-        assert len(laws) == 17, f"Expected 17 laws, got {len(laws)}"
+        assert len(laws) == 18, f"Expected 18 laws, got {len(laws)}"
 
     def test_law_ids_present(self) -> None:
         engine = LawEngine()
@@ -33,7 +33,7 @@ class TestLawAtlasLoading:
             "SL-01", "SL-02", "SL-03", "SL-04", "SL-05",
             "SL-06", "SL-07", "SL-08", "SL-09", "SL-10",
             "SL-11", "SL-12", "SL-13", "SL-14", "SL-15",
-            "SL-16", "SL-17",
+            "SL-16", "SL-17", "SL-EXP003",
         }
         actual_ids = {law.law_id for law in engine.list_laws()}
         assert expected_ids == actual_ids, f"Missing: {expected_ids - actual_ids}"
@@ -65,20 +65,30 @@ class TestLawAtlasLoading:
         assert law.status == "empirically.tested"
         assert "reconstruct" in law.statement.lower()
 
+    def test_sl_exp003_loaded_with_correct_fields(self) -> None:
+        engine = LawEngine()
+        law = engine.get_law("SL-EXP003")
+        assert law is not None
+        assert law.law_id == "SL-EXP003"
+        assert law.name == "Chinchilla TinyShakespeare Scaling Reconstruction"
+        assert law.status == "empirically.tested"
+        assert "alpha=0.367" in law.statement
+
     def test_all_laws_have_status(self) -> None:
         engine = LawEngine()
         for law in engine.list_laws():
             assert law.status in ("candidate.accepted", "empirically.tested", "deprecated")
             assert law.law_id.startswith("SL-")
-            assert len(law.law_id) == 5  # SL-NN
+            assert len(law.law_id) >= 5  # SL-NN or SL-EXPNNN
 
     def test_kernel_boot_loads_atlas(self) -> None:
         """Kernel.boot() must load the atlas automatically."""
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
             kernel = Kernel.boot(state_dir=Path(tmpdir))
-            assert len(kernel.law.laws) == 17
+            assert len(kernel.law.laws) == 18
             assert kernel.law.get_law("SL-07") is not None
+            assert kernel.law.get_law("SL-EXP003") is not None
 
 
 class TestLawEvaluationRealAtlas:
@@ -173,7 +183,7 @@ class TestLawEvaluationRealAtlas:
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
             kernel = Kernel.boot(state_dir=Path(tmpdir))
-            assert len(kernel.law.laws) == 17
+            assert len(kernel.law.laws) == 18
 
             receipt = kernel.create_receipt(
                 agent_id="test",
