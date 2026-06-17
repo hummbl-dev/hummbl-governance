@@ -98,8 +98,17 @@ def _check_type(instance: Any, schema: dict[str, Any], path: str) -> str | None:
     return None
 
 
-def _validate(instance: Any, schema: dict[str, Any], path: str = "") -> list[str]:
+def _validate(
+    instance: Any,
+    schema: dict[str, Any],
+    path: str = "",
+    depth: int = 0,
+    max_depth: int = 50,
+) -> list[str]:
     """Core validation logic -- dispatches to type-specific validators."""
+    if depth > max_depth:
+        return [f"{path}: schema depth exceeds max_depth {max_depth}"]
+
     # const (early return)
     if "const" in schema and instance != schema["const"]:
         return [f"{path}: expected const {schema['const']!r}, got {instance!r}"]
@@ -116,17 +125,18 @@ def _validate(instance: Any, schema: dict[str, Any], path: str = "") -> list[str
         errors.append(f"{path}: {instance!r} not in enum {schema['enum']}")
 
     # type-specific validation
+    next_depth = depth + 1
     if isinstance(instance, str):
         errors.extend(_validate_string(instance, schema, path))
     elif isinstance(instance, (int, float)):
         errors.extend(_validate_number(instance, schema, path))
     elif isinstance(instance, dict):
-        errors.extend(_validate_object(instance, schema, path))
+        errors.extend(_validate_object(instance, schema, path, next_depth, max_depth))
     elif isinstance(instance, list):
-        errors.extend(_validate_array(instance, schema, path))
+        errors.extend(_validate_array(instance, schema, path, next_depth, max_depth))
 
     # composition keywords
-    errors.extend(_validate_composition(instance, schema, path))
+    errors.extend(_validate_composition(instance, schema, path, next_depth, max_depth))
 
     return errors
 
@@ -157,7 +167,13 @@ def _validate_number(instance: int | float, schema: dict[str, Any], path: str) -
     return errors
 
 
-def _validate_object(instance: dict, schema: dict[str, Any], path: str) -> list[str]:
+def _validate_object(
+    instance: dict,
+    schema: dict[str, Any],
+    path: str,
+    depth: int,
+    max_depth: int,
+) -> list[str]:
     """Validate object-specific keywords: required, properties, additionalProperties."""
     errors: list[str] = []
     for req in schema.get("required", []):
@@ -168,15 +184,24 @@ def _validate_object(instance: dict, schema: dict[str, Any], path: str) -> list[
     for key, prop_schema in props.items():
         if key in instance:
             sub_path = f"{path}.{key}" if path else key
-            errors.extend(_validate(instance[key], prop_schema, sub_path))
+            errors.extend(_validate(instance[key], prop_schema, sub_path, depth, max_depth))
 
     if "additionalProperties" in schema:
-        errors.extend(_validate_additional_props(instance, schema["additionalProperties"], props, path))
+        errors.extend(
+            _validate_additional_props(
+                instance, schema["additionalProperties"], props, path, depth, max_depth
+            )
+        )
     return errors
 
 
 def _validate_additional_props(
-    instance: dict, ap: bool | dict, known_props: dict[str, Any], path: str
+    instance: dict,
+    ap: bool | dict,
+    known_props: dict[str, Any],
+    path: str,
+    depth: int,
+    max_depth: int,
 ) -> list[str]:
     """Validate additionalProperties constraint."""
     errors: list[str] = []
@@ -187,11 +212,17 @@ def _validate_additional_props(
                 errors.append(f"{path}: unexpected property {key!r}")
             elif isinstance(ap, dict):
                 sub_path = f"{path}.{key}" if path else key
-                errors.extend(_validate(instance[key], ap, sub_path))
+                errors.extend(_validate(instance[key], ap, sub_path, depth, max_depth))
     return errors
 
 
-def _validate_array(instance: list, schema: dict[str, Any], path: str) -> list[str]:
+def _validate_array(
+    instance: list,
+    schema: dict[str, Any],
+    path: str,
+    depth: int,
+    max_depth: int,
+) -> list[str]:
     """Validate array-specific keywords: minItems, maxItems, items."""
     errors: list[str] = []
     if "minItems" in schema and len(instance) < schema["minItems"]:
@@ -200,17 +231,27 @@ def _validate_array(instance: list, schema: dict[str, Any], path: str) -> list[s
         errors.append(f"{path}: array length {len(instance)} > maxItems {schema['maxItems']}")
     if "items" in schema:
         for i, item in enumerate(instance):
-            errors.extend(_validate(item, schema["items"], f"{path}[{i}]"))
+            errors.extend(_validate(item, schema["items"], f"{path}[{i}]", depth, max_depth))
     return errors
 
 
-def _validate_composition(instance: Any, schema: dict[str, Any], path: str) -> list[str]:
+def _validate_composition(
+    instance: Any,
+    schema: dict[str, Any],
+    path: str,
+    depth: int,
+    max_depth: int,
+) -> list[str]:
     """Validate composition keywords: oneOf, anyOf."""
     errors: list[str] = []
     if "oneOf" in schema:
-        match_count = sum(1 for s in schema["oneOf"] if not _validate(instance, s, path))
+        match_count = sum(
+            1 for s in schema["oneOf"] if not _validate(instance, s, path, depth, max_depth)
+        )
         if match_count != 1:
             errors.append(f"{path}: expected exactly one of oneOf to match, got {match_count}")
-    if "anyOf" in schema and not any(not _validate(instance, s, path) for s in schema["anyOf"]):
+    if "anyOf" in schema and not any(
+        not _validate(instance, s, path, depth, max_depth) for s in schema["anyOf"]
+    ):
         errors.append(f"{path}: none of anyOf schemas matched")
     return errors

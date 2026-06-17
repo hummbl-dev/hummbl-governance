@@ -22,7 +22,33 @@ Stdlib-only. Zero third-party dependencies.
 from __future__ import annotations
 
 import threading
+from enum import Enum
 from typing import Any
+
+
+class TrustTier(Enum):
+    """Normalized trust tiers for agent identities.
+
+    Ordered from most to least privileged:
+        OWNER > SYSTEM > HIGH > MEDIUM > LOW
+    """
+
+    OWNER = "owner"
+    SYSTEM = "system"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
+    @classmethod
+    def from_str(cls, value: str) -> "TrustTier":
+        """Parse a trust tier string (case-insensitive)."""
+        try:
+            return cls(value.lower().strip())
+        except ValueError as exc:
+            raise ValueError(
+                f"Invalid trust tier {value!r}. "
+                f"Expected one of: {', '.join(t.value for t in cls)}"
+            ) from exc
 
 
 class AgentRegistry:
@@ -59,7 +85,7 @@ class AgentRegistry:
         self,
         name: str,
         display: str | None = None,
-        trust: str = "medium",
+        trust: str | TrustTier = "medium",
         status: str = "active",
     ) -> None:
         """Register a canonical agent identity.
@@ -68,12 +94,19 @@ class AgentRegistry:
             name: Canonical agent name (lowercase recommended).
             display: Human-readable display name (defaults to name.title()).
             trust: Trust tier (e.g., "owner", "high", "medium", "low", "system").
+                Invalid values raise ValueError.
             status: Agent status (e.g., "active", "probation", "suspended").
         """
+        if isinstance(trust, str):
+            trust = TrustTier.from_str(trust)
+        elif not isinstance(trust, TrustTier):
+            raise TypeError(
+                f"trust must be a string or TrustTier, got {type(trust).__name__}"
+            )
         with self._lock:
             self._agents[name] = {
                 "display": display or name.title(),
-                "trust": trust,
+                "trust": trust.value,
                 "status": status,
             }
 
@@ -83,8 +116,26 @@ class AgentRegistry:
             self._agents.pop(name, None)
 
     def add_alias(self, alias: str, canonical: str) -> None:
-        """Map an alias to a canonical agent name."""
+        """Map an alias to a canonical agent name.
+
+        Raises:
+            ValueError: If the alias would create a cycle.
+        """
         with self._lock:
+            # Check for direct cycle: alias pointing to itself
+            if alias == canonical:
+                raise ValueError(f"Alias cannot point to itself: {alias!r}")
+            # Check for indirect cycle: would following aliases loop back?
+            visited = {alias}
+            current = canonical
+            while current in self._aliases:
+                current = self._aliases[current]
+                if current in visited:
+                    raise ValueError(
+                        f"Alias cycle detected: adding {alias!r} -> {canonical!r} "
+                        f"would create a loop"
+                    )
+                visited.add(current)
             self._aliases[alias] = canonical
 
     def remove_alias(self, alias: str) -> None:
@@ -121,6 +172,8 @@ class AgentRegistry:
         3. Autonomous service match
         4. Canonical agent match
         5. Returns original sender if unknown
+
+        Alias resolution is bounded to 50 steps to prevent infinite loops.
         """
         sender = sender.strip()
         if not sender:
@@ -131,7 +184,7 @@ class AgentRegistry:
         candidates = [sender, base] if base != sender else [sender]
 
         with self._lock:
-            # 1. Alias lookup
+            # 1. Alias lookup (with cycle guard)
             result = self._lookup_alias(candidates)
             if result is not None:
                 return result
@@ -157,16 +210,43 @@ class AgentRegistry:
         return None
 
     def _lookup_alias(self, candidates: list[str]) -> str | None:
-        """Find the first candidate that matches an alias (exact or case-insensitive)."""
+        """Find the first candidate that matches an alias (exact or case-insensitive).
+
+        Follows alias chains up to 50 steps to prevent infinite loops.
+        """
         for name in candidates:
-            if name in self._aliases:
-                return self._aliases[name]
-            name_lower = name.lower()
-            if name_lower in self._aliases:
-                return self._aliases[name_lower]
-            for alias_key, canonical in self._aliases.items():
-                if alias_key.lower() == name_lower:
-                    return canonical
+            current = name
+            steps = 0
+            while steps < 50:
+                # Direct match
+                if current in self._aliases:
+                    current = self._aliases[current]
+                    steps += 1
+                    continue
+                # Case-insensitive match
+                current_lower = current.lower()
+                if current_lower in self._aliases:
+                    current = self._aliases[current_lower]
+                    steps += 1
+                    continue
+                # Search all aliases for case-insensitive match
+                found = None
+                for alias_key, canonical in self._aliases.items():
+                    if alias_key.lower() == current_lower:
+                        found = canonical
+                        break
+                if found is not None:
+                    current = found
+                    steps += 1
+                    continue
+                # No alias match — if current is a known agent/service, return it
+                if current in self._agents or current in self._services:
+                    return current
+                # No match for this candidate — try next candidate
+                break
+            else:
+                # Step limit exceeded — break potential cycle, try next candidate
+                continue
         return None
 
     def is_valid_sender(self, sender: str) -> bool:
