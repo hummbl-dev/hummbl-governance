@@ -6,12 +6,16 @@ The Kernel loads the Scaling Law Atlas at boot.
 
 from __future__ import annotations
 
+=======
+import json
+>>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
 import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+<<<<<<< HEAD
 @dataclass
 class ScalingLaw:
     """A scaling law record."""

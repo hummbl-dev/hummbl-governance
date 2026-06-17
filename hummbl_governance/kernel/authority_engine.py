@@ -11,6 +11,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+<<<<<<< HEAD
+=======
+from .invariants import KernelInvariant, KernelPanic
+>>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
 
 
 @dataclass

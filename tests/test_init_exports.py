@@ -31,5 +31,8 @@ def test_kernel_primitives_exported():
     assert "EvidenceEngine" in hummbl_governance.__all__
     assert "AuthorityEngine" in hummbl_governance.__all__
     assert "ScheduleEngine" in hummbl_governance.__all__
+<<<<<<< HEAD
     assert "DoctrineEngine" in hummbl_governance.__all__
     assert "Stage" in hummbl_governance.__all__
+=======
+>>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
