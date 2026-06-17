@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import logging
 import os
 import uuid
 from dataclasses import asdict, dataclass, field
@@ -17,6 +18,14 @@ from pathlib import Path
 from typing import Any
 
 from .invariants import KernelInvariant, KernelPanic
+
+logger = logging.getLogger(__name__)
+
+# Best-effort corpus adapter import
+try:
+    from ..corpus_adapter import CorpusAdapter
+except ImportError:
+    CorpusAdapter = None  # type: ignore[misc,assignment]
 
 
 @dataclass
@@ -56,11 +65,17 @@ class Receipt:
 class ReceiptEngine:
     """Engine for creating, signing, storing, and validating receipts."""
 
-    def __init__(self, state_dir: Path, signing_secret: bytes | None = None) -> None:
+    def __init__(
+        self,
+        state_dir: Path,
+        signing_secret: bytes | None = None,
+        corpus_adapter: Any = None,
+    ) -> None:
         self.state_dir = state_dir
         self.receipts_dir = state_dir / "receipts"
         self.receipts_dir.mkdir(parents=True, exist_ok=True)
         self.signing_secret = signing_secret or self._load_or_generate_secret()
+        self.corpus_adapter = corpus_adapter
 
     def _load_or_generate_secret(self) -> bytes:
         """Load existing signing secret or generate a new one."""
@@ -122,12 +137,53 @@ class ReceiptEngine:
     def store(self, receipt: Receipt) -> str:
         """Store receipt in append-only JSONL.
 
+        If a corpus_adapter was provided at engine initialization,
+        the receipt is also submitted to the unified corpus (best-effort).
+
         Returns the receipt_id.
         """
         receipt_file = self.receipts_dir / f"{receipt.agent_id}.jsonl"
         with open(receipt_file, "a", encoding="utf-8") as f:
             f.write(json.dumps(asdict(receipt), sort_keys=True) + "\n")
+
+        # Best-effort corpus ingestion — never block local storage
+        if self.corpus_adapter is not None:
+            try:
+                self.corpus_adapter.ingest_receipt(receipt)
+            except Exception:
+                logger.warning(
+                    "Corpus ingestion failed for receipt %s; stored locally only",
+                    receipt.receipt_id,
+                    exc_info=True,
+                )
+
         return receipt.receipt_id
+
+    def create_and_store(
+        self,
+        agent_id: str,
+        action_type: str,
+        payload: dict[str, Any] | None = None,
+        law_checks: list[str] | None = None,
+        evidence_grade: str = "UNGRADED",
+        prev_receipt_hash: str = "",
+        sequence_id: int = 0,
+    ) -> Receipt:
+        """Create, sign, store, and optionally corpus-ingest a receipt.
+
+        Convenience wrapper around :meth:`create` + :meth:`store`.
+        """
+        receipt = self.create(
+            agent_id=agent_id,
+            action_type=action_type,
+            payload=payload,
+            law_checks=law_checks,
+            evidence_grade=evidence_grade,
+            prev_receipt_hash=prev_receipt_hash,
+            sequence_id=sequence_id,
+        )
+        self.store(receipt)
+        return receipt
 
     def validate(self, receipt: Receipt) -> bool:
         """Validate a receipt's signature and structure.

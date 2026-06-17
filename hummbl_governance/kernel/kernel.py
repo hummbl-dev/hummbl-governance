@@ -22,6 +22,12 @@ from .receipt_engine import Receipt, ReceiptEngine
 from .schedule_engine import LoopSchedule, ScheduleEngine
 from .sequence_engine import SequenceEngine
 
+# Best-effort corpus adapter import
+try:
+    from ..corpus_adapter import CorpusAdapter
+except ImportError:
+    CorpusAdapter = None  # type: ignore[misc,assignment]
+
 logger = logging.getLogger(__name__)
 
 def _default_state_dir() -> Path:
@@ -57,8 +63,24 @@ class Kernel:
         self.state_dir = state_dir or DEFAULT_STATE_DIR
         self.state_dir.mkdir(parents=True, exist_ok=True)
 
+        # Wire corpus adapter if HUMMBL_CORPUS_DIR is set
+        corpus_dir = os.environ.get("HUMMBL_CORPUS_DIR")
+        corpus_adapter = None
+        if corpus_dir and CorpusAdapter is not None:
+            try:
+                corpus_adapter = CorpusAdapter(
+                    corpus_dir=Path(corpus_dir),
+                    state_dir=self.state_dir,
+                )
+            except Exception:
+                logger.warning(
+                    "Failed to initialize CorpusAdapter for dir %s; continuing without corpus ingestion",
+                    corpus_dir,
+                    exc_info=True,
+                )
+
         # Initialize all seven engines
-        self.receipt = ReceiptEngine(self.state_dir)
+        self.receipt = ReceiptEngine(self.state_dir, corpus_adapter=corpus_adapter)
         self.law = LawEngine()
         self.identity = IdentityEngine(self.state_dir)
         self.sequence = SequenceEngine(self.state_dir)
