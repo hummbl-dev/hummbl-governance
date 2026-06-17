@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Auth preflight — surface auth failures before the actual push
+
+# Only run if we have an origin remote
+if ! git remote get-url origin >/dev/null 2>&1; then
+  exit 0
+fi
+
+if ! git ls-remote --heads origin >/dev/null 2>&1; then
+  echo "WARNING: Could not reach origin. Check auth / network before pushing." >&2
+  exit 1
+fi
+
+exit 0
