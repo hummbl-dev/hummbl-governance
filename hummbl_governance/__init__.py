@@ -84,6 +84,7 @@ from hummbl_governance.failure_modes import (
     get_errors_for_fm,
     all_error_records,
 )
+from hummbl_governance.corpus_adapter import CorpusAdapter
 from hummbl_governance.evolution_lineage import (
     EvolutionLineage,
     VariantRecord,
@@ -177,4 +178,5 @@ __all__ = [
     "VariantRecord",
     "ModificationRecord",
     "EvolutionDriftReport",
+    "CorpusAdapter",
 ]
