@@ -20,12 +20,12 @@ from hummbl_governance.kernel.law_engine import ScalingLaw, Violation
 
 
 class TestLawAtlasLoading:
-    """Verify all 18 scaling laws load correctly from disk (17 base + SL-EXP003)."""
+    """Verify all 19 scaling laws load correctly from disk (17 base + SL-EXP003 + SL-EXP004)."""
 
-    def test_all_18_laws_loaded(self) -> None:
+    def test_all_19_laws_loaded(self) -> None:
         engine = LawEngine()
         laws = engine.list_laws()
-        assert len(laws) == 18, f"Expected 18 laws, got {len(laws)}"
+        assert len(laws) == 19, f"Expected 19 laws, got {len(laws)}"
 
     def test_law_ids_present(self) -> None:
         engine = LawEngine()
@@ -33,7 +33,7 @@ class TestLawAtlasLoading:
             "SL-01", "SL-02", "SL-03", "SL-04", "SL-05",
             "SL-06", "SL-07", "SL-08", "SL-09", "SL-10",
             "SL-11", "SL-12", "SL-13", "SL-14", "SL-15",
-            "SL-16", "SL-17", "SL-EXP003",
+            "SL-16", "SL-17", "SL-EXP003", "SL-EXP004",
         }
         actual_ids = {law.law_id for law in engine.list_laws()}
         assert expected_ids == actual_ids, f"Missing: {expected_ids - actual_ids}"
@@ -86,9 +86,10 @@ class TestLawAtlasLoading:
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
             kernel = Kernel.boot(state_dir=Path(tmpdir))
-            assert len(kernel.law.laws) == 18
+            assert len(kernel.law.laws) == 19
             assert kernel.law.get_law("SL-07") is not None
             assert kernel.law.get_law("SL-EXP003") is not None
+            assert kernel.law.get_law("SL-EXP004") is not None
 
 
 class TestLawEvaluationRealAtlas:
@@ -183,7 +184,7 @@ class TestLawEvaluationRealAtlas:
         import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
             kernel = Kernel.boot(state_dir=Path(tmpdir))
-            assert len(kernel.law.laws) == 18
+            assert len(kernel.law.laws) == 19
 
             receipt = kernel.create_receipt(
                 agent_id="test",
