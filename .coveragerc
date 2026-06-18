@@ -3,6 +3,8 @@ source = hummbl_governance
 omit =
     tests/*
     */tests/*
+    hummbl_governance/kernel/test_*.py
+    */hummbl_governance/kernel/test_*.py
     demo/*
     */demo/*
     examples/*
