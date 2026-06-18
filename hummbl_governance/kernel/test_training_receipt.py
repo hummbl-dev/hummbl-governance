@@ -4,7 +4,6 @@ from __future__ import annotations
 import math
 import tempfile
 
-import pytest
 
 from hummbl_governance.kernel.model_registry import ModelRegistry
 from hummbl_governance.kernel.training_receipt import register_training_result

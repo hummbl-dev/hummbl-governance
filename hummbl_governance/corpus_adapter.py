@@ -9,7 +9,7 @@ Usage::
     adapter = CorpusAdapter(corpus_dir=Path("./corpus"))
 
     receipt = engine.create(agent_id="devin", action_type="BUS_POST")
-    adapter.ingest_receipt(receipt, kernel_version="1.1.0")
+    adapter.ingest_receipt(receipt, kernel_version="1.2.0")
 
 Best-effort: if unified-frameworks is not installed, receipts are queued
 locally for later ingestion.
@@ -35,7 +35,7 @@ except ImportError:
     _HAS_CORPUS = False
 
 
-def _receipt_to_kernel_output(receipt: Any, kernel_version: str = "1.1.0") -> dict[str, Any]:
+def _receipt_to_kernel_output(receipt: Any, kernel_version: str = "1.2.0") -> dict[str, Any]:
     """Transform a hummbl-governance Receipt into a kernel_output envelope."""
     return {
         "kernel_name": "hummbl-governance",
@@ -78,7 +78,7 @@ class CorpusAdapter:
         if _HAS_CORPUS and corpus_dir is not None:
             self._ingestor = CorpusIngestor(corpus_dir=corpus_dir)
 
-    def ingest_receipt(self, receipt: Any, kernel_version: str = "1.1.0") -> str | None:
+    def ingest_receipt(self, receipt: Any, kernel_version: str = "1.2.0") -> str | None:
         """Submit a receipt to the corpus.
 
         Args:

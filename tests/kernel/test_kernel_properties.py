@@ -13,8 +13,8 @@ from __future__ import annotations
 import random
 import string
 import tempfile
-from dataclasses import asdict
 from pathlib import Path
+from typing import Any
 
 import pytest
 

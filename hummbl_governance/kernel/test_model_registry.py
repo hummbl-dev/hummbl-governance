@@ -2,14 +2,18 @@
 from __future__ import annotations
 
 import tempfile
-from pathlib import Path
-
-import pytest
 
 from hummbl_governance.kernel.model_registry import ModelEntry, ModelRegistry
 
 
 class TestModelRegistry:
+    def test_default_registry_uses_runtime_state_dir(self, monkeypatch, tmp_path):
+        monkeypatch.setenv("HUMMBL_KERNEL_STATE_DIR", str(tmp_path))
+
+        reg = ModelRegistry()
+
+        assert reg.registry_path == tmp_path / "model_registry" / "models.jsonl"
+
     def test_register_and_list(self):
         with tempfile.TemporaryDirectory() as tmp:
             reg = ModelRegistry(registry_path=f"{tmp}/models.jsonl")

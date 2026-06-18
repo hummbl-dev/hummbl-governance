@@ -11,7 +11,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .invariants import KernelInvariant, KernelPanic
 
 
 @dataclass

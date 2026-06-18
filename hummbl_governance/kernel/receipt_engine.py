@@ -11,6 +11,7 @@ import hmac
 import json
 import logging
 import os
+import threading
 import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -76,6 +77,7 @@ class ReceiptEngine:
         self.receipts_dir.mkdir(parents=True, exist_ok=True)
         self.signing_secret = signing_secret or self._load_or_generate_secret()
         self.corpus_adapter = corpus_adapter
+        self._io_lock = threading.RLock()
 
     def _load_or_generate_secret(self) -> bytes:
         """Load existing signing secret or generate a new one."""
@@ -143,8 +145,9 @@ class ReceiptEngine:
         Returns the receipt_id.
         """
         receipt_file = self.receipts_dir / f"{receipt.agent_id}.jsonl"
-        with open(receipt_file, "a", encoding="utf-8") as f:
-            f.write(json.dumps(asdict(receipt), sort_keys=True) + "\n")
+        with self._io_lock:
+            with open(receipt_file, "a", encoding="utf-8") as f:
+                f.write(json.dumps(asdict(receipt), sort_keys=True) + "\n")
 
         # Best-effort corpus ingestion — never block local storage
         if self.corpus_adapter is not None:
@@ -198,11 +201,12 @@ class ReceiptEngine:
         if not receipt_file.exists():
             return []
         receipts: list[Receipt] = []
-        try:
-            text = receipt_file.read_text(encoding="utf-8")
-        except UnicodeDecodeError:
-            # File has invalid UTF-8 bytes — try with errors='replace'
-            text = receipt_file.read_text(encoding="utf-8", errors="replace")
+        with self._io_lock:
+            try:
+                text = receipt_file.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                # File has invalid UTF-8 bytes — try with errors='replace'
+                text = receipt_file.read_text(encoding="utf-8", errors="replace")
         for line in text.strip().split("\n"):
             if not line:
                 continue

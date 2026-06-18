@@ -19,13 +19,11 @@ Usage:
 
 from __future__ import annotations
 
-import json
-import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 from hummbl_governance.kernel import Kernel
-from hummbl_governance.kernel.invariants import KernelInvariant, KernelPanic
+from hummbl_governance.kernel.invariants import KernelPanic
 
 
 def banner(title: str) -> None:
@@ -228,7 +226,10 @@ def main() -> int:
         sources=["experiment-SL-07-4500-trials", "receipt-r-abc123"],
         methodology="Monte Carlo simulation with 4,500 trials, falsifiable prediction",
     )
-    ok(f"Strong claim grade: {grade_a.average()} (credibility={grade_a.credibility}, methodology={grade_a.methodology})")
+    ok(
+        f"Strong claim grade: {grade_a.average()} "
+        f"(credibility={grade_a.credibility}, methodology={grade_a.methodology})"
+    )
     assert grade_a.is_acceptable()
 
     # Grade a weak claim
@@ -349,10 +350,10 @@ def main() -> int:
     )
     scan_id = kernel.store_receipt(scan_receipt)
     ok(f"AI-CCO scan receipt: {scan_id}")
-    ok(f"  Messages scanned: 1523")
-    ok(f"  CRITICAL: 1, WARNING: 2")
-    ok(f"  Calibration queued: gemini")
-    ok(f"  Gap rate: 50%")
+    ok("  Messages scanned: 1523")
+    ok("  CRITICAL: 1, WARNING: 2")
+    ok("  Calibration queued: gemini")
+    ok("  Gap rate: 50%")
 
     # AI-CCO exercises authority: BLOCK_MERGE for CRITICAL SL-07
     block_check = kernel.exercise_authority(
@@ -423,15 +424,15 @@ def main() -> int:
     # SUMMARY
     # ------------------------------------------------------------------
     banner("TEST SUMMARY")
-    print(f"  Invariants tested: K1 ✓ K2 ✓ K3 ✓ K4 ✓ K5 ✓ K6 ✓ K7 ✓")
-    print(f"  Engines tested: Receipt ✓ Law ✓ Identity ✓ Sequence ✓ Evidence ✓ Authority ✓ Schedule ✓")
-    print(f"  Real agents registered: 5")
-    print(f"  Roles claimed: AI-PE (codex), AI-CCO (devin)")
+    print("  Invariants tested: K1 ✓ K2 ✓ K3 ✓ K4 ✓ K5 ✓ K6 ✓ K7 ✓")
+    print("  Engines tested: Receipt ✓ Law ✓ Identity ✓ Sequence ✓ Evidence ✓ Authority ✓ Schedule ✓")
+    print("  Real agents registered: 5")
+    print("  Roles claimed: AI-PE (codex), AI-CCO (devin)")
     print(f"  Receipts created: {total_receipts}")
     print(f"  Authority exercises: {total_exercises}")
-    print(f"  Hash chains: ALL VALID")
-    print(f"  Stress test: 100 receipts across 5 agents")
-    print(f"  Simulated AI-CCO scan: COMPLETE with BLOCK_MERGE")
+    print("  Hash chains: ALL VALID")
+    print("  Stress test: 100 receipts across 5 agents")
+    print("  Simulated AI-CCO scan: COMPLETE with BLOCK_MERGE")
     print(f"  Kernel status: {final_health['status']}")
     print()
     print("  ALL TESTS PASSED — Kernel is production-ready for role harnesses")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Integration tests for LawEngine with real Scaling Law Atlas records.
 
-Verifies that the Kernel can load all 18 scaling laws (17 base + SL-EXP003)
+Verifies that the Kernel can load all 19 scaling laws
 and evaluate receipts against empirically tested laws.
 
 Usage:
@@ -13,10 +13,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 
-import pytest
-
 from hummbl_governance.kernel import Kernel, LawEngine
-from hummbl_governance.kernel.law_engine import ScalingLaw, Violation
 
 
 class TestLawAtlasLoading:
@@ -77,7 +74,7 @@ class TestLawAtlasLoading:
     def test_all_laws_have_status(self) -> None:
         engine = LawEngine()
         for law in engine.list_laws():
-            assert law.status in ("candidate.accepted", "empirically.tested", "deprecated")
+            assert law.status in ("candidate.accepted", "empirically.tested", "ratified", "deprecated")
             assert law.law_id.startswith("SL-")
             assert len(law.law_id) >= 5  # SL-NN or SL-EXPNNN
 

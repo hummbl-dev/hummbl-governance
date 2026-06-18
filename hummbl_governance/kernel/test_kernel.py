@@ -204,7 +204,7 @@ class TestIdentityEngine:
             engine = IdentityEngine(Path(tmpdir))
             engine.register("test-agent")
             engine.claim_role("test-agent", "AI-PE")
-            engine._role_claims[f"test-agent:AI-PE"]["state"] = "CONFIRMED"
+            engine._role_claims["test-agent:AI-PE"]["state"] = "CONFIRMED"
             engine._save_role_claims()
 
             engine.demote_role("test-agent", "AI-PE", "Metric failure")
