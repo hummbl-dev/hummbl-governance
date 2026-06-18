@@ -1,6 +1,7 @@
 """Tests for ModelRegistry."""
 from __future__ import annotations
 
+import json
 import tempfile
 
 from hummbl_governance.kernel.model_registry import ModelEntry, ModelRegistry
@@ -82,6 +83,45 @@ class TestModelRegistry:
 
             missing = reg.get("nonexistent")
             assert missing is None
+
+    def test_get_by_id_returns_latest_duplicate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "models.jsonl"
+            records = [
+                {
+                    "model_id": "target",
+                    "timestamp": "2026-06-18T00:00:00Z",
+                    "task": "char_lm",
+                    "params_m": 1.0,
+                    "checkpoint_path": "/placeholder",
+                    "metrics": {"status": "training_queued"},
+                },
+                {
+                    "model_id": "target",
+                    "timestamp": "2026-06-18T06:00:00Z",
+                    "task": "char_lm",
+                    "params_m": 1.0,
+                    "checkpoint_path": "/trained",
+                    "metrics": {"val_loss": 2.5},
+                },
+            ]
+            with path.open("w", encoding="utf-8") as f:
+                for record in records:
+                    f.write(json.dumps(record) + "\n")
+
+            found = ModelRegistry(registry_path=str(path)).get("target")
+            assert found is not None
+            assert found.checkpoint_path == "/trained"
+
+    def test_default_registry_path_uses_state_copy(self, tmp_path, monkeypatch):
+        registry_path = tmp_path / "state" / "models.jsonl"
+        monkeypatch.setenv("HUMMBL_MODEL_REGISTRY_PATH", str(registry_path))
+
+        reg = ModelRegistry()
+
+        assert reg.registry_path == registry_path
+        assert registry_path.exists()
+        assert len(reg.list_models()) >= 5
 
     def test_lineage(self):
         with tempfile.TemporaryDirectory() as tmp:
