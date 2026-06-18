@@ -32,6 +32,9 @@ class KernelInvariant(enum.Enum):
     ROLE = "K7"
     """Every role is a runtime claim, not a static assignment."""
 
+    DOCTRINE = "K8"
+    """Every fleet artifact respects the doctrine invariants D1-D5."""
+
 
 class KernelPanic(Exception):
     """Raised when a Kernel invariant is violated.

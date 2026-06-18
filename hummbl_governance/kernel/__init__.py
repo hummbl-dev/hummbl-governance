@@ -45,6 +45,7 @@ from .sequence_engine import SequenceEngine
 from .evidence_engine import EvidenceEngine
 from .authority_engine import AuthorityEngine
 from .schedule_engine import ScheduleEngine
+from .doctrine_engine import DoctrineEngine, Stage
 
 __all__ = [
     "Kernel",
@@ -58,4 +59,6 @@ __all__ = [
     "EvidenceEngine",
     "AuthorityEngine",
     "ScheduleEngine",
+    "DoctrineEngine",
+    "Stage",
 ]

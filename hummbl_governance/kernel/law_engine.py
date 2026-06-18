@@ -51,14 +51,19 @@ class LawEngine:
         if atlas_dir is None:
             # Resolution order:
             # 1. HUMMBL_KERNEL_ATLAS_DIR environment variable
-            # 2. Absolute path (founder-mode root layout)
-            # 3. Relative path from repo root
-            # 4. Empty (degraded mode — no laws loaded)
+            # 2. Package data directory (bundled with hummbl-governance)
+            # 3. Absolute path (founder-mode root layout)
+            # 4. Relative path from repo root
+            # 5. Home directory (legacy external atlas)
+            # 6. Empty (degraded mode — no laws loaded)
             env_dir = os.environ.get("HUMMBL_KERNEL_ATLAS_DIR")
             if env_dir:
                 atlas_dir = Path(env_dir)
             else:
+                # Package data directory — bundled atlas shipped with the library
+                pkg_atlas = Path(__file__).resolve().parents[1] / "data" / "atlas"
                 candidates = [
+                    pkg_atlas,
                     Path("/Users/others/_internal/research/2026-06-17-scaling-law-atlas/records"),
                     Path("_internal/research/2026-06-17-scaling-law-atlas/records"),
                     Path.home() / "_internal" / "research" / "2026-06-17-scaling-law-atlas" / "records",

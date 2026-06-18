@@ -73,7 +73,16 @@ graph TD
     J --> K[SOC2 / GDPR / NIST Report]
 ```
 
-## What's New in v0.8.0
+## What's New in v1.1.0
+
+- **Governance Kernel** — the 26th primitive. A minimal, stdlib-only substrate for AI fleet governance: signed receipts, identity registry, role claims, sequence enforcement, evidence grading, authority scoping, schedule tracking, and scaling-law evaluation against the HUMMBL Scaling Law Atlas (17 empirically-tested laws).
+  - 12 runtime modules, 10 test files, 136 tests (adversarial, chaos, edge cases, fuzzing, integration, invariants, law atlas, performance, properties, race recovery)
+  - Full CLI: `python -m hummbl_governance.kernel boot|status|health|inspect|laws|roles`
+  - Portable paths via `HUMMBL_KERNEL_STATE_DIR` and `HUMMBL_KERNEL_ATLAS_DIR`
+- **1 new test** — `test_kernel_primitives_exported()` verifying all 11 Kernel symbols in `__all__`
+- **1032 total tests** (1031 → 1032)
+
+### v0.8.0 highlights
 
 - **Four new MCP servers** — expose 15 previously unexposed governance primitives as 32 JSON-RPC tools. Zero additional dependencies.
   - `mcp_identity.py` — 10 tools: `identity_register`, `identity_lookup`, `identity_list`, `identity_validate`, `delegation_create`, `delegation_validate`, `delegation_check_op`, `clock_tick`, `clock_receive`, `clock_compare` (wraps `AgentRegistry`, `DelegationTokenManager`, `LamportClock`)
@@ -138,10 +147,11 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 - **Independently importable** -- use only the modules you need
 - **Python 3.11 - 3.13** CI-tested. 3.14 tracked.
 
-## All 25 Primitives
+## All 26 Primitives
 
 | Module | Description |
 |--------|-------------|
+| `kernel` | Governance operating system — receipts, identity, roles, laws, evidence, sequence, authority, schedule |
 | `kill_switch` | Emergency halt system with 4 graduated modes (DISENGAGED, HALT_NONCRITICAL, HALT_ALL, EMERGENCY) |
 | `circuit_breaker` | Automatic failure detection and recovery across 3 states (CLOSED, HALF_OPEN, OPEN) |
 | `cost_governor` | Budget tracking with soft/hard caps and ALLOW/WARN/DENY decisions |
