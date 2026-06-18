@@ -101,7 +101,7 @@ def main() -> None:
         hardware="RTX_3080_Ti",
         framework="JAX_Flax",
         tags=["hummbl", "base_model", "byte_level", "fleet_corpus"],
-        notes="HUMMBL base model trained on 6.5M-token fleet corpus. Queued for overnight training.",
+        notes="HUMMBL base model planned for the 6.5M-token fleet corpus. Queued for overnight training.",
     )
 
     # MoE experiment design (placeholder)

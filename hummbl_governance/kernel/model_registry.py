@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -41,7 +42,7 @@ class ModelEntry:
     task: str  # e.g. "char_lm", "scaling_sweep", "moe_experiment"
     params_m: float  # millions of parameters
     checkpoint_path: str
-    metrics: dict[str, float] = field(default_factory=dict)
+    metrics: dict[str, Any] = field(default_factory=dict)
     corpus_id: str = ""
     config: dict[str, Any] = field(default_factory=dict)
     hardware: str = ""
@@ -62,12 +63,14 @@ class ModelRegistry:
     """Append-only model registry backed by JSONL."""
 
     def __init__(self, registry_path: str | None = None) -> None:
+        using_default_path = registry_path is None
         if registry_path is None:
-            # Default: package data directory
-            here = Path(__file__).parent.parent
-            registry_path = str(here / "data" / "registry" / "models.jsonl")
+            registry_path = str(default_registry_path())
         self.registry_path = Path(registry_path)
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
+        seed = package_seed_registry_path()
+        if using_default_path and not self.registry_path.exists() and seed.exists():
+            shutil.copyfile(seed, self.registry_path)
 
     def register(self, **kwargs: Any) -> ModelEntry:
         """Register a new model. Returns the entry."""
@@ -135,11 +138,11 @@ class ModelRegistry:
         )
 
     def get(self, model_id: str) -> ModelEntry | None:
-        """Get a model by ID."""
-        for entry in self.list_models():
-            if entry.model_id == model_id:
-                return entry
-        return None
+        """Get the latest model by ID."""
+        matches = [entry for entry in self.list_models() if entry.model_id == model_id]
+        if not matches:
+            return None
+        return max(matches, key=lambda entry: entry.timestamp)
 
     def lineage(self, model_id: str) -> list[ModelEntry]:
         """Trace lineage from a model back to ancestors."""
@@ -165,3 +168,22 @@ class ModelRegistry:
             "total_params_m": sum(e.params_m for e in entries),
             "latest": max(entries, key=lambda e: e.timestamp).model_id,
         }
+
+
+def package_seed_registry_path() -> Path:
+    """Return the package seed registry path."""
+    here = Path(__file__).parent.parent
+    return here / "data" / "registry" / "models.jsonl"
+
+
+def default_registry_path() -> Path:
+    """Return the user-state default registry path for runtime writes."""
+    configured = os.environ.get("HUMMBL_MODEL_REGISTRY_PATH")
+    if configured:
+        return Path(configured).expanduser()
+
+    state_root = os.environ.get("XDG_STATE_HOME") or os.environ.get("LOCALAPPDATA")
+    if state_root:
+        return Path(state_root) / "hummbl-governance" / "model_registry" / "models.jsonl"
+
+    return Path.home() / ".local" / "state" / "hummbl-governance" / "model_registry" / "models.jsonl"
