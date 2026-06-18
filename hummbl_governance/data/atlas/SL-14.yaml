@@ -1,6 +1,6 @@
 id: SL-14
 title: "Verification and Trust-Minimization Scaling"
-status: candidate.accepted
+status: ratified
 candidate_law_statement: "Verifiable tasks scale better because extra sampling and search can be converted into correctness by tests, proofs, or attestations."
 falsification_criterion: "Verification cost exceeds 50% of task execution cost for verifiable sub-task."
 experiment_receipts: []

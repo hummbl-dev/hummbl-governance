@@ -1,6 +1,6 @@
 id: SL-03
 title: "Multi-Agent Team Scaling"
-status: candidate.accepted
+status: ratified
 candidate_law_statement: "Benefit of adding agents is task-structure dependent: parallel and decomposable tasks benefit; sequential and tool-heavy tasks can degrade with more agents."
 falsification_criterion: "Sequential/tool-heavy tasks degrade >50% with >3 agents; no benefit on embarrassingly parallel tasks with >5 agents."
 experiment_receipts: []

@@ -1,6 +1,6 @@
 id: SL-09
 title: "Trust and Reputation Scaling"
-status: candidate.accepted
+status: ratified
 candidate_law_statement: "Trust should update from costly verification behavior, not vibes; failures reverse trust faster than successes build it."
 falsification_criterion: "Trust metric based on self-reported confidence rather than costly verification behavior."
 experiment_receipts: []

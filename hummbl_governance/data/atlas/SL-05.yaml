@@ -1,6 +1,6 @@
 id: SL-05
 title: "Memory and Time Scaling"
-status: candidate.accepted
+status: ratified
 candidate_law_statement: "Bigger teams are not always better; smaller teams with better memory can outperform larger ones under cost constraints."
 falsification_criterion: "Team size increase yields sublinear or negative return when memory quality is held constant."
 experiment_receipts: []
