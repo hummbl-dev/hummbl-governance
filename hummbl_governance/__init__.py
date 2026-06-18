@@ -24,9 +24,9 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
-# Kernel — Governance operating system (v1.1.0)
+# Kernel — Governance operating system (v1.2.0)
 from hummbl_governance.kernel import (
     Kernel,
     KernelInvariant,
@@ -39,6 +39,8 @@ from hummbl_governance.kernel import (
     EvidenceEngine,
     AuthorityEngine,
     ScheduleEngine,
+    DoctrineEngine,
+    Stage,
 )
 
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
@@ -103,6 +105,8 @@ __all__ = [
     "EvidenceEngine",
     "AuthorityEngine",
     "ScheduleEngine",
+    "DoctrineEngine",
+    "Stage",
     "KillSwitch",
     "KillSwitchMode",
     "CircuitBreaker",

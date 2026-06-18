@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from .authority_engine import AuthorityCheck, AuthorityEngine
+from .doctrine_engine import DoctrineEngine, Stage
 from .evidence_engine import EvidenceEngine, EvidenceGrade
 from .identity_engine import AgentIdentity, IdentityEngine
 from .invariants import KernelInvariant, KernelPanic
@@ -79,7 +80,7 @@ class Kernel:
                     exc_info=True,
                 )
 
-        # Initialize all seven engines
+        # Initialize all seven engines + doctrine
         self.receipt = ReceiptEngine(self.state_dir, corpus_adapter=corpus_adapter)
         self.law = LawEngine()
         self.identity = IdentityEngine(self.state_dir)
@@ -87,13 +88,14 @@ class Kernel:
         self.evidence = EvidenceEngine()
         self.authority = AuthorityEngine(self.state_dir)
         self.schedule = ScheduleEngine(self.state_dir)
+        self.doctrine = DoctrineEngine(self.state_dir)
 
         self.booted = False
         self.boot_receipt_id: str = ""
 
     @classmethod
     def boot(cls, state_dir: Path | None = None) -> "Kernel":
-        """Boot the Kernel through its 7-phase sequence.
+        """Boot the Kernel through its 8-phase sequence.
 
         Returns an initialized and validated Kernel instance.
         Raises KernelPanic if any phase fails.
@@ -141,15 +143,25 @@ class Kernel:
         # Phase 6: Register default schedules
         # Officer roles will register their own loops
 
-        logger.info("KERNEL BOOT: Phase 7 — Handoff")
-        # Phase 7: Post KERNEL_BOOT receipt
+        logger.info("KERNEL BOOT: Phase 7 — Doctrine bootstrap")
+        # Phase 7: Verify doctrine engine and promotion graph
+        self.doctrine.doctrine_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(
+            "  Doctrine promotion graph: %s stages, %s valid edges",
+            len(self.doctrine._valid_promotions),
+            sum(len(v) for v in self.doctrine._valid_promotions.values()),
+        )
+
+        logger.info("KERNEL BOOT: Phase 8 — Handoff")
+        # Phase 8: Post KERNEL_BOOT receipt
         seq_id = self.sequence.next("kernel")
         receipt = self.receipt.create(
             agent_id="kernel",
             action_type="KERNEL_BOOT",
             payload={
-                "phase": 7,
+                "phase": 8,
                 "laws_loaded": len(self.law.laws),
+                "doctrine_stages": len(self.doctrine._valid_promotions),
                 "identities_loaded": len(self.identity._identities),
                 "schedules_loaded": len(self.schedule._schedules),
             },
