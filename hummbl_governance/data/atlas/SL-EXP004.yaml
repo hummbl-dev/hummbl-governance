@@ -64,6 +64,14 @@ tags:
   - tinyshakespeare
   - empirical
 
+# Falsifier (D2 falsifiability requirement)
+falsifier: |
+  If a repeated GPU sweep (same 25 configs, RTX 3080 Ti, JAX/Flax, WSL2)
+  produces alpha outside [0.30, 0.55] OR beta outside [0.15, 0.50]
+  OR R^2 < 0.80 on the fitted model, this law is rejected.
+  Hardware change (different GPU architecture) does not falsify;
+  it produces a new law (SL-EXP005+).
+
 # Test expectations
 test_expectations:
   alpha_range: [0.30, 0.55]
