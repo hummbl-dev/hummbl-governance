@@ -19,9 +19,12 @@ from .identity_engine import IdentityEngine
 from .invariants import KernelInvariant, KernelPanic
 from .law_engine import LawEngine
 from .receipt_engine import Receipt, ReceiptEngine
+<<<<<<< HEAD
 from .receipt_integrity_monitor import raise_on_integrity_violation
 from .recovery_verifier import raise_on_recovery_violation
 from .rollback import raise_on_rollback_violation
+=======
+>>>>>>> f8e5a89 (fix(kernel): stabilize governance v1.2.0 health gates)
 from .schedule_engine import ScheduleEngine
 from .sequence_engine import SequenceEngine
 
