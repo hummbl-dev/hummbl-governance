@@ -9,6 +9,8 @@ omit =
     */demo/*
     examples/*
     */examples/*
+    build/*
+    */build/*
 
 [report]
 show_missing = true

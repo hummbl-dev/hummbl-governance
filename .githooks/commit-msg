@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Conventional Commits enforcement
+# Adapted from founder-mode .git-hooks/commit-msg
+
+COMMIT_MSG_FILE="$1"
+MSG=$(head -n 1 "$COMMIT_MSG_FILE")
+
+# Allow merge commits, revert commits, and commit --amend
+if echo "$MSG" | grep -qE "^Merge |^Revert |^fixup! |^squash! "; then
+  exit 0
+fi
+
+# Pattern: type(scope): description or type: description
+PATTERN='^(feat|fix|docs|style|refactor|test|chore|ci|build|perf|revert)(\([a-z0-9_-]+\))?: .+'
+
+if ! echo "$MSG" | grep -qE "$PATTERN"; then
+  echo "ERROR: Commit message does not follow Conventional Commits." >&2
+  echo "  Expected format: <type>[(scope)]: <description>" >&2
+  echo "  Allowed types: feat, fix, docs, style, refactor, test, chore, ci, build, perf, revert" >&2
+  exit 1
+fi
+
+exit 0
