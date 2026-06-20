@@ -25,7 +25,6 @@ from hummbl_governance.kernel import (
     ReceiptEngine,
     SequenceEngine,
 )
-from hummbl_governance.kernel.invariants import KernelInvariant, KernelPanic
 
 
 class TestChaosReceiptEngine:
@@ -235,7 +234,9 @@ class TestChaosKernelIntegration:
         with tempfile.TemporaryDirectory() as tmpdir:
             # Pre-seed corrupt state
             state_dir = Path(tmpdir)
-            (state_dir / "identity_registry.jsonl").write_text('bad json\n{"agent_id": "good", "trust_tier": "TRUSTED"}\n')
+            (state_dir / "identity_registry.jsonl").write_text(
+                'bad json\n{"agent_id": "good", "trust_tier": "TRUSTED"}\n'
+            )
             (state_dir / "sequence_counters.json").write_text('{"bad": "json"}')
             (state_dir / "receipts").mkdir(exist_ok=True)
 

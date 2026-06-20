@@ -31,17 +31,15 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from hummbl_governance.errors import HummblError
-
-logger = logging.getLogger(__name__)
-
-
 from hummbl_governance._types import (
     Caveat,
     DelegationToken,
     ResourceSelector,
     TokenBinding,
 )
+from hummbl_governance.errors import HummblError
+
+logger = logging.getLogger(__name__)
 
 
 # Error code shorthands — resolved from the unified HummblError enum.

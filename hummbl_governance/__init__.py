@@ -1,7 +1,7 @@
 """hummbl-governance -- Governance primitives for AI agent orchestration.
 
 Standalone, stdlib-only Python package providing:
-- Kernel: Governance operating system — receipts, identity, roles, laws, evidence (v1.1.0)
+- Kernel: Governance operating system — receipts, identity, roles, laws, evidence, doctrine (v1.2.0)
 - KillSwitch: Emergency halt system with graduated response (4 modes)
 - CircuitBreaker: Automatic failure detection and recovery (3 states)
 - CostGovernor: Budget tracking with soft/hard caps and ALLOW/WARN/DENY decisions
@@ -94,7 +94,7 @@ from hummbl_governance.evolution_lineage import (
 
 __all__ = [
     "__version__",
-    # Kernel — Governance operating system (v1.1.0)
+    # Kernel — Governance operating system (v1.2.0)
     "Kernel",
     "KernelInvariant",
     "KernelPanic",

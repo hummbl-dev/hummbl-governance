@@ -31,13 +31,14 @@ import os
 import shutil
 import threading
 import uuid
-from hashlib import sha256
 from collections.abc import Iterator
-from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from functools import partial
+from hashlib import sha256
 from pathlib import Path
 from typing import Any, Callable, Literal
+
+from hummbl_governance._types import AuditEntry
 
 logger = logging.getLogger(__name__)
 
@@ -55,9 +56,6 @@ E_AUDIT_SIGNATURE_INVALID = "E_AUDIT_SIGNATURE_INVALID"
 # Supported tuple types
 TUPLE_TYPES = ("DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM")
 TupleType = Literal["DCTX", "CONTRACT", "EVIDENCE", "ATTEST", "DCT", "SYSTEM"]
-
-
-from hummbl_governance._types import AuditEntry
 
 
 class AuditLog:

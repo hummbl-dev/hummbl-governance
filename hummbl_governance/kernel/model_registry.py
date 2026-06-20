@@ -8,14 +8,14 @@ Usage:
 
     reg = ModelRegistry()
     reg.register(
-        model_id="hummbl-base-v1",
+        model_id="example-char-lm-v1",
         task="char_lm",
         params_m=10.0,
-        checkpoint_path="checkpoints/hummbl_base_v1.msgpack",
+        checkpoint_path="checkpoints/example_char_lm_v1.msgpack",
         metrics={"val_ppl": 18.5, "val_loss": 2.92},
-        corpus_id="hummbl_corpus_20260618",
+        corpus_id="public_example_corpus",
         config={"embed_dim": 256, "num_layers": 4, "num_heads": 8},
-        hardware="RTX_3080_Ti",
+        hardware="local_gpu",
         framework="JAX_Flax",
     )
 
@@ -63,9 +63,11 @@ class ModelRegistry:
 
     def __init__(self, registry_path: str | None = None) -> None:
         if registry_path is None:
-            # Default: package data directory
-            here = Path(__file__).parent.parent
-            registry_path = str(here / "data" / "registry" / "models.jsonl")
+            registry_path = os.environ.get("HUMMBL_MODEL_REGISTRY_PATH")
+        if registry_path is None:
+            # Runtime model registry state must not append into package source.
+            state_dir = Path(os.environ.get("HUMMBL_KERNEL_STATE_DIR", ".kernel"))
+            registry_path = str(state_dir / "model_registry" / "models.jsonl")
         self.registry_path = Path(registry_path)
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
 

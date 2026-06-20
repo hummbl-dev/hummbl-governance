@@ -6,15 +6,11 @@ The Kernel loads the Scaling Law Atlas at boot.
 
 from __future__ import annotations
 
-import json
 import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-
-from .invariants import KernelInvariant, KernelPanic
-
 
 @dataclass
 class ScalingLaw:
@@ -22,7 +18,7 @@ class ScalingLaw:
 
     law_id: str
     name: str
-    status: str = "candidate.accepted"  # candidate.accepted, empirically.tested, deprecated
+    status: str = "candidate.accepted"  # candidate.accepted, empirically.tested, ratified, deprecated
     statement: str = ""
     falsification_criterion: str = ""
     experiment_receipts: list[str] = field(default_factory=list)
@@ -52,10 +48,9 @@ class LawEngine:
             # Resolution order:
             # 1. HUMMBL_KERNEL_ATLAS_DIR environment variable
             # 2. Package data directory (bundled with hummbl-governance)
-            # 3. Absolute path (founder-mode root layout)
-            # 4. Relative path from repo root
-            # 5. Home directory (legacy external atlas)
-            # 6. Empty (degraded mode — no laws loaded)
+            # 3. Relative path from repo root
+            # 4. Home directory (legacy external atlas)
+            # 5. Empty (degraded mode — no laws loaded)
             env_dir = os.environ.get("HUMMBL_KERNEL_ATLAS_DIR")
             if env_dir:
                 atlas_dir = Path(env_dir)
@@ -64,7 +59,6 @@ class LawEngine:
                 pkg_atlas = Path(__file__).resolve().parents[1] / "data" / "atlas"
                 candidates = [
                     pkg_atlas,
-                    Path("/Users/others/_internal/research/2026-06-17-scaling-law-atlas/records"),
                     Path("_internal/research/2026-06-17-scaling-law-atlas/records"),
                     Path.home() / "_internal" / "research" / "2026-06-17-scaling-law-atlas" / "records",
                 ]
@@ -91,10 +85,10 @@ class LawEngine:
                 data = self._parse_yamlish(file.read_text())
             if data:
                 # YAML uses 'id' and 'title'; map to our schema
-                law_id = data.get("id") or data.get("law_id", file.stem)
+                law_id = data.get("id") or data.get("record_id") or data.get("law_id", file.stem)
                 name = data.get("title") or data.get("name", "")
                 status = data.get("status", "candidate.accepted")
-                statement = data.get("candidate_law_statement", "")
+                statement = data.get("candidate_law_statement", "") or data.get("description", "")
                 falsification = data.get("falsification_criterion", "")
                 if not falsification and "failure_envelope" in data:
                     falsification = str(data["failure_envelope"])[:200]
