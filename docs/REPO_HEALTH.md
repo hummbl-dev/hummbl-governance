@@ -12,7 +12,7 @@
 
 - **Status**: Active public repository and PyPI package.
 - **Default branch**: `main`.
-- **Current package version**: `1.0.0`.
+- **Current package version**: `1.1.0`.
 - **Release posture**: Runtime primitives, MCP entry points, compliance mappers, and conformance fixtures may continue through reviewed pull requests.
 - **Archive trigger**: Archive only if the governance primitive package is superseded by another declared canonical source of truth and PyPI ownership is updated or retired.
 
@@ -24,6 +24,12 @@
 - `docs/*-mapping.md` records compliance mapping surfaces for SOC2, GDPR, ISO 27001, NIST CSF, NIST AI RMF, and OWASP.
 - `docs/trackers/` records open governance documentation parity, unverified claims, schema freeze, and evidence provenance work.
 - `README.md` is the public package overview and should not overclaim test counts, primitive counts, or framework coverage beyond current code and CI evidence.
+
+## Python Support
+
+- **Supported classifiers** (declared in `pyproject.toml`): Python 3.11, 3.12, 3.13, 3.14.
+- **CI-tested versions**: Python 3.11, 3.12, 3.13 (GitHub Actions matrix). Gitea CI tests Python 3.13.13 only.
+- **Python 3.14** is classified as supported but not yet exercised in CI; treat as experimental until the CI matrix is expanded.
 
 ## Required Local Validation
 
