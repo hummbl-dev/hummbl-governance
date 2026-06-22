@@ -132,18 +132,35 @@ def check_adr_format(repo, tree):
     if not adr_files:
         return issues  # No ADRs is not an error (some repos may not have any)
 
-    # Check filenames
-    numbers = set()
+    # Patterns: standard ADR-NNN-title.md or domain-prefixed ADR-DOMAIN-NNN-title.md
+    standard_pat = re.compile(r'^ADR-(\d{3})-([a-z0-9-]+)\.md$')
+    domain_pat = re.compile(r'^ADR-([A-Z]{2,6}(?:-[A-Z]{2,6})?)-(\d{3})-([a-z0-9-]+)\.md$')
+
+    # Check filenames and duplicates per-directory
+    by_dir = {}
     for p in adr_files:
         basename = os.path.basename(p)
-        m = re.match(r'^ADR-(\d{3})-([a-z0-9-]+)\.md$', basename)
-        if not m:
+        parent = os.path.dirname(p)
+        if parent not in by_dir:
+            by_dir[parent] = set()
+
+        m = standard_pat.match(basename)
+        dm = domain_pat.match(basename)
+
+        if not m and not dm:
             issues.append(f"NONSTANDARD_FILENAME: {basename}")
+            continue
+
+        # Extract identifier key for duplicate check
+        if m:
+            key = m.group(1)
         else:
-            num = m.group(1)
-            if num in numbers:
-                issues.append(f"DUPLICATE_NUMBER: ADR-{num}")
-            numbers.add(num)
+            key = f"{dm.group(1)}-{dm.group(2)}"
+
+        if key in by_dir[parent]:
+            issues.append(f"DUPLICATE_NUMBER: ADR-{key}")
+        else:
+            by_dir[parent].add(key)
 
     return issues
 
