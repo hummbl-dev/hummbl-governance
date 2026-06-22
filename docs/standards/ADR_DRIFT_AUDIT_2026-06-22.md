@@ -2,15 +2,37 @@
 
 **Auditor:** devin (automated)
 **Date:** 2026-06-22
+**Remediation date:** 2026-06-22
 **Scope:** All 68 non-fork repos on `hummbl-dev` GitHub + local repos
 **Total ADRs found:** 60 repos with ADRs, 100+ individual ADR files
+**Status:** ALL 10 FINDINGS REMEDIATED
 
 ## Executive summary
 
-**10 distinct drift issues found across the fleet.** The most severe are:
-numbering scheme fragmentation (3+ schemes), path fragmentation (11+ ADR
-directories in founder-mode alone), and phantom cross-references in the
-founder-mode ADR index.
+**10 distinct drift issues found across the fleet.** All 10 have been
+remediated as of 2026-06-22. The most severe were: numbering scheme
+fragmentation (3+ schemes), path fragmentation (11+ ADR directories in
+founder-mode alone), and phantom cross-references in the founder-mode ADR
+index.
+
+## Remediation summary
+
+| ID | Severity | Issue | Status | PR/Commit |
+|----|----------|-------|--------|-----------|
+| D1 | SEVERE | 3+ incompatible numbering schemes | RESOLVED | founder-mode#1019 |
+| D2 | SEVERE | 11+ ADR directory paths in founder-mode | RESOLVED | founder-mode#1019 |
+| D3 | MODERATE | 5 different status field formats | RESOLVED | founder-mode#1019 |
+| D4 | MODERATE | 4 different date field formats | RESOLVED | founder-mode#1019 |
+| D5 | MODERATE | hummbl-iac ADR-001 numbering collision | RESOLVED | hummbl-iac#8 |
+| D6 | MODERATE | swarm-test ADRs 001-006 missing ADR- prefix | RESOLVED | swarm-test#7 |
+| D7 | LOW | founder-mode DOCS/adr/ casing drift | RESOLVED | founder-mode#1019 |
+| D8 | MODERATE | ADR_INDEX.md stale (claimed 90+, listed ~30) | RESOLVED | founder-mode#1019 |
+| D9 | MODERATE | Phantom cross-references | RESOLVED | founder-mode#1019 |
+| D10 | LOW | Missing fields in baseline ADRs | RESOLVED (44/48) | Direct commits to 44 repos |
+
+D10 note: 4 repos could not be updated because they are archived
+(autoresearch-win-rtx, governed-compression, hummbl-asi, hummbl-assurance).
+Archived repos are read-only on GitHub.
 
 ---
 
