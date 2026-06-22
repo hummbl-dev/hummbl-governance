@@ -151,8 +151,9 @@ def check_missing_fields(repo, tree):
     """Check that baseline ADRs have all required fields."""
     issues = []
 
-    # Find baseline ADR(s)
-    adr_baselines = [p for p in tree if "repo-governance-baseline" in p.lower()
+    # Find baseline ADR(s) — only in docs/adr/, not docs/handoffs/
+    adr_baselines = [p for p in tree if "docs/adr/" in p
+                     and "repo-governance-baseline" in p.lower()
                      and p.endswith(".md")]
 
     for adr_path in adr_baselines:
