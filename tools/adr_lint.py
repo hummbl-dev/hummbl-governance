@@ -37,7 +37,10 @@ from typing import Optional
 
 # --- Constants ---
 
+# Standard: ADR-NNN-kebab-title.md
 FILENAME_PATTERN = re.compile(r'^ADR-(\d{3})-([a-z0-9-]+)\.md$')
+# Domain-prefixed: ADR-FM-NNN-title.md, ADR-GOV-NNN-title.md, ADR-ATL-WEDGE-NNN-title.md, etc.
+DOMAIN_FILENAME_PATTERN = re.compile(r'^ADR-([A-Z]{2,6}(?:-[A-Z]{2,6})?)-(\d{3})-([a-z0-9-]+)\.md$')
 REQUIRED_FIELDS = ["Status", "Date", "Decision owner", "Steward"]
 VALID_STATUSES = {"accepted", "proposed", "superseded", "deprecated"}
 DATE_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}$')
@@ -78,6 +81,11 @@ def lint_filename(filepath):
 
     m = FILENAME_PATTERN.match(basename)
     if not m:
+        # Check domain-prefixed pattern (ADR-FM-NNN-title.md, ADR-GOV-NNN-title.md, etc.)
+        dm = DOMAIN_FILENAME_PATTERN.match(basename)
+        if dm:
+            return violations  # Domain-prefixed filenames are valid
+
         # Check for common issues
         if re.match(r'^\d{3}-', basename):
             violations.append(Violation(
@@ -88,11 +96,6 @@ def lint_filename(filepath):
             violations.append(Violation(
                 file=filepath, line=0, rule="F003",
                 message=f"4-digit number should be 3-digit: {basename}"
-            ))
-        elif re.match(r'^ADR-[A-Z]+-\d{3}-', basename):
-            violations.append(Violation(
-                file=filepath, line=0, rule="F004",
-                message=f"Domain prefix not in standard: {basename} (use ADR-NNN-domain-title.md)"
             ))
         elif re.match(r'^ADR-\d{3}_', basename):
             violations.append(Violation(
@@ -221,22 +224,33 @@ def lint_sections(filepath, content):
     return violations
 
 def lint_duplicate_numbers(adr_files):
-    """Check for duplicate ADR numbers within a directory."""
-    violations = []
-    numbers = {}
+    """Check for duplicate ADR numbers within the same directory (per-domain).
 
+    ADR-001 in docs/adr/governance/ and ADR-001 in docs/adr/platform/ are NOT
+    duplicates — they're in separate domain directories. Only flag duplicates
+    within the same directory.
+    """
+    violations = []
+    # Group files by parent directory
+    by_dir = {}
     for filepath in adr_files:
+        parent = os.path.dirname(filepath)
+        if parent not in by_dir:
+            by_dir[parent] = {}
         basename = os.path.basename(filepath)
-        m = re.search(r'ADR-(\d{3})-', basename)
+        # Extract the full ADR identifier (including domain prefix if present)
+        m = re.search(r'ADR-(?:([A-Z]{2,6})-)?(\d{3})-', basename)
         if m:
-            num = m.group(1)
-            if num in numbers:
+            domain = m.group(1) or ""
+            num = m.group(2)
+            key = f"{domain}-{num}" if domain else num
+            if key in by_dir[parent]:
                 violations.append(Violation(
                     file=filepath, line=0, rule="DUP001",
-                    message=f"Duplicate ADR number: ADR-{num} (also in {os.path.basename(numbers[num])})"
+                    message=f"Duplicate ADR number: ADR-{domain}-{num if domain else num} (also in {os.path.basename(by_dir[parent][key])})"
                 ))
             else:
-                numbers[num] = filepath
+                by_dir[parent][key] = filepath
 
     return violations
 
