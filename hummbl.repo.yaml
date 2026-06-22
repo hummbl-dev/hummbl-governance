@@ -1,0 +1,50 @@
+schema: "hummbl-repo-manifest@0.1"
+
+repo:
+  full_name: "hummbl-dev/hummbl-governance"
+  name: "hummbl-governance"
+  visibility: "public"
+  default_branch: "main"
+  status: "active"
+
+purpose:
+  type: "library"
+  summary: "AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.1.0), 1168 tests, zero third-party runtime dependencies. Ships 7 MCP servers exposing all primitives as JSON-RPC tools."
+  source_of_record: "git"
+
+authority:
+  steward: "HUMMBL Research Institute"
+  approving_human: "Reuben Bowlby"
+  codeowners: "CODEOWNERS"
+  agents_file: "AGENTS.md"
+
+governance:
+  agents_required: true
+  krineia_required: true
+  receipts_dir: "_receipts/"
+  handoffs_dir: "docs/handoffs/"
+  adr_dir: "docs/adr/"
+  model_provider_neutral: true
+
+validation:
+  command: "python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-under=80"
+  required_before_merge: false
+  required_before_release: true
+
+docs:
+  readme: "README.md"
+  constitution: "CONSTITUTION.md"
+  agents: "AGENTS.md"
+  krineia: "KRINEIA.md"
+
+krineia:
+  manifest: "KRINEIA.md"
+  chains:
+    primary:
+      chain_id: "hummbl-governance-primary"
+      storage: "_receipts/krineia/primary.jsonl"
+      genesis_policy: "repo_bootstrap"
+      hash_algorithm: "sha256"
+      canonicalization: "json.dumps(sort_keys=True,separators=(',',':'))"
+  operators_allowed: ["append", "project", "cut"]
+  operators_forbidden: ["update", "delete", "rewrite", "summarize_and_replace", "score_and_train"]
