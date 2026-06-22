@@ -58,7 +58,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Arbiter with analyzers
         shell: powershell
-        run: '& "$env:PYTHON" -m pip install "arbiter-dev[analyzers]"'
+        run: '& "$env:PYTHON" -m pip install "arbiter-dev[analyzers]==0.2.0"'
       - name: Arbiter Audit
         shell: powershell
         run: '& "$env:PYTHON" scripts/arbiter_audit.py'
