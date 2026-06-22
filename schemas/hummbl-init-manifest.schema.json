@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hummbl.dev/schemas/hummbl-init-manifest.schema.json",
+  "title": "HUMMBL Init Manifest",
+  "description": "Manifest describing how a repo or artifact should be initialized, per the HUMMBL Init Standard v0.1",
+  "type": "object",
+  "required": ["schema", "artifact_type", "repo", "classification"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "hummbl-init-manifest@0.1"
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": ["repo", "python_package", "typescript_package", "cloudflare_worker", "mcp_server", "skill", "adr", "receipt", "local_directory", "fleet_inventory_entry"]
+    },
+    "repo": {
+      "type": "object",
+      "required": ["full_name"],
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "org/repo format, e.g. hummbl-dev/founder-mode"
+        },
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"]
+        },
+        "default_branch": {
+          "type": "string",
+          "default": "main"
+        }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "required": ["status", "is_fork", "language"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["active", "archived"]
+        },
+        "is_fork": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["python", "typescript", "markdown", "mixed", "none"]
+        },
+        "has_ci": {
+          "type": "boolean"
+        },
+        "has_existing_governance": {
+          "type": "boolean"
+        }
+      }
+    },
+    "file_set": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of files to generate, determined by classification"
+    },
+    "invariants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "description"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "What grounded this invariant (e.g. 'pyproject.toml dependencies=[]', 'AGENTS.md stdlib-only policy')"
+          }
+        }
+      },
+      "minItems": 3,
+      "maxItems": 8,
+      "description": "Protected invariants derived from repo content"
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "string",
+          "default": "governance.manifest_adopted"
+        },
+        "chain_id": {
+          "type": "string"
+        },
+        "storage": {
+          "type": "string",
+          "default": "_receipts/krineia/primary.jsonl"
+        },
+        "prev_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "default": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "check_files_on_default_branch": {
+          "type": "boolean",
+          "default": true
+        },
+        "verify_receipt_chain": {
+          "type": "boolean",
+          "default": true
+        },
+        "validate_yaml": {
+          "type": "boolean",
+          "default": true
+        },
+        "min_invariants": {
+          "type": "integer",
+          "default": 3
+        }
+      }
+    },
+    "initialization_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered steps for initialization"
+    }
+  }
+}
