@@ -1,0 +1,23 @@
+name: adr-lint
+
+on:
+  pull_request:
+    paths:
+      - "docs/adr/**"
+      - "tools/adr_lint.py"
+  push:
+    branches: [main]
+    paths:
+      - "docs/adr/**"
+      - "tools/adr_lint.py"
+
+jobs:
+  adr-format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lint ADR files
+        run: python tools/adr_lint.py docs/adr/ --ci

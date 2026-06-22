@@ -1,11 +1,13 @@
-# ADR-001: Coverage matrix, not self-grade, for compliance claims
+# ADR-001 — Coverage matrix, not self-grade, for compliance claims
 
-**Status**: ACCEPTED
-**Decided**: 2026-05-14
-**Decider**: Reuben Bowlby (operator)
-**Authors**: claude-code (huxley)
-**Supersedes**: implicit pre-2026-05-14 framing of "governance score / A+ rubric"
-**Related**: `hummbl-governance#26` (methodology issue), `feedback_no_self_grades_on_public_surface.md` (operator memory rule), `hummbl-production#241` (claim_status: hold), `hummbl-production#242` (claim_status: retired)
+- **Status:** accepted
+- **Date:** 2026-05-14
+- **Decision owner:** Reuben Bowlby (operator)
+- **Steward:** HUMMBL Research Institute
+- **Authors:** claude-code (huxley)
+- **Supersedes:** implicit pre-2026-05-14 framing of "governance score / A+ rubric"
+- **Superseded by:** none
+- **Related:** `hummbl-governance#26` (methodology issue), `feedback_no_self_grades_on_public_surface.md` (operator memory rule), `hummbl-production#241` (claim_status: hold), `hummbl-production#242` (claim_status: retired)
 
 ---
 
