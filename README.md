@@ -16,8 +16,12 @@ Repository health, validation, and stewardship expectations are tracked in [docs
 Evidence-readiness review receipt mapping for HUMMBL Legal/Paralegal packet
 work is tracked in
 [docs/evidence-readiness-review-receipt.md](docs/evidence-readiness-review-receipt.md),
-with the draft JSON schema at
-[`hummbl_governance/data/evidence_readiness_review_receipt.schema.json`](hummbl_governance/data/evidence_readiness_review_receipt.schema.json).
+with the governed JSON schema (v1) at
+[`hummbl_governance/data/evidence_readiness_review_receipt.schema.json`](hummbl_governance/data/evidence_readiness_review_receipt.schema.json)
+(`$id: ...evidence-readiness-review-receipt.v1.json`). The schema is the
+governed decision surface for evidence-readiness reviews: it records reviewer,
+date, artifact (packet paths + source manifest hash), verdict, evidence
+references, claim-honesty checks, and the relay decision.
 
 ```bash
 pip install hummbl-governance

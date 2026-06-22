@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://hummbl.dev/schemas/evidence-readiness-review-receipt.v0.1.json",
-  "title": "Evidence Readiness Review Receipt v0.1",
-  "description": "Review disposition receipt for evidence-readiness packets. This schema must not contain raw confidential evidence, prompts, privileged facts, or secrets.",
+  "$id": "https://hummbl.dev/schemas/evidence-readiness-review-receipt.v1.json",
+  "title": "Evidence Readiness Review Receipt v1",
+  "description": "Governed review disposition receipt for evidence-readiness packets. This schema must not contain raw confidential evidence, prompts, privileged facts, or secrets. Promoted from draft v0.1 to the governed decision surface for evidence-readiness reviews (hummbl-governance#67).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -23,7 +23,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "evidence-readiness-review-receipt.v0.1"
+      "const": "evidence-readiness-review-receipt.v1"
     },
     "receipt_id": {
       "type": "string",
