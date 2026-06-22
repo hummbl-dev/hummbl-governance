@@ -111,12 +111,17 @@ def check_governance_stack(repo, tree, archived):
             "hummbl.repo.yaml",
             "CODEOWNERS",
             "_receipts/krineia/primary.jsonl",
-            "docs/adr/ADR-001-repo-governance-baseline.md",
         ]
 
     for req in required:
         if req.lower() not in tree_lower:
             issues.append(f"MISSING: {req}")
+
+    # Check for governance baseline ADR (any number, not just ADR-001)
+    has_governance_adr = any("repo-governance-baseline" in p.lower() and "docs/adr/" in p.lower()
+                             for p in tree)
+    if not has_governance_adr and not archived:
+        issues.append("MISSING: docs/adr/ADR-NNN-repo-governance-baseline.md (any number)")
 
     return issues
 
