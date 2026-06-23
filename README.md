@@ -84,7 +84,7 @@ graph TD
   - Full CLI: `python -m hummbl_governance.kernel boot|status|health|inspect|laws|roles`
   - Portable paths via `HUMMBL_KERNEL_STATE_DIR` and `HUMMBL_KERNEL_ATLAS_DIR`
 - **1 new test** — `test_kernel_primitives_exported()` verifying all 11 Kernel symbols in `__all__`
-- **1032 total tests** (1031 → 1032)
+- **1032 total tests** (1031 → 1032) — _historical count at v1.1.0 release; current count is 1168 (see badge above)_
 
 ### v0.8.0 highlights
 
