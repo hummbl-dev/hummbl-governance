@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Delegation Token -- HMAC-SHA256 signed capability tokens for agent delegation.
 
 Implements delegation capability tokens with cryptographic integrity,
@@ -127,6 +143,48 @@ class DelegationTokenManager:
             expiry=token.expiry,
             binding=token.binding,
             signature=sig,
+        )
+
+    def issue(
+        self,
+        issuer: str,
+        subject: str,
+        operations: list[str],
+        resources: list[str],
+        *,
+        expiry_minutes: int | None = 120,
+        task_id: str = "default",
+        contract_id: str = "default",
+    ) -> DelegationToken:
+        """Convenience alias for create_token with a simpler signature.
+
+        Accepts ``operations`` and ``resources`` as plain lists and
+        constructs the required TokenBinding and ResourceSelector objects
+        internally. Matches the code examples shown on hummbl.io.
+
+        Args:
+            issuer: Agent granting the capability.
+            subject: Agent receiving the capability.
+            operations: Permitted operations (e.g. ["read", "summarize"]).
+            resources: Accessible resource patterns (e.g. ["docs/*"]).
+            expiry_minutes: Minutes until expiry (None = no expiry).
+            task_id: Task binding ID (default "default").
+            contract_id: Contract binding ID (default "default").
+
+        Returns:
+            Signed DelegationToken.
+        """
+        binding = TokenBinding(task_id=task_id, contract_id=contract_id)
+        selectors = [
+            ResourceSelector(resource_type="*", resource_id=r) for r in resources
+        ]
+        return self.create_token(
+            issuer=issuer,
+            subject=subject,
+            ops_allowed=operations,
+            binding=binding,
+            resource_selectors=selectors,
+            expiry_minutes=expiry_minutes,
         )
 
     def validate_token(
