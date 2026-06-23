@@ -25,14 +25,10 @@ pattern instead of git mv when the filesystem is case-insensitive.
 import argparse
 import hashlib
 import json
-import os
 import re
 import subprocess
-import sys
-import tempfile
 import time
 import uuid
-from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -373,7 +369,7 @@ def is_case_insensitive_fs(path):
     finally:
         try:
             test_a.rmdir()
-        except:
+        except OSError:
             pass
     return False
 
@@ -428,7 +424,8 @@ def init_repo(repo, org=ORG, dry_run=False):
         files_to_create["CODEOWNERS"] = generate_codeowners(repo, info)
     if "_receipts/krineia/primary.jsonl" not in existing:
         receipt = generate_genesis_receipt(repo, info)
-        files_to_create["_receipts/krineia/primary.jsonl"] = json.dumps(receipt, sort_keys=True, separators=(",", ":")) + "\n"
+        receipt_json = json.dumps(receipt, sort_keys=True, separators=(",", ":"))
+        files_to_create["_receipts/krineia/primary.jsonl"] = receipt_json + "\n"
     if "docs/adr/adr-001-repo-governance-baseline.md" not in existing:
         files_to_create["docs/adr/ADR-001-repo-governance-baseline.md"] = generate_adr_001(repo, info)
 
@@ -456,7 +453,10 @@ def init_repo(repo, org=ORG, dry_run=False):
             }
         )
         if err:
-            return InitResult(repo=repo, action="failed", files_created=created, error=f"Failed to create {path}: {err}")
+            return InitResult(
+                repo=repo, action="failed", files_created=created,
+                error=f"Failed to create {path}: {err}",
+            )
         created.append(path)
         time.sleep(0.3)  # Rate limit
 
@@ -482,7 +482,6 @@ def verify_repo(repo, org=ORG):
     ]
 
     missing = [f for f in required if f.lower() not in tree_lower]
-    present = [f for f in required if f.lower() in tree_lower]
 
     return InitResult(
         repo=repo,
