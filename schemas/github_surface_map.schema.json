@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "github_surface_map.schema.json",
+  "title": "GitHub Surface Map Schema",
+  "description": "Canonical map of every GitHub surface (UI, CLI, API, TUI, IDE) with actions, authorities, receipts, and failure modes for IssueOps governance.",
+  "type": "object",
+  "required": ["surface_id", "surface_name", "channel", "actions"],
+  "properties": {
+    "surface_id": {
+      "type": "string",
+      "pattern": "^gh-surface-[a-z0-9-]+$",
+      "description": "Unique identifier for this surface."
+    },
+    "surface_name": {
+      "type": "string",
+      "description": "Human-readable surface name."
+    },
+    "channel": {
+      "type": "string",
+      "enum": ["ui", "cli", "api", "tui", "ide"],
+      "description": "The interaction channel."
+    },
+    "human_role": {
+      "type": "string",
+      "description": "What a human does on this surface."
+    },
+    "agent_role": {
+      "type": "string",
+      "description": "What an agent does on this surface."
+    },
+    "visible_actions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Actions visible on this surface."
+    },
+    "agentic_equivalents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["human_action", "agent_action", "tool"],
+        "additionalProperties": false,
+        "properties": {
+          "human_action": {"type": "string"},
+          "agent_action": {"type": "string"},
+          "tool": {"type": "string", "description": "gh CLI command or API endpoint"}
+        }
+      },
+      "description": "Mapping of human actions to agent equivalents."
+    },
+    "actions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/SurfaceAction"},
+      "description": "Actions available on this surface."
+    },
+    "authority_rules": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Authority rules governing this surface."
+    },
+    "receipt_fields": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Fields captured in receipts for actions on this surface."
+    },
+    "failure_modes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mode", "mitigation"],
+        "additionalProperties": false,
+        "properties": {
+          "mode": {"type": "string", "description": "Failure mode name."},
+          "mitigation": {"type": "string", "description": "How to mitigate."}
+        }
+      }
+    },
+    "promotion_status": {
+      "type": "string",
+      "enum": ["private", "internal", "redacted", "synthetic", "public", "canonical"],
+      "description": "Promotion status per MPS doctrine."
+    },
+    "high_risk": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this surface contains high-risk settings/security actions."
+    }
+  },
+  "$defs": {
+    "SurfaceAction": {
+      "type": "object",
+      "required": ["action_id", "action_name", "authority_level", "agent_eligible"],
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {"type": "string"},
+        "action_name": {"type": "string"},
+        "authority_level": {
+          "type": "string",
+          "enum": ["operator-only", "steward", "trusted", "active", "probationary", "candidate"],
+          "description": "Minimum authority level required."
+        },
+        "agent_eligible": {
+          "type": "boolean",
+          "description": "Whether agents can perform this action."
+        },
+        "receipt_required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether a receipt is required for this action."
+        },
+        "gh_cli_equivalent": {
+          "type": ["string", "null"],
+          "description": "Equivalent gh CLI command, if any."
+        },
+        "api_endpoint": {
+          "type": ["string", "null"],
+          "description": "Equivalent API endpoint, if any."
+        },
+        "failure_modes": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}
