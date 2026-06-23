@@ -28,8 +28,9 @@ import os
 import secrets
 import threading
 from datetime import datetime, timezone
-from enum import Enum
 from pathlib import Path
+
+from hummbl_governance._types import PolicyLevel
 
 try:
     import fcntl
@@ -44,14 +45,6 @@ MAX_MESSAGE_BYTES = 65536
 
 # Maximum structured fields in a JSON payload
 MAX_PAYLOAD_FIELDS = 64
-
-
-# ---------------------------------------------------------------------------
-# Policy
-# ---------------------------------------------------------------------------
-
-
-from hummbl_governance._types import PolicyLevel
 
 
 # ---------------------------------------------------------------------------

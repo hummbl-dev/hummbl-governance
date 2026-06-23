@@ -4,7 +4,7 @@ The Kernel is not a role. It is the operating system of the fleet — the shared
 substrate that guarantees every agent action is observable, every observation is
 checkable, and every check is against empirical law.
 
-Seven invariants (K1-K7) and seven engines provide the foundation for AI officer
+Eight invariants (K1-K8) and eight engines provide the foundation for AI officer
 roles, compliance enforcement, and scaling-law governance.
 
 All engines are stdlib-only. No vendor-specific APIs, models, or runtimes.
@@ -33,8 +33,8 @@ __dissect__
 
 from __future__ import annotations
 
-__version__ = "1.0.0"
-__spec_version__ = "1.0.0"
+__version__ = "1.2.0"
+__spec_version__ = "1.2.0"
 
 from .kernel import Kernel
 from .invariants import KernelInvariant, KernelPanic
@@ -45,6 +45,7 @@ from .sequence_engine import SequenceEngine
 from .evidence_engine import EvidenceEngine
 from .authority_engine import AuthorityEngine
 from .schedule_engine import ScheduleEngine
+from .doctrine_engine import DoctrineEngine, Stage
 
 __all__ = [
     "Kernel",
@@ -58,4 +59,6 @@ __all__ = [
     "EvidenceEngine",
     "AuthorityEngine",
     "ScheduleEngine",
+    "DoctrineEngine",
+    "Stage",
 ]

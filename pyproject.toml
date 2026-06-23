@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hummbl-governance"
-version = "1.1.0"
+version = "1.2.0"
 description = "Governance primitives for AI agent orchestration: kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, schema validation, coordination bus, compliance mapper, and health probes."
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -65,7 +65,7 @@ py-modules = [
 ]
 
 [tool.setuptools.package-data]
-hummbl_governance = ["data/*.json"]
+hummbl_governance = ["data/*.json", "data/atlas/*.yaml"]
 
 [tool.vulture]
 exclude = [".venv", "demo", "src"]

@@ -6,21 +6,26 @@ invariants K1-K7 through seven specialized engines.
 
 from __future__ import annotations
 
-import json
 import logging
 import os
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from .authority_engine import AuthorityCheck, AuthorityEngine
-from .evidence_engine import EvidenceEngine, EvidenceGrade
-from .identity_engine import AgentIdentity, IdentityEngine
+from .doctrine_engine import DoctrineEngine
+from .evidence_engine import EvidenceEngine
+from .identity_engine import IdentityEngine
 from .invariants import KernelInvariant, KernelPanic
-from .law_engine import LawEngine, ScalingLaw, Violation
+from .law_engine import LawEngine
 from .receipt_engine import Receipt, ReceiptEngine
-from .schedule_engine import LoopSchedule, ScheduleEngine
+from .schedule_engine import ScheduleEngine
 from .sequence_engine import SequenceEngine
+
+# Best-effort corpus adapter import
+try:
+    from ..corpus_adapter import CorpusAdapter
+except ImportError:
+    CorpusAdapter = None  # type: ignore[misc,assignment]
 
 logger = logging.getLogger(__name__)
 
@@ -57,21 +62,38 @@ class Kernel:
         self.state_dir = state_dir or DEFAULT_STATE_DIR
         self.state_dir.mkdir(parents=True, exist_ok=True)
 
-        # Initialize all seven engines
-        self.receipt = ReceiptEngine(self.state_dir)
+        # Wire corpus adapter if HUMMBL_CORPUS_DIR is set
+        corpus_dir = os.environ.get("HUMMBL_CORPUS_DIR")
+        corpus_adapter = None
+        if corpus_dir and CorpusAdapter is not None:
+            try:
+                corpus_adapter = CorpusAdapter(
+                    corpus_dir=Path(corpus_dir),
+                    state_dir=self.state_dir,
+                )
+            except Exception:
+                logger.warning(
+                    "Failed to initialize CorpusAdapter for dir %s; continuing without corpus ingestion",
+                    corpus_dir,
+                    exc_info=True,
+                )
+
+        # Initialize all seven engines + doctrine
+        self.receipt = ReceiptEngine(self.state_dir, corpus_adapter=corpus_adapter)
         self.law = LawEngine()
         self.identity = IdentityEngine(self.state_dir)
         self.sequence = SequenceEngine(self.state_dir)
         self.evidence = EvidenceEngine()
         self.authority = AuthorityEngine(self.state_dir)
         self.schedule = ScheduleEngine(self.state_dir)
+        self.doctrine = DoctrineEngine(self.state_dir)
 
         self.booted = False
         self.boot_receipt_id: str = ""
 
     @classmethod
     def boot(cls, state_dir: Path | None = None) -> "Kernel":
-        """Boot the Kernel through its 7-phase sequence.
+        """Boot the Kernel through its 8-phase sequence.
 
         Returns an initialized and validated Kernel instance.
         Raises KernelPanic if any phase fails.
@@ -119,15 +141,25 @@ class Kernel:
         # Phase 6: Register default schedules
         # Officer roles will register their own loops
 
-        logger.info("KERNEL BOOT: Phase 7 — Handoff")
-        # Phase 7: Post KERNEL_BOOT receipt
+        logger.info("KERNEL BOOT: Phase 7 — Doctrine bootstrap")
+        # Phase 7: Verify doctrine engine and promotion graph
+        self.doctrine.doctrine_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(
+            "  Doctrine promotion graph: %s stages, %s valid edges",
+            len(self.doctrine._valid_promotions),
+            sum(len(v) for v in self.doctrine._valid_promotions.values()),
+        )
+
+        logger.info("KERNEL BOOT: Phase 8 — Handoff")
+        # Phase 8: Post KERNEL_BOOT receipt
         seq_id = self.sequence.next("kernel")
         receipt = self.receipt.create(
             agent_id="kernel",
             action_type="KERNEL_BOOT",
             payload={
-                "phase": 7,
+                "phase": 8,
                 "laws_loaded": len(self.law.laws),
+                "doctrine_stages": len(self.doctrine._valid_promotions),
                 "identities_loaded": len(self.identity._identities),
                 "schedules_loaded": len(self.schedule._schedules),
             },

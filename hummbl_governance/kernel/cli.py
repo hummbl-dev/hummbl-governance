@@ -106,7 +106,7 @@ def cmd_inspect(args: argparse.Namespace) -> int:
         # Show role claims
         roles = kernel.identity.list_roles(args.agent_id)
         if roles:
-            print(f"\nRole claims:")
+            print("\nRole claims:")
             for role in roles:
                 print(f"  {role['role_id']}: {role['state']} (score: {role.get('metric_score', 0):.2f})")
 

@@ -1,0 +1,21 @@
+# CODEOWNERS — hummbl-dev/hummbl-governance
+# Review authority per path. Steward approval required for normative spec files.
+
+# Governance artifacts
+CONSTITUTION.md          @reubenbowlby
+KRINEIA.md               @reubenbowlby
+hummbl.repo.yaml         @reubenbowlby
+CODEOWNERS               @reubenbowlby
+
+# Canonical standard and schema
+docs/standards/          @reubenbowlby
+schemas/                 @reubenbowlby
+
+# Receipts — steward only
+_receipts/               @reubenbowlby
+
+# ADRs
+docs/adr/                @reubenbowlby
+
+# Default: steward
+*                        @reubenbowlby

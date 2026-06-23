@@ -12,3 +12,5 @@ build/
 reports/*.html
 reports/*.json
 .coverage
+.kernel/
+hummbl_governance/data/registry/*.jsonl

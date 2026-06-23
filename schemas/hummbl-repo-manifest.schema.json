@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hummbl.dev/schemas/hummbl-repo-manifest@0.1.schema.json",
+  "title": "HUMMBL Repo Manifest",
+  "description": "Machine-readable registry atom for a hummbl-dev repository. Declares identity, purpose, authority, governance profile, validation, and doc paths. Not a receipt, not a constitution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "repo", "purpose", "authority", "governance", "validation", "docs"],
+  "properties": {
+    "schema": { "const": "hummbl-repo-manifest@0.1", "description": "Manifest schema version." },
+    "repo": {
+      "type": "object", "additionalProperties": false,
+      "required": ["full_name", "name", "visibility", "default_branch", "status"],
+      "properties": {
+        "full_name": { "type": "string", "pattern": "^hummbl-dev/[A-Za-z0-9._-]+$" },
+        "name": { "type": "string" },
+        "visibility": { "enum": ["public", "private"] },
+        "default_branch": { "type": "string", "default": "main" },
+        "status": { "enum": ["active", "draft", "archived", "fork", "experimental"] }
+      }
+    },
+    "purpose": {
+      "type": "object", "additionalProperties": false,
+      "required": ["type", "summary", "source_of_record"],
+      "properties": {
+        "type": { "enum": ["spec", "app", "library", "research", "docs", "fork", "archive", "infra"] },
+        "summary": { "type": "string", "maxLength": 280 },
+        "source_of_record": { "const": "git" }
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["steward", "approving_human", "agents_file"],
+      "properties": {
+        "steward": { "type": "string" },
+        "approving_human": { "type": "string" },
+        "codeowners": { "type": "string", "default": "CODEOWNERS" },
+        "agents_file": { "const": "AGENTS.md" }
+      }
+    },
+    "governance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["agents_required", "krineia_required", "model_provider_neutral"],
+      "properties": {
+        "agents_required": { "type": "boolean" },
+        "krineia_required": { "type": "boolean" },
+        "receipts_dir": { "type": "string", "default": "_receipts/" },
+        "handoffs_dir": { "type": "string", "default": "docs/handoffs/" },
+        "adr_dir": { "type": "string", "default": "docs/adr/" },
+        "model_provider_neutral": { "type": "boolean", "const": true,
+          "description": "Root governance must be provider-neutral. Always true." }
+      }
+    },
+    "validation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["command", "required_before_merge", "required_before_release"],
+      "properties": {
+        "command": { "type": "string", "description": "Deterministic admission gate command." },
+        "required_before_merge": { "type": "boolean" },
+        "required_before_release": { "type": "boolean" }
+      }
+    },
+    "docs": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "readme": { "const": "README.md" },
+        "constitution": { "type": "string", "default": "CONSTITUTION.md" },
+        "doctrine": { "type": "string", "default": "DOCTRINE.md" },
+        "agents": { "const": "AGENTS.md" },
+        "krineia": { "const": "KRINEIA.md" },
+        "contributing": { "const": "CONTRIBUTING.md" },
+        "security": { "const": "SECURITY.md" },
+        "changelog": { "const": "CHANGELOG.md" }
+      }
+    },
+    "krineia": {
+      "type": "object", "additionalProperties": false,
+      "description": "Present only when governance.krineia_required is true.",
+      "properties": {
+        "manifest": { "const": "KRINEIA.md" },
+        "chains": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["chain_id", "storage", "hash_algorithm"],
+            "properties": {
+              "chain_id": { "type": "string" },
+              "storage": { "type": "string", "pattern": "^_receipts/" },
+              "genesis_policy": { "type": "string" },
+              "hash_algorithm": { "enum": ["sha256"] },
+              "canonicalization": { "type": "string" }
+            }
+          }
+        },
+        "operators_allowed": { "type": "array", "items": { "enum": ["append", "project", "cut"] }, "minItems": 3, "uniqueItems": true },
+        "operators_forbidden": { "type": "array", "items": { "type": "string" } },
+        "validator": { "type": "string", "description": "Path or command to chain verifier." }
+      }
+    }
+  }
+}

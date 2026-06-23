@@ -1,9 +1,13 @@
-# ADR-002: v1.0.0 Readiness Gate
+# ADR-002 — v1.0.0 Readiness Gate
 
-**Status**: PROPOSED  
-**Date**: 2026-06-16  
-**Authors**: devin (anvil)  
-**Related**: `hummbl-governance#47` (release readiness gate), `docs/coverage/EVIDENCE_VALIDATION.md`
+- **Status:** proposed
+- **Date:** 2026-06-16
+- **Decision owner:** Reuben Bowlby
+- **Steward:** HUMMBL Research Institute
+- **Authors:** devin (anvil)
+- **Supersedes:** none
+- **Superseded by:** none
+- **Related:** `hummbl-governance#47` (release readiness gate), `docs/coverage/EVIDENCE_VALIDATION.md`
 
 ---
 
