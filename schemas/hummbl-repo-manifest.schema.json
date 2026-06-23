@@ -101,6 +101,85 @@
         "operators_forbidden": { "type": "array", "items": { "type": "string" } },
         "validator": { "type": "string", "description": "Path or command to chain verifier." }
       }
+    },
+    "repository_settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Expected GitHub repository settings policy. Distinguishes declared policy from observed GitHub state. Audit tools compare these against live GitHub metadata.",
+      "properties": {
+        "default_branch": {
+          "type": "string",
+          "description": "Expected default branch name."
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private", "internal"],
+          "description": "Expected repo visibility."
+        },
+        "archived": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the repo is expected to be archived."
+        },
+        "merge_methods": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Allowed merge methods on GitHub.",
+          "properties": {
+            "merge": { "type": "boolean", "default": false },
+            "squash": { "type": "boolean", "default": true },
+            "rebase": { "type": "boolean", "default": false }
+          }
+        },
+        "allow_auto_merge": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether auto-merge is allowed. Policy declaration — audit compares against GitHub state."
+        },
+        "allow_update_branch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether branch update (merge base branch into PR) is allowed."
+        },
+        "delete_branch_on_merge": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether head branches are deleted after merge."
+        },
+        "branch_protection": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Branch protection policy evidence.",
+          "properties": {
+            "protected_branches": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "List of branch names expected to be protected."
+            },
+            "required_status_checks": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Required CI checks before merge."
+            },
+            "enforce_admins": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether branch protection applies to admins."
+            },
+            "require_pull_request_reviews": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether PR reviews are required."
+            }
+          }
+        },
+        "settings_authority": {
+          "type": "string",
+          "enum": ["operator-only", "steward", "shared"],
+          "default": "operator-only",
+          "description": "Who has authority to change repository settings."
+        }
+      }
     }
   }
 }
