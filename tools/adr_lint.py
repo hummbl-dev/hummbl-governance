@@ -257,19 +257,32 @@ def lint_duplicate_numbers(adr_files):
     return violations
 
 def lint_superseded_refs(filepath, content, all_adr_numbers):
-    """Check that superseded-by references point to valid ADRs."""
+    """Check that superseded-by references point to valid ADRs.
+
+    Supports both standard (ADR-NNN) and domain-prefixed (ADR-FM-NNN) references.
+    """
     violations = []
 
-    m = re.search(r'\*\*Superseded by:\*\* (ADR-\d{3}|none)', content)
+    # Match both standard (ADR-001) and domain-prefixed (ADR-FM-001) references
+    m = re.search(
+        r'\*\*Superseded by:\*\* (ADR-(?:[A-Z]{2,6}(?:-[A-Z]{2,6})?-)?\d{3}|none)',
+        content,
+    )
     if m:
         ref = m.group(1)
         if ref != "none":
-            num = re.search(r'ADR-(\d{3})', ref).group(1)
-            if num not in all_adr_numbers:
-                violations.append(Violation(
-                    file=filepath, line=0, rule="REF001",
-                    message=f"Superseded by references non-existent ADR: {ref}"
-                ))
+            # Extract the full identifier (domain prefix + number or just number)
+            id_match = re.search(
+                r'ADR-((?:[A-Z]{2,6}(?:-[A-Z]{2,6})?-)?\d{3})',
+                ref,
+            )
+            if id_match:
+                ref_id = id_match.group(1)
+                if ref_id not in all_adr_numbers:
+                    violations.append(Violation(
+                        file=filepath, line=0, rule="REF001",
+                        message=f"Superseded by references non-existent ADR: {ref}"
+                    ))
 
     return violations
 
@@ -330,11 +343,18 @@ def lint_directory(adr_dir):
         return [], 0
 
     # Collect all ADR numbers for cross-reference checking
+    # Supports both standard (ADR-NNN) and domain-prefixed (ADR-FM-NNN) formats
     all_numbers = set()
     for f in adr_files:
-        m = re.search(r'ADR-(\d{3})-', os.path.basename(f))
+        basename = os.path.basename(f)
+        # Standard: ADR-NNN-title.md → "NNN"
+        m = re.match(r'^ADR-(\d{3})-', basename)
         if m:
             all_numbers.add(m.group(1))
+        # Domain-prefixed: ADR-FM-NNN-title.md → "FM-NNN"
+        m = re.match(r'^ADR-([A-Z]{2,6}(?:-[A-Z]{2,6})?)-(\d{3})-', basename)
+        if m:
+            all_numbers.add(f"{m.group(1)}-{m.group(2)}")
 
     # Check for duplicates
     dup_violations = lint_duplicate_numbers(adr_files)
@@ -374,12 +394,16 @@ def lint_repo_via_api(repo, org="hummbl-dev"):
     if not adr_paths:
         return [], 0
 
-    # Collect ADR numbers
+    # Collect ADR numbers (standard + domain-prefixed)
     all_numbers = set()
     for p in adr_paths:
-        m = re.search(r'ADR-(\d{3})-', os.path.basename(p))
+        basename = os.path.basename(p)
+        m = re.match(r'^ADR-(\d{3})-', basename)
         if m:
             all_numbers.add(m.group(1))
+        m = re.match(r'^ADR-([A-Z]{2,6}(?:-[A-Z]{2,6})?)-(\d{3})-', basename)
+        if m:
+            all_numbers.add(f"{m.group(1)}-{m.group(2)}")
 
     # Fetch and lint each file
     import base64
