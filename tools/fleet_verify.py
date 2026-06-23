@@ -26,9 +26,7 @@ import subprocess
 import sys
 import time
 import base64
-from pathlib import Path
 from dataclasses import dataclass, field, asdict
-from typing import Optional
 
 ORG = "hummbl-dev"
 
@@ -278,7 +276,7 @@ def main():
     if args.json:
         print(json.dumps(asdict(report), indent=2))
     else:
-        print(f"\n=== Fleet Verification Report ===")
+        print("\n=== Fleet Verification Report ===")
         print(f"Total repos: {report.total}")
         print(f"Checked: {report.checked}")
         print(f"Passed: {report.passed}")
@@ -286,7 +284,7 @@ def main():
         print(f"Skipped (forks): {report.skipped}")
 
         if report.failed > 0:
-            print(f"\n--- Failed repos ---")
+            print("\n--- Failed repos ---")
             for r in report.repos:
                 if r["issues"]:
                     print(f"  {r['repo']} ({'archived' if r['archived'] else 'active'}):")

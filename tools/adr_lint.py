@@ -33,7 +33,6 @@ import subprocess
 import sys
 from pathlib import Path
 from dataclasses import dataclass, field
-from typing import Optional
 
 # --- Constants ---
 
@@ -247,7 +246,10 @@ def lint_duplicate_numbers(adr_files):
             if key in by_dir[parent]:
                 violations.append(Violation(
                     file=filepath, line=0, rule="DUP001",
-                    message=f"Duplicate ADR number: ADR-{domain}-{num if domain else num} (also in {os.path.basename(by_dir[parent][key])})"
+                    message=(
+                        f"Duplicate ADR number: ADR-{domain}-{num if domain else num}"
+                        f" (also in {os.path.basename(by_dir[parent][key])})"
+                    )
                 ))
             else:
                 by_dir[parent][key] = filepath
@@ -357,7 +359,6 @@ def lint_directory(adr_dir):
 
 def lint_repo_via_api(repo, org="hummbl-dev"):
     """Lint ADRs in a remote repo via GitHub API."""
-    out, err = None, None
     cmd = ["gh", "api", f"repos/{org}/{repo}/git/trees/HEAD?recursive=1"]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
