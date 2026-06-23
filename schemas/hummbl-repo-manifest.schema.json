@@ -34,7 +34,12 @@
       "properties": {
         "steward": { "type": "string" },
         "approving_human": { "type": "string" },
-        "codeowners": { "type": "string", "default": "CODEOWNERS" },
+        "codeowners": {
+          "type": "string",
+          "default": "CODEOWNERS",
+          "enum": ["CODEOWNERS", ".github/CODEOWNERS"],
+          "description": "Path to the CODEOWNERS file. Both root 'CODEOWNERS' and '.github/CODEOWNERS' are valid per HUMMBL Repo Standard. The declared path must point to an existing file."
+        },
         "agents_file": { "const": "AGENTS.md" }
       }
     },
