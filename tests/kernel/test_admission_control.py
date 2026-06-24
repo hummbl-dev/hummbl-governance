@@ -219,14 +219,20 @@ class TestInvariant:
             validate_admission_control(proposal)
 
 
+SCHEMA_PATH = (
+    Path(__file__).parent.parent.parent
+    / "hummbl_governance"
+    / "data"
+    / "admission_control.schema.json"
+)
+
+
 class TestSchemaFile:
     def test_schema_file_exists(self):
-        schema_path = Path(__file__).parent.parent.parent / "hummbl_governance" / "data" / "admission_control.schema.json"
-        assert schema_path.exists()
+        assert SCHEMA_PATH.exists()
 
     def test_schema_file_is_valid_json(self):
-        schema_path = Path(__file__).parent.parent.parent / "hummbl_governance" / "data" / "admission_control.schema.json"
-        schema = json.loads(schema_path.read_text())
+        schema = json.loads(SCHEMA_PATH.read_text())
         assert schema["title"] == "Admission Control Primitive v1"
         assert "$id" in schema
         assert "cost_latency" in schema["properties"]
