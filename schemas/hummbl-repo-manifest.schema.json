@@ -16,7 +16,37 @@
         "name": { "type": "string" },
         "visibility": { "enum": ["public", "private"] },
         "default_branch": { "type": "string", "default": "main" },
-        "status": { "enum": ["active", "draft", "archived", "fork", "experimental"] }
+        "status": { "enum": ["active", "draft", "archived", "fork", "experimental"] },
+        "naming": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Optional naming-policy exception record for repos that intentionally do not use the default hummbl- prefix.",
+          "required": [
+            "hummbl_prefix_exception",
+            "exception_class",
+            "exception_reason",
+            "approved_by",
+            "approved_at",
+            "owning_standard",
+            "allowed_scope",
+            "forbidden_scope",
+            "rename_or_archive_trigger"
+          ],
+          "properties": {
+            "hummbl_prefix_exception": { "type": "boolean", "default": false },
+            "exception_class": {
+              "type": "string",
+              "enum": ["authored_artifact", "protocol", "reference_archive", "research_object"]
+            },
+            "exception_reason": { "type": "string" },
+            "approved_by": { "type": "string" },
+            "approved_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+            "owning_standard": { "type": "string", "const": "HUMMBL Repo Standard" },
+            "allowed_scope": { "type": "string" },
+            "forbidden_scope": { "type": "string" },
+            "rename_or_archive_trigger": { "type": "string" }
+          }
+        }
       }
     },
     "purpose": {
