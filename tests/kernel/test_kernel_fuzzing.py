@@ -52,7 +52,8 @@ class TestFuzzing:
             engine = IdentityEngine(Path(tmpdir))
             chars = string.ascii_letters + string.digits + "_-"
             for _ in range(50):
-                random_id = "".join(random.choices(chars, k=random.randint(1, 64)))
+                # Use min length 8 to avoid collisions in small char space
+                random_id = "".join(random.choices(chars, k=random.randint(8, 64)))
                 engine.register(random_id)
             assert len(engine._identities) == 50
 
