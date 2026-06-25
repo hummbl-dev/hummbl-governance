@@ -33,6 +33,8 @@ Result: `PASS_WITH_WARNINGS`.
 - Fixed: 28
 - Unproven: 8
 - Invalidated: 0
+- Misleading: 0
+- Not checked: 0
 - Hard evidence gate: pass (all public claim-surface sections carry evidence references)
 - Compliance stale phrases: 0 hard failures
 - Compliance drift findings: 0 advisory findings
@@ -142,7 +144,8 @@ Validated against official EU sources during this pass:
 - Supported: Regulation (EU) 2024/1689 is in force, published as OJ L
   2024/1689 on 2024-07-12. `source_backed`
 - Supported: Article 113 says the regulation applies from 2026-08-02, with
-  Chapters I and II applying from 2025-02-02. `source_backed`
+  Chapters I and II applying from 2025-02-02 and selected chapters applying
+  from 2025-08-02. `source_backed`
 - Supported: Blanket claims like "HUMMBL is EU AI Act compliant" are not
   justified by the ledger and should remain disallowed. `validator_backed`
 

@@ -181,7 +181,7 @@ doctrine_emergence_record:
     repo: ""
     path_or_artifact: ""
     date_basis: "connector_order|commit_timestamp|file_date|handoff|unknown"
-    evidence_label: "repo_local_observed|validator_backed|source_backed|scratch_context|unknown"
+    evidence_label: "validator_backed|source_backed|repo_local_observed|internally_estimated|unproven|quarantined|stale_or_time_sensitive|private_requires_authorization|scratch_context|unknown"
   maturation_points:
     - repo: ""
       artifact: ""
