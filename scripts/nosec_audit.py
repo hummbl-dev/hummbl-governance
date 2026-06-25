@@ -126,7 +126,10 @@ def main() -> int:
 
     if args.registry:
         registry = {
-            "description": "Registry of all nosec suppressions in production code. Review quarterly per ADR-007 and issue #137.",
+            "description": (
+                "Registry of all nosec suppressions in production code. "
+                "Review quarterly per ADR-007 and issue #137."
+            ),
             "total": len(suppressions),
             "justified": len(suppressions) - len(unjustified),
             "unjustified": len(unjustified),
