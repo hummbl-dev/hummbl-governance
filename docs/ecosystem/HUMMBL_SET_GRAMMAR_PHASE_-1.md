@@ -786,29 +786,35 @@ semantic_confidence: 0.85
 confidence_kind: synthesis_judgment
 calibration_status: uncalibrated
 basis: "operator decisions on all 10 open questions + existing fleet architecture review (ADR-FM-057, ADR-FM-038, uncertainty-map skill) + HUAOMP × MTSMU synthesis"
+independent_verification: pending
 
 evidence:
   - claim: "original 4 object types are incomplete"
     source: "operator analysis + comparison against implemented governance primitives"
-    verification_status: verified
+    verification_status: internally_cross_referenced
+    cross_reference: "HUMMBL_PROBLEM_GRAMMAR.md §2.1 convergence target lists 7 conditions; original 4 types cover <half"
   - claim: "65 candidate object types cover the necessary space"
     source: "operator-provided list + cross-reference with HUMMBL_PROBLEM_GRAMMAR families"
     verification_status: reported
   - claim: "20 object families in 4 tiers of 5 are sufficient for v0.1"
     source: "operator decision (OQ-10) + alignment with convergence target (§2.1)"
-    verification_status: verified
+    verification_status: internally_cross_referenced
+    cross_reference: "Tier 1 objects map 1:1 to convergence conditions; Tier 2-4 fill inquiry/execution/semantic gaps"
   - claim: "4-layer Decision Ledger matches existing Graph of Graphs topology"
     source: "ADR-FM-057 Decision 3: 4-layer topology with 11 edge types"
-    verification_status: verified
+    verification_status: internally_cross_referenced
+    cross_reference: "founder-mode/docs/adr/research/ADR-FM-057-kernel-doctrine-tier-graph-scavenger-integration.md lines 107-145"
   - claim: "Uncertainty Map integrates existing uncertainty-map skill"
     source: "apex-nexus/skills/uncertainty-map/SKILL.md — 4-quadrant Rumsfeld matrix"
-    verification_status: verified
+    verification_status: internally_cross_referenced
+    cross_reference: ".claude/skills/uncertainty-map/SKILL.md defines known/unknown quadrant framework"
   - claim: "Levin cognitive light cone taxonomy provides agent definition framework"
     source: "operator reference to Dr. Michael Levin's basal cognition work"
     verification_status: reported
   - claim: "all 10 open questions resolved"
     source: "operator decisions recorded in §15"
-    verification_status: verified
+    verification_status: verified_direct
+    cross_reference: "§15 of this document contains all 10 decisions with rationale"
 
 uncertainties:
   - "Levin cognitive light cone taxonomy is referenced but not yet formalized in HUMMBL terms"
@@ -817,13 +823,152 @@ uncertainties:
   - "relationship grammar is directional but not yet typed (composition vs aggregation vs reference)"
   - "no schema exists yet for the 20 v0.1 objects — structural validation is impossible"
   - "overlap between EvidenceSet and ReceiptBundle is resolved in principle but not in schema"
+  - "UncertaintyMap depth-2 nesting limit requires validation language"
+  - "CanonRegistry requires strict anti-laundering promotion criteria"
 
 next_lanes:
-  - "create minimal schema stubs for the 20 v0.1 objects (Phase 0)"
+  - "create Phase 0 schema seed (envelope + Tier 1 schemas) — see §18"
   - "formalize Levin cognitive light cone taxonomy in HUMMBL terms (research)"
   - "create Gate Template Catalog sub-document"
   - "stress-test 20 objects against a real HUMMBL scenario"
   - "define cross-object relationship types (composition vs aggregation vs reference)"
   - "create overlap detection rules for G2 gate"
   - "route to fleet review for Phase 0 promotion"
+```
+
+### Evidence State Definitions
+
+Per ChatGPT review, evidence states are tightened. `verified` is reserved for
+direct inspection of concrete artifacts (repo paths, commits, docs, schemas,
+tests, validation output). Cross-reference against architecture docs is
+`internally_cross_referenced`, not absolute verified.
+
+```yaml
+evidence_states:
+  verified_direct: "tied to concrete repo paths, commits, docs, schemas, tests, or validation output"
+  internally_cross_referenced: "cross-referenced against existing architecture docs, not directly inspected"
+  reported: "stated by operator or agent, not independently checked"
+  inferred: "derived from other evidence, not directly observed"
+  speculative: "proposed without evidence"
+  unimplemented: "designed but not yet built"
+```
+
+---
+
+## 17. Phase -1 Closeout Receipt
+
+```yaml
+phase: -1
+status: closeout_candidate
+branch: fix/devin/grammar-patch-schema-evidence
+pr: 131
+commits:
+  - 58ce841  # Problem Grammar schema + evidence ledger + operator decisions
+  - 6382542  # Phase -1 Set Grammar admission (65 candidate objects)
+  - 5c904b6  # Resolve all 10 open questions + 20-object v0.1 target
+promotion_status: not_canon
+phase_0_authorized: schema_seed_design_only
+remaining_uncertainties:
+  - Levin taxonomy not yet formalized in HUMMBL terms
+  - L0_MINIMAL agency lexicon remains open research
+  - no schemas exist yet for the 20 object families
+  - UncertaintyMap depth-2 nesting limit requires validation language
+  - CanonRegistry requires strict anti-laundering promotion criteria
+  - Gate Template Catalog sub-document not yet created
+  - cross-object relationship types not yet defined
+  - EvidenceSet vs ReceiptBundle overlap resolved in principle but not in schema
+```
+
+---
+
+## 18. Phase 0 Schema-Seed Plan
+
+Per ChatGPT review: do not create 20 independent schemas yet. Build the
+shared envelope first, then Tier 1 Governance Core schemas, then register
+the remaining 15 object families as registry entries with examples and
+counterexamples until promoted.
+
+### Phase 0 Schema Seed (6 files)
+
+```text
+schemas/hummbl_object_envelope.schema.json   # shared envelope all objects inherit
+schemas/claim_set.schema.json                 # Tier 1: Evidence (grounded assertions)
+schemas/evidence_set.schema.json              # Tier 1: Evidence (grounds claims)
+schemas/decision_ledger.schema.json           # Tier 1: Authority
+schemas/gate_set.schema.json                  # Tier 1: ExceptionPath + Rollback
+schemas/receipt_bundle.schema.json            # Tier 1: AuditReceipt
+```
+
+### Remaining 15 Object Families (Registry Entries)
+
+Tier 2, 3, and 4 objects are registered as entries with examples and
+counterexamples. They are not promoted to schema until they pass Phase 0
+gates (see §19).
+
+```text
+Tier 2 (Inquiry & Context):
+  ProblemGraph          — registry entry + example + counterexample
+  ProblemConstellation  — registry entry + example + counterexample
+  QuestionSet           — registry entry + example + counterexample
+  ContextPack           — registry entry + example + counterexample
+  AssumptionSet         — registry entry + example + counterexample
+
+Tier 3 (Execution & Evaluation):
+  TaskSet               — registry entry + example + counterexample
+  PromptPack            — registry entry + example + counterexample
+  EvalSuite             — registry entry + example + counterexample
+  RiskRegister          — registry entry + example + counterexample
+  ArtifactRegistry      — registry entry + example + counterexample
+
+Tier 4 (Semantic & Identity):
+  UncertaintyMap        — registry entry + example + counterexample
+  OntologySet           — registry entry + example + counterexample
+  AgentRegistry         — registry entry + example + counterexample
+  CapabilityRegistry    — registry entry + example + counterexample
+  CanonRegistry         — registry entry + example + counterexample
+```
+
+### Governance Distinction (Explicit)
+
+Per ChatGPT review, the governance distinction between object families is
+made explicit to prevent conflation:
+
+```text
+PromptPack      = invocation          (how agents are called)
+EvidenceSet     = grounding           (what substantiates claims)
+DecisionLedger  = authority           (who decided what, when, why)
+GateSet         = evaluation/permission (what checks must pass)
+ReceiptBundle   = attestation         (proof that something happened)
+CanonRegistry   = promoted governed knowledge (what is accepted as canon)
+```
+
+---
+
+## 19. Phase 0 Hard Gates
+
+Per ChatGPT review, these hard gates govern Phase 0 promotion. No exceptions.
+
+```text
+G-P0-1: No object family promoted to canon without schema, example,
+        counterexample, evidence requirement, validation rule, and receipt
+        requirement.
+
+G-P0-2: No PromptPack admitted for scale without attached EvalSuite.
+        (Reinforces OQ-3 decision as a Phase 0 hard gate.)
+
+G-P0-3: No PublicClaimSet path without stricter authorization and
+        disclosure-producing scan classification.
+        (Reinforces OQ-8 decision as a Phase 0 hard gate.)
+
+G-P0-4: No Arbiter/self-scoring loop introduced through DecisionLedger or
+        CanonRegistry. Independent review required for canon promotion.
+        (Prevents self-promotion laundering.)
+
+G-P0-5: No collapse of ProblemGraph and ProblemConstellation. Typed vs
+        untyped edge distinction is preserved.
+        (Reinforces OQ-1 decision as a Phase 0 hard gate.)
+
+G-P0-6: No schema promotion without validation output. Schemas must pass
+        structural validation (e.g., jsonschema validation against fixtures)
+        before promotion from draft to candidate.
 ```
