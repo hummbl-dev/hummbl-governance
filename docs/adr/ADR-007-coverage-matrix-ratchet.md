@@ -27,15 +27,17 @@ Add a **ratchet gate** to the `coverage-matrix-validate` CI job. The ratchet:
 3. **Advisory state preserved**: The job remains `continue-on-error: true`, so ratchet failure does not block the aggregate `ci` job yet. The ratchet result is exposed as a job output (`ratchet-result`, `validated-count`, `validated-pct`, `clean-pass`).
 4. **Baseline raising**: The baseline can only be raised by an explicit `--init-baseline` commit. It can never be lowered without operator approval.
 5. **Promotion threshold**: When `validated_pct >= 50%`, the ratchet prints a promotion notice. At that point, `continue-on-error` should be flipped to `false`, making the ratchet a blocking gate.
+6. **Row-identity ratchet** (added 2026-06-25, #136): The baseline includes a `validated_rows` array listing the specific row identities (matrix + control_id) that were validated at baseline freeze time. The ratchet checks that all baseline row identities still have `status=pass` in the current report. A baseline row that is missing or failing → FAIL even if the total count is stable or higher. This prevents row substitution from masking regression (e.g., one validated row disappears while another appears, count stays the same).
 
 ## Ratchet policy
 
 | Condition | Ratchet exit | CI job result | Aggregate `ci` |
 |-----------|-------------|---------------|-----------------|
-| current >= baseline | 0 (pass) | success | success |
+| current >= baseline AND all baseline rows pass | 0 (pass) | success | success |
 | current < baseline | 1 (fail) | success (advisory) | success (advisory) |
+| baseline row identity lost (count stable or higher) | 1 (fail) | success (advisory) | success (advisory) |
 | current >= baseline, pct >= 50% | 0 (pass) | success | success + promotion notice |
-| Post-promotion: current < baseline | 1 (fail) | failure (blocking) | failure |
+| Post-promotion: any ratchet failure | 1 (fail) | failure (blocking) | failure |
 
 ## Exit criteria for advisory state
 
@@ -57,5 +59,6 @@ The advisory state (`continue-on-error: true`) ends when ALL of:
 
 - Implementation: `scripts/coverage_ratchet.py`, `docs/coverage/ratchet-baseline.json`
 - CI integration: `.github/workflows/ci.yml` — `coverage-matrix-validate` job, `Ratchet gate` step
-- Tests: `tests/test_coverage_ratchet.py` — 7 tests covering pass, fail, init, missing baseline, promotion threshold
-- Acceptance: `hummbl-dev/hummbl-governance#128`
+- Tests: `tests/test_coverage_ratchet.py` — 11 tests covering count ratchet (pass, fail, init, missing baseline, promotion threshold) and row-identity ratchet (preserved, lost, gained, init captures identities)
+- Acceptance: `hummbl-dev/hummbl-governance#128` (count ratchet), `hummbl-dev/hummbl-governance#136` (row-identity ratchet)
+- Baseline row identities (as of 2026-06-25): eu-ai-act.md/Art. 12, eu-ai-act.md/Art. 14, eu-ai-act.md/Art. 73, gdpr.md/Art. 5, gdpr.md/Art. 29

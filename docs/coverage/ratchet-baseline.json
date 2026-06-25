@@ -2,5 +2,27 @@
   "validated_count": 5,
   "fulfilled_count": 198,
   "validated_pct": 2.5,
-  "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value. Raise by re-running --init-baseline after improving evidence coverage."
+  "validated_rows": [
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 12"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 14"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 73"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 5"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 29"
+    }
+  ],
+  "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage."
 }

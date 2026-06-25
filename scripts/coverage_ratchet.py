@@ -1,16 +1,18 @@
 """Coverage matrix ratchet gate — prevents regression in evidence validation.
 
 Compares current evidence validation results against a frozen baseline.
-Fails if the validated row count regresses below the baseline.
-Passes if current >= baseline (improvement or no change).
+Fails if the validated row count regresses below the baseline, or if a
+previously-validated row identity is no longer passing (row-identity ratchet).
 
 The baseline file (docs/coverage/ratchet-baseline.json) is a committed artifact.
 It can only be raised by an explicit baseline-update commit; CI never lowers it.
 
-Ratchet policy:
-  - current_validated < baseline_validated  → FAIL (regression detected)
-  - current_validated >= baseline_validated → PASS
-  - If current > baseline, print a suggestion to raise the baseline
+Ratchet policy (two layers):
+  1. Count ratchet: current_validated < baseline_validated → FAIL
+  2. Row-identity ratchet: if baseline includes validated_rows, each baseline
+     row identity (matrix + control_id) must still have status=pass in the
+     current report. A baseline row that is missing or failing → FAIL even
+     if the total count is stable or higher.
 
 Promotion threshold:
   When validated_pct >= PROMOTION_THRESHOLD (default 50%), the CI job
@@ -18,8 +20,8 @@ Promotion threshold:
   notice when the threshold is reached but does not auto-promote.
 
 Exit codes:
-  0 — ratchet passes (current >= baseline)
-  1 — ratchet fails (regression: current < baseline)
+  0 — ratchet passes (count >= baseline AND all baseline rows still validate)
+  1 — ratchet fails (count regression OR row-identity regression)
   2 — baseline file missing or invalid
 
 Usage:
@@ -73,6 +75,52 @@ def _compute_current(report: dict) -> dict:
     }
 
 
+def _extract_validated_rows(report: dict) -> list[dict]:
+    """Extract validated row identities (matrix + control_id) from the report.
+
+    Only rows with status=pass are included. Line numbers are intentionally
+    excluded — they shift on matrix edits and are not stable identifiers.
+    """
+    identities: list[dict] = []
+    for matrix_name, matrix_data in report.items():
+        rows = matrix_data.get("rows", [])
+        for row in rows:
+            if row.get("status") == "pass":
+                identities.append({
+                    "matrix": matrix_name,
+                    "control_id": row.get("control_id"),
+                })
+    return identities
+
+
+def _check_row_identities(
+    baseline_rows: list[dict], report: dict
+) -> tuple[list[dict], list[dict]]:
+    """Check that all baseline row identities still validate.
+
+    Returns (preserved, lost) where:
+      preserved = list of baseline rows that still pass
+      lost = list of baseline rows that are missing or failing
+    """
+    # Build a lookup of current passing rows: (matrix, control_id) -> row
+    current_passing: dict[tuple[str, str], dict] = {}
+    for matrix_name, matrix_data in report.items():
+        for row in matrix_data.get("rows", []):
+            if row.get("status") == "pass":
+                key = (matrix_name, row.get("control_id", ""))
+                current_passing[key] = row
+
+    preserved: list[dict] = []
+    lost: list[dict] = []
+    for baseline_row in baseline_rows:
+        key = (baseline_row.get("matrix", ""), baseline_row.get("control_id", ""))
+        if key in current_passing:
+            preserved.append(baseline_row)
+        else:
+            lost.append(baseline_row)
+    return preserved, lost
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Coverage matrix ratchet gate")
     parser.add_argument(
@@ -100,11 +148,13 @@ def main() -> int:
     current = _compute_current(report)
 
     if args.init_baseline:
+        validated_rows = _extract_validated_rows(report)
         baseline = {
             "validated_count": current["validated_count"],
             "fulfilled_count": current["fulfilled_count"],
             "validated_pct": current["validated_pct"],
-            "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value. Raise by re-running --init-baseline after improving evidence coverage.",
+            "validated_rows": validated_rows,
+            "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage.",
         }
         baseline_path.parent.mkdir(parents=True, exist_ok=True)
         with baseline_path.open("w", encoding="utf-8") as f:
@@ -114,21 +164,44 @@ def main() -> int:
         print(f"  validated_count: {current['validated_count']}")
         print(f"  fulfilled_count: {current['fulfilled_count']}")
         print(f"  validated_pct: {current['validated_pct']}%")
+        print(f"  validated_rows: {len(validated_rows)} identities captured")
         return 0
 
     baseline = _load_baseline(baseline_path)
     baseline_count = baseline["validated_count"]
     current_count = current["validated_count"]
+    baseline_rows = baseline.get("validated_rows", [])
 
     print(f"RATCHET CHECK")
     print(f"  baseline validated: {baseline_count}")
     print(f"  current validated:  {current_count}")
     print(f"  current fulfilled:  {current['fulfilled_count']}")
     print(f"  current pct:        {current['validated_pct']}%")
+    if baseline_rows:
+        print(f"  baseline row identities: {len(baseline_rows)}")
 
+    # Layer 1: Count ratchet
+    count_failed = False
     if current_count < baseline_count:
         print(f"\n::error::RATCHET FAILED: validated count regressed from {baseline_count} to {current_count}")
         print(f"::error::Regression of {baseline_count - current_count} validated rows. Fix the broken evidence refs or restore the baseline.")
+        count_failed = True
+
+    # Layer 2: Row-identity ratchet
+    row_identity_failed = False
+    if baseline_rows:
+        preserved, lost = _check_row_identities(baseline_rows, report)
+        if lost:
+            print(f"\n::error::ROW IDENTITY FAILED: {len(lost)} baseline row(s) no longer validate")
+            for lost_row in lost:
+                cid = lost_row.get("control_id", "?")
+                mtx = lost_row.get("matrix", "?")
+                print(f"::error::  LOST: {mtx} / {cid}")
+            row_identity_failed = True
+        else:
+            print(f"\n::notice::Row identity check: all {len(preserved)} baseline rows still validate")
+
+    if count_failed or row_identity_failed:
         return 1
 
     if current_count > baseline_count:

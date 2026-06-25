@@ -26,30 +26,63 @@ def _run_ratchet(baseline: str, report: str, *extra: str) -> tuple[int, str]:
     return result.returncode, result.stdout + result.stderr
 
 
-def _make_report(path: Path, validated: int, fulfilled: int, failed: int) -> None:
-    """Create a minimal evidence validation report JSON."""
-    data = {
-        "test-matrix.md": {
-            "totals": {"fulfilled": fulfilled},
-            "fulfilled_validation": {
-                "rows_passed": validated,
-                "rows_failed": failed,
-                "rows_without_refs": failed,
-            },
-        }
+def _make_report(
+    path: Path,
+    validated: int,
+    fulfilled: int,
+    failed: int,
+    row_results: list[dict] | None = None,
+) -> None:
+    """Create a minimal evidence validation report JSON.
+
+    If row_results is provided, it is placed under the matrix's "rows" key
+    so the ratchet can check row identities.
+    """
+    matrix_data: dict = {
+        "totals": {"fulfilled": fulfilled},
+        "fulfilled_validation": {
+            "rows_passed": validated,
+            "rows_failed": failed,
+            "rows_without_refs": failed,
+        },
     }
+    if row_results is not None:
+        matrix_data["rows"] = row_results
+    data = {"test-matrix.md": matrix_data}
     path.write_text(json.dumps(data), encoding="utf-8")
 
 
-def _make_baseline(path: Path, validated: int, fulfilled: int, pct: float) -> None:
-    """Create a ratchet baseline file."""
-    data = {
+def _make_baseline(
+    path: Path,
+    validated: int,
+    fulfilled: int,
+    pct: float,
+    validated_rows: list[dict] | None = None,
+) -> None:
+    """Create a ratchet baseline file.
+
+    If validated_rows is provided, it is included for row-identity ratchet.
+    """
+    data: dict = {
         "validated_count": validated,
         "fulfilled_count": fulfilled,
         "validated_pct": pct,
         "description": "Test baseline",
     }
+    if validated_rows is not None:
+        data["validated_rows"] = validated_rows
     path.write_text(json.dumps(data), encoding="utf-8")
+
+
+def _row_result(control_id: str, status: str, line_no: int = 1) -> dict:
+    """Create a minimal row result for testing."""
+    return {
+        "control_id": control_id,
+        "line_no": line_no,
+        "status": status,
+        "refs": [],
+        "detail": "test",
+    }
 
 
 class TestCoverageRatchetPass:
@@ -130,3 +163,91 @@ class TestCoverageRatchetPromotionThreshold:
         assert rc == 0
         assert "PROMOTION THRESHOLD" not in output
         assert "gap:" in output
+
+
+class TestCoverageRatchetRowIdentity:
+    """Row-identity ratchet — protects specific validated rows, not just count."""
+
+    def test_row_identity_preserved(self, tmp_path):
+        """All baseline rows still validate → pass."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        rows = [
+            _row_result("Art. 5", "pass", line_no=48),
+            _row_result("Art. 29", "pass", line_no=102),
+        ]
+        _make_report(report, validated=2, fulfilled=10, failed=8, row_results=rows)
+        _make_baseline(
+            baseline, validated=2, fulfilled=10, pct=20.0,
+            validated_rows=[
+                {"matrix": "test-matrix.md", "control_id": "Art. 5"},
+                {"matrix": "test-matrix.md", "control_id": "Art. 29"},
+            ],
+        )
+        rc, output = _run_ratchet(str(baseline), str(report))
+        assert rc == 0
+        assert "RATCHET PASSED" in output
+        assert "row identity" in output.lower()
+
+    def test_row_identity_lost(self, tmp_path):
+        """One baseline row no longer validates → fail, even if count is same."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        # Art. 5 still passes, Art. 29 now fails — but a NEW row (Art. 99) passes
+        # so validated count is still 2. Count-only ratchet would pass; row-identity must fail.
+        rows = [
+            _row_result("Art. 5", "pass", line_no=48),
+            _row_result("Art. 29", "fail", line_no=102),
+            _row_result("Art. 99", "pass", line_no=200),
+        ]
+        _make_report(report, validated=2, fulfilled=10, failed=8, row_results=rows)
+        _make_baseline(
+            baseline, validated=2, fulfilled=10, pct=20.0,
+            validated_rows=[
+                {"matrix": "test-matrix.md", "control_id": "Art. 5"},
+                {"matrix": "test-matrix.md", "control_id": "Art. 29"},
+            ],
+        )
+        rc, output = _run_ratchet(str(baseline), str(report))
+        assert rc == 1
+        assert "ROW IDENTITY" in output or "row identity" in output.lower()
+        assert "Art. 29" in output
+
+    def test_row_identity_gained(self, tmp_path):
+        """All baseline rows still validate + new rows added → pass with improvement."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        rows = [
+            _row_result("Art. 5", "pass", line_no=48),
+            _row_result("Art. 29", "pass", line_no=102),
+            _row_result("Art. 99", "pass", line_no=200),  # new
+        ]
+        _make_report(report, validated=3, fulfilled=10, failed=7, row_results=rows)
+        _make_baseline(
+            baseline, validated=2, fulfilled=10, pct=20.0,
+            validated_rows=[
+                {"matrix": "test-matrix.md", "control_id": "Art. 5"},
+                {"matrix": "test-matrix.md", "control_id": "Art. 29"},
+            ],
+        )
+        rc, output = _run_ratchet(str(baseline), str(report))
+        assert rc == 0
+        assert "RATCHET PASSED" in output
+
+    def test_init_baseline_captures_row_identities(self, tmp_path):
+        """--init-baseline should capture validated_rows from current report."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        rows = [
+            _row_result("Art. 5", "pass", line_no=48),
+            _row_result("Art. 29", "pass", line_no=102),
+        ]
+        _make_report(report, validated=2, fulfilled=10, failed=8, row_results=rows)
+        rc, output = _run_ratchet(str(baseline), str(report), "--init-baseline")
+        assert rc == 0
+        assert "BASELINE SET" in output
+        data = json.loads(baseline.read_text())
+        assert "validated_rows" in data
+        assert len(data["validated_rows"]) == 2
+        assert data["validated_rows"][0]["control_id"] == "Art. 5"
+        assert data["validated_rows"][1]["control_id"] == "Art. 29"
