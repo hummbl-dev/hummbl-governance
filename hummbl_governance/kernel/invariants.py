@@ -1,4 +1,4 @@
-"""Kernel invariants (K1-K7) and panic handling.
+"""Kernel invariants (K1-K8) and panic handling.
 
 Invariants are unbreakable rules. Violating any invariant is a Kernel panic.
 """
