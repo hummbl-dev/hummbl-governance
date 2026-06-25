@@ -45,7 +45,7 @@ pip install -e ".[test]"
 **Verification**:
 ```bash
 python -m pytest tests/ -v --tb=short -q
-# Expected: 1032 passed
+# Expected: 1245 passed
 ```
 
 ---

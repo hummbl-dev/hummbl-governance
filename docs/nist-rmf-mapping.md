@@ -1,4 +1,4 @@
-# NIST AI RMF Mapping — hummbl-governance v0.8.0
+# NIST AI RMF Mapping — hummbl-governance v1.2.0
 
 **Reference:** NIST AI 100-1 (2023), AI Risk Management Framework
 **Generated:** 2026-05-14

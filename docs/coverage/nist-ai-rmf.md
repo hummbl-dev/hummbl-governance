@@ -4,7 +4,7 @@
 **Source**: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v0.8.0
+**HUMMBL version**: hummbl-governance v1.2.0
 
 ## Boundary disclaimer
 
@@ -136,6 +136,7 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 ### MEASURE 2 — AI systems evaluated for trustworthy characteristics
 
+<<<<<<< HEAD
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | MS-2.1 | Test sets, metrics, performance details documented | ✅ Test-set tuple + metric tuples | `hummbl_governance/benchmark.py`, `hummbl_governance/audit_log.py` |
@@ -151,6 +152,23 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 | MS-2.11 | Fairness + bias evaluated, documented + informed by input | 🟡 Partial: fairness-eval tuple; evaluation methodology is org choice | `hummbl_governance/audit_log.py`, `hummbl_governance/output_validator.py` |
 | MS-2.12 | Environmental impact + sustainability evaluated + documented | 🟡 Partial: compute-cost tuple; environmental program is org | `hummbl_governance/cost_governor.py`, `hummbl_governance/audit_log.py` |
 | MS-2.13 | Mechanisms in place to assess effectiveness | ✅ Effectiveness-assessment tuple | `hummbl_governance/audit_log.py`, `hummbl_governance/benchmark.py` |
+=======
+| ID | Subcategory | Coverage |
+|---|---|---|
+| MS-2.1 | Test sets, metrics, performance details documented | ✅ Test-set tuple + metric tuples |
+| MS-2.2 | Evaluations involving human subjects meet applicable requirements | 🟡 Partial: consent tuples; IRB is org |
+| MS-2.3 | AI system performance/assurance evaluated regularly | ✅ Regular-evaluation tuples + CI integration |
+| MS-2.4 | Deployment-context-relevant performance evaluations performed | ✅ Deployment-context tuple + per-context metrics |
+| MS-2.5 | AI system valid + reliable, capability demonstrated | ✅ Validity-evidence tuples + 1245-test corpus |
+| MS-2.6 | AI system safety risks evaluated + documented | ✅ Safety-eval tuple + redteam-result tuple |
+| MS-2.7 | AI system security + resilience evaluated + documented | ✅ Security-eval tuple + pen-test integration |
+| MS-2.8 | Risks associated with transparency + accountability examined + documented | ✅ Transparency-eval tuple + accountability-chain audit |
+| MS-2.9 | AI model explained; identifications of model + behavior | 🟡 Partial: explanation tuples; explainability technique is system-dependent |
+| MS-2.10 | Privacy risk of AI system examined + documented | ✅ Privacy-risk tuple (cross-ref GDPR matrix) |
+| MS-2.11 | Fairness + bias evaluated, documented + informed by input | 🟡 Partial: fairness-eval tuple; evaluation methodology is org choice |
+| MS-2.12 | Environmental impact + sustainability evaluated + documented | 🟡 Partial: compute-cost tuple; environmental program is org |
+| MS-2.13 | Mechanisms in place to assess effectiveness | ✅ Effectiveness-assessment tuple |
+>>>>>>> 015270e (fix: split hummbl-governance api coverage and auth docs updates)
 
 ### MEASURE 3 — Mechanisms for tracking AI risk + impact
 

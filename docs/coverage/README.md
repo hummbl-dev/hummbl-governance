@@ -3,7 +3,11 @@
 Every applicable control across every named framework, row-by-row.
 Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness, not score**.
 
+<<<<<<< HEAD
 **HUMMBL version**: hummbl-governance v0.8.0
+=======
+**HUMMBL version**: hummbl-governance v1.2.0
+>>>>>>> 015270e (fix: split hummbl-governance api coverage and auth docs updates)
 **Last index update**: 2026-06-25
 **Coverage state legend**: ✅ Fulfilled · 🟡 Partial · ⚪ Boundary · ⛔ Out of scope
 

@@ -4,7 +4,7 @@
 **Source**: https://www.imda.gov.sg/-/media/imda/files/sgs/-/media/imda/files/programmes/ai-verify/model-ai-governance-framework-for-generative-ai
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v0.8.0
+**HUMMBL version**: hummbl-governance v1.2.0
 
 ## Boundary disclaimer
 
@@ -23,6 +23,7 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 
 | Dimension | Coverage | Evidence |
 |---|---|---|
+<<<<<<< HEAD
 | 1. Accountability | 🟡 Partial: DCTX delegation chain = accountability allocation; org policy completes | |
 | 2. Data | ✅ Dataset tuples + provenance chain + quality primitives (cross-ref ISO 42001 A.7) | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
 | 3. Trusted Development + Deployment | ✅ Lifecycle tuple + V&V + deployment tuples + signed audit trail | `hummbl_governance/lifecycle.py`, `hummbl_governance/audit_log.py` |
@@ -32,6 +33,17 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 | 7. Content Provenance | 🟡 Content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra); implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today. | |
 | 8. Safety + Alignment | 🟡 Partial: Alignment-eval tuples + RLHF-evidence primitives; alignment-evaluation methodology is research | |
 | 9. AI for Public Good | ⚪ Boundary: Civic-impact framing is org strategy | |
+=======
+| 1. Accountability | 🟡 Partial | DCTX delegation chain = accountability allocation; org policy completes |
+| 2. Data | ✅ | Dataset tuples + provenance chain + quality primitives (cross-ref ISO 42001 A.7) |
+| 3. Trusted Development + Deployment | ✅ | Lifecycle tuple + V&V + deployment tuples + signed audit trail |
+| 4. Incident Reporting | ✅ | Incident tuple + notification SLA + escalation (cross-ref EU AI Act Art. 73) |
+| 5. Testing + Assurance | ✅ | 1245 governance tests + redteam tuples + safety-eval primitives |
+| 6. Security | ✅ | HMAC-SHA256 delegation tokens + Bandit/Semgrep + pip-audit blocking |
+| 7. Content Provenance | 🟡 | Content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra) per `founder_mode/docs/research/2026-05-01_adr-001-admission-c2pa-stack.md`; implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today. |
+| 8. Safety + Alignment | 🟡 Partial | Alignment-eval tuples + RLHF-evidence primitives; alignment-evaluation methodology is research |
+| 9. AI for Public Good | ⚪ Boundary | Civic-impact framing is org strategy |
+>>>>>>> 015270e (fix: split hummbl-governance api coverage and auth docs updates)
 
 ## Summary
 

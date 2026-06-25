@@ -4,7 +4,7 @@
 **Source**: https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v0.8.0
+**HUMMBL version**: hummbl-governance v1.2.0
 
 ## Boundary disclaimer
 
@@ -164,6 +164,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 ### PR.PS — Platform Security (6)
 
+<<<<<<< HEAD
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | PR.PS-01 | Configuration management practices established + applied | ✅ Config-tuple + change tracking | `hummbl_governance/audit_log.py` |
@@ -172,6 +173,16 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | PR.PS-04 | Log records generated + made available for continuous monitoring | ✅ Governance bus = continuous log | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
 | PR.PS-05 | Installation + execution of unauthorized software prevented | 🟡 Partial: capability fence enforces allow/deny lists at app layer; OS-level enforcement is platform | `hummbl_governance/capability_fence.py` |
 | PR.PS-06 | Secure software development practices integrated, performance monitored throughout SDLC | ✅ TDD + CI gates + 17,500+ tests | `.github/workflows/ci.yml` |
+=======
+| ID | Subcategory | Coverage |
+|---|---|---|
+| PR.PS-01 | Configuration management practices established + applied | ✅ Config-tuple + change tracking |
+| PR.PS-02 | Software maintained, replaced, removed commensurate with risk | ✅ SBOM-driven dep updates + `pip-audit` |
+| PR.PS-03 | Hardware maintained, replaced, removed commensurate with risk | ⚪ Boundary: HW lifecycle |
+| PR.PS-04 | Log records generated + made available for continuous monitoring | ✅ Governance bus = continuous log |
+| PR.PS-05 | Installation + execution of unauthorized software prevented | 🟡 Partial: stdlib-only enforcement in services/integrations; OS-level enforcement is platform |
+| PR.PS-06 | Secure software development practices integrated, performance monitored throughout SDLC | ✅ TDD + CI gates + 1245 tests |
+>>>>>>> 015270e (fix: split hummbl-governance api coverage and auth docs updates)
 
 ### PR.IR — Technology Infrastructure Resilience (4)
 

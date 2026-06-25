@@ -4,7 +4,7 @@
 **Source**: https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v0.8.0
+**HUMMBL version**: hummbl-governance v1.2.0
 
 ## Boundary disclaimer
 
