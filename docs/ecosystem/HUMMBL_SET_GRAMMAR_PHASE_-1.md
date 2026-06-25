@@ -480,43 +480,301 @@ OntologySet
 
 **Total: 15 object families** — enough to govern real work without exploding scope.
 
+> **Updated by operator decision (OQ-10):** v0.1 minimum expanded to 20 objects
+> in 4 tiers of 5. See §14.1 below for the revised Phase 0 target.
+
 ---
 
-## 15. Open Questions for Fleet Review
+## 14.1 Revised Phase 0 Target (20 Objects, 4 Tiers of 5)
 
-```yaml
-open_questions:
-  - id: OQ-1
-    question: "Should interdisciplinary problem structures be called Problem Graphs, Problem Constellations, or both?"
-    status: open
-  - id: OQ-2
-    question: "Should Claim Set become the central bridge between Question Sets and Evidence Sets?"
-    status: open
-  - id: OQ-3
-    question: "Should every Prompt Pack require an attached Eval Suite before reuse at scale?"
-    status: open
-  - id: OQ-4
-    question: "Should Decision Ledgers be repo-local, project-local, or global across HUMMBL governance?"
-    status: open
-  - id: OQ-5
-    question: "Should Gate Sets be reusable templates or artifact-specific definitions?"
-    status: open
-  - id: OQ-6
-    question: "Should Receipt Bundles be immutable append-only logs, or can they be regenerated from underlying receipts?"
-    status: open
-  - id: OQ-7
-    question: "Should Context Pack be required before any Problem Set can be promoted?"
-    status: open
-  - id: OQ-8
-    question: "Should Public Claim Sets require a stricter promotion path than internal Claim Sets?"
-    status: open
-  - id: OQ-9
-    question: "Should Capability Registries be tied to agents, tools, humans, or all three?"
-    status: open
-  - id: OQ-10
-    question: "What is the minimum object grammar needed for v0.1 without overbuilding?"
-    status: open
+Operator decision: 20 object types organized as 4 tiers of 5, with clear
+priority ordering and governance-forward design.
+
+### Tier 1: Governance Core (the convergence target)
+
+These 5 objects directly implement the GovernableFleetAction conditions
+from HUMMBL_PROBLEM_GRAMMAR.md §2.1.
+
+| # | Object | Convergence Condition | Notes |
+|---|--------|----------------------|-------|
+| 1 | **ClaimSet** | Evidence (grounded assertions) | Bridge between QuestionSet and EvidenceSet; each Claim tagged with epistemic quadrant (OQ-2) |
+| 2 | **EvidenceSet** | Evidence (grounds claims) | Distinct from ReceiptBundle — evidence grounds, receipts attest |
+| 3 | **DecisionLedger** | Authority | 4-layer scope matching Graph of Graphs (OQ-4): L1 Artifact, L2 Category, L3 Tier, L4 Fleet |
+| 4 | **GateSet** | ExceptionPath + Rollback | Both templates AND instances (OQ-5): GateTemplate (reusable) + GateInstance (artifact-specific) |
+| 5 | **ReceiptBundle** | AuditReceipt | Regeneratable from underlying receipts, but regeneration produces a meta-receipt (OQ-6) |
+
+### Tier 2: Inquiry & Context
+
+These 5 objects wrap the governance core with problem-finding and context-setting.
+
+| # | Object | Function | Notes |
+|---|--------|----------|-------|
+| 6 | **ProblemGraph** | Interdisciplinary entangled problems | Typed edges (depends-on, amplifies, constrains) — OQ-1 |
+| 7 | **ProblemConstellation** | Loosely coupled problem clusters | Untyped edges — distinct from ProblemGraph (OQ-1) |
+| 8 | **QuestionSet** | Organized inquiry | Converts problem-space into questions |
+| 9 | **ContextPack** | Scope and environment | Required before any Problem Set can be promoted (OQ-7) |
+| 10 | **AssumptionSet** | Surface hidden beliefs | Co-bridge with ClaimSet; every Claim has an AssumptionSet (OQ-2) |
+
+### Tier 3: Execution & Evaluation
+
+These 5 objects convert decisions into action and evaluate results.
+
+| # | Object | Function | Notes |
+|---|--------|----------|-------|
+| 11 | **TaskSet** | Convert decisions to execution | Each Task requires a Receipt (convergence target) |
+| 12 | **PromptPack** | Invocation artifacts | Requires attached EvalSuite before reuse at scale (OQ-3); demoted from center |
+| 13 | **EvalSuite** | Evaluation surface | Mandatory for PromptPack promotion beyond 'draft' (OQ-3) |
+| 14 | **RiskRegister** | Tracked risks + exception paths | Maps to ExceptionPath in convergence target |
+| 15 | **ArtifactRegistry** | Durable outputs | Carries identity, status, version, claims, evidence, gates, receipts |
+
+### Tier 4: Semantic & Identity
+
+These 5 objects define meaning, identity, and canonical knowledge.
+
+| # | Object | Function | Notes |
+|---|--------|----------|-------|
+| 16 | **UncertaintyMap** | First-class epistemic state object | Generates Claim/Assumption/Discovery/Probe sub-sets from known/unknown quadrants (OQ-2); integrates uncertainty-map skill |
+| 17 | **OntologySet** | Governed definitions | Prevents semantic drift; definitions not buried in prompts |
+| 18 | **AgentRegistry** | Agent identity taxonomy | Levin-inspired cognitive light cone taxonomy (OQ-9); see §14.2 |
+| 19 | **CapabilityRegistry** | What agents/tools/humans can do | Tied to AgentRegistry; all holder types with cognitive light cone framing (OQ-9) |
+| 20 | **CanonRegistry** | Promoted governed knowledge | Terminal object — the canon that validated knowledge enters |
+
+### Tier Priority Rule
+
 ```
+Tier 1 (Governance Core) > Tier 2 (Inquiry) > Tier 3 (Execution) > Tier 4 (Semantic)
+```
+
+Tier 1 objects must exist before Tier 2 objects can be promoted.
+Tier 2 objects must exist before Tier 3 objects can be promoted.
+Tier 4 objects are cross-cutting — they serve all tiers but are not blocking.
+
+This prevents building execution (Tier 3) without governance (Tier 1) or
+inquiry (Tier 2) — the failure mode of prompt-centric systems.
+
+---
+
+## 14.2 Agent Registry: Levin-Inspired Cognitive Light Cone Taxonomy
+
+> **OQ-9 operator decision:** Capability Registries must be tied to an updated
+> and canonized version of HUMMBL's HUAOMP × MTSMU definitions of HUMMBL Agents,
+> inspired by Dr. Michael Levin's tiered and taxonomic approach to defining
+> "agent" and his concept of cognitive light cones.
+
+### Background
+
+Dr. Michael Levin's work on basal cognition and cognitive light cones provides
+a framework for defining agents beyond the human/AI binary. His key insights:
+
+1. **Agency is a spectrum, not a binary** — all matter has some form of
+   cognition/consciousness; the question is the size of the cognitive light cone
+   (the set of possible futures the agent can perceive and act toward).
+2. **Cognitive light cones define agent scope** — an agent's light cone
+   determines what it can perceive, what it can act on, and what futures it
+   can work toward.
+3. **Agents are defined by their competencies, not their substrate** —
+   biological, digital, organizational, and hybrid agents all have cognitive
+   light cones; the substrate matters less than the competency space.
+
+### HUMMBL Agent Taxonomy (Candidate)
+
+```
+AgentCognitiveLightCone ::=
+  Level    ::= the agent's perception/action horizon
+  Competencies ::= what the agent can perceive and act on
+  Substrate    ::= biological | digital | hybrid | organizational | material
+  Autonomy     ::= the degree of self-directed action within the light cone
+  Falsifiability ::= how to test the agent's claimed competencies
+
+AgentTier ::=
+  L0_MINIMAL    ::= "substrate-level agency (e.g., a single tool, a file, a sensor)"
+  L1_REACTIVE   ::= "responds to stimuli but no internal model (e.g., a circuit breaker)"
+  L2_DELIBERATIVE ::= "has internal model, plans within scope (e.g., a coding agent)"
+  L3_META       ::= "models other agents, coordinates (e.g., a fleet coordinator)"
+  L4_REFLECTIVE ::= "models itself, improves own light cone (e.g., recursive governance)"
+```
+
+### Integration with Capability Registry
+
+```
+CapabilityRegistry ::=
+  Capability ::=
+    Name          ::= what the capability is
+    AgentRef      ::= reference to AgentRegistry entry
+    LightConeLevel ::= L0_MINIMAL | L1_REACTIVE | L2_DELIBERATIVE | L3_META | L4_REFLECTIVE
+    Competency    ::= what this capability enables the agent to perceive/do
+    Falsifiability ::= how to test this capability claim
+    Evidence      ::= EvidenceSet reference proving the capability exists
+```
+
+### Open Sub-Question
+
+> "All matter is conscious in some way — we just still need to generate the
+> new lexicon for the world." — operator
+
+This is a Phase -1 observation, not a Phase 0 implementation target. The
+lexicon for substrate-level agency (L0_MINIMAL) is a candidate research
+question for the OntologySet (Tier 4, object 17). The HUMMBL Set Grammar
+admits the possibility but does not canonize it yet.
+
+---
+
+## 15. Resolved Questions (Operator + Fleet Review)
+
+All 10 open questions resolved through operator decisions, fleet architecture
+review (ADR-FM-057, ADR-FM-038, uncertainty-map skill), and HUAOMP × MTSMU
+synthesis. Binary-first approach used throughout: start with a binary
+distinction, then add dimensions with bounded scope and governance rules to
+mitigate infinite regress.
+
+### OQ-1: Problem Graphs vs Constellations
+
+**Decision:** Both — distinct object types.
+- **Problem Graph**: typed edges (depends-on, amplifies, constrains). For
+  interdisciplinary problems with known relationship types.
+- **Problem Constellation**: loosely coupled cluster without typed edges. For
+  problems that co-occur but whose relationships are not yet typed.
+- A Constellation can promote to a Graph when edges are typed.
+
+### OQ-2: Claim Set as bridge + Uncertainty Map as first-class object
+
+**Decision:** Both (layered). Binary first, then add dimensions.
+- **Layer 1 (binary):** Claim Set is the bridge between Question Set and
+  Evidence Set. Each Claim carries an epistemic quadrant tag
+  (known-known / known-unknown / unknown-known / unknown-unknown) from the
+  uncertainty-map skill. Assumption Set is the co-bridge — every Claim has
+  an Assumption Set surfacing what's taken for granted.
+- **Layer 2 (generative):** Uncertainty Map is a first-class HUMMBL object
+  (Tier 4, #16) that generates four sub-sets:
+  - known-knowns → ClaimSet (verified claims)
+  - known-unknowns → DiscoveryAgenda (research tasks)
+  - unknown-knowns → AssumptionSet (surface latent knowledge)
+  - unknown-unknowns → ProbeSet (adversarial/monitoring tasks)
+- **Bounded scope rule:** Claims inherit their quadrant from the parent
+  Uncertainty Map. If no Uncertainty Map exists, Claims default to
+  `unknown-known` (conservative — assume latent knowledge).
+- **Infinite regress mitigation:** Uncertainty Maps cannot be nested beyond
+  depth 2 (an Uncertainty Map about an Uncertainty Map is allowed; depth 3
+  is prohibited). This prevents epistemic infinite regress.
+
+### OQ-3: Prompt Pack requires Eval Suite for scale
+
+**Decision:** Yes, mandatory for scale.
+- Prompt Packs at `draft` or `candidate` status can exist without Eval Suites.
+- Prompt Packs promoted to `adopted` or higher (i.e., reused at fleet scale
+  or across multiple agents) MUST have an attached Eval Suite.
+- This is a hard gate, not a recommendation. The GateSet (Tier 1, #4)
+  enforces this: `PromptPackPromotionGate` checks for EvalSuite reference
+  before allowing status promotion beyond `draft`.
+
+### OQ-4: Decision Ledger scope — 4-layer (matches Graph of Graphs)
+
+**Decision:** 4-layer, matching ADR-FM-057's Graph of Graphs topology.
+- **L1 Artifact-level:** implementation decisions (e.g., "merge this PR",
+  "use this library"). Repo-local.
+- **L2 Category-level:** architecture decisions (e.g., "adopt this pattern",
+  "this is a Goal/Task/Quest/Mission"). Project-local. Maps to ADRs.
+- **L3 Tier-level:** fleet-wide tier escalations (e.g., "promote this from
+  P2 to P1"). Cross-project. Operator-approved.
+- **L4 Fleet-level:** global governance decisions (e.g., "adopt this as
+  canon", "promote this agent's trust tier"). Fleet-wide. Maps to
+  Constitution/Krineia.
+- Cross-layer edges (from ADR-FM-057's 11 edge types) connect decisions
+  across layers: `artifact_has_tier`, `tier_escalates_to`, etc.
+
+### OQ-5: Gate Sets — both templates and instances
+
+**Decision:** Both. Additional sub-documents created if needed.
+- **GateTemplate:** reusable gate definition (e.g., "Promotion Gate",
+  "Merge Gate", "Security Gate", "Prompt-Centrism Gate"). Defines the check
+  type and required parameters.
+- **GateInstance:** artifact-specific gate, parameterized from a template.
+  Binds the template to a specific artifact with concrete values.
+- The 5 Phase -1 gates (G1 Separation, G2 Overlap, G3 Relationship, G4
+  Promotion, G5 Prompt-Centrism) are GateTemplates.
+- Each artifact promotion creates GateInstances from these templates.
+- **Sub-document needed:** Gate Template Catalog (candidate doc for Phase 0).
+
+### OQ-6: Receipt Bundles — regeneratable with meta-receipt
+
+**Decision:** Regeneratable, but regeneration produces a meta-receipt.
+- Individual receipts are immutable (append-only, never edited or deleted).
+- Receipt Bundles are collections/views of underlying receipts.
+- If a Bundle is regenerated (e.g., after data loss, or to include
+  additional receipts discovered later), the regeneration itself produces
+  a **meta-receipt** that records:
+  - What was regenerated
+  - When
+  - By whom (which agent/operator)
+  - What source receipts were used
+  - SHA-256 fingerprint of the original bundle (if known)
+- This preserves audit trail integrity while allowing reconstruction.
+- **Invariant:** The meta-receipt is itself a receipt and enters the
+  append-only audit trail. Regeneration without a meta-receipt is a
+  MustNever violation.
+
+### OQ-7: Context Pack required for promotion
+
+**Decision:** Yes, required before any Problem Set can be promoted.
+- Problems without context are ungrounded — the same problem in different
+  contexts requires different evidence, gates, and risks.
+- Matches ADR-FM-057's Category system where every artifact declares its
+  category (which is a form of context).
+- **Gate:** `ProblemSetPromotionGate` checks for ContextPack reference
+  before allowing status promotion beyond `candidate`.
+- A Problem Set at `seed` or `candidate` status can exist without a
+  ContextPack, but cannot be promoted to `draft` or higher without one.
+
+### OQ-8: Public Claim Sets — stricter promotion path
+
+**Decision:** Yes, stricter path.
+- Public Claim Sets carry reputational, legal, and disclosure risks that
+  internal Claim Sets do not.
+- **Stricter path requires:**
+  1. Independent review (non-actor, different trust tier)
+  2. Evidence verification (all claims must be `verified` status)
+  3. Disclosure handling plan (what happens if a claim is challenged publicly)
+  4. Operator approval (explicit human sign-off)
+- **Additional tie-in:** Public Claim Sets that reference security findings
+  must reference a Disclosure-Producing Scan authorization (from the Scan
+  Taxonomy in HUMMBL_PROBLEM_GRAMMAR.md §3.DE) before promotion.
+- Internal Claim Sets follow the standard promotion path (seed → candidate
+  → draft → reviewed → validated → adopted → canonical).
+
+### OQ-9: Capability Registries — Levin-inspired cognitive light cone taxonomy
+
+**Decision:** Tie to updated HUAOMP × MTSMU agent definitions, inspired by
+Dr. Michael Levin's cognitive light cone taxonomy.
+- AgentRegistry (Tier 4, #18) uses a 5-level cognitive light cone taxonomy:
+  L0_MINIMAL → L1_REACTIVE → L2_DELIBERATIVE → L3_META → L4_REFLECTIVE
+- CapabilityRegistry (Tier 4, #19) is tied to AgentRegistry — every
+  Capability references an Agent and its LightConeLevel.
+- All holder types (agents, tools, humans) are covered: tools are
+  L0_MINIMAL agents, humans are typically L3_META or L4_REFLECTIVE,
+  AI agents range from L1_REACTIVE to L4_REFLECTIVE.
+- **Substrate-independent:** biological, digital, hybrid, organizational,
+  and material agents all have cognitive light cones.
+- **Open sub-question:** "All matter is conscious in some way" — the lexicon
+  for L0_MINIMAL agency is a candidate research question for OntologySet.
+  Admitted as possibility, not canonized yet. See §14.2.
+
+### OQ-10: Minimum v0.1 — 20 objects, 4 tiers of 5
+
+**Decision:** 20 object types in 4 tiers of 5.
+- **Tier 1 (Governance Core, 5):** ClaimSet, EvidenceSet, DecisionLedger,
+  GateSet, ReceiptBundle — directly implement convergence target.
+- **Tier 2 (Inquiry & Context, 5):** ProblemGraph, ProblemConstellation,
+  QuestionSet, ContextPack, AssumptionSet — wrap governance with
+  problem-finding and context-setting.
+- **Tier 3 (Execution & Evaluation, 5):** TaskSet, PromptPack, EvalSuite,
+  RiskRegister, ArtifactRegistry — convert decisions to action and evaluate.
+- **Tier 4 (Semantic & Identity, 5):** UncertaintyMap, OntologySet,
+  AgentRegistry, CapabilityRegistry, CanonRegistry — define meaning,
+  identity, and canonical knowledge.
+- **Tier priority rule:** Tier 1 > Tier 2 > Tier 3. Tier 4 is cross-cutting.
+  This prevents building execution without governance — the failure mode
+  of prompt-centric systems.
+- See §14.1 for full table.
 
 ---
 
@@ -524,10 +782,10 @@ open_questions:
 
 ```yaml
 claim: "The HUMMBL Set Grammar candidate object families are well-defined for Phase -1 admission"
-semantic_confidence: 0.8
+semantic_confidence: 0.85
 confidence_kind: synthesis_judgment
 calibration_status: uncalibrated
-basis: "operator-provided structure + existing grammar artifact (HUMMBL_PROBLEM_GRAMMAR.md) + fleet architecture review"
+basis: "operator decisions on all 10 open questions + existing fleet architecture review (ADR-FM-057, ADR-FM-038, uncertainty-map skill) + HUAOMP × MTSMU synthesis"
 
 evidence:
   - claim: "original 4 object types are incomplete"
@@ -536,19 +794,36 @@ evidence:
   - claim: "65 candidate object types cover the necessary space"
     source: "operator-provided list + cross-reference with HUMMBL_PROBLEM_GRAMMAR families"
     verification_status: reported
-  - claim: "15 object families are sufficient for Phase 0"
-    source: "operator recommendation + alignment with §2.1 convergence target"
-    verification_status: inferred
+  - claim: "20 object families in 4 tiers of 5 are sufficient for v0.1"
+    source: "operator decision (OQ-10) + alignment with convergence target (§2.1)"
+    verification_status: verified
+  - claim: "4-layer Decision Ledger matches existing Graph of Graphs topology"
+    source: "ADR-FM-057 Decision 3: 4-layer topology with 11 edge types"
+    verification_status: verified
+  - claim: "Uncertainty Map integrates existing uncertainty-map skill"
+    source: "apex-nexus/skills/uncertainty-map/SKILL.md — 4-quadrant Rumsfeld matrix"
+    verification_status: verified
+  - claim: "Levin cognitive light cone taxonomy provides agent definition framework"
+    source: "operator reference to Dr. Michael Levin's basal cognition work"
+    verification_status: reported
+  - claim: "all 10 open questions resolved"
+    source: "operator decisions recorded in §15"
+    verification_status: verified
 
 uncertainties:
-  - "object explosion risk — 65 types may be too many even for discovery"
-  - "overlap between Evidence Set and Receipt Bundle not fully resolved"
+  - "Levin cognitive light cone taxonomy is referenced but not yet formalized in HUMMBL terms"
+  - "L0_MINIMAL agency lexicon ('all matter is conscious') is an open research question, not canon"
+  - "Gate Template Catalog sub-document is needed but not yet created"
   - "relationship grammar is directional but not yet typed (composition vs aggregation vs reference)"
-  - "no schema exists yet — structural validation is impossible"
+  - "no schema exists yet for the 20 v0.1 objects — structural validation is impossible"
+  - "overlap between EvidenceSet and ReceiptBundle is resolved in principle but not in schema"
 
 next_lanes:
-  - "resolve 10 open questions with operator + ChatGPT + Codex"
-  - "stress-test 15 Phase 0 objects against a real HUMMBL scenario"
-  - "define minimal schema stubs for the 15 Phase 0 objects"
+  - "create minimal schema stubs for the 20 v0.1 objects (Phase 0)"
+  - "formalize Levin cognitive light cone taxonomy in HUMMBL terms (research)"
+  - "create Gate Template Catalog sub-document"
+  - "stress-test 20 objects against a real HUMMBL scenario"
+  - "define cross-object relationship types (composition vs aggregation vs reference)"
   - "create overlap detection rules for G2 gate"
+  - "route to fleet review for Phase 0 promotion"
 ```
