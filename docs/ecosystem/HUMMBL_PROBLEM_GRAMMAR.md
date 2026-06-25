@@ -1,8 +1,23 @@
 # The HUMMBL Problem — Schematized Grammar
 
-**Framework:** HUAOMP × MTSMU × Base120
-**Status:** Draft v0.1 — for fleet review
-**Date:** 2026-06-25
+```yaml
+artifact: HUMMBL_PROBLEM_GRAMMAR
+framework: HUAOMP × MTSMU × Base120
+status: candidate
+canon_level: non-authoritative
+origin_commit: 5df0a35
+date: 2026-06-25
+requires:
+  - schema                    # JSON Schema for machine validation (§7)
+  - fixtures                  # Test cases validating grammar conformance
+  - evidence_ledger           # Claim-to-evidence mapping (§8)
+  - fleet_review              # Human review before canon promotion
+```
+
+> **Central thesis (Meta lens):** The problem is not "how to control agents"
+> but "how to produce trustworthy evidence that agents are controllable."
+> Governance without evidence is theater. Evidence without governance is
+> archaeology. The HUMMBL Problem is the **composition** of the two.
 
 ---
 
@@ -36,7 +51,16 @@ HUMMBL_Problem ::=
   AutonomyCostGradient
 ```
 
-**MTSMU confidence:** 0.9 (directly evidenced by the existence of Arbiter, security-auditor, cyber-workbench, kill switch, circuit breaker, delegation tokens, governance bus, cost governor — all built to address this exact problem)
+**MTSMU assessment:**
+```yaml
+semantic_confidence: 0.9
+confidence_kind: synthesis_judgment
+calibration_status: uncalibrated
+basis: "reported implementations + tests, not independent verification"
+evidence: "existence of Arbiter, security-auditor, cyber-workbench, kill switch,
+  circuit breaker, delegation tokens, governance bus, cost governor — all built
+  to address this exact problem"
+```
 
 ---
 
@@ -218,6 +242,28 @@ MTSMU_OutputContract ::=
   NextLanes      ::= "next highest-value tasks"
 ```
 
+### 2.1 Formal Convergence Target
+
+A fleet action is **governable** if and only if all seven conditions are present, testable, and non-self-approved:
+
+```
+GovernableFleetAction ::=
+  Identity          # who is acting (agent ID + trust tier)
+  Authority         # what they are permitted to do (authorization manifest or scope)
+  Evidence          # what proves the action occurred and what it did
+  ExceptionPath     # what happens if the action fails (rollback / degradation)
+  Rollback          # how to reverse the action if needed
+  AuditReceipt      # append-only record of the action and its governance
+  IndependentReview # a non-actor (human or different trust tier) reviews the receipt
+
+Governable ::= Identity ∧ Authority ∧ Evidence ∧ ExceptionPath ∧ Rollback ∧ AuditReceipt ∧ IndependentReview
+Ungovernable ::= ¬Governable
+```
+
+Each condition is **testable** — there is a concrete check that verifies its presence. Each condition is **non-self-approved** — the actor cannot be the sole approver of their own action's governance.
+
+This target replaces the informal "every repo ≥ 60 Arbiter, 0 HIGH Bandit" statement. Those are quality metrics, not governance criteria. A repo can have a perfect Arbiter score and still contain ungovernable actions (e.g., an agent self-approving a consequential change).
+
 ---
 
 ## 3. Base120 Transformation Grammar
@@ -298,6 +344,42 @@ ProblemBreakdown ::=
     security-auditor does NOT score quality (it catalogs findings)
     cyber-workbench does NOT scan code (it authorizes work)
     founder-mode does NOT define primitives (it consumes them)
+
+  # Authorization-before-scanning is directionally right as a safety default,
+  # but not all scans are equal. The taxonomy below distinguishes scan types
+  # so authorization can be graduated rather than binary.
+  ScanTaxonomy ::=
+    DiscoveryScan ::=
+      # Read-only, no side effects, no network egress
+      # Example: bandit -r, semgrep --config auto
+      AuthorizationRequired := "target ownership confirmation"
+      Example := "fleet-wide Bandit scan (this session)"
+
+    PrivilegedScan ::=
+      # Read-only but accesses sensitive paths or requires credentials
+      # Example: gitleaks with custom rules, osv-scanner with private advisories
+      AuthorizationRequired := "target ownership + credential scope"
+      Example := "gitleaks detect on private repo"
+
+    DestructiveScan ::=
+      # Mutates files or state during scan
+      # Example: semgrep --autofix, bandit --fix (if it existed)
+      AuthorizationRequired := "target ownership + rollback plan + independent review"
+      Example := "automated security patch application (prohibited by AGENTS.md)"
+
+    DisclosureProducingScan ::=
+      # Output contains exploitable details (CVE IDs, exploit code, PII)
+      # Example: full SARIF with proof-of-concept payloads
+      AuthorizationRequired := "target ownership + disclosure handling plan"
+      Example := "penetration test report generation"
+
+  AuthorizationOrdering ::=
+    # Authorization precedes scanning for all scan types, but the
+    # authorization depth scales with scan type, not uniformly.
+    "DiscoveryScan requires ownership confirmation only"
+  | "PrivilegedScan adds credential scope"
+  | "DestructiveScan adds rollback plan + independent review"
+  | "DisclosureProducingScan adds disclosure handling plan"
 ```
 
 **Operators:** DE2 (Factorization), DE3 (Modularization), DE4 (Layered Breakdown), DE11 (Scope Delimitation), DE17 (Orthogonalization)
@@ -315,7 +397,8 @@ FeedbackLoop ::=
   GovernanceLoop ::= Governor acts → receipt → audit → governor improves (RE20)
   CalibrationLoop ::= Arbiter scores → human reviews score → weights adjust → score improves (RE11)
 
-  ConvergenceTarget ::= "every repo ≥ 60 Arbiter, 0 HIGH Bandit, full Krineia receipt chain"
+  ConvergenceTarget ::= GovernableFleetAction (see §2.1)
+  QualityMetrics    ::= "every repo ≥ 60 Arbiter, 0 HIGH Bandit"  # necessary but not sufficient
   AntiForgetting    ::= "audit trail is append-only; history cannot be rewritten"
 ```
 
@@ -323,15 +406,39 @@ FeedbackLoop ::=
 
 **Implemented by:** Arbiter trend tracking, security-auditor baseline suppression, cost_tracker, governance bus, Krineia receipts
 
-### SY → Synthesis (System Behavior Layer)
+### SY → Synthesis (System-Level Property Contract)
+
+> **Warning:** SY is emergent. No single repo implements it. It is defined
+> here as a **system-level property contract** — a set of properties the
+> fleet must exhibit, not a component to build. Do not imply that any
+> subsystem "owns" synthesis. These properties arise from composition of
+> the other 5 families and cannot be achieved by any single layer alone.
 
 ```
-SystemBehavior ::=
-  EmergentProperty ::=
+SystemPropertyContract ::=
+  Property ::= 
     "fleet quality improves without central coordination"
   | "security findings decrease over time as feedback loops tighten"
   | "agent trust tiers self-calibrate via attribution data"
   | "cost burn rate stabilizes as cost governor learns usage patterns"
+  | "every fleet action satisfies GovernableFleetAction (§2.1)"
+
+  VerificationApproach ::=
+    # SY properties are verified by observation over time, not by unit test.
+    # Each property has a telemetry signal and a convergence criterion.
+    PropertyTelemetry ::=
+      quality_signal     ::= Arbiter fleet trend (RE17 versioning & diff)
+      security_signal    ::= security-auditor finding count over time
+      trust_signal       ::= Arbiter agent leaderboard trust tier distribution
+      cost_signal        ::= cost_governor burn rate vs budget
+      governance_signal  ::= fraction of fleet actions satisfying §2.1
+
+    ConvergenceCriterion ::=
+      "quality_signal monotonically increasing over 30-day window"
+    | "security_signal HIGH findings trending to zero"
+    | "trust_signal probation/unknown tier shrinking"
+    | "cost_signal within budget with <10% variance"
+    | "governance_signal → 1.0 (all actions governable)"
 
   SystemBoundary ::= AgentFleet ∪ ArtifactSpace ∪ GovernanceLayer
   RequisiteVariety ::= "the governance system must have at least as many control actions
@@ -339,6 +446,8 @@ SystemBehavior ::=
   TippingPoint ::= "when >50% of commits are agent-authored, manual review becomes
                     the bottleneck — evidence-first mode becomes mandatory"
   MetaModel ::= "HUMMBL is itself a Base120 application (this grammar is RE7 self-referential)"
+
+  NoOwner ::= True   # explicitly: no repo owns SY. It is a fleet-wide contract.
 ```
 
 **Operators:** SY1 (Leverage Points), SY4 (Requisite Variety), SY9 (Phase Transitions), SY11 (Governance Patterns), SY18 (Measurement & Telemetry), SY20 (Systems-of-Systems)
@@ -358,7 +467,8 @@ GovernancePrimitive ::=
   HUAOMP_Lens        # which epistemic lens it serves
   Base120_Family      # which transformation it implements
   MTSMU_Evidence      # what evidence it produces
-  Confidence          # how trustworthy is that evidence
+  SemanticConfidence  # how trustworthy is that evidence (uncalibrated synthesis)
+  ConfidenceKind      # synthesis_judgment | direct_verification | inferred
   Receipt             # what audit trail entry it generates
 
 Example instantiations:
@@ -366,74 +476,195 @@ Example instantiations:
   KillSwitch ::=
     HUAOMP := A (Absolute — MustNever enforcement)
     Base120 := IN18 (Kill-Criteria & Stop Rules)
-    MTSMU := Evidence: kill_switch state file | Confidence: 0.95 | Receipt: bus STATUS
+    MTSMU := Evidence: kill_switch state file
+    SemanticConfidence := 0.95
+    ConfidenceKind := direct_verification
+    Receipt: bus STATUS
     Implementation := hummbl-governance/kill_switch.py
 
   Arbiter ::=
     HUAOMP := H (Holistic — feedback loop from code to quality signal)
     Base120 := RE2 (Feedback Loops) × DE6 (Taxonomy/Classification)
-    MTSMU := Evidence: test results, analyzer output, score | Confidence: 0.9 | Receipt: JSONL audit trail
+    MTSMU := Evidence: test results, analyzer output, score
+    SemanticConfidence := 0.9
+    ConfidenceKind := direct_verification
+    Receipt: JSONL audit trail
     Implementation := arbiter/scoring.py + analyzers/
 
   SecurityAuditor ::=
     HUAOMP := O (Omni — attacker perspective, all failure modes)
     Base120 := IN10 (Red Teaming) × DE13 (FMEA)
-    MTSMU := Evidence: scanner output, file:line findings | Confidence: 0.85 | Receipt: SARIF + JSONL
+    MTSMU := Evidence: scanner output, file:line findings
+    SemanticConfidence := 0.85
+    ConfidenceKind := synthesis_judgment
+    Receipt: SARIF + JSONL
     Implementation := hummbl-security-auditor/
 
   CyberWorkbench ::=
     HUAOMP := A (Absolute — authorization boundaries)
     Base120 := IN7 (Boundary Testing) × P16 (Identity-Context Reciprocity)
-    MTSMU := Evidence: authorization manifest, decision JSON | Confidence: 0.9 | Receipt: Markdown receipt
+    MTSMU := Evidence: authorization manifest, decision JSON
+    SemanticConfidence := 0.9
+    ConfidenceKind := direct_verification
+    Receipt: Markdown receipt
     Implementation := hummbl-cyber-workbench/
 
   CoordinationBus ::=
     HUAOMP := H (Holistic — system-wide feedback)
     Base120 := SY20 (Systems-of-Systems Coordination) × CO12 (Modular Interoperability)
-    MTSMU := Evidence: bus messages (TSV) | Confidence: 0.95 | Receipt: append-only log entry
+    MTSMU := Evidence: bus messages (TSV)
+    SemanticConfidence := 0.95
+    ConfidenceKind := direct_verification
+    Receipt: append-only log entry
     Implementation := founder-mode/bus/
+```
+
+### 4.1 Arbiter / Security-Auditor Integration Pattern
+
+Both Arbiter and security-auditor wrap bandit, creating redundant scanner
+invocations. The integration pattern below eliminates redundancy while
+preserving auditor independence.
+
+```
+IntegrationPattern ::=
+  # security-auditor is the authoritative source for vulnerability findings.
+  # Arbiter consumes those findings as external evidence, not as self-generated
+  # confidence. This prevents Arbiter from becoming a self-scoring strange loop
+  # where it both generates and consumes security findings.
+
+  Flow ::=
+    1. security-auditor scans repo → emits signed findings (JSONL + SARIF)
+    2. security-auditor signs findings with tool receipt (SHA256 fingerprint)
+    3. Arbiter reads signed findings as external evidence input
+    4. Arbiter maps findings to security dimension score (30% weight)
+    5. Arbiter does NOT re-run bandit when signed findings are available
+
+  IndependencePreservation ::=
+    "Arbiter treats security-auditor findings as opaque external evidence"
+  | "Arbiter cannot modify, suppress, or reinterpret auditor findings"
+  | "security-auditor does not know about Arbiter's scoring model"
+  | "both can operate independently — integration is optional, not structural"
+
+  AntiStrangeLoop ::=
+    # Arbiter already scores itself (self-scoring gate ≥ 90).
+    # If Arbiter also generated security findings it consumes, it would
+    # create a second strange loop: generator → consumer → generator.
+    # Using security-auditor as the external source breaks this loop.
+    "Arbiter does NOT generate security findings it then scores"
+  | "security-auditor does NOT score quality — it only catalogs findings"
+
+  Contract ::=
+    FindingFormat ::= "JSONL with schema version 1.1.0 (findings.schema.json)"
+    Signature ::= "SHA256 fingerprint per finding + tool receipt per scan"
+    Freshness ::= "findings older than cache TTL are stale; Arbiter requests rescan"
+    MissingFindings ::= "if no signed findings available, Arbiter falls back to
+                         running bandit directly (with a warning in the score)"
 ```
 
 ---
 
 ## 5. Confidence Assessment (MTSMU)
 
-```
-Claim: "The HUMMBL Problem is well-defined by this grammar"
-  Evidence:
-    - 7 governance primitives implemented and tested (hummbl-governance, 1031 tests)
-    - Quality scoring in production (Arbiter, 783 tests, PyPI v0.6.0)
-    - Vulnerability scanning operational (security-auditor, 28 tests, fleet scan complete)
-    - Authorization framework deployed (cyber-workbench, Phase 0)
-    - Fleet-wide security scan completed this session (37 repos, 4 HIGH fixed)
-    - All primitives are stdlib-only, independently importable, thread-safe
-  Confidence: 0.85
-  Uncertainty:
-    - The grammar is a draft; it has not been stress-tested against edge cases
-    - The RE (Recursion) family is under-implemented — feedback loops exist but
-      don't all close (e.g., Arbiter scores feed back to agents informally, not structurally)
-    - The SY (Synthesis) family is emergent — no single system controls it
-    - The cyber-workbench is Phase 0 (ADAPT_REQUIRED) — not yet enforcing
-  Verification:
-    - This grammar was constructed from actual source code, not aspiration
-    - Every "Implemented by" reference points to real, tested code
-  Next lanes:
-    - Stress-test grammar against a novel agent scenario (e.g., "agent proposes a new primitive")
-    - Close the RE2 feedback loop: Arbiter scores → structured agent adjustment
-    - Promote cyber-workbench from Phase 0 to Phase 1
-    - Define the grammar as a JSON Schema for machine validation
+```yaml
+claim: "The HUMMBL Problem is well-defined by this grammar"
+semantic_confidence: 0.85
+confidence_kind: synthesis_judgment
+calibration_status: uncalibrated
+basis: "reported implementations + tests, not independent verification"
+
+evidence:
+  - claim: "7 governance primitives implemented and tested"
+    source: "hummbl-governance, 1031 tests"
+    verification_status: reported
+  - claim: "quality scoring in production"
+    source: "Arbiter, 783 tests, PyPI v0.6.0"
+    verification_status: reported
+  - claim: "vulnerability scanning operational"
+    source: "security-auditor, 28 tests, fleet scan complete"
+    verification_status: reported
+  - claim: "authorization framework deployed"
+    source: "cyber-workbench, Phase 0"
+    verification_status: reported
+  - claim: "fleet-wide security scan completed"
+    source: "37 repos, 4 HIGH fixed, this session"
+    verification_status: verified
+  - claim: "all primitives stdlib-only, independently importable, thread-safe"
+    source: "hummbl-governance CLAUDE.md, pyproject.toml"
+    verification_status: reported
+
+uncertainties:
+  - "grammar is a draft; not stress-tested against edge cases"
+  - "RE (Recursion) family under-implemented — feedback loops exist but
+     don't all close structurally (e.g., Arbiter scores feed back informally)"
+  - "SY (Synthesis) family is emergent — no single system controls it"
+  - "cyber-workbench is Phase 0 (ADAPT_REQUIRED) — not yet enforcing"
+
+verification:
+  - "grammar constructed from actual source code, not aspiration"
+  - "every 'Implemented by' reference points to real, tested code"
+  - "independent verification of test counts and implementation claims
+     is pending — see evidence ledger (§8)"
+
+next_lanes:
+  - "stress-test grammar against a novel agent scenario"
+  - "close the RE2 feedback loop: Arbiter scores → structured agent adjustment"
+  - "promote cyber-workbench from Phase 0 to Phase 1"
+  - "independently verify reported test counts and implementation claims"
+  - "calibrate confidence against historical prediction accuracy"
 ```
 
 ---
 
-## 6. Open Questions (Requiring Human Judgment)
+## 6. Resolved Questions (Operator Decisions)
 
-1. **Should the grammar be formalized as a JSON Schema?** This would enable machine validation of governance configurations against the grammar.
+1. **Formalize as JSON Schema?**
+   **Decision:** Yes. Schema created at `docs/ecosystem/hummbl_problem_grammar.schema.json` (§7).
+   Machine validation is required before canon promotion.
 
-2. **Is the 5-tier decomposition (§3.DE) correct?** The current layering puts security-auditor at Layer 2 and cyber-workbench at Layer 3 — but cyber-workbench authorizes work that security-auditor then scans. Should authorization come before scanning?
+2. **Is the 5-tier decomposition correct?**
+   **Decision:** Provisionally yes. Authorization-before-scanning is the safety default,
+   but the model now distinguishes scan types (Discovery, Privileged, Destructive,
+   Disclosure-Producing) with graduated authorization depth (see §3.DE ScanTaxonomy).
 
-3. **What is the convergence target for the RE family?** "Every repo ≥ 60 Arbiter, 0 HIGH Bandit" is stated but not formally adopted. Should it be?
+3. **Formal convergence target?**
+   **Decision:** Adopted. Governable fleet action = identity + authority + evidence +
+   exception path + rollback + audit receipt + independent review (see §2.1).
+   All seven conditions must be present, testable, and non-self-approved.
 
-4. **Does the grammar need a 7th lens?** HUAOMP has 6 lenses, Base120 has 6 families, but the problem has 7 governance primitives. Is there a missing dimension?
+4. **Missing 7th dimension?**
+   **Decision:** Do not add one. Seven invariants do not automatically imply a seventh
+   transformation family. The mismatch (7 invariants, 6 families) is an observation,
+   not a doctrine expansion. Some invariants map to multiple families.
 
-5. **Should Arbiter consume security-auditor output?** Both wrap bandit. The grammar says they're complementary (§DE separation of concerns), but the redundancy is real.
+5. **Should Arbiter consume security-auditor output?**
+   **Decision:** Yes, as signed external evidence. Arbiter consumes security-auditor's
+   signed findings (JSONL + SARIF with SHA256 fingerprints) as opaque external input
+   to the security dimension score. Auditor independence is preserved — Arbiter cannot
+   modify, suppress, or reinterpret findings. This breaks the self-scoring strange loop
+   (see §4.1). If no signed findings are available, Arbiter falls back to running bandit
+   directly with a warning in the score.
+
+---
+
+## 7. JSON Schema (Machine Validation)
+
+**File:** `docs/ecosystem/hummbl_problem_grammar.schema.json`
+
+The schema validates the structure of a HUMMBL Problem Grammar document —
+lenses, invariants, boundary sets, stakeholder perspectives, failure modes,
+transformation families, evidence chains, convergence target, and open questions.
+It does NOT validate the truth of claims (that is the evidence ledger's job, §8).
+
+---
+
+## 8. Evidence Ledger
+
+**File:** `docs/ecosystem/hummbl_problem_grammar_evidence.jsonl`
+
+Maps each invariant, subsystem claim, and implementation reference to concrete
+repo/file/test evidence. Every claim is marked as one of:
+`verified`, `reported`, `inferred`, `speculative`, or `unimplemented`.
+
+This ledger is the bridge between the grammar (what we claim) and the code
+(what we can prove). Canon promotion requires all critical claims to reach
+`verified` status.
