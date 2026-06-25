@@ -166,14 +166,19 @@ def main() -> int:
             existing_count = existing.get("validated_count", 0)
             if current["validated_count"] < existing_count:
                 if not args.force_lower:
-                    print(f"::error::REFUSED: --init-baseline would lower baseline from {existing_count} to {current['validated_count']}")
-                    print(f"::error::Use --force-lower --reason \"...\" to override with justification.")
-                    print(f"::error::Lowering the baseline allows regressions to pass the ratchet silently.")
+                    new_count = current['validated_count']
+                    print(
+                        f"::error::REFUSED: --init-baseline would lower baseline "
+                        f"from {existing_count} to {new_count}"
+                    )
+                    print("::error::Use --force-lower --reason \"...\" to override with justification.")
+                    print("::error::Lowering the baseline allows regressions to pass the ratchet silently.")
                     return 1
                 if not args.reason:
-                    print(f"::error::REFUSED: --force-lower requires --reason \"...\" justification string.")
+                    print("::error::REFUSED: --force-lower requires --reason \"...\" justification string.")
                     return 1
-                print(f"::warning::BASELINE LOWERED with --force-lower: {existing_count} -> {current['validated_count']}")
+                new_count = current['validated_count']
+                print(f"::warning::BASELINE LOWERED with --force-lower: {existing_count} -> {new_count}")
                 print(f"::warning::Reason: {args.reason}")
 
         baseline_data: dict = {
@@ -181,7 +186,12 @@ def main() -> int:
             "fulfilled_count": current["fulfilled_count"],
             "validated_pct": current["validated_pct"],
             "validated_rows": validated_rows,
-            "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage.",
+            "description": (
+                "Frozen baseline for coverage-matrix ratchet. CI fails if "
+                "validated_count drops below this value OR if any validated_rows "
+                "identity is no longer passing. Raise by re-running "
+                "--init-baseline after improving evidence coverage."
+            ),
         }
         if args.force_lower and args.reason:
             baseline_data["lower_reason"] = args.reason
@@ -201,7 +211,7 @@ def main() -> int:
     current_count = current["validated_count"]
     baseline_rows = baseline.get("validated_rows", [])
 
-    print(f"RATCHET CHECK")
+    print("RATCHET CHECK")
     print(f"  baseline validated: {baseline_count}")
     print(f"  current validated:  {current_count}")
     print(f"  current fulfilled:  {current['fulfilled_count']}")
@@ -213,7 +223,8 @@ def main() -> int:
     count_failed = False
     if current_count < baseline_count:
         print(f"\n::error::RATCHET FAILED: validated count regressed from {baseline_count} to {current_count}")
-        print(f"::error::Regression of {baseline_count - current_count} validated rows. Fix the broken evidence refs or restore the baseline.")
+        reg = baseline_count - current_count
+        print(f"::error::Regression of {reg} validated rows. Fix the broken evidence refs or restore the baseline.")
         count_failed = True
 
     # Layer 2: Row-identity ratchet
@@ -236,14 +247,15 @@ def main() -> int:
     if current_count > baseline_count:
         delta = current_count - baseline_count
         print(f"\n::notice::RATCHET PASSED with improvement: +{delta} validated rows above baseline")
-        print(f"::notice::To raise the baseline, run: python scripts/coverage_ratchet.py --init-baseline")
+        print("::notice::To raise the baseline, run: python scripts/coverage_ratchet.py --init-baseline")
     else:
         print(f"\n::notice::RATCHET PASSED: validated count matches baseline ({current_count})")
 
     # Promotion threshold check
     if current["validated_pct"] >= args.promote_threshold:
-        print(f"\n::warning::PROMOTION THRESHOLD REACHED: {current['validated_pct']}% >= {args.promote_threshold}%")
-        print(f"::warning::Consider flipping continue-on-error to false in .github/workflows/ci.yml")
+        pct = current['validated_pct']
+        print(f"\n::warning::PROMOTION THRESHOLD REACHED: {pct}% >= {args.promote_threshold}%")
+        print("::warning::Consider flipping continue-on-error to false in .github/workflows/ci.yml")
     else:
         gap = args.promote_threshold - current["validated_pct"]
         print(f"\n  promotion threshold: {args.promote_threshold}% (gap: {gap:.1f}pp)")
