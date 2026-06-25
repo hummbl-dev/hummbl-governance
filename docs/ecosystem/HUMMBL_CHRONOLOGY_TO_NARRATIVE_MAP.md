@@ -12,7 +12,12 @@ Source basis:
 - `hummbl-governance/docs/ecosystem/VALIDATION_PASS_1_SUMMARY_2026-06-24.md`
   (redacted public-safe validation-pass summary)
 - Connector-visible `hummbl-dev` repository chronology supplied in session
-  context
+  context — `scratch_context`, non-reproducible. This chronology is not
+  checked into any repo as a committed artifact. It must not be treated as
+  canonical evidence. Pass 1 of the recommended extraction passes (§9)
+  is to commit a `HUMMBL_REPO_CHRONOLOGY_EVIDENCE.csv` with GitHub
+  `created_at` timestamps, at which point this source-basis entry will be
+  replaced with a reference to that checked-in artifact.
 
 This artifact is a map, not final public copy. It defines how chronological
 repository data may be translated into governed narratives without converting
@@ -29,7 +34,7 @@ It supports four uses:
 1. Internal archaeology: explain how HUMMBL concepts, repos, and governance
    primitives emerged over time.
 2. Refactor planning: decide which repos should be classified as canonical,
-   derivative, archive, fork/import, product surface, or scratch/context.
+   derived, archive, fork/import, product surface, or scratch/context.
 3. Doctrine tracking: identify where ideas first appeared, where they
    matured, and where they are now canonical.
 4. Public-story preparation: generate candidate narrative projections that
@@ -180,17 +185,17 @@ doctrine_emergence_record:
   first_observed:
     repo: ""
     path_or_artifact: ""
-    date_basis: "connector_order|commit_timestamp|file_date|handoff|unknown"
-    evidence_label: "validator_backed|source_backed|repo_local_observed|internally_estimated|unproven|quarantined|stale_or_time_sensitive|private_requires_authorization|scratch_context|unknown"
+    date_basis: "connector_order|commit_timestamp|file_date|handoff"
+    evidence_label: "validator_backed|source_backed|repo_local_observed|internally_estimated|unproven|quarantined|stale_or_time_sensitive|private_requires_authorization|scratch_context"
   maturation_points:
     - repo: ""
       artifact: ""
       change: "renamed|implemented|validated|productized|retired|quarantined|superseded"
-      evidence_label: ""
+      evidence_label: "validator_backed|source_backed|repo_local_observed|internally_estimated|unproven|quarantined|stale_or_time_sensitive|private_requires_authorization|scratch_context"
   current_canonical_home:
     repo: ""
     path_or_package: ""
-    evidence_label: ""
+    evidence_label: "validator_backed|source_backed|repo_local_observed|internally_estimated|unproven|quarantined|stale_or_time_sensitive|private_requires_authorization|scratch_context"
   current_public_safe_wording: ""
   unsafe_wording: ""
   open_questions: []

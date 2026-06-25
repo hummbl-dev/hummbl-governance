@@ -144,8 +144,12 @@ Validated against official EU sources during this pass:
 - Supported: Regulation (EU) 2024/1689 is in force, published as OJ L
   2024/1689 on 2024-07-12. `source_backed`
 - Supported: Article 113 says the regulation applies from 2026-08-02, with
-  Chapters I and II applying from 2025-02-02 and selected chapters applying
-  from 2025-08-02. `source_backed`
+  Chapters I and II applying from 2025-02-02. From 2025-08-02, Chapter III
+  Section 4 (high-risk AI systems obligations), Chapter V (transparency
+  obligations for certain AI systems), Chapter VII (post-market monitoring),
+  Chapter XII (market surveillance and governance), and Article 78
+  (confidentiality) apply, except Article 101. `source_backed`
+  Source: https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-113
 - Supported: Blanket claims like "HUMMBL is EU AI Act compliant" are not
   justified by the ledger and should remain disallowed. `validator_backed`
 
@@ -172,13 +176,14 @@ claims need refresh immediately before external publication.
   supported by EUR-Lex. `source_backed`
 - Opus 4.7 tokenizer expansion claim is supported by Anthropic primary
   source. `source_backed`
-- SWE-1.6 11 percent SWE-Bench Pro improvement claim is supported as
-  Cognition-reported, not independently verified. `source_backed`
 
 ### Partially supported / caveated
 
 - `hummbl-production` public claims are structurally valid, but 12 tier-C
   internal estimates are over-promoted as `validated`.
+- SWE-1.6 11 percent SWE-Bench Pro improvement claim is vendor-reported
+  (Cognition), not independently verified. `source_backed` as
+  vendor-reported; should not be presented as independently validated.
 - Opus/Devin benchmark registry is directionally sound, but benchmark values
   from PDFs/papers need direct source refresh before external publication.
 - Public-claim EU Omnibus timeline guidance is time-sensitive and requires
