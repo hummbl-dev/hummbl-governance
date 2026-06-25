@@ -1,4 +1,20 @@
 #!/usr/bin/env python3
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """hummbl-governance REST API server.
 
 Lightweight HTTP API wrapping governance primitives. Uses only stdlib
@@ -21,6 +37,7 @@ Usage:
 """
 
 import argparse
+import hmac
 import json
 import os
 import sys
@@ -42,6 +59,43 @@ from hummbl_governance import (
 
 STATE_DIR = Path(os.environ.get("GOVERNANCE_STATE_DIR", ".governance"))
 DB_PATH = STATE_DIR / "costs.db"
+
+
+def _load_api_token() -> str | None:
+    """Return the expected Bearer token from env, or None if auth not configured."""
+    env_token = os.environ.get("GOVERNANCE_API_TOKEN", "").strip()
+    if env_token:
+        return env_token
+    token_file = os.environ.get("GOVERNANCE_API_TOKEN_FILE", "").strip()
+    if not token_file:
+        return None
+    try:
+        token = Path(token_file).read_text(encoding="utf-8").strip()
+    except (OSError, UnicodeDecodeError):
+        return None
+    return token or None
+
+
+def _require_api_auth() -> bool:
+    """Return True if API auth is required (fail-closed when token not configured).
+
+    Default: True (fail-closed). A server started without GOVERNANCE_API_TOKEN
+    will reject all requests with 401. Set GOVERNANCE_API_ALLOW_NO_AUTH=1 to
+    bypass (tests/dev only).
+    """
+    allow = os.environ.get("GOVERNANCE_API_ALLOW_NO_AUTH", "").strip().lower()
+    return allow not in ("1", "true", "yes", "on")
+
+
+def _cors_origin() -> str | None:
+    """Return the CORS origin to emit, or None to suppress CORS.
+
+    Default: None (no CORS header — same-origin only). Set
+    GOVERNANCE_API_CORS_ORIGIN to a specific origin or '*' for cross-origin
+    access. Wildcard is opt-in because it disables the browser same-origin
+    protection that gates access to the kill switch endpoint.
+    """
+    return os.environ.get("GOVERNANCE_API_CORS_ORIGIN", "").strip() or None
 
 # Singletons
 _ks = None
@@ -95,7 +149,10 @@ class GovernanceHandler(BaseHTTPRequestHandler):
     def _json_response(self, data, status=200):
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
+        origin = _cors_origin()
+        if origin:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
         self.end_headers()
         self.wfile.write(json.dumps(data, indent=2, default=str).encode())
 
@@ -105,11 +162,35 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             return json.loads(self.rfile.read(length))
         return {}
 
+    def _check_auth(self) -> bool:
+        """Return True if the request passes auth, False after sending 401.
+
+        Uses hmac.compare_digest for constant-time comparison.
+        """
+        token = _load_api_token()
+        if token is None:
+            if _require_api_auth():
+                self._json_response(
+                    {"error": "Unauthorized: GOVERNANCE_API_TOKEN not configured"},
+                    401,
+                )
+                return False
+            return True
+        auth_header = self.headers.get("Authorization", "")
+        expected = f"Bearer {token}"
+        if not hmac.compare_digest(auth_header, expected):
+            self._json_response({"error": "Unauthorized"}, 401)
+            return False
+        return True
+
     def do_OPTIONS(self):
         self.send_response(204)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        origin = _cors_origin()
+        if origin:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
 
     def _get_status(self, params):
@@ -188,6 +269,8 @@ class GovernanceHandler(BaseHTTPRequestHandler):
     }
 
     def do_GET(self):
+        if not self._check_auth():
+            return
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
         params = parse_qs(parsed.query)
@@ -199,6 +282,8 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             self._json_response({"error": f"Not found: {path}"}, 404)
 
     def do_POST(self):
+        if not self._check_auth():
+            return
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
 
@@ -222,6 +307,12 @@ class GovernanceHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/v1/kill-switch/disengage":
             body = self._read_body()
+            if not body.get("confirm"):
+                self._json_response(
+                    {"error": "Must set confirm=true to disengage the kill switch"},
+                    400,
+                )
+                return
             _ks.disengage(reason=body.get("reason", "API"), triggered_by=body.get("triggered_by", "api-client"))
             self._json_response({"disengaged": True})
 
