@@ -82,7 +82,7 @@
 | SchemaValidator | `schema_validator.py` | class SchemaValidator | [VERIFIED] Stdlib-only JSON Schema validator |
 | OutputValidator | `output_validator.py` | class OutputValidator | [VERIFIED] PII detection, injection detection, blocklists |
 | CapabilityFence | `capability_fence.py` | class CapabilityFence | [VERIFIED] Per-role sandbox enforcement |
-| ComplianceMapper | `compliance_mapper.py` | class ComplianceMapper | [VERIFIED] Report generation methods for 7 frameworks |
+| ComplianceMapper | `compliance_mapper.py` | class ComplianceMapper | [VERIFIED] Report generation methods for 8 frameworks |
 | StrideMapper | `stride_mapper.py` | class StrideMapper | [VERIFIED] STRIDE threat categorization |
 | HealthCollector | `health_probe.py` | class HealthCollector | [VERIFIED] Composable health probe framework |
 | LamportClock | `lamport_clock.py` | class LamportClock | [VERIFIED] Hardened logical clock |
@@ -111,13 +111,13 @@
 | EU AI Act | Yes | `docs/coverage/eu-ai-act.md` | 306 | 24 | [VERIFIED] Method in `compliance_mapper.py` line 458 |
 | NIST CSF 2.0 | Yes | `docs/coverage/nist-csf.md` | 273 | 51 | [VERIFIED] Method in `compliance_mapper.py` line 673 |
 | ISO 27001 | Yes | `docs/coverage/iso-27001.md` | 182 | 36 | [VERIFIED] Method in `compliance_mapper.py`; CLI choices include `iso27001` |
-| ISO 42001 | Partial (crosswalk in MCP) | `docs/coverage/iso-42001.md` | 160 | 23 | [PARTIALLY VERIFIED] Coverage doc exists with 23 status rows. ISO 42001 crosswalk data appears in `mcp_compliance.py` line 167 (`ISO42001:5` mapping). But no `generate_iso42001_report()` method found in `compliance_mapper.py`. CLI choices do not include `iso-42001`. |
+| ISO 42001 | Yes | `docs/coverage/iso-42001.md` | 160 | 23 | [VERIFIED] Method `generate_iso42001_report()` in `compliance_mapper.py` line 673. CLI choices include `iso42001`. Maps to Annex A controls A.2-A.10. |
 | G7 Hiroshima Code | No | `docs/coverage/g7-ai-code.md` | 53 | 7 | [PARTIALLY VERIFIED] Coverage doc exists with 7 rows. Zero code references to "g7" or "hiroshima" in production modules. |
 | Colorado AI Act | No | `docs/coverage/colorado-ai-act.md` | 78 | 17 | [PARTIALLY VERIFIED] Coverage doc exists with 17 rows. Zero code references to "colorado" in production modules. |
 | NYC Local Law 144 | No | `docs/coverage/nyc-ll144.md` | 69 | 7 | [PARTIALLY VERIFIED] Coverage doc exists with 7 rows. Zero code references to "nyc" in production modules. |
 | Singapore IMDA | No | `docs/coverage/imda-agentic.md` | 56 | 8 | [PARTIALLY VERIFIED] Coverage doc exists with 8 rows. Zero code references to "imda" or "singapore" in production modules. |
 
-**Summary**: 7 frameworks have code-level report generation. 5 additional frameworks have coverage documentation only (markdown matrices with status markers) but no code-level report generator. The claim of "12 compliance frameworks" is accurate if counting documentation matrices; the claim of "12 frameworks with code-level mapping" would be overstated.
+**Summary**: 8 frameworks have code-level report generation. 4 additional frameworks have coverage documentation only (markdown matrices with status markers) but no code-level report generator. The claim of "12 compliance frameworks" is accurate if counting documentation matrices; the claim of "12 frameworks with code-level mapping" would be overstated.
 
 ---
 
@@ -276,7 +276,7 @@ Source: https://arthur.ai/
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | NIST AI RMF | Native | — | Native | Native | Native | Native | Native |
 | EU AI Act | Native | — | Native | Native | Native | Native | Native |
-| ISO 42001 | Partial (crosswalk in MCP) | 23 rows | Native | Native | Native | Native | Not observed |
+| ISO 42001 | Native | 23 rows | Native | Native | Native | Native | Not observed |
 | SOC 2 | Native | — | Native | Not observed | Not observed | Not observed | Not observed |
 | ISO 27001 | Native | — | Not observed | Not observed | Native | Not observed | Not observed |
 | GDPR | Native | — | Not observed | Not observed | Not observed | Not observed | Not observed |
@@ -287,7 +287,7 @@ Source: https://arthur.ai/
 | NYC Local Law 144 | Not in code | 7 rows | Not observed | Native | Not observed | Not observed | Not observed |
 | Singapore IMDA | Not in code | 8 rows | Not observed | Not observed | Not observed | Not observed | Not observed |
 
-**Defensible statement**: hummbl-governance has code-level report generation for 7 frameworks and coverage documentation for 5 additional frameworks (12 total). Among the audited tools, this is the broadest framework coverage. However, enterprise platforms like Credo AI and Holistic AI may cover additional frameworks not audited here, and their workflow-level compliance management is deeper than hummbl-governance's code-level mapping. The claim "broadest framework coverage in the market" would require an exhaustive market survey to verify.
+**Defensible statement**: hummbl-governance has code-level report generation for 8 frameworks and coverage documentation for 4 additional frameworks (12 total). Among the audited tools, this is the broadest framework coverage. However, enterprise platforms like Credo AI and Holistic AI may cover additional frameworks not audited here, and their workflow-level compliance management is deeper than hummbl-governance's code-level mapping. The claim "broadest framework coverage in the market" would require an exhaustive market survey to verify.
 
 ### 3.4 Deployment & Technical Profile
 
@@ -314,7 +314,7 @@ Source: https://arthur.ai/
 | "7 MCP servers, ~57 tools" | [VERIFIED] | 7 server files confirmed; 77 `"name"` entries, ~57 are tool definitions |
 | "8 invariants, 8 engines" | [VERIFIED] | K1-K8 enum confirmed; 8 engine files confirmed |
 | "17 scaling laws" | [VERIFIED] | 17 ratified + 2 experimental = 19 YAML files |
-| "12 compliance frameworks" | [PARTIALLY VERIFIED] | 7 with code-level report generation; 5 with documentation only |
+| "12 compliance frameworks" | [PARTIALLY VERIFIED] | 8 with code-level report generation; 4 with documentation only |
 | "Zero dependencies" | [VERIFIED] | `dependencies = []`; full import scan confirms stdlib only |
 | "Microsoft AGT has 10+ PyPI packages" | [CONTRADICTED] | Consolidated to 5 distributions as of v4.1.0 |
 | "agent-control-plane has no MCP" | [CONTRADICTED] | Has MCP gateway (for governing MCP tool access, not exposing governance tools) |
@@ -338,7 +338,7 @@ Source: https://arthur.ai/
 6. **Physical-AI safety (kinematic + pHRI)** [VERIFIED] — Not observed in enterprise/SaaS platforms
 7. **Scaling law atlas (17 ratified laws)** [VERIFIED] — 19 YAML files in `data/atlas/`
 8. **Apache 2.0 license** [VERIFIED] — Enterprise-friendly
-9. **7 frameworks with code-level report generation** [VERIFIED] — Methods found in `compliance_mapper.py`
+9. **8 frameworks with code-level report generation** [VERIFIED] — Methods found in `compliance_mapper.py`
 10. **HMAC-SHA256 delegation tokens** [VERIFIED] — `import hmac` in `delegation.py`
 
 ### Weaknesses (Evidence-Supported)
@@ -374,7 +374,7 @@ Source: https://arthur.ai/
 
 ### Defensible Position Statement
 
-> hummbl-governance is a zero-dependency Python library providing 26+ governance primitives for AI agent orchestration. Among the 7 tools audited in this review, it is the only one that combines kill switch, circuit breaker, cost governor, delegation tokens, audit trail, identity registry, and physical-AI safety in a single stdlib-only package. Its governance kernel architecture (8 invariants, 8 engines) was not observed in any audited competitor. It provides code-level compliance report generation for 7 frameworks (SOC 2, GDPR, OWASP LLM Top 10, NIST AI RMF, EU AI Act, NIST CSF 2.0, ISO 27001) and coverage documentation for 5 additional frameworks.
+> hummbl-governance is a zero-dependency Python library providing 26+ governance primitives for AI agent orchestration. Among the 7 tools audited in this review, it is the only one that combines kill switch, circuit breaker, cost governor, delegation tokens, audit trail, identity registry, and physical-AI safety in a single stdlib-only package. Its governance kernel architecture (8 invariants, 8 engines) was not observed in any audited competitor. It provides code-level compliance report generation for 7 frameworks (SOC 2, GDPR, OWASP LLM Top 10, NIST AI RMF, EU AI Act, NIST CSF 2.0, ISO 27001, ISO 42001) and coverage documentation for 4 additional frameworks.
 
 ### What This Audit Can Say
 
