@@ -463,7 +463,8 @@ class AuditLog:
 
         Requires self._hmac_key to be set; callers gate on this.
         """
-        assert self._hmac_key is not None, "HMAC key not configured"
+        if self._hmac_key is None:
+            raise RuntimeError("HMAC key not configured")
         return hmac.new(
             self._hmac_key, self.canonical_bytes(entry), sha256
         ).hexdigest()

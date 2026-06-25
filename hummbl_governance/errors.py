@@ -65,8 +65,8 @@ class HummblError(str, Enum):
 
     # --- Delegation / DCT ---
     DCT_VIOLATION = "HG_E_DCT_VIOLATION"
-    TOKEN_EXPIRED = "HG_E_TOKEN_EXPIRED"
-    TOKEN_INVALID = "HG_E_TOKEN_INVALID"
+    TOKEN_EXPIRED = "HG_E_TOKEN_EXPIRED"  # nosec B105 — error code enum, not a password
+    TOKEN_INVALID = "HG_E_TOKEN_INVALID"  # nosec B105 — error code enum, not a password
     BINDING_MISMATCH = "HG_E_BINDING_MISMATCH"
     DEPTH_EXCEEDED = "HG_E_DEPTH_EXCEEDED"
     CAPABILITY_ESCALATION = "HG_E_CAPABILITY_ESCALATION"

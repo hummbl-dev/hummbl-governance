@@ -1,22 +1,22 @@
 # Kernel Integration Guide — mission-mode & nexus / nexus-apex
 
-**Version**: 1.1.0
-**Date**: 2026-06-17
+**Version**: 1.2.0
+**Date**: 2026-06-25
 **Analyst**: devin
-**Status**: Draft — validated on Anvil
+**Status**: Current — validated on macOS (Huxley)
 
 ---
 
 ## 1. What is the Kernel?
 
-The Kernel is the **26th governance primitive** in hummbl-governance (v1.1.0). It is not a role — it is the **operating system of the fleet**.
+The Kernel is the **26th governance primitive** in hummbl-governance (v1.2.0). It is not a role — it is the **operating system of the fleet**.
 
-Seven invariants (K1–K7) and seven engines guarantee:
+Eight invariants (K1–K8) and eight engines guarantee:
 - Every agent action is observable
 - Every observation is checkable
 - Every check is against empirical law
 
-### Seven Engines
+### Eight Engines
 
 | Engine | Purpose | Invariant |
 |--------|---------|-----------|
@@ -27,17 +27,18 @@ Seven invariants (K1–K7) and seven engines guarantee:
 | `EvidenceEngine` | Evidence grading and provenance | K5 — Every claim has evidence |
 | `AuthorityEngine` | Capability admission and escalation | K6 — Every capability is authorized |
 | `ScheduleEngine` | Loop scheduling and health monitoring | K7 — Every loop is observable |
+| `DoctrineEngine` | Doctrine validation and path policy | K8 — Every doctrine is enforced |
 
 ---
 
 ## 2. Installation
 
 ```bash
-# From PyPI (once v1.1.0 is published)
-pip install hummbl-governance>=1.1.0
+# From PyPI
+pip install hummbl-governance>=1.2.0
 
-# From source (Anvil — current branch)
-cd C:/Users/Owner/PROJECTS/hummbl-governance
+# From source
+cd PROJECTS/hummbl-governance
 pip install -e ".[test]"
 ```
 
@@ -305,5 +306,5 @@ export HUMMBL_KERNEL_STATE_DIR=/path/to/kernel/state
 ## 8. Ledger Tag
 
 ```
-kernel_integration_guide: v1.1.0 | analyst: devin | date: 2026-06-17 | verified: anvil | tests_passed: 1032 | engines: 7 | invariants: 7 | use_cases: mission-mode, nexus, apex | cli_commands: 6
+kernel_integration_guide: v1.2.0 | analyst: devin | date: 2026-06-25 | verified: huxley | tests_passed: 1288 | engines: 8 | invariants: 8 | use_cases: mission-mode, nexus, apex | cli_commands: 6
 ```

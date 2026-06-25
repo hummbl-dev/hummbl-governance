@@ -132,7 +132,7 @@ class DoctrineEngine:
         # Check for fleet writes
         fleet_writes = [
             p for p in write_paths
-            if not p.startswith("playground/") and not p.startswith("/tmp/")
+            if not p.startswith("playground/") and not p.startswith("/tmp/")  # nosec B108 — path prefix check, not a hardcoded temp dir
         ]
         if fleet_writes:
             return ValidationResult(

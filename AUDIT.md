@@ -1,4 +1,10 @@
-# Repository Audit Report
+# Repository Audit Report (Historical)
+
+> **HISTORICAL DOCUMENT** — This audit reflects the v0.4.0 release state (2026-04-19).
+> Current package version is v1.2.0 with 1,288 tests. For current status, see
+> [README.md](README.md) and [docs/competitive-analysis/](docs/competitive-analysis/).
+> This file is retained for release-history traceability and should not be
+> treated as current evidence of package state.
 
 **Date:** 2026-04-19
 **Package:** hummbl-governance v0.4.0

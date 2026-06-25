@@ -115,7 +115,7 @@ If you're proposing a new primitive, verify it meets these criteria:
 ## Questions?
 
 - **Technical:** Open an issue with the `question` label
-- **Security:** Email security@hummbl.io (do not open public issues for security concerns)
+- **Security:** Email reuben@hummbl.io (do not open public issues for security concerns)
 - **General:** Reach out on the HUMMBL governance bus or in GitHub discussions
 
 ---

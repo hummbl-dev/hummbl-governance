@@ -37,4 +37,4 @@ not HMAC-verified. Tamper detection on the audit log is the responsibility of
 an external verifier; entries are an append-only attestation record, not a
 self-verifying cryptographic chain. See `hummbl_governance/audit_log.py` and
 `tests/test_audit_log.py` for current behavior. HMAC-verified append is
-tracked as a roadmap item.
+tracked as a roadmap item (see [ROADMAP.md](ROADMAP.md) or open an issue at [github.com/hummbl-dev/hummbl-governance/issues](https://github.com/hummbl-dev/hummbl-governance/issues)).

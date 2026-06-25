@@ -80,3 +80,7 @@ select = ["E", "F"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "hummbl_governance/kernel/test_*"]
+skips = ["B101"]  # assert_used — legitimate in test code inside package
