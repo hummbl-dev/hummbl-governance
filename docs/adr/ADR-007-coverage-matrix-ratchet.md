@@ -28,6 +28,7 @@ Add a **ratchet gate** to the `coverage-matrix-validate` CI job. The ratchet:
 4. **Baseline raising**: The baseline can only be raised by an explicit `--init-baseline` commit. It can never be lowered without operator approval.
 5. **Promotion threshold**: When `validated_pct >= 50%`, the ratchet prints a promotion notice. At that point, `continue-on-error` should be flipped to `false`, making the ratchet a blocking gate.
 6. **Row-identity ratchet** (added 2026-06-25, #136): The baseline includes a `validated_rows` array listing the specific row identities (matrix + control_id) that were validated at baseline freeze time. The ratchet checks that all baseline row identities still have `status=pass` in the current report. A baseline row that is missing or failing → FAIL even if the total count is stable or higher. This prevents row substitution from masking regression (e.g., one validated row disappears while another appears, count stays the same).
+7. **Baseline-lowering protection** (added 2026-06-25, #135): `--init-baseline` refuses to lower the baseline below the existing frozen value without explicit `--force-lower --reason "..."` flags. This is a technical control, not just code review — a careless or malicious commit cannot silently lower the baseline. When `--force-lower` is used, the reason string is persisted in the baseline file as `lower_reason` for audit trail.
 
 ## Ratchet policy
 
@@ -59,6 +60,6 @@ The advisory state (`continue-on-error: true`) ends when ALL of:
 
 - Implementation: `scripts/coverage_ratchet.py`, `docs/coverage/ratchet-baseline.json`
 - CI integration: `.github/workflows/ci.yml` — `coverage-matrix-validate` job, `Ratchet gate` step
-- Tests: `tests/test_coverage_ratchet.py` — 11 tests covering count ratchet (pass, fail, init, missing baseline, promotion threshold) and row-identity ratchet (preserved, lost, gained, init captures identities)
-- Acceptance: `hummbl-dev/hummbl-governance#128` (count ratchet), `hummbl-dev/hummbl-governance#136` (row-identity ratchet)
+- Tests: `tests/test_coverage_ratchet.py` — 15 tests covering count ratchet (pass, fail, init, missing baseline, promotion threshold), row-identity ratchet (preserved, lost, gained, init captures identities), and baseline-lowering protection (refuse without force, lower with force+reason, force without reason refused, raise without force)
+- Acceptance: `hummbl-dev/hummbl-governance#128` (count ratchet), `hummbl-dev/hummbl-governance#136` (row-identity ratchet), `hummbl-dev/hummbl-governance#135` (baseline-lowering protection)
 - Baseline row identities (as of 2026-06-25): eu-ai-act.md/Art. 12, eu-ai-act.md/Art. 14, eu-ai-act.md/Art. 73, gdpr.md/Art. 5, gdpr.md/Art. 29

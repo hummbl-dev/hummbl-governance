@@ -139,6 +139,14 @@ def main() -> int:
         "--init-baseline", action="store_true",
         help="Initialize or raise the baseline to current validated count",
     )
+    parser.add_argument(
+        "--force-lower", action="store_true",
+        help="Allow --init-baseline to LOWER the baseline (requires --reason)",
+    )
+    parser.add_argument(
+        "--reason", type=str, default="",
+        help="Justification string required when using --force-lower",
+    )
     args = parser.parse_args()
 
     baseline_path = Path(args.baseline)
@@ -149,16 +157,37 @@ def main() -> int:
 
     if args.init_baseline:
         validated_rows = _extract_validated_rows(report)
-        baseline = {
+
+        # Baseline-lowering protection: check if existing baseline exists
+        # and would be lowered by this init.
+        if baseline_path.exists():
+            with baseline_path.open("r", encoding="utf-8") as f:
+                existing = json.load(f)
+            existing_count = existing.get("validated_count", 0)
+            if current["validated_count"] < existing_count:
+                if not args.force_lower:
+                    print(f"::error::REFUSED: --init-baseline would lower baseline from {existing_count} to {current['validated_count']}")
+                    print(f"::error::Use --force-lower --reason \"...\" to override with justification.")
+                    print(f"::error::Lowering the baseline allows regressions to pass the ratchet silently.")
+                    return 1
+                if not args.reason:
+                    print(f"::error::REFUSED: --force-lower requires --reason \"...\" justification string.")
+                    return 1
+                print(f"::warning::BASELINE LOWERED with --force-lower: {existing_count} -> {current['validated_count']}")
+                print(f"::warning::Reason: {args.reason}")
+
+        baseline_data: dict = {
             "validated_count": current["validated_count"],
             "fulfilled_count": current["fulfilled_count"],
             "validated_pct": current["validated_pct"],
             "validated_rows": validated_rows,
             "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage.",
         }
+        if args.force_lower and args.reason:
+            baseline_data["lower_reason"] = args.reason
         baseline_path.parent.mkdir(parents=True, exist_ok=True)
         with baseline_path.open("w", encoding="utf-8") as f:
-            json.dump(baseline, f, indent=2, ensure_ascii=False)
+            json.dump(baseline_data, f, indent=2, ensure_ascii=False)
             f.write("\n")
         print(f"BASELINE SET: {baseline_path}")
         print(f"  validated_count: {current['validated_count']}")

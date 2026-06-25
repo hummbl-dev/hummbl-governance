@@ -251,3 +251,67 @@ class TestCoverageRatchetRowIdentity:
         assert len(data["validated_rows"]) == 2
         assert data["validated_rows"][0]["control_id"] == "Art. 5"
         assert data["validated_rows"][1]["control_id"] == "Art. 29"
+
+
+class TestCoverageRatchetBaselineLowering:
+    """Baseline-lowering protection — refuses to lower without --force-lower --reason."""
+
+    def test_init_baseline_refuses_to_lower_without_force(self, tmp_path):
+        """--init-baseline refuses to lower baseline when existing baseline is higher."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        # Existing baseline at 10, current report only has 5 validated
+        _make_baseline(baseline, validated=10, fulfilled=100, pct=10.0)
+        _make_report(report, validated=5, fulfilled=100, failed=95)
+        rc, output = _run_ratchet(str(baseline), str(report), "--init-baseline")
+        assert rc == 1
+        assert "REFUSED" in output or "refuse" in output.lower()
+        assert "force-lower" in output.lower()
+        # Baseline should NOT be modified
+        data = json.loads(baseline.read_text())
+        assert data["validated_count"] == 10
+
+    def test_init_baseline_lowers_with_force_and_reason(self, tmp_path):
+        """--init-baseline --force-lower --reason lowers the baseline with a warning."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        _make_baseline(baseline, validated=10, fulfilled=100, pct=10.0)
+        _make_report(report, validated=5, fulfilled=100, failed=95)
+        rc, output = _run_ratchet(
+            str(baseline), str(report), "--init-baseline",
+            "--force-lower", "--reason", "matrix restructured, rows removed",
+        )
+        assert rc == 0
+        assert "BASELINE SET" in output
+        assert "WARNING" in output or "warning" in output.lower()
+        assert "force-lower" in output.lower()
+        data = json.loads(baseline.read_text())
+        assert data["validated_count"] == 5
+        assert data.get("lower_reason") == "matrix restructured, rows removed"
+
+    def test_init_baseline_force_without_reason_refuses(self, tmp_path):
+        """--force-lower without --reason still refuses."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        _make_baseline(baseline, validated=10, fulfilled=100, pct=10.0)
+        _make_report(report, validated=5, fulfilled=100, failed=95)
+        rc, output = _run_ratchet(
+            str(baseline), str(report), "--init-baseline", "--force-lower",
+        )
+        assert rc == 1
+        assert "reason" in output.lower()
+        # Baseline unchanged
+        data = json.loads(baseline.read_text())
+        assert data["validated_count"] == 10
+
+    def test_init_baseline_raises_without_force(self, tmp_path):
+        """--init-baseline raising the baseline (current > existing) works without --force-lower."""
+        report = tmp_path / "report.json"
+        baseline = tmp_path / "baseline.json"
+        _make_baseline(baseline, validated=3, fulfilled=100, pct=3.0)
+        _make_report(report, validated=7, fulfilled=100, failed=93)
+        rc, output = _run_ratchet(str(baseline), str(report), "--init-baseline")
+        assert rc == 0
+        assert "BASELINE SET" in output
+        data = json.loads(baseline.read_text())
+        assert data["validated_count"] == 7
