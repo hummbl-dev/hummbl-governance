@@ -1,0 +1,6 @@
+{
+  "validated_count": 5,
+  "fulfilled_count": 198,
+  "validated_pct": 2.5,
+  "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value. Raise by re-running --init-baseline after improving evidence coverage."
+}

@@ -9,7 +9,7 @@ For each Fulfilled row in every coverage matrix, the validator extracts backtick
 
 Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled rows are public claim support ONLY when their Evidence column points to a validated runnable command or resolvable artifact. Rows without resolved evidence remain DRAFT until hardened.
 
-## Aggregate (as of 2026-05-14)
+## Aggregate (as of 2026-06-25)
 
 - **198 Fulfilled rows** across 12 matrices
 - **5 rows validated** (2.5%) — refs fully resolve

@@ -133,9 +133,16 @@ jobs:
     name: coverage-matrix-validate (advisory)
     runs-on: ubuntu-latest
     # Advisory while matrices are DRAFT scaffolds per docs/coverage/README.md.
-    # Flip continue-on-error to false once docs/coverage/EVIDENCE_VALIDATION.md
-    # shows acceptable coverage % per ADR-001.
+    # The ratchet gate (below) prevents regression in validated evidence count.
+    # Flip continue-on-error to false once validated_pct >= 50% per ADR-001
+    # and the ratchet promotion threshold is reached.
+    # Tracked by: hummbl-dev/hummbl-governance#128
     continue-on-error: true
+    outputs:
+      ratchet-result: ${{ steps.ratchet.outputs.ratchet_result }}
+      validated-count: ${{ steps.ratchet.outputs.validated_count }}
+      validated-pct: ${{ steps.ratchet.outputs.validated_pct }}
+      clean-pass: ${{ steps.ratchet.outputs.clean_pass }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -153,7 +160,7 @@ jobs:
           for matrix in "$MATRICES_DIR"/*.md; do
             [ -f "$matrix" ] || continue
             base=$(basename "$matrix")
-            # Skip generated reports and the index
+            # Skip generated reports, the index, and the ratchet baseline
             case "$base" in
               README.md|EVIDENCE_VALIDATION.md) continue ;;
             esac
@@ -174,6 +181,29 @@ jobs:
           echo "::group::EVIDENCE_VALIDATION.md summary"
           head -40 docs/coverage/EVIDENCE_VALIDATION.md
           echo "::endgroup::"
+      - name: Ratchet gate
+        id: ratchet
+        run: |
+          python scripts/coverage_ratchet.py \
+            --baseline docs/coverage/ratchet-baseline.json \
+            --report docs/coverage/EVIDENCE_VALIDATION.json \
+            --promote-threshold 50.0
+          RATCHET_RC=$?
+          # Extract current stats from the report for job outputs
+          VALIDATED=$(python3 -c "import json; d=json.load(open('docs/coverage/EVIDENCE_VALIDATION.json')); print(sum(v['fulfilled_validation']['rows_passed'] for v in d.values()))")
+          FULFILLED=$(python3 -c "import json; d=json.load(open('docs/coverage/EVIDENCE_VALIDATION.json')); print(sum(v['totals']['fulfilled'] for v in d.values()))")
+          PCT=$(python3 -c "import json; d=json.load(open('docs/coverage/EVIDENCE_VALIDATION.json')); f=sum(v['totals']['fulfilled'] for v in d.values()); v=sum(v['fulfilled_validation']['rows_passed'] for v in d.values()); print(round(100.0*v/f,1) if f else 0.0)")
+          echo "ratchet_result=$([ $RATCHET_RC -eq 0 ] && echo pass || echo fail)" >> $GITHUB_OUTPUT
+          echo "validated_count=$VALIDATED" >> $GITHUB_OUTPUT
+          echo "validated_pct=$PCT" >> $GITHUB_OUTPUT
+          # clean_pass = true only if ALL rows validate (no failures)
+          FAILED_COUNT=$(python3 -c "import json; d=json.load(open('docs/coverage/EVIDENCE_VALIDATION.json')); print(sum(v['fulfilled_validation']['rows_failed'] for v in d.values()))")
+          echo "clean_pass=$([ $FAILED_COUNT -eq 0 ] && echo true || echo false)" >> $GITHUB_OUTPUT
+          # Ratchet failure is advisory for now (continue-on-error on the job)
+          # but the output distinguishes ratchet-fail from ratchet-pass
+          if [ $RATCHET_RC -ne 0 ]; then
+            echo "::warning::Ratchet gate FAILED — validated count regressed below baseline"
+          fi
 
   ci:
     runs-on: ubuntu-latest
@@ -201,4 +231,9 @@ jobs:
           check_result lint "${{ needs.lint.result }}"
           check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
           check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
+          echo "--- Coverage matrix ratchet status ---"
+          echo "  ratchet_result: ${{ needs['coverage-matrix-validate'].outputs.ratchet-result }}"
+          echo "  validated_count: ${{ needs['coverage-matrix-validate'].outputs.validated-count }}"
+          echo "  validated_pct: ${{ needs['coverage-matrix-validate'].outputs.validated-pct }}%"
+          echo "  clean_pass: ${{ needs['coverage-matrix-validate'].outputs.clean-pass }}"
           exit "$failed"
