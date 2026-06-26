@@ -130,6 +130,26 @@ from hummbl_governance.kernel.receipt_integrity_monitor import (
     validate_monitor_report,
 )
 
+# Contestability (P31) — enforces D6 (CONTESTABILITY)
+from hummbl_governance.kernel.contestability import (
+    ContestStatus,
+    ReviewOutcome,
+    validate_contestability,
+    validate_contest_evidence,
+    validate_review_consistency,
+    validate_contest,
+)
+
+# Doctrine Amendment (P38) — enforces D7 (DOCTRINE_AMENDMENT)
+from hummbl_governance.kernel.doctrine_amendment import (
+    AmendmentType,
+    AmendmentStatus,
+    validate_doctrine_amendment,
+    validate_operator_approval,
+    validate_amendment_evidence,
+    validate_amendment,
+)
+
 __all__ = [
     "__version__",
     # Kernel — Governance operating system (v1.2.0)
@@ -243,4 +263,18 @@ __all__ = [
     "raise_on_integrity_violation",
     "validate_receipt_integrity_monitor",
     "validate_monitor_report",
+    # Contestability (P31)
+    "ContestStatus",
+    "ReviewOutcome",
+    "validate_contestability",
+    "validate_contest_evidence",
+    "validate_review_consistency",
+    "validate_contest",
+    # Doctrine Amendment (P38)
+    "AmendmentType",
+    "AmendmentStatus",
+    "validate_doctrine_amendment",
+    "validate_operator_approval",
+    "validate_amendment_evidence",
+    "validate_amendment",
 ]
