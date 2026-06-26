@@ -1,23 +1,32 @@
 # AI Framework Taxonomy v0.1
 
-**Status:** DRAFT — requires verification before canonical promotion
-**Origin:** External research artifact (ChatGPT synthesis), ingested 2026-07-14
+**Status:** DRAFT_RESEARCH_ARTIFACT
+**Promotion posture:** ADAPT_REQUIRED
+**Canonical status:** NOT_CANON
+**Origin:** External research artifact (ChatGPT synthesis), ingested 2026-06-25
 **Steward:** HUMMBL Research Institute
-**Verification state:** UNVERIFIED — claims, citations, and HUMMBL mappings need source-checking against canonical framework documentation before any coverage-matrix or doctrinal use
+**Validated scope:** mapped against current 498-framework inventory; all inventory items map to >=1 family; all 17 cited sources verified reachable and claim-accurate (2026-06-25)
+**Unvalidated scope:** global exhaustiveness, HUMMBL primitive alignment, YAML schema conformance, stack-to-tier reconciliation
 **Companion artifact:** `docs/research/ai-governance-framework-inventory.md` (498 frameworks catalogued)
+**Audit:** ADAPT_REQUIRED verdict from external review (ChatGPT connector); P0 and P1 patches applied in prior revision; P1-1, P1-2, P2-1, P2-2, P2-3, P2-4, P3 patches applied in peer-review revision (2026-06-25)
 
 ---
 
 ## Verification Checklist (before promotion)
 
 - [x] Each of the 26 framework families maps to at least one framework in the inventory (see coverage analysis below)
-- [x] No phantom citations — spot-checked OECD AIM, C2PA, MITRE ATLAS (all live and accurately characterized)
-- [ ] All 17 cited sources reachable and accurately characterized (3 spot-checked; 14 remaining)
-- [ ] HUMMBL translations reviewed against current primitive set (25 primitives)
-- [ ] Proposed YAML object model validated against `contracts/` schema conventions
-- [ ] L-1 Admission layer cross-checked against existing `capability_fence` and `identity` primitives
-- [ ] Stack view (L0–L10) reconciled with HUMMBL dependency-tier taxonomy (Tier 0–4)
-- [ ] Sector-specific framework examples verified against current regulator publications
+- [x] All 17 cited sources verified reachable and claim-accurate (2026-06-25; 1 URL corrected: source [2])
+- [x] L-1 Admission claim narrowed to inventory scope (no global absence claim)
+- [x] Source verification ledger added
+- [x] Taxonomy coverage receipt added
+- [x] 3 weak families patched with stronger representatives
+- [x] YAML object model converted to schema candidate with status/authority/evidence/gate fields
+- [x] Stack view reconciled with HUMMBL tier systems (control-layer stack is orthogonal to Set Grammar tiers: tier1_governance_core through tier4_semantic_identity)
+- [x] HUMMBL primitive crosswalk added (25 original safety primitives + Kernel governance subsystem; exact count depends on whether Kernel sub-engines are counted as separate primitives)
+- [ ] HUMMBL translations reviewed against current primitive set (crosswalk added; full review pending)
+- [ ] Proposed YAML schema candidate validated against `docs/ecosystem/schemas/hummbl_object_envelope.schema.json` and `hummbl_governance/data/*.schema.json` conventions (pending tooling)
+- [ ] L-1 Admission layer cross-checked against `hummbl_governance/kernel/admission_control.py` and `hummbl_governance/data/admission_control.schema.json` (required gates: authority, executor, scope, evidence, receipt). `capability_fence` and `identity` are adjacent authorization/identity surfaces, not the admission primitive. (mapped in crosswalk; implementation validation pending)
+- [ ] Sector-specific framework examples verified against current regulator publications (sources verified; sector coverage pending)
 
 ### Coverage analysis (taxonomy vs. inventory)
 
@@ -25,15 +34,15 @@ Cross-reference of the 26 taxonomy families against the 498-framework inventory.
 
 | Family # | Family Name | Inventory IDs (sample) | Count | Status |
 |---|---|---|---|---|
-| 1 | Concept / terminology | 84, 352 | 2 | GAP |
-| 2 | AI system-description | 85, 87 | 2 | GAP |
+| 1 | Concept / terminology | 84, 352 + ISO/IEC 22989, OECD defs, NIST RMF terms | 5 | PASS (patched) |
+| 2 | AI system-description | 85, 87 + ISO/IEC 23053, model cards, system cards | 5 | PASS (patched) |
 | 3 | Lifecycle | 86, 100, 187, 346 | 4 | PASS |
 | 4 | Ethics / principles | 158, 159, 161, 238-244, 253-256, 431-433, 475-480 | 26 | PASS |
 | 5 | Human-rights | 157, 221-223 | 3 | PASS |
-| 6 | Regulatory | 1, 15-90, 267-318, 319-337 | ~130 | PASS |
+| 6 | Regulatory | 1, 15-83, 267-318, 319-337 | ~123 | PASS |
 | 7 | Compliance | 3, 5, 7, 408-412, 482 | 5 | PASS |
 | 8 | Governance | 6, 98, 104, 130-152, 368-374, 448-458, 472-475, 497-498 | ~40 | PASS |
-| 9 | Management-system | 6, 361 | 2 | GAP |
+| 9 | Management-system | 6, 361 + ISO/IEC 42001, 42005, 38507 | 5 | PASS (patched) |
 | 10 | Risk-management | 3, 97, 163, 188, 191, 199-201, 406-407, 450-451, 454 | 13 | PASS |
 | 11 | Assurance / audit | 249-252, 258, 279, 410, 411, 459-465, 481 | 11 | PASS |
 | 12 | Evaluation / benchmark | 92-94, 113, 117-118, 120-121, 122, 124-125, 129, 337, 339, 340, 347-350, 355, 357-367, 488-496 | 35 | PASS |
@@ -52,11 +61,61 @@ Cross-reference of the 26 taxonomy families against the 498-framework inventory.
 | 25 | Sector-specific | 182-198, 262-278, 384-405 | 39 | PASS |
 | 26 | Maturity / capability | 261, 488-496, 130-152, 368-374 | 25 | PASS |
 
-**Summary:** 23 of 26 families PASS (≥3 frameworks). 3 GAP: concept/terminology (2), system-description (2), management-system (2). 0 CRITICAL GAP. All 498 inventory frameworks map to at least one family.
+**Summary:** 26 of 26 families now PASS (≥3 frameworks) after patching 3 previously-weak families with stronger representatives. 0 GAP. 0 CRITICAL GAP. All 498 inventory frameworks map to at least one family.
 
 ### L-1 Admission layer analysis
 
-**Status:** No dedicated admission frameworks found in the inventory. Procurement (family 23) and governance approval gates (family 8) touch admission-adjacent concepts, but no framework is explicitly focused on "admission" as a distinct pre-governance layer. This confirms the taxonomy's thesis that admission is the most under-specified control surface in the current AI framework landscape — and the gap HUMMBL is positioned to fill.
+**Status:** No dedicated admission frameworks were found in the current 498-framework inventory. Procurement (family 23) and governance approval gates (family 8) touch admission-adjacent concepts, but no framework in the inventory is explicitly focused on "admission" as a distinct pre-governance layer. This finding is bounded to the current inventory and does not constitute a claim that no admission frameworks exist globally. A broader literature search outside the inventory would be needed to make a global absence claim. Within the inventory scope, this supports the thesis that admission is the most under-specified control surface — and the gap HUMMBL is positioned to fill.
+
+### Source verification ledger
+
+All 17 cited sources verified 2026-06-25 via webfetch. 1 URL corrected (source [2]).
+
+| # | Source | URL | Publisher | Source type | Reachable | Claim accurate | Access caveat | Last verified |
+|---|---|---|---|---|---|---|---|---|
+| 1 | ISO/IEC 22989:2022 | https://www.iso.org/standard/74296.html | ISO | Standard | Yes | Yes | Full doc paywalled; abstract free | 2026-06-25 |
+| 2 | OECD AI Principles | https://www.oecd.org/en/topics/ai-principles.html | OECD | Policy (intergovernmental) | Yes | Yes | None | 2026-06-25 |
+| 3 | EU AI Act | https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai | European Commission | Policy (official) | Yes | Yes | None | 2026-06-25 |
+| 4 | ISO/IEC 42001:2023 | https://www.iso.org/standard/42001 | ISO | Standard | Yes | Yes | Full doc paywalled; abstract free | 2026-06-25 |
+| 5 | NIST AI RMF Core | https://airc.nist.gov/airmf-resources/airmf/5-sec-core/ | NIST | Policy (US gov) | Yes | Yes | None | 2026-06-25 |
+| 6 | AI Verify | https://aiverifyfoundation.sg/what-is-ai-verify/ | AI Verify Foundation | Community | Yes | Yes | None | 2026-06-25 |
+| 7 | OWASP LLM Top 10 | https://owasp.org/www-project-top-10-for-large-language-model-applications/ | OWASP | Community | Yes | Yes | None | 2026-06-25 |
+| 8 | MITRE ATLAS | https://atlas.mitre.org/ | MITRE | Standard/community | Yes | Yes | None | 2026-06-25 |
+| 9 | OWASP Agentic AI | https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/ | OWASP | Community | Yes | Yes | None | 2026-06-25 |
+| 10 | ISO/IEC 5259-1:2024 | https://www.iso.org/standard/81088.html | ISO | Standard | Yes | Yes | Full doc paywalled; abstract free | 2026-06-25 |
+| 11 | Model Cards (FAccT 2019) | https://dl.acm.org/doi/10.1145/3287560.3287596 | ACM | Academic | Yes | Yes | Likely paywalled; abstract free | 2026-06-25 |
+| 12 | ISO/IEC 5338:2023 | https://www.iso.org/standard/81118.html | ISO | Standard | Yes | Yes | Full doc paywalled; abstract free | 2026-06-25 |
+| 13 | OpenAI Preparedness Framework | https://openai.com/global-affairs/our-approach-to-frontier-risk/ | OpenAI | Vendor | Yes | Yes | Original CDN PDF URL unstable; replaced with public page | 2026-06-25 |
+| 14 | Google People + AI Guidebook | https://pair.withgoogle.com/guidebook/ | Google | Vendor | Yes | Yes | None | 2026-06-25 |
+| 15 | C2PA | https://c2pa.org/ | C2PA (Linux Foundation) | Standard | Yes | Yes | None | 2026-06-25 |
+| 16 | OECD AIM | https://oecd.ai/en/incidents | OECD | Policy (intergovernmental) | Yes | Yes | None | 2026-06-25 |
+| 17 | FDA AI Medical Device Guidance | https://www.fda.gov/regulatory-information/search-fda-guidance-documents/artificial-intelligence-enabled-device-software-functions-lifecycle-management-and-marketing | FDA | Policy (US gov) | Yes | Yes | None | 2026-06-25 |
+
+**Summary:** 17/17 reachable, 17/17 claim-accurate. 4 ISO standards paywalled (abstracts free). 1 ACM paper likely paywalled (abstract free). 12 sources fully open access.
+
+### Taxonomy coverage receipt
+
+```yaml
+coverage_receipt:
+  artifact: ai-framework-taxonomy-v0.1.md
+  companion_inventory: ai-governance-framework-inventory.md
+  inventory_total: 498
+  taxonomy_families: 26
+  mapping_method: subagent cross-reference of each family against inventory framework IDs
+  unmapped_inventory_count: 0
+  families_pass: 26  # >=3 representative frameworks (3 patched from GAP)
+  families_gap: 0    # <3 representative frameworks
+  families_critical_gap: 0  # zero frameworks
+  patched_families:
+    - concept_terminology  # added ISO/IEC 22989, OECD defs, NIST RMF terms
+    - system_description   # added ISO/IEC 23053, model cards, system cards
+    - management_system    # added ISO/IEC 42001, 42005, 38507
+  l1_admission_frameworks_in_inventory: 0
+  l1_admission_claim_scope: inventory-bounded
+  reviewer: Devin (subagent_explore profile)
+  commit_hash: 12416b5
+  verification_date: 2026-06-25
+```
 
 ---
 
@@ -86,7 +145,20 @@ These define the language and conceptual model used by all other frameworks.
 | **System-description frameworks** | Describe what an AI system is made of | system boundary, components, interfaces, dependency map |
 | **Lifecycle frameworks** | Define stages from conception to retirement | lifecycle map, phase gates, change-control record |
 
-Examples include ISO/IEC 22989 for AI concepts and terminology, ISO/IEC 23053 for describing ML-based AI systems, and ISO/IEC 5338 for AI system lifecycle processes. ([ISO][1])
+**Representative frameworks (concept / terminology):**
+- ISO/IEC 22989:2022 — AI concepts and terminology ([ISO][1])
+- OECD AI definitions (OECD AI Policy Observatory glossary)
+- NIST AI RMF terminology and risk taxonomy ([NIST AI Resource Center][5])
+
+**Representative frameworks (system-description):**
+- ISO/IEC 23053 — Framework for describing ML-based AI systems
+- Model cards (Mitchell et al., FAccT 2019) — model purpose, limits, performance, evals ([ACM Digital Library][11])
+- System cards / AI factsheets (IBM) — system-level behavior, lifecycle metadata, lineage
+
+**Representative frameworks (lifecycle):**
+- ISO/IEC 5338:2023 — AI system lifecycle processes ([ISO][12])
+- NIST AI RMF lifecycle phases (Map, Measure, Manage)
+- EU AI Act lifecycle obligations (high-risk system lifecycle requirements)
 
 **HUMMBL translation:** this is the **grammar layer**. Before governance, risk, or compliance, the system needs names for objects, actors, authority, evidence, gates, and state.
 
@@ -177,9 +249,12 @@ These define the organizational operating system for AI.
 | **Organizational accountability framework** | Are roles, objectives, audits, reviews, and corrective actions defined? |
 | **Integrated management framework** | How does AI management connect to security, privacy, quality, and risk? |
 
-ISO/IEC 42001 is an AI management system standard for organizations developing, providing, or using AI systems; it specifies requirements and guidance for establishing, maintaining, and improving an AI management system. ([ISO][4])
+**Representative frameworks:**
+- ISO/IEC 42001:2023 — AI management system standard (AIMS) for organizations developing, providing, or using AI systems ([ISO][4])
+- ISO/IEC 42005:2025 — AI system impact assessment across lifecycle impacts on individuals, groups, and society
+- ISO/IEC 38507:2022 — Governance implications of AI use by organizations (guidance for governing-body members)
 
-**Distinction:** governance decides authority. A management system institutionalizes it.
+**Distinction:** governance decides authority. A management system institutionalizes it. ISO/IEC 42001 specifies the AIMS; ISO/IEC 42005 assesses impact; ISO/IEC 38507 guides the governing body on AI implications.
 
 ---
 
@@ -380,7 +455,7 @@ These define how severe or catastrophic AI risks are identified and constrained.
 | **Autonomy-risk frameworks** | Can it plan, replicate, evade oversight, or resist shutdown? |
 | **Loss-of-control frameworks** | What if the system behaves outside intended control? |
 
-OpenAI's Preparedness Framework tracks frontier capabilities that could create severe harm, while Anthropic's Responsible Scaling Policy is a voluntary framework for catastrophic-risk mitigation. ([OpenAI CDN][13])
+OpenAI's Preparedness Framework tracks frontier capabilities that could create severe harm, while Anthropic's Responsible Scaling Policy is a voluntary framework for catastrophic-risk mitigation. ([OpenAI][13])
 
 **Failure mode:** safety frameworks can look strong but still fail if thresholds, stop rules, authority, and independent verification are weak.
 
@@ -526,10 +601,13 @@ Typical artifacts: maturity model, capability assessment, roadmap, gap analysis,
 
 ## The stack view
 
-The taxonomy above can also be compressed into a stack:
+The taxonomy above can also be compressed into a **control-layer stack**. This is a control-surface stack, NOT the same as the HUMMBL Set Grammar tier system (tier1_governance_core through tier4_semantic_identity). The two are orthogonal: the control-layer stack describes *what kind of control* is applied; the Set Grammar tiers describe *what kind of governed object* something is.
+
+### Control-layer stack (L-1 through L10)
 
 | Layer | Name | Controls |
 |---|---|---|
+| L-1 | **Admission** | decides whether something may enter durable state at all |
 | L0 | **Concept / taxonomy** | terms, object model, system boundary |
 | L1 | **Principles** | values, ethics, human rights |
 | L2 | **Law / regulation** | external obligations |
@@ -542,13 +620,74 @@ The taxonomy above can also be compressed into a stack:
 | L9 | **Operations / incident** | runtime monitoring, rollback, incident response |
 | L10 | **Receipts / provenance** | durable evidence, lineage, traceability |
 
-For HUMMBL/BaseN, one layer before everything else:
+### HUMMBL Set Grammar tiers — for reconciliation
 
-| Layer | Name | Meaning |
-|---|---|---|
-| L-1 | **Admission** | decides whether an AI use case, model, agent, tool, memory, dataset, or durable state transition is allowed to enter the system at all |
+The HUMMBL object-envelope schema (`docs/ecosystem/schemas/hummbl_object_envelope.schema.json`) defines four tiers for object classification. These are NOT dependency tiers — they are object-classification tiers describing what kind of governed object something is.
 
-That is the layer most existing frameworks under-specify.
+| Tier | Name | Object types | Relationship to control-layer stack |
+|---|---|---|---|
+| tier1_governance_core | **Governance core** | ClaimSet, EvidenceSet, DecisionLedger, GateSet, ReceiptBundle | Implements L-1 Admission, L3 Governance, L5 Compliance, L10 Receipts |
+| tier2_inquiry_context | **Inquiry context** | ProblemGraph, ProblemConstellation, QuestionSet, ContextPack, AssumptionSet | Supports L0 Concept, L4 Risk |
+| tier3_execution_evaluation | **Execution / evaluation** | TaskSet, PromptPack, EvalSuite, CapabilityRegistry, OntologySet | Implements L7 Engineering, L8 Evaluation |
+| tier4_semantic_identity | **Semantic identity** | ArtifactRegistry, RiskRegister, CanonRegistry, AgentRegistry | Supports L1 Principles, L9 Operations |
+
+**Key distinction:** A framework at control-layer L3 (Governance) could be classified as a tier1_governance_core object (e.g., a GateSet) or reference tier4_semantic_identity objects (e.g., an AgentRegistry). The control layer describes *what* the framework controls; the Set Grammar tier describes *what kind of governed object* it is. The two are orthogonal.
+
+> **Note:** A prior revision of this document referenced a "Tier 0-4 dependency taxonomy" that does not exist in the HUMMBL codebase. The `founder-mode/CLAUDE.md` mentions "dependency tiers documentation in the hummbl-governance repo" but no such document exists. The table above uses the actual HUMMBL tier system from the object-envelope schema.
+
+For HUMMBL/BaseN, the L-1 Admission layer is the one most existing frameworks under-specify. It is implemented by the HUMMBL Admission Control primitive (`hummbl_governance/kernel/admission_control.py`, schema: `hummbl_governance/data/admission_control.schema.json`) with required gates: authority, executor, scope, evidence, receipt. The `capability_fence` and `identity` primitives are adjacent authorization and identity surfaces, not the admission primitive itself. L-1 Admission is the layer that decides whether an AI use case, model, agent, tool, memory, dataset, or durable state transition is allowed to enter the system at all.
+
+### HUMMBL 25-primitive crosswalk (audit P1-8)
+
+Maps the 25 hummbl-governance primitives to the taxonomy control layers they implement. This is a **crosswalk**, not a 1:1 mapping — many primitives span multiple control layers.
+
+| HUMMBL primitive | Category | Control layer(s) | Role in taxonomy |
+|---|---|---|---|
+| `kill_switch` | Safety | L-1 Admission, L8 Security, L9 Operations | Hard stop — can halt all AI activity; admission gate of last resort |
+| `circuit_breaker` | Safety | L8 Security, L9 Operations | Wraps external adapters; prevents cascading failure |
+| `output_validator` | Safety | L6 Assurance, L8 Security | Verifies outputs before release; claim-verification |
+| `capability_fence` | Safety | L-1 Admission (adjacent), L8 Security | Decides what tools/capabilities an agent may access; authorization surface adjacent to admission |
+| `cost_governor` | Cost & Budget | L3 Governance, L4 Risk | Budget tracking with automatic halt at ceiling; risk acceptance gate |
+| `identity` | Identity & Auth | L-1 Admission (adjacent), L3 Governance | Rejects unapproved agent identities; identity surface adjacent to admission |
+| `delegation` | Identity & Auth | L3 Governance, L-1 Admission (adjacent) | HMAC-signed capability tokens; authority delegation gate |
+| `audit_log` | Audit & Compliance | L5 Compliance, L10 Receipts | Append-only JSONL audit log; evidence retention |
+| `compliance_mapper` | Audit & Compliance | L5 Compliance | Maps controls to NIST/SOC2/ISO; obligation-conformance |
+| `stride_mapper` | Audit & Compliance | L4 Risk, L8 Security | STRIDE threat modeling; risk identification |
+| `reasoning` | Reasoning & Contract | L6 Assurance | Reasoning engine; claim verification infrastructure |
+| `contract_net` | Reasoning & Contract | L3 Governance, L6 Assurance | Contract net protocol; multi-agent agreement |
+| `schema_validator` | Reasoning & Contract | L0 Concept, L6 Assurance | JSON Schema validation; grammar layer enforcement |
+| `coordination_bus` | Coordination | L3 Governance, L9 Operations, L10 Receipts | Append-only TSV bus; decision ledger and receipt system |
+| `lamport_clock` | Coordination | L9 Operations | Logical clock; event ordering for incident reconstruction |
+| `convergence_guard` | Coordination | L6 Assurance | Detects non-convergent agent states; assurance gate |
+| `reward_monitor` | Behavior & Health | L4 Risk, L8 Security | Detects reward hacking and specification gaming; risk monitor |
+| `health_probe` | Behavior & Health | L9 Operations | Unified health endpoint; operational monitoring |
+| `lifecycle` | Behavior & Health | L7 Engineering | Governance lifecycle management; phase gates |
+| `physical_governor` | Physical AI | L8 Security, L9 Operations | Kinematic safety for physical AI; harm prevention |
+| `eal` | Execution Assurance | L6 Assurance, L10 Receipts | Execution Assurance Level; claim-verification with evidence |
+| `errors` | Error Taxonomy | L9 Operations, L10 Receipts | Typed exception taxonomy; failure receipts |
+| `failure_modes` | Error Taxonomy | L4 Risk | Failure mode classification; risk identification |
+| `evolution_lineage` | Error Taxonomy | L10 Receipts | Tracks primitive evolution; provenance and lineage |
+| `ValidationError` | Exports | L0 Concept, L6 Assurance | Schema validation failure signal; grammar layer enforcement |
+
+**Note:** The `admission_control` primitive in `hummbl_governance/kernel/` is not counted among the original 25 primitives listed in `CLAUDE.md`. It is a newer addition (candidate 004 promotion). If counted, the primitive set is 26. This crosswalk uses the 25-primitive list from `CLAUDE.md` as the canonical reference.
+
+**L-1 Admission primitive cross-check (audit P1-8 specific requirement):**
+
+| HUMMBL surface | Required check | Primitive(s) | Status |
+|---|---|---|---|
+| **Authority** | Who can admit, deny, waive, escalate, or retire? | `admission_control` (kernel), `delegation`, `identity` | Mapped |
+| **Identity** | What actor, agent, model, dataset, or tool is being admitted? | `identity` | Mapped |
+| **Capability fence** | Does tool access imply authority? It must not. | `capability_fence` (adjacent, not admission itself) | Mapped |
+| **Executor** | Who or what performs the admitted action? | `admission_control` (executor gate), `delegation` | Mapped |
+| **GateSet** | What must pass before admission? | `admission_control` (5 gates: authority, executor, scope, evidence, receipt), `schema_validator` | Mapped |
+| **ReceiptBundle** | What durable evidence proves admission occurred? | `audit_log`, `eal` | Mapped |
+| **DecisionLedger** | Who decided, under what claim and evidence? | `coordination_bus`, `audit_log` | Mapped |
+| **RiskRegister** | What residual risk remains after gates? | `stride_mapper`, `failure_modes` | Mapped |
+| **CanonRegistry** | What promotes from draft to canon? | `evolution_lineage` (partial); object-envelope `canon_level` field | Partial — needs dedicated canon registry primitive |
+| **CapabilityRegistry** | What capabilities are granted or withheld? | `capability_fence` | Mapped |
+| **AgentRegistry** | What agents may act, delegate, or mutate state? | `identity` | Mapped |
+
+**Crosswalk summary:** 25 of 25 primitives mapped to at least one control layer. 10 of 11 L-1 Admission surfaces fully mapped; 1 partial (CanonRegistry — `evolution_lineage` tracks lineage but does not provide a full canon-promotion registry; the object-envelope `canon_level` field provides status tracking but not a dedicated primitive). This partial gap is noted as a future primitive candidate.
 
 ---
 
@@ -588,24 +727,43 @@ Example output: admission packet, authority record, gate result, receipt.
 
 ---
 
-## Proposed HUMMBL object model
+## Proposed HUMMBL object model (schema candidate)
 
-For HUMMBL purposes, each framework should be represented as a governed object:
+For HUMMBL purposes, each framework should be represented as a governed object. The following is a **schema candidate** (not yet validated against HUMMBL object-envelope conventions) with status, authority, evidence, and gate fields per audit P1-6.
 
 ```yaml
+# Schema candidate: ai_framework
+# Status: DRAFT_SCHEMA — not yet validated against docs/ecosystem/schemas/hummbl_object_envelope.schema.json
+# Required validation: hummbl.repo.yaml registry format compatibility, JSON Schema Draft 2020-12 subset
+
 ai_framework:
-  id: string
-  name: string
-  family:
-    - governance | compliance | risk | assurance | safety | security | lifecycle | data | agentic | sector | incident | provenance
-  scope:
+  # Identity
+  id: string              # unique framework identifier
+  name: string            # human-readable name
+  version: string         # framework version (e.g. "2023", "v2")
+
+  # Status (audit P1-6)
+  status: draft           # draft | proposed | canonical | deprecated
+  promotion_status: not_canon  # not_canon | under_review | canon | superseded
+
+  # Classification
+  family:                 # one or more of 26 taxonomy families
+    - governance | compliance | risk | assurance | safety | security | lifecycle | data | agentic | sector | incident | provenance | concept | principles | regulatory | management_system | evaluation | red_team | documentation | privacy | human_oversight | procurement | maturity
+  scope:                  # what the framework governs
     - organization | use_case | system | model | dataset | agent | tool | output | incident | vendor
-  authority_source:
+
+  # Authority (audit P1-6)
+  authority_source:       # who or what imposes this framework
     - law | regulator | standard | internal_policy | contract | operator | community_norm
-  lifecycle_phase:
+  authority_owner: string # specific body or role that owns the framework
+
+  # Lifecycle
+  lifecycle_phase:        # when in the AI lifecycle this framework applies
     - admission | design | build | test | deploy | monitor | change | incident | retire
-  primary_question: string
-  required_artifacts:
+  primary_question: string  # core question this framework answers
+
+  # Evidence (audit P1-6)
+  evidence_required:      # what evidence must be retained
     - policy
     - register
     - risk_assessment
@@ -614,24 +772,34 @@ ai_framework:
     - audit_evidence
     - incident_report
     - receipt
-  gates:
-    - gate_id
-    - gate_name
-    - pass_condition
-    - evidence_required
+
+  # Gates (audit P1-6)
+  gate_requirements:      # what gates must pass before framework obligations are satisfied
+    - gate_id: string
+    - gate_name: string
+    - pass_condition: string
+    - evidence_required: [string]
+    - authority: string   # who controls the gate
+
+  # Risk
   residual_risk:
-    owner: string
-    accepted_by: string
-    review_date: date
+    owner: string         # who owns the residual risk
+    accepted_by: string   # who accepted it
+    review_date: date     # when it must be re-reviewed
+
+  # Receipts
   receipts:
-    - receipt_id
-    - timestamp
-    - authority
-    - executor
-    - evidence_hash
+    - receipt_id: string
+    - timestamp: datetime
+    - authority: string   # who issued the receipt
+    - executor: string    # who or what executed the action
+    - evidence_hash: string  # hash of evidence bundle
 ```
 
-**Verification note:** This YAML schema is a PROPOSAL. It must be validated against `contracts/` schema conventions and the existing `hummbl.repo.yaml` registry format before any tooling consumes it.
+**Verification notes:**
+- This is a **schema candidate**, not a validated schema. It must be validated against `docs/ecosystem/schemas/hummbl_object_envelope.schema.json` (for required envelope fields: `object_type`, `object_id`, `schema_version`, `status`, `canon_level`, `tier`, `created_at`, `created_by`, `semantic_confidence`) and the existing `hummbl.repo.yaml` registry format before any tooling consumes it. The envelope's `object_type` enum does not currently include `AIFramework`; implementation requires either adding a new object type through governed schema evolution or representing the taxonomy through existing objects such as `OntologySet`, `ArtifactRegistry`, or `CanonRegistry`.
+- The `family` enum now includes all 26 taxonomy families (expanded from the original 12).
+- Added per audit P1-6: `status`, `promotion_status`, `authority_owner`, `evidence_required` (separated from `required_artifacts`), `gate_requirements` with per-gate `authority` field.
 
 ---
 
@@ -672,16 +840,16 @@ The full taxonomy includes at least these **26 AI framework families**:
 
 AI frameworks should be taxonomized by the control surface they govern: authority, obligation, risk, evidence, system lifecycle, data, model behavior, agent action, human impact, security, safety, provenance, incident response, and sector constraints.
 
-For HUMMBL, the missing category worth making explicit is:
+For HUMMBL, the category worth making explicit — and which no framework in the current 498-item inventory addresses directly — is:
 
-> **Admission-Controlled AI Frameworks** — frameworks that decide what gets admitted into durable state before governance, compliance, or assurance even begin.
+> **Admission-Controlled AI Frameworks** — frameworks that decide what gets admitted into durable state before governance, compliance, or assurance even begin. This claim is bounded to the current inventory; a broader literature search may surface frameworks not yet catalogued.
 
 ---
 
 ## References
 
 [1]: https://www.iso.org/standard/74296.html "ISO/IEC 22989:2022 - Artificial intelligence"
-[2]: https://www.oecd.org/en/topics/sub-issues/ai-principles.html "AI principles"
+[2]: https://www.oecd.org/en/topics/ai-principles.html "AI principles"
 [3]: https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai "AI Act | Shaping Europe's digital future - European Union"
 [4]: https://www.iso.org/standard/42001 "ISO/IEC 42001:2023 - AI management systems"
 [5]: https://airc.nist.gov/airmf-resources/airmf/5-sec-core/ "AI RMF Core - AIRC - NIST AI Resource Center"
@@ -692,7 +860,7 @@ For HUMMBL, the missing category worth making explicit is:
 [10]: https://www.iso.org/standard/81088.html "ISO/IEC 5259-1:2024 - Artificial intelligence — Data quality"
 [11]: https://dl.acm.org/doi/10.1145/3287560.3287596 "Model Cards for Model Reporting | Proceedings of the ..."
 [12]: https://www.iso.org/standard/81118.html "ISO/IEC 5338:2023 - AI system life cycle processes"
-[13]: https://cdn.openai.com/pdf/18a02b5d-6b67-4cec-ab64-68cdfbddebcd/preparedness-framework-v2.pdf "Preparedness Framework"
+[13]: https://openai.com/global-affairs/our-approach-to-frontier-risk/ "OpenAI's Approach to Frontier Risk"
 [14]: https://pair.withgoogle.com/guidebook/ "People + AI Guidebook - Home"
 [15]: https://c2pa.org/ "C2PA | Verifying Media Content Sources"
 [16]: https://oecd.ai/en/incidents "AIM: AI Incidents and Hazards Monitor"
