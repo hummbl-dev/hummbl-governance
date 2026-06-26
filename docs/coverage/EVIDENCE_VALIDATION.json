@@ -7930,18 +7930,6 @@
             "path": "hummbl_governance/audit_log.py",
             "status": "pass",
             "detail": "file exists"
-          },
-          {
-            "ref": "kill_switch.py",
-            "path": "hummbl_governance/kill_switch.py",
-            "status": "pass",
-            "detail": "file exists"
-          },
-          {
-            "ref": "circuit_breaker.py",
-            "path": "hummbl_governance/circuit_breaker.py",
-            "status": "pass",
-            "detail": "file exists"
           }
         ],
         "status": "pass",
