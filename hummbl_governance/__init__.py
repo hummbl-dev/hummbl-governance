@@ -92,6 +92,16 @@ from hummbl_governance.evolution_lineage import (
     EvolutionDriftReport,
 )
 
+# Canon Registry (P27) — governs promotion from draft to canonical status
+from hummbl_governance.kernel.canon_registry import (
+    CanonLevel,
+    validate_canon_registry,
+    validate_transition,
+    validate_operator_approval,
+    validate_review_required,
+    validate_promotion,
+)
+
 __all__ = [
     "__version__",
     # Kernel — Governance operating system (v1.2.0)
@@ -179,4 +189,11 @@ __all__ = [
     "ModificationRecord",
     "EvolutionDriftReport",
     "CorpusAdapter",
+    # Canon Registry (P27)
+    "CanonLevel",
+    "validate_canon_registry",
+    "validate_transition",
+    "validate_operator_approval",
+    "validate_review_required",
+    "validate_promotion",
 ]
