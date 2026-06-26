@@ -680,7 +680,7 @@ Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxo
 | `contestability` (P31, IMPLEMENTED) | Governance Ecology | L3 Governance, L6 Assurance | D6: affected parties can flag AI decisions for human review |
 | `dispute_resolution` (P32, PROPOSED) | Governance Ecology | L3 Governance | Inter-agent conflict resolution |
 | `succession` (P33, PROPOSED) | Governance Ecology | L3 Governance | Authority transfer for governance continuity |
-| `authority_sweeper` (P34, PROPOSED) | Identity & Auth | L3 Governance, L9 Operations | Sweeps expired authority grants; revokes and notifies |
+| `authority_sweeper` (P34, IMPLEMENTED) | Identity & Auth | L3 Governance, L9 Operations | Sweeps expired authority grants; revokes and notifies |
 | `regulator_export` (P35, PROPOSED) | Audit & Compliance | L5 Compliance | Regulator-ready evidence export (EU AI Act, SOC 2) |
 | `trust_adjuster` (P36, PROPOSED) | Identity & Auth | L3 Governance, L5 Compliance | Compliance-to-identity loop: violations reduce trust tier |
 | `treaty` (P37, PROPOSED) | Governance Ecology | L3 Governance | Inter-agent agreements with shared authority |
@@ -688,7 +688,7 @@ Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxo
 | `governance_fitness` (P39, PROPOSED) | Behavior & Health | L6 Assurance | Evaluates governance pattern effectiveness over time |
 | `draft_sweeper` (P40, PROPOSED) | Governance Kernel | L3 Governance | Tracks draft age; flags stale drafts for mandatory review |
 
-**Note:** The original 25-primitive crosswalk (audit P1-8) has been expanded to 40 primitives. P25 (`admission_control`) and P26 (`receipt_engine`) were already in the kernel but not counted in the original 25. P27-P40 are proposed primitives from `hummbl-primitive-expansion-v0.1.md`. P27-P31 and P38 are now implemented with schemas and tests. K9-K11 are wired into the Kernel (2026-07-15). P32-P37, P39-P40 are not yet started.
+**Note:** The original 25-primitive crosswalk (audit P1-8) has been expanded to 40 primitives. P25 (`admission_control`) and P26 (`receipt_engine`) were already in the kernel but not counted in the original 25. P27-P40 are proposed primitives from `hummbl-primitive-expansion-v0.1.md`. P27-P31, P34, and P38 are now implemented with schemas and tests. K9-K11 are wired into the Kernel (2026-07-15). P32-P33, P35-P37, P39-P40 are not yet started.
 
 **L-1 Admission primitive cross-check (audit P1-8 specific requirement):**
 
