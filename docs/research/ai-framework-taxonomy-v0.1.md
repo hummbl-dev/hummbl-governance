@@ -844,6 +844,16 @@ For HUMMBL, the category worth making explicit — and which no framework in the
 
 > **Admission-Controlled AI Frameworks** — frameworks that decide what gets admitted into durable state before governance, compliance, or assurance even begin. This claim is bounded to the current inventory; a broader literature search may surface frameworks not yet catalogued.
 
+### Descriptive vs. enforcement paradigm boundary
+
+The primitive matrix analysis (`hummbl-primitive-matrix-v0.1.md` Part 1) identified 4 framework families with zero primitive coverage: Concept/terminology (1), System-description (2), Principles/ethics (5), and Documentation/transparency (23). These are **descriptive** frameworks — they define vocabulary, system models, ethical principles, and documentation requirements. HUMMBL primitives are **enforcement** frameworks — they enforce rules, detect violations, and halt bad behavior.
+
+This is a paradigm mismatch, not a gap to fill with more enforcement primitives. HUMMBL's scope is enforcement, not description. Descriptive frameworks should be consumed as inputs (via `schema_validator` and `compliance_mapper`) rather than implemented as primitives.
+
+**Boundary statement:** HUMMBL governance primitives enforce rules at runtime. They do not define terminology (ISO 22989 does that), describe system architecture (ISO 5338 does that), articulate ethical principles (OECD AI Principles do that), or mandate documentation formats (Model Cards do that). HUMMBL primitives consume these descriptive frameworks as reference inputs and enforce compliance with them.
+
+**Exception:** A `ConceptRegistry` primitive (P42 candidate) could govern terminology at runtime — ensuring that terms used in receipts, admissions, and governance decisions have canonical definitions. This would be an enforcement primitive that references descriptive frameworks, not a descriptive primitive itself. This candidate is under consideration but not yet proposed for implementation.
+
 ---
 
 ## References

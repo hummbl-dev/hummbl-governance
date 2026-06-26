@@ -102,6 +102,31 @@ from hummbl_governance.kernel.canon_registry import (
     validate_promotion,
 )
 
+# Rollback (P28) — enforces K9 (REVERSIBILITY)
+from hummbl_governance.kernel.rollback import (
+    validate_rollback,
+    validate_reversibility,
+    validate_rollback_declaration,
+)
+
+# Recovery Verifier (P29) — gates re-engagement after halt (K10 RECOVERY)
+from hummbl_governance.kernel.recovery_verifier import (
+    validate_recovery_verifier,
+    validate_root_cause,
+    validate_recovery_operator_approval,
+    validate_recovery,
+)
+
+# Receipt Integrity Monitor (P30) — detects receipt sequence gaps, hash chain breaks
+from hummbl_governance.kernel.receipt_integrity_monitor import (
+    check_sequence,
+    check_hash_chain,
+    check_timestamps,
+    run_integrity_check,
+    validate_receipt_integrity_monitor,
+    validate_monitor_report,
+)
+
 __all__ = [
     "__version__",
     # Kernel — Governance operating system (v1.2.0)
@@ -196,4 +221,20 @@ __all__ = [
     "validate_operator_approval",
     "validate_review_required",
     "validate_promotion",
+    # Rollback (P28)
+    "validate_rollback",
+    "validate_reversibility",
+    "validate_rollback_declaration",
+    # Recovery Verifier (P29)
+    "validate_recovery_verifier",
+    "validate_root_cause",
+    "validate_recovery_operator_approval",
+    "validate_recovery",
+    # Receipt Integrity Monitor (P30)
+    "check_sequence",
+    "check_hash_chain",
+    "check_timestamps",
+    "run_integrity_check",
+    "validate_receipt_integrity_monitor",
+    "validate_monitor_report",
 ]
