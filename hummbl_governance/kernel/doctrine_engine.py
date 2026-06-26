@@ -523,10 +523,18 @@ class DoctrineEngine:
         """Execute a promotion after validation.
 
         Returns the artifact with promotion metadata, or raises KernelPanic.
+
+        If the artifact is an invariant amendment (has 'amendment_type' field),
+        also enforces D7 (DOCTRINE_AMENDMENT) via assert_invariant_change_gated().
         """
         self.assert_promotion_valid(
             from_stage, to_stage, operator_receipt, open_contests
         )
+
+        # D7 gate: if this artifact is an invariant amendment, enforce the
+        # doctrine amendment gate (operator approval + evidence + receipt).
+        if isinstance(artifact, dict) and artifact.get("amendment_type"):
+            self.assert_invariant_change_gated(artifact)
 
         artifact["promotion"] = {
             "from": from_stage.value if isinstance(from_stage, Stage) else str(from_stage),
