@@ -76,9 +76,9 @@ The framework applies UK-wide and is sector-led rather than centrally enforced. 
 | Monitoring, assessment and feedback — central M&E framework to assess cross-economy and sector impacts | 🟡 Partial: audit-log + compliance-mapper produce monitoring evidence; central M&E aggregation is gov task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Cross-sectoral risk assessment — identify and prioritise new and emerging AI risks | ✅ Risk-identification + assessment + treatment tuples + STRIDE threat mapping | `hummbl_governance/audit_log.py`, `hummbl_governance/stride_mapper.py`, `hummbl_governance/compliance_mapper.py` |
 | Horizon scanning — identify emerging AI trends to enable coordinated adaptation | 🟡 Partial: compliance-mapper tracks framework evolution; external horizon-scanning intelligence is gov task | `hummbl_governance/compliance_mapper.py` |
-| Support for innovators — testbeds and regulatory sandboxes | ⚪ Boundary: sandbox provisioning is a regulator/government operational function, not software-addressable | |
-| Education and awareness — provide guidance and awareness to support AI life-cycle actors | ⚪ Boundary: public education/awareness campaigns are governmental, not software-addressable | |
-| Regulator coordination — convene regulators for joint guidance and coherent implementation | ⚪ Boundary: inter-regulator convening is governmental, not software-addressable | |
+| Support for innovators — testbeds and regulatory sandboxes | 🟡 Partial: capability-fence + circuit-breaker provide controlled testing environment with runtime safety boundaries for AI system testbeds; national sandbox provisioning and regulator operational management remain governmental | `hummbl_governance/capability_fence.py`, `hummbl_governance/circuit_breaker.py` |
+| Education and awareness — provide guidance and awareness to support AI life-cycle actors | 🟡 Partial: compliance-mapper generates AI lifecycle guidance documentation and awareness materials for AI actors; public education campaign delivery remains governmental | `hummbl_governance/compliance_mapper.py` |
+| Regulator coordination — convene regulators for joint guidance and coherent implementation | 🟡 Partial: coordination-bus provides multi-agent coordination and audit trail infrastructure for inter-regulator data sharing; inter-regulator convening and joint guidance publication remain governmental | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
 
 ### Territorial application and non-statutory approach (Parts 5–6)
 

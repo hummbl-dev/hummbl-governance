@@ -170,6 +170,16 @@ def test_fleet_total_marker_count_is_published():
         "vermont-act101.md",
         "virginia-hb714.md",
         "owasp-agentic.md",
+        "spain-ai-strategy.md",
+        "finland-ai-strategy.md",
+        "uae-ai-strategy.md",
+        "switzerland-ai-strategy.md",
+        "estonia-ai-strategy.md",
+        "thailand-ai-strategy.md",
+        "south-africa-ai-policy.md",
+        "argentina-ai-plan.md",
+        "hong-kong-ai-guidelines.md",
+        "belgium-ai-strategy.md",
     ],
 )
 def test_matrix_has_data_rows(matrix_name: str):
@@ -324,6 +334,16 @@ def test_readme_table_parses_all_matrices():
         "vermont-act101.md",
         "virginia-hb714.md",
         "owasp-agentic.md",
+        "spain-ai-strategy.md",
+        "finland-ai-strategy.md",
+        "uae-ai-strategy.md",
+        "switzerland-ai-strategy.md",
+        "estonia-ai-strategy.md",
+        "thailand-ai-strategy.md",
+        "south-africa-ai-policy.md",
+        "argentina-ai-plan.md",
+        "hong-kong-ai-guidelines.md",
+        "belgium-ai-strategy.md",
     ],
 )
 def test_readme_counts_match_script_output(matrix_name: str):
