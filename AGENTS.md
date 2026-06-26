@@ -2,11 +2,11 @@
 
 ## Project
 
-**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.1.0), 1168 tests, zero third-party runtime dependencies.
+**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.0), 1737 tests, zero third-party runtime dependencies.
 
 ## Scope
 
-- In scope: Governance primitives (Kernel [receipts, identity, roles, laws, evidence], kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, reasoning engine, execution assurance, physical-AI safety), MCP servers, JSON schema validation, compliance assessments (NIST, ISO, SOC 2, EU AI Act)
+- In scope: Governance primitives (Kernel [receipts, identity, roles, laws, evidence, sequence, authority, schedule, doctrine] with K1-K11 invariants and D1-D7 doctrine invariants; rollback, recovery verifier, receipt integrity monitor, contestability, doctrine amendment, canon registry), kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, reasoning engine, execution assurance, physical-AI safety), MCP servers, JSON schema validation, compliance assessments (NIST, ISO, SOC 2, EU AI Act)
 - Out of scope: Consumer app features, bus protocol changes, agent orchestration logic
 
 ## Setup

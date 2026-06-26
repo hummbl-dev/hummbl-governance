@@ -31,6 +31,7 @@ Compliance documentation for various frameworks:
 ## Ecosystem
 
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
+- [Memory System Registry](MEMORY_SYSTEM_REGISTRY.md) - Proposed cross-system memory namespace registry
 
 ## Runbooks
 

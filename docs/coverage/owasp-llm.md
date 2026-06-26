@@ -14,18 +14,18 @@ OWASP LLM Top 10 is a **risk catalog**, not a regulation. No certification. Cove
 
 10 risk categories. **8 ✅ Fulfilled at platform layer · 2 🟡 Partial (require app-layer completion).**
 
-| ID | Category | Coverage |
-|---|---|---|
-| LLM01:2025 | Prompt Injection | 🟡 Partial |
-| LLM02:2025 | Sensitive Information Disclosure | ✅ Fulfilled |
-| LLM03:2025 | Supply Chain | ✅ Fulfilled |
-| LLM04:2025 | Data and Model Poisoning | 🟡 Partial |
-| LLM05:2025 | Improper Output Handling | ✅ Fulfilled |
-| LLM06:2025 | Excessive Agency | ✅ Fulfilled |
-| LLM07:2025 | System Prompt Leakage | ✅ Fulfilled |
-| LLM08:2025 | Vector and Embedding Weaknesses | ✅ Fulfilled |
-| LLM09:2025 | Misinformation | ✅ Fulfilled |
-| LLM10:2025 | Unbounded Consumption | ✅ Fulfilled |
+| ID | Category | Coverage | Evidence |
+|---|---|---|---|
+| LLM01:2025 | Prompt Injection | 🟡 Partial | |
+| LLM02:2025 | Sensitive Information Disclosure | ✅ Fulfilled | `hummbl_governance/schema_validator.py`, `hummbl_governance/delegation.py`, `hummbl_governance/audit_log.py` |
+| LLM03:2025 | Supply Chain | ✅ Fulfilled | `hummbl_governance/schema_validator.py`, `.github/workflows/ci.yml` |
+| LLM04:2025 | Data and Model Poisoning | 🟡 Partial | |
+| LLM05:2025 | Improper Output Handling | ✅ Fulfilled | `hummbl_governance/schema_validator.py`, `.github/workflows/ci.yml` |
+| LLM06:2025 | Excessive Agency | ✅ Fulfilled | `hummbl_governance/delegation.py`, `hummbl_governance/kill_switch.py` |
+| LLM07:2025 | System Prompt Leakage | ✅ Fulfilled | `.github/workflows/ci.yml`, `hummbl_governance/schema_validator.py` |
+| LLM08:2025 | Vector and Embedding Weaknesses | ✅ Fulfilled | `hummbl_governance/delegation.py`, `hummbl_governance/audit_log.py` |
+| LLM09:2025 | Misinformation | ✅ Fulfilled | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| LLM10:2025 | Unbounded Consumption | ✅ Fulfilled | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/cost_governor.py`, `hummbl_governance/kill_switch.py` |
 
 ---
 

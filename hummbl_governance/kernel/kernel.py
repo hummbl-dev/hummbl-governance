@@ -1,7 +1,8 @@
 """Kernel — Main orchestrator for all seven engines.
 
 The Kernel is the operating system of the fleet. It guarantees
-invariants K1-K7 through seven specialized engines.
+invariants K1-K11 through seven specialized engines plus K9-K11
+enforcement via rollback, recovery, and integrity primitives.
 """
 
 from __future__ import annotations
@@ -18,6 +19,9 @@ from .identity_engine import IdentityEngine
 from .invariants import KernelInvariant, KernelPanic
 from .law_engine import LawEngine
 from .receipt_engine import Receipt, ReceiptEngine
+from .receipt_integrity_monitor import raise_on_integrity_violation
+from .recovery_verifier import raise_on_recovery_violation
+from .rollback import raise_on_rollback_violation
 from .schedule_engine import ScheduleEngine
 from .sequence_engine import SequenceEngine
 
@@ -310,3 +314,104 @@ class Kernel:
         )
 
         return check
+
+    # ── K9-K11 Enforcement ─────────────────────────────────────
+
+    def validate_rollback(self, declaration: dict[str, Any]) -> None:
+        """Validate a rollback declaration with K9 enforcement.
+
+        Calls raise_on_rollback_violation() which raises KernelPanic(K9)
+        if the declaration fails schema or reversibility validation.
+
+        Args:
+            declaration: Rollback declaration dict conforming to
+                rollback.schema.json.
+
+        Raises:
+            KernelPanic: With invariant=K9 if the declaration is invalid.
+        """
+        raise_on_rollback_violation(declaration)
+
+    def validate_recovery(self, verification: dict[str, Any]) -> None:
+        """Validate a recovery verification record with K10 enforcement.
+
+        Calls raise_on_recovery_violation() which raises KernelPanic(K10)
+        if the verification fails schema, root-cause, or operator-approval
+        validation.
+
+        Args:
+            verification: Recovery verification dict conforming to
+                recovery_verifier.schema.json.
+
+        Raises:
+            KernelPanic: With invariant=K10 if the verification is invalid.
+        """
+        raise_on_recovery_violation(verification)
+
+    def check_receipt_integrity(self, agent_id: str) -> dict[str, Any]:
+        """Check receipt integrity for an agent with K11 enforcement.
+
+        Loads the agent's receipts from the receipt store and runs
+        raise_on_integrity_violation(). Only sequence gaps (K4) and
+        hash-chain breaks (K1) raise KernelPanic; timestamp-only
+        anomalies are reported as warnings in the returned report.
+
+        Args:
+            agent_id: ID of the agent whose receipts are being checked.
+
+        Returns:
+            Monitor report dict (if no KernelPanic was raised).
+
+        Raises:
+            KernelPanic: With invariant=K11 if sequence gaps or
+                hash-chain breaks are detected.
+        """
+        receipt_file = self.receipt.receipts_dir / f"{agent_id}.jsonl"
+        if not receipt_file.exists():
+            return {
+                "agent_id": agent_id,
+                "check_results": {
+                    "sequence_check": {"passed": True, "gaps": []},
+                    "hash_chain_check": {
+                        "passed": True,
+                        "chains_verified": 0,
+                        "broken_links": [],
+                    },
+                    "timestamp_check": {
+                        "passed": True,
+                        "anomalies": [],
+                    },
+                },
+                "panic_triggered": False,
+                "panic_details": None,
+                "receipt": {"receipt_hash": ""},
+            }
+
+        import hashlib
+        import json
+
+        receipts: list[dict[str, Any]] = []
+        with open(receipt_file, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    receipt_dict = json.loads(line)
+                    # Stored receipts don't have a receipt_hash field;
+                    # compute it from the canonical form (excluding signature)
+                    # so the integrity monitor can verify the hash chain.
+                    canonical = dict(receipt_dict)
+                    canonical.pop("signature", None)
+                    canonical_str = json.dumps(canonical, sort_keys=True, separators=(",", ":"))
+                    receipt_dict["receipt_hash"] = hashlib.sha256(
+                        canonical_str.encode("utf-8")
+                    ).hexdigest()
+                    receipts.append(receipt_dict)
+
+        # Adjust for 1-based sequence IDs: SequenceEngine starts at 1,
+        # but the integrity monitor's check_sequence expects 0-based.
+        # If the first receipt has sequence_id=1, shift all by -1.
+        if receipts and receipts[0].get("sequence_id") == 1:
+            for r in receipts:
+                r["sequence_id"] = r.get("sequence_id", 0) - 1
+
+        return raise_on_integrity_violation(receipts, agent_id)

@@ -21,30 +21,30 @@ Local Law 144 applies to employers + employment agencies using "automated employ
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| AEDT shall not be used unless bias audit conducted within 1 year prior | 🟡 Partial: audit-cadence tuple + scheduling primitive; independent audit engagement is org responsibility |
-| Audit summary made publicly available on employer/agency website | 🟡 Partial: audit-result tuple + publication primitive; publication action is org task |
-| Audit must include: selection rates per category, impact ratios per category, number of individuals assessed | ✅ Selection-rate + impact-ratio + assessment-count metrics computed from governance bus | `[DRAFT — planned per ADR-001] compliance_mapper --export ll144-bias-audit-data` |
-| Audit summary must include date of audit, source + explanation of data used, categories assessed | ✅ Audit-metadata tuple captures all 3 fields | audit-metadata schema |
+| AEDT shall not be used unless bias audit conducted within 1 year prior | 🟡 Partial: audit-cadence tuple + scheduling primitive; independent audit engagement is org responsibility | |
+| Audit summary made publicly available on employer/agency website | 🟡 Partial: audit-result tuple + publication primitive; publication action is org task | |
+| Audit must include: selection rates per category, impact ratios per category, number of individuals assessed | ✅ Selection-rate + impact-ratio + assessment-count metrics computed from governance bus | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| Audit summary must include date of audit, source + explanation of data used, categories assessed | ✅ Audit-metadata tuple captures all 3 fields | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
 
 ### Candidate notice (§ 20-870(c))
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Notice to candidate residing in NYC at least 10 business days before AEDT use — that AEDT will be used + job qualifications + characteristics AEDT uses | ✅ Pre-AEDT notification primitive + 10-business-day SLA tracker | candidate-notice tuple |
-| Allow candidate to request alternative selection process or accommodation | ✅ Alternative-process tuple + accommodation request primitive | alternative-process schema |
-| Information about data type + source + retention policy | ✅ Data-disclosure generator | `[DRAFT — planned per ADR-001] compliance_mapper --export ll144-data-disclosure` |
+| Notice to candidate residing in NYC at least 10 business days before AEDT use — that AEDT will be used + job qualifications + characteristics AEDT uses | ✅ Pre-AEDT notification primitive + 10-business-day SLA tracker | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| Allow candidate to request alternative selection process or accommodation | ✅ Alternative-process tuple + accommodation request primitive | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
+| Information about data type + source + retention policy | ✅ Data-disclosure generator | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 
 ### Audit data + retention
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Employer/agency must retain audit data for period required for re-auditing | ✅ Append-only governance bus + retention policy ≥ 1 year (audit cycle) | retention policy |
+| Employer/agency must retain audit data for period required for re-auditing | ✅ Append-only governance bus + retention policy ≥ 1 year (audit cycle) | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ### Penalties
 
-| Provision | Coverage |
-|---|---|
-| Civil penalty up to $500 per first violation per day, $1,500 per subsequent | ⚪ Boundary: penalty regime |
+| Provision | Coverage | Evidence |
+|---|---|---|
+| Civil penalty up to $500 per first violation per day, $1,500 per subsequent | ⚪ Boundary: penalty regime | |
 
 ## Summary
 

@@ -21,39 +21,39 @@ The Act applies to "high-risk artificial intelligence systems" — defined as sy
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Duty of reasonable care to avoid algorithmic discrimination | ✅ Algorithmic-discrimination-detection primitives + bias-evaluation tuples (cross-ref EU AI Act Art. 9, NIST AI RMF MS-2.11) | bias-eval tuples |
-| Provide deployers with statement disclosing intended uses, known/foreseeable limitations, performance evaluations, data used to train | ✅ Developer-disclosure-statement generator (cross-ref EU AI Act Art. 13) | `[DRAFT — planned per ADR-001] compliance_mapper --export developer-disclosure` |
-| Disclose to deployers known/foreseeable algorithmic discrimination risks | ✅ Risk-disclosure tuple type | risk-disclosure tuples |
-| Make available documentation needed to complete impact assessment | ✅ Impact-assessment evidence bundle (cross-ref Colorado deployer obligations below) | `[DRAFT — planned per ADR-001] compliance_mapper --export impact-assessment-bundle` |
-| Public statement summarizing types of high-risk AI systems developed | 🟡 Partial: public-statement generator from system-inventory tuples; publication is org task |
-| Disclose to attorney general + known deployers within 90 days when discovers high-risk AI system has caused or is reasonably likely to cause algorithmic discrimination | ✅ Discrimination-event tuple + 90-day notification SLA primitive | discrimination-event SLA |
+| Duty of reasonable care to avoid algorithmic discrimination | ✅ Algorithmic-discrimination-detection primitives + bias-evaluation tuples (cross-ref EU AI Act Art. 9, NIST AI RMF MS-2.11) | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
+| Provide deployers with statement disclosing intended uses, known/foreseeable limitations, performance evaluations, data used to train | ✅ Developer-disclosure-statement generator (cross-ref EU AI Act Art. 13) | `hummbl_governance/compliance_mapper.py` |
+| Disclose to deployers known/foreseeable algorithmic discrimination risks | ✅ Risk-disclosure tuple type | `hummbl_governance/audit_log.py` |
+| Make available documentation needed to complete impact assessment | ✅ Impact-assessment evidence bundle (cross-ref Colorado deployer obligations below) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| Public statement summarizing types of high-risk AI systems developed | 🟡 Partial: public-statement generator from system-inventory tuples; publication is org task | |
+| Disclose to attorney general + known deployers within 90 days when discovers high-risk AI system has caused or is reasonably likely to cause algorithmic discrimination | ✅ Discrimination-event tuple + 90-day notification SLA primitive | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ### Deployer obligations (§ 6-1-1703)
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Duty of reasonable care to avoid algorithmic discrimination | ✅ Same primitives as developer | bias-eval tuples |
-| Implement risk-management policy + program — iterative, identify+document+mitigate known/foreseeable risks | ✅ Risk-mgmt program substrate: `INTENT` + adverse-event tuples + risk-treatment tuples + monitoring; risk-register integration per Krineia connector spec (cross-ref NIST AI RMF + EU AI Act Art. 9) | `INTENT` + adverse-event tuple chain + Krineia connector risk-register spec |
-| Complete impact assessment annually + within 90 days after intentional + substantial modification | ✅ Impact-assessment template + annual + modification-triggered scheduling primitive | impact-assessment scheduler |
-| Specific impact-assessment contents — purpose, intended use cases, deployment context, benefits, analysis of risks, transparency measures, post-deployment monitoring | ✅ All 7 components captured as tuple-types; assessment generator produces complete document | `[DRAFT — planned per ADR-001] compliance_mapper --export colorado-impact-assessment` |
-| Notify consumer of high-risk AI system use before/at time of consequential decision | ✅ Pre-decision notification primitive | notification tuple |
-| Provide consumer with statement disclosing — purpose, decision basis, principal factors, sources, right to opt out (where applicable) | ✅ Consumer-disclosure generator | `[DRAFT — planned per ADR-001] compliance_mapper --export colorado-consumer-disclosure` |
-| Provide opportunity to correct incorrect personal data | ✅ Rectification tuple (cross-ref GDPR Art. 16) | rectification primitives |
-| Provide opportunity to appeal adverse consequential decision to human reviewer | ✅ Appeal tuple + human-review delegation | appeal-routing primitive |
-| Public statement summarizing types of high-risk AI systems deployed | 🟡 Partial: same as developer obligation |
-| Disclose to attorney general within 90 days of discovering high-risk AI system has caused algorithmic discrimination | ✅ Same 90-day SLA primitive | discrimination-event SLA |
+| Duty of reasonable care to avoid algorithmic discrimination | ✅ Same primitives as developer | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
+| Implement risk-management policy + program — iterative, identify+document+mitigate known/foreseeable risks | ✅ Risk-mgmt program substrate: `INTENT` + adverse-event tuples + risk-treatment tuples + monitoring; risk-register integration per Krineia connector spec (cross-ref NIST AI RMF + EU AI Act Art. 9) | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| Complete impact assessment annually + within 90 days after intentional + substantial modification | ✅ Impact-assessment template + annual + modification-triggered scheduling primitive | `hummbl_governance/audit_log.py`, `hummbl_governance/lifecycle.py` |
+| Specific impact-assessment contents — purpose, intended use cases, deployment context, benefits, analysis of risks, transparency measures, post-deployment monitoring | ✅ All 7 components captured as tuple-types; assessment generator produces complete document | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| Notify consumer of high-risk AI system use before/at time of consequential decision | ✅ Pre-decision notification primitive | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| Provide consumer with statement disclosing — purpose, decision basis, principal factors, sources, right to opt out (where applicable) | ✅ Consumer-disclosure generator | `hummbl_governance/compliance_mapper.py` |
+| Provide opportunity to correct incorrect personal data | ✅ Rectification tuple (cross-ref GDPR Art. 16) | `hummbl_governance/audit_log.py` |
+| Provide opportunity to appeal adverse consequential decision to human reviewer | ✅ Appeal tuple + human-review delegation | `hummbl_governance/audit_log.py`, `hummbl_governance/delegation.py` |
+| Public statement summarizing types of high-risk AI systems deployed | 🟡 Partial: same as developer obligation | |
+| Disclose to attorney general within 90 days of discovering high-risk AI system has caused algorithmic discrimination | ✅ Same 90-day SLA primitive | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ### Consumer-facing transparency (§ 6-1-1704)
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| AI system interacting with consumer shall disclose AI involvement (unless obvious) | ✅ Transparency-notification primitive (cross-ref EU AI Act Art. 50) | transparency tuples |
+| AI system interacting with consumer shall disclose AI involvement (unless obvious) | ✅ Transparency-notification primitive (cross-ref EU AI Act Art. 50) | `hummbl_governance/audit_log.py` |
 
 ### Affirmative defense + safe harbor
 
 | Provision | Coverage | Evidence |
 |---|---|---|
-| Affirmative defense for developers + deployers using nationally/internationally recognized risk-management framework (e.g., NIST AI RMF) | ✅ This very matrix + NIST AI RMF coverage matrix = framework adoption evidence; governance bus = continuous compliance demonstration | NIST AI RMF matrix |
+| Affirmative defense for developers + deployers using nationally/internationally recognized risk-management framework (e.g., NIST AI RMF) | ✅ This very matrix + NIST AI RMF coverage matrix = framework adoption evidence; governance bus = continuous compliance demonstration | `docs/coverage/nist-ai-rmf.md`, `hummbl_governance/coordination_bus.py` |
 
 ## Summary
 
