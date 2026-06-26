@@ -4,7 +4,7 @@ Every applicable control across every named framework, row-by-row.
 Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness, not score**.
 
 **HUMMBL version**: hummbl-governance v0.8.0
-**Last index update**: 2026-05-14
+**Last index update**: 2026-06-25
 **Coverage state legend**: ✅ Fulfilled · 🟡 Partial · ⚪ Boundary · ⛔ Out of scope
 
 ---
@@ -26,10 +26,32 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | Colorado AI Act (SB 24-205) | 18 obligations | 18 | 16 | 2 | 0 | 0 | [`colorado-ai-act.md`](./colorado-ai-act.md) |
 | NYC Local Law 144 (AEDT) | 9 obligations | 9 | 6 | 2 | 1 | 0 | [`nyc-ll144.md`](./nyc-ll144.md) |
 | Singapore IMDA Model AI Governance + Generative AI | 13 dimensions | 13 | 7 | 5 | 1 | 0 | [`imda-agentic.md`](./imda-agentic.md) |
-| G7 Hiroshima AI Process Code of Conduct | 11 principles | 12 | 6 | 3 | 2 | 1 | [`g7-ai-code.md`](./g7-ai-code.md) |
-| **FLEET (12 frameworks)** | **~657 controls in source standards** | **661 data rows** | **259** | **154** | **206** | **42** | — |
+| G7 Hiroshima AI Process Code of Conduct | 11 principles | 12 | 5 | 4 | 2 | 1 | [`g7-ai-code.md`](./g7-ai-code.md) |
+| STRIDE Threat Model | 6 threat categories | 6 | 6 | 0 | 0 | 0 | [`stride.md`](./stride.md) |
+| OWASP Agentic Top 10 (2025) | 10 risk categories (ASI01–ASI10) | 10 | 6 | 3 | 1 | 0 | [`owasp-agentic.md`](./owasp-agentic.md) |
+| South Korea AI Basic Act | 26 obligations (Arts. 31–43) | 26 | 13 | 3 | 10 | 0 | [`south-korea-ai-basic-act.md`](./south-korea-ai-basic-act.md) |
+| Texas TRAIGA (HB 149) | 22 obligations (Ch. 552) | 22 | 13 | 1 | 8 | 0 | [`texas-traiga.md`](./texas-traiga.md) |
+| Utah AI Policy Act (SB 149) | 23 obligations (Title 13, Ch. 72) | 23 | 4 | 1 | 18 | 0 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) |
+| California AI Transparency Act (SB 942) | 27 obligations (Ch. 25) | 27 | 6 | 8 | 13 | 0 | [`california-sb-942.md`](./california-sb-942.md) |
+| California AB 2013 (Training Data Transparency) | 18 obligations (Title 15.2) | 18 | 13 | 1 | 4 | 0 | [`california-ab-2013.md`](./california-ab-2013.md) |
+| California SB 53 (TFAIA) | 35 obligations (Ch. 25.1) | 35 | 17 | 3 | 15 | 0 | [`california-sb-53.md`](./california-sb-53.md) |
+| China Generative AI Interim Measures | 51 obligations (Arts. 4–23) | 51 | 35 | 6 | 10 | 0 | [`china-genai-measures.md`](./china-genai-measures.md) |
+| CCPA/CPRA (ADMT) | 47 obligations (Regs. §§ 7001–7222) | 47 | 44 | 2 | 1 | 0 | [`ccpa-cpra.md`](./ccpa-cpra.md) |
+| Japan AI Act (Act No. 53/2025) | 27 provisions (Arts. 5–19) | 27 | 5 | 2 | 20 | 0 | [`japan-ai-act.md`](./japan-ai-act.md) |
+| Italy Law No. 132/2025 | 91 obligations (Arts. 1–26) | 91 | 27 | 2 | 62 | 0 | [`italy-law-132-2025.md`](./italy-law-132-2025.md) |
+| Taiwan AI Fundamental Act | 30 obligations (Arts. 4–20) | 30 | 20 | 4 | 6 | 0 | [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) |
+| Peru Law No. 31814 + SD 115-2025 | 31 obligations (Arts. 22–36) | 31 | 22 | 3 | 6 | 0 | [`peru-law-31814.md`](./peru-law-31814.md) |
+| El Salvador AI Promotion Law (Decree 234/363) | 30 obligations (Arts. 5–28) | 30 | 14 | 5 | 11 | 0 | [`el-salvador-ai-promotion-law.md`](./el-salvador-ai-promotion-law.md) |
+| Kazakhstan AI Law (Law No. 230-VIII) | 31 obligations (Arts. 4–27) | 31 | 25 | 4 | 2 | 0 | [`kazakhstan-ai-law.md`](./kazakhstan-ai-law.md) |
+| Denmark AI Act (Law 467/2025) | 24 obligations (§§ 1–18) | 24 | 2 | 5 | 17 | 0 | [`denmark-ai-act.md`](./denmark-ai-act.md) |
+| Malta AI Regulations (LN 226/227 of 2025) | 30 obligations (LN 226/227) | 30 | 11 | 7 | 12 | 0 | [`malta-ai-regulations.md`](./malta-ai-regulations.md) |
+| Chile AI Bill (Boletín 16821-19) | 37 obligations (Arts. 4–27) | 37 | 22 | 7 | 8 | 0 | [`chile-ai-bill.md`](./chile-ai-bill.md) |
+| Malaysia AIGE Guidelines | 36 obligations (7 principles) | 36 | 26 | 6 | 4 | 0 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) |
+| Azerbaijan AI Strategy 2025-2028 | 32 obligations (5 pillars + decree) | 32 | 11 | 7 | 14 | 0 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) |
+| Connecticut SB 2 / SB 5 (PA 26-15) | 32 obligations (Secs. 1–39) | 32 | 20 | 6 | 6 | 0 | [`connecticut-sb2-sb5.md`](./connecticut-sb2-sb5.md) |
+| **FLEET (34 frameworks)** | **~1357 controls in source standards** | **1357 data rows** | **620** | **241** | **454** | **42** | — |
 
-> **These counts are enumeration evidence, not a score.** "Rows" is the count of data rows in each matrix file (some matrices include both Clause-level and Annex/control-level rows, so row count may exceed the source-standard surface count). ✅ + 🟡 + ⚪ + Unmarked = Rows for each matrix. The **Unmarked** column counts data rows in the matrix file that do NOT yet have a state glyph assigned — these are drafting gaps per ADR-001 row invariant (every row must be ✅/🟡/⚪/⛔). Surfacing them is intentional: PR #28 review identified silent unmarked-row dropping as a Goodhart channel (`feedback_no_self_grades_on_public_surface.md`). There is no implied "259 / 661 = 39%" coverage rate — the denominator includes 206 ⚪ Boundary rows (control is customer/regulator responsibility) and 42 Unmarked rows (drafting gap, not implemented coverage). Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts.
+> **These counts are enumeration evidence, not a score.** "Rows" is the count of data rows in each matrix file (some matrices include both Clause-level and Annex/control-level rows, so row count may exceed the source-standard surface count). ✅ + 🟡 + ⚪ + Unmarked = Rows for each matrix. The **Unmarked** column counts data rows in the matrix file that do NOT yet have a state glyph assigned — these are drafting gaps per ADR-001 row invariant (every row must be ✅/🟡/⚪/⛔). Surfacing them is intentional: PR #28 review identified silent unmarked-row dropping as a Goodhart channel (`feedback_no_self_grades_on_public_surface.md`). There is no implied "258 / 661 = 39%" coverage rate — the denominator includes 206 ⚪ Boundary rows (control is customer/regulator responsibility) and 42 Unmarked rows (drafting gap, not implemented coverage). Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts.
 
 ---
 
@@ -37,7 +59,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
-The **259 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **154 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **206 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
+The **620 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **241 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **454 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
 
 ## What this does NOT claim
 

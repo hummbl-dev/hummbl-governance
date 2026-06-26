@@ -1,11 +1,831 @@
 {
-  "validated_count": 5,
-  "fulfilled_count": 198,
-  "validated_pct": 2.5,
+  "validated_count": 614,
+  "fulfilled_count": 614,
+  "validated_pct": 100.0,
   "validated_rows": [
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Establish normative legal framework ensuring ethical and responsible AI use within value-based principles"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Develop ethical guidelines for AI use protecting individual rights and mitigating negative societal impacts"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Ensure fair distribution of AI use and benefits; protect individual rights"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Ensure data privacy and protection in AI systems"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "SCİS to conduct information-security risk analysis in AI application areas of government bodies"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "SCİS to take necessary measures ensuring AI-related information security in government bodies"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Align national AI framework with international standards and best practices"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Mitigate data-privacy risks through regulatory alignment and infrastructure investment"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Implement continuous risk identification, assessment, and mitigation for AI systems"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Ensure transparency and accountability in AI system deployment"
+    },
+    {
+      "matrix": "azerbaijan-ai-strategy.md",
+      "control_id": "Ensure human oversight and control over AI systems in public administration"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document sources or owners of datasets used"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Describe how datasets further the intended purpose of the AI system"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document number of data points (general ranges, estimated for dynamic datasets)"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Describe types of data points within datasets"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document copyright, trademark, or patent status of datasets"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document whether datasets were purchased or licensed"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document whether datasets include personal information (CCPA § 1798.140(v))"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document whether datasets include aggregate consumer information (CCPA § 1798.140(b))"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document data cleaning, processing, or other modification (including intended purpose)"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document time period during which data was collected (including ongoing notice)"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document dates datasets were first used during development"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Document whether datasets were/will be distributed or posted, and terms"
+    },
+    {
+      "matrix": "california-ab-2013.md",
+      "control_id": "Estimation methods allowed when information not reasonably available — describe methods and explain gaps"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Write, implement, comply with, and publish frontier AI framework"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Incorporate national, international, and industry-consensus standards"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Define and assess catastrophic-risk thresholds (may include multiple-tiered thresholds)"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Apply mitigations based on assessment results"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Review assessments and mitigation adequacy before deployment"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Define criteria for framework updates and substantial modification disclosures"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Describe cybersecurity practices to secure frontier models"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Describe approach to identifying and responding to critical safety incidents"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Describe governance practices to ensure framework implementation"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Assess and manage catastrophic risk from internal use (including oversight circumvention)"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Annual review and update of frontier AI framework"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Material modification publication within 30 days with justification"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Transparency report must contain capabilities, safety testing, and mitigations information"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Report critical safety incidents to OES within 15 days of discovery"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Report imminent-risk incidents (death/serious bodily injury) within 24 hours"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Provide anonymous internal disclosure process for covered employees"
+    },
+    {
+      "matrix": "california-sb-53.md",
+      "control_id": "Monthly update to whistleblowers on investigation status and actions taken"
+    },
+    {
+      "matrix": "california-sb-942.md",
+      "control_id": "Detection tool must assess whether image, video, or audio was created/altered by provider's GenAI"
+    },
+    {
+      "matrix": "california-sb-942.md",
+      "control_id": "Offer user option to include manifest disclosure in AI-generated content"
+    },
+    {
+      "matrix": "california-sb-942.md",
+      "control_id": "Manifest disclosure identifies content as AI-generated, clear and conspicuous"
+    },
+    {
+      "matrix": "california-sb-942.md",
+      "control_id": "Include latent disclosure in AI-generated image, video, or audio content"
+    },
+    {
+      "matrix": "california-sb-942.md",
+      "control_id": "Latent disclosure conveys provider name, system name/version, timestamp, unique identifier"
+    },
+    {
+      "matrix": "california-sb-942.md",
+      "control_id": "Latent disclosure detectable by provider's detection tool"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "ADMT definition — technology that processes personal information and uses computation to replace/substantially replace human decisionmaking"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Human involvement criteria — reviewer must know how to interpret output, review it, and have authority to make/change decision"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Profiling inclusion — ADMT includes profiling that replaces/substantially replaces human decisionmaking"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Provide Pre-use Notice before using ADMT for significant decisions"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Plain language explanation of specific purpose for ADMT use"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Describe consumer's right to opt-out of ADMT and how to submit request"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Inform consumer of human appeal option when opt-out exception applies"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Identify specific exception relied upon when opt-out not required"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Describe consumer's right to access ADMT and how to submit request"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "State non-retaliation prohibition for exercising CCPA rights"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Include additional information about how ADMT works for significant decisions"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Provide ability to opt-out of ADMT for significant decisions"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Methods must be easy to use, no dark patterns"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Collect only personal information necessary for opt-out processing"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Confirm receipt of opt-out request within 10 business days"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Honor opt-out within 15 business days"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Honor opt-out for at least 12 months"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Allow consumer to renew opt-out request"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Provide information about ADMT use when responding to access requests"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Plain language explanation of specific purpose for ADMT use"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Plain language explanation of role ADMT plays in decisionmaking process"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Non-retaliation notice and instructions for exercising other CCPA rights"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Easy-to-use request methods, no dark patterns"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Comply with verification requirements for access requests"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Inform requestor if identity cannot be verified"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Explain basis for denial if request conflicts with law or CCPA exception"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Disclose non-denied information for partial denials"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Use reasonable security measures when transmitting requested information"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Conduct risk assessments for processing presenting significant privacy/security risk"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Perform annual cybersecurity audits"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Identify and document categories of sensitive personal information"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Weigh benefits against risks with goal of restricting processing if risks outweigh benefits"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Create risk assessment report with specified information"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Provide Notice at Collection for personal information collection"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Identify business purposes for collecting personal information"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Identify categories of personal information to be collected"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Disclose consumer rights (know, delete, correct, opt-out, limit, ADMT opt-out, ADMT access)"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "State non-retaliation right for exercising privacy rights"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Include instructions for exercising CCPA rights and process expectations"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Right to know about personal information collected, including AI-generated inferences"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Right to delete personal information including AI-generated inferences"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Right to correct inaccurate personal information including AI-generated inferences"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Right to opt-out of sale or sharing including AI-generated profiles"
+    },
+    {
+      "matrix": "ccpa-cpra.md",
+      "control_id": "Right to limit use of sensitive personal information in AI systems"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Prohibit subliminal manipulation techniques that distort human behavior causing harm"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Prohibit generic social scoring systems evaluating persons based on social behavior"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Prohibit biometric categorization based on sensitive personal data"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Prohibit real-time remote biometric identification in public spaces (with judicial-authorization exceptions)"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Prohibit non-selective facial-image extraction from the internet or CCTV"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Prohibit emotion recognition in workplaces and educational institutions"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Establish continuous, iterative risk-management system across the AI lifecycle"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Implement data governance with bias detection and representativeness assessment"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Maintain technical documentation demonstrating compliance"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Implement automatic event-logging (registros) for traceability across lifecycle"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Ensure transparency and explainability sufficient for operators and affected persons to understand system operation"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Design for effective human oversight — system must be controllable and monitorable by natural persons"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Guarantee adequate levels of accuracy, robustness, and cybersecurity per Ley N° 21.663"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Ensure system respects fundamental rights and prevents stereotyping or degradation of persons or groups"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Establish and document post-implementation monitoring system proportional to identified risks"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Adopt immediate corrective measures — deactivate, withdraw from market, or suspend the system"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Mark synthetic content (audio, image, video, text) in machine-readable format detectable as AI-generated or manipulated"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Ensure technical marking solutions are effective, interoperable, and proportionate to content type and state of the art"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Inform persons clearly and timely when interacting with limited-risk AI systems (except when evident from context)"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Ensure limited-risk systems provide transparency, explainability, and security proportional to risk level"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Observe general principles: human oversight, safety, transparency, accountability, fairness, environmental well-being"
+    },
+    {
+      "matrix": "chile-ai-bill.md",
+      "control_id": "Maintain risk registers and documentation for audit and conformity assessment"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Generate content complying with laws, regulations, and social morality"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Prevent generation of prohibited content (national security, ethnic unity, terrorism, obscenity, false information, IP violations)"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Generate high-quality, accurate content"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Respect intellectual property and commercial secrets in training data and generated content"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Protect personal information and data security"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Use lawful data sources and foundation models for training"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Do not infringe IP rights in training data"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Obtain individual consent or lawful basis for personal information in training data (PIPL)"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Take measures to improve training data quality (authenticity, accuracy, objectivity, diversity)"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Take remedial measures against unlawful content in training data"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Formulate clear, specific, operational annotation rules compliant with the Measures"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Conduct data annotation quality assessment and sample-check accuracy"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Bear network information security responsibilities as content producer"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Bear personal information processor responsibilities under PIPL"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Clearly specify and publicly disclose intended user groups, contexts, and purposes"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Protect users' input information and usage records"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Do not collect non-essential personal information"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Do not illegally retain input information that can identify users"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Do not illegally provide user input information to others"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Timely accept and handle user requests for access, copy, amend, supplement, or delete personal information"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Mark images, videos, and other generated content per Deep Synthesis Provisions (2022)"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Prominent identification for AI dialogue, synthetic voice, face generation, immersive scenes"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Include prominent identification function for other deep synthesis services"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Provide safe, stable, and continuous services"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Detect illegal content generated by the service"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Immediately cease generation and transmission when illegal content found"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Eliminate illegal content when detected"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Report illegal content incidents to competent authorities"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Take measures against users misusing services (warnings, restrictions, suspension, termination)"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Save records of user misuse incidents"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Report user misuse to relevant authorities"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Establish complaint and reporting mechanisms"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Timely accept, process, and provide feedback on complaints"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Conduct security assessment for services with public opinion or social mobilization attributes"
+    },
+    {
+      "matrix": "china-genai-measures.md",
+      "control_id": "Provide explanations of training data sources, scale, types, annotation rules, algorithm mechanisms"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Duty of reasonable care to avoid algorithmic discrimination"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Provide deployers with statement disclosing intended uses, known/foreseeable limitations, performance evaluations, data used to train"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Disclose to deployers known/foreseeable algorithmic discrimination risks"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Make available documentation needed to complete impact assessment"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Disclose to attorney general + known deployers within 90 days when discovers high-risk AI system has caused or is reasonably likely to cause algorithmic discrimination"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Duty of reasonable care to avoid algorithmic discrimination"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Implement risk-management policy + program — iterative, identify+document+mitigate known/foreseeable risks"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Complete impact assessment annually + within 90 days after intentional + substantial modification"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Specific impact-assessment contents — purpose, intended use cases, deployment context, benefits, analysis of risks, transparency measures, post-deployment monitoring"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Notify consumer of high-risk AI system use before/at time of consequential decision"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Provide consumer with statement disclosing — purpose, decision basis, principal factors, sources, right to opt out (where applicable)"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Provide opportunity to correct incorrect personal data"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Provide opportunity to appeal adverse consequential decision to human reviewer"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Disclose to attorney general within 90 days of discovering high-risk AI system has caused algorithmic discrimination"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "AI system interacting with consumer shall disclose AI involvement (unless obvious)"
+    },
+    {
+      "matrix": "colorado-ai-act.md",
+      "control_id": "Affirmative defense for developers + deployers using nationally/internationally recognized risk-management framework (e.g., NIST AI RMF)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Implement evidence-based methods to detect user expressions of suicide, self-harm, or imminent physical violence"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Prevent AI companion from generating output encouraging self-harm, violence, or unlawful substance consumption"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Disclose to users that they are interacting with AI (continuously visible or at start of 24-hour period + hourly for minors / every 3 hours for adults)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Prevent AI companion from claiming to be human or generating output refuting non-human identity"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "For minors: prevent manipulative techniques (emotional dependence, isolation, romantic interactions, engagement optimization) and provide parental tools for screen time and account settings"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Large frontier developers must investigate reports, take immediate action to eliminate danger, and provide reasonable updates to reporting employees"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Developers must provide deployers all information necessary to comply with AEDT disclosure obligations (or contractually assume them)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Deployers must disclose to employees/applicants in plain language that they are interacting with an AEDT"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Deployers must provide written pre-decision notice: AEDT use, purpose, nature of decision, trade name, data categories/sources, data assessment methods, deployer contact info"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Deployers must provide additional notice for adverse decisions (right to request human review)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Courts and CHRO may consider evidence of anti-bias testing and proactive efforts when adjudicating discrimination claims"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Employers must not use AEDT in a manner that causes discrimination based on protected characteristics (race, color, creed, age, sex, gender identity, marital status, national origin, ancestry, disability, veteran status)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Covered providers (>1M monthly users, publicly accessible generative AI) must include provenance data in audio, image, or video content created or materially altered by their AI"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Provenance data must be difficult to tamper with, remove, or disassociate using commercially and technically reasonable methods (e.g., C2PA standard)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Provenance data must allow consumers to assess whether content was created or materially altered by generative AI"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "AI subscription providers must disclose quantitative/qualitative limitations, usage caps, feature restrictions, and provider discretion to reduce quality/functionality (Sec. 1, effective Oct 1, 2026)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "AI subscription providers must disclose modifications to limitations upon renewal"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "State agencies must inventory AI systems in use (Sec. 37, effective Oct 1, 2026)"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Covered platforms must not deliver personalized algorithmic content recommendations to minors without verifiable parental consent"
+    },
+    {
+      "matrix": "connecticut-sb2-sb5.md",
+      "control_id": "Default settings for minors: 1-hour daily algorithmic-content limit, private account mode, notification curfew (8 a.m.–9 p.m.), sensitive-content blocking"
+    },
+    {
+      "matrix": "denmark-ai-act.md",
+      "control_id": "Registration and retention of information collected during surveillance activities (§ 5(2))"
+    },
+    {
+      "matrix": "denmark-ai-act.md",
+      "control_id": "Temporary prohibitions on AI systems using Art. 5 prohibited practices (§ 7)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Mandatory compliance for systems handling confidential, restricted, or personal data (Art. 17)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Algorithmic Impact Assessment for Consequential Decision systems before deployment (Impl. Decree Art. 15)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Identify, assess, and mitigate risks for high-risk AI systems within ANIA framework"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Regulatory sandbox / testing environment for experimental AI activities (Art. 4(f), 19(b))"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Inform users whether a decision was made directly by AI or driven by AI for commercial or rights/services access (Art. 18)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Provide understandable and transparent explanations of the decision-making process (Art. 18)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Establish mechanisms to challenge AI decisions before a competent natural person who may confirm, modify, or revoke (Art. 18)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "No liability for research/experimental/sandbox activities not commercially deployed and not interfering with user rights (Art. 19(b))"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "All lifecycle stakeholders — developers, implementers, service providers, end-users — responsible for their respective roles (Art. 20)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Developers must design AI systems complying with ethical and technical standards; implementers ensure proper implementation and security (Art. 20)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Respect fairness, transparency, accountability, informed consent, data minimization, inclusion, and non-discrimination (Art. 5)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Address risks of biases, misuse, and misinformation in AI systems (Art. 2(b))"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Personal data use in AI must comply with the Law for the Protection of Personal Data (Art. 22)"
+    },
+    {
+      "matrix": "el-salvador-ai-promotion-law.md",
+      "control_id": "Public-sector AI must comply with ACE technical security regulations in addition to ANIA criteria (Art. 16)"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 8"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 9"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 10"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 11"
+    },
     {
       "matrix": "eu-ai-act.md",
       "control_id": "Art. 12"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 13"
     },
     {
       "matrix": "eu-ai-act.md",
@@ -13,7 +833,59 @@
     },
     {
       "matrix": "eu-ai-act.md",
+      "control_id": "Art. 15"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 18"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 19"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 21"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 47"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 49"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 72"
+    },
+    {
+      "matrix": "eu-ai-act.md",
       "control_id": "Art. 73"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 91"
+    },
+    {
+      "matrix": "g7-ai-code.md",
+      "control_id": "1"
+    },
+    {
+      "matrix": "g7-ai-code.md",
+      "control_id": "2"
+    },
+    {
+      "matrix": "g7-ai-code.md",
+      "control_id": "3"
+    },
+    {
+      "matrix": "g7-ai-code.md",
+      "control_id": "5"
+    },
+    {
+      "matrix": "g7-ai-code.md",
+      "control_id": "11"
     },
     {
       "matrix": "gdpr.md",
@@ -21,7 +893,1571 @@
     },
     {
       "matrix": "gdpr.md",
+      "control_id": "Art. 7"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 9"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 11"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 13"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 14"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 15"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 16"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 17"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 18"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 19"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 20"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 22"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 24"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 25"
+    },
+    {
+      "matrix": "gdpr.md",
       "control_id": "Art. 29"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 30"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 31"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 32"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 33"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "Determining the level of human involvement"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "Operations management"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "2. Data"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "3. Trusted Development + Deployment"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "4. Incident Reporting"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "5. Testing + Assurance"
+    },
+    {
+      "matrix": "imda-agentic.md",
+      "control_id": "6. Security"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "10"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.3"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.9"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.12"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.13"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.14"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.15"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.17"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.18"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.22"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.25"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.26"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.28"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.33"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.34"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.5.37"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.2"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.3"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.5"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.8"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.10"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.11"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.15"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.16"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.17"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.18"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.24"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.25"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.26"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.27"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.28"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.29"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.32"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.33"
+    },
+    {
+      "matrix": "iso-27001.md",
+      "control_id": "A.8.34"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "9"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "10"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.3.3"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.3.4"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.4.7"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.5.3"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.1.3"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.2"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.3"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.4"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.5"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.6"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.7"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.6.2.8"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.7.2"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.7.3"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.7.4"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.7.5"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.8.2"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.8.4"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.9.2"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.10.2"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Compliance with EU AI Act — all provisions interpreted in conformity with Regulation (EU) 2024/1689"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Anthropocentric approach — human autonomy and decision-making power"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Fundamental rights compliance"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Core principles — transparency, proportionality, security, data protection, accuracy, non-discrimination, sustainability"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Data and process quality — correctness, reliability, security, quality, appropriateness, transparency"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Human oversight and intervention"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Cybersecurity as essential precondition — resilience against alteration attempts"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Lawful, fair, transparent data processing compatible with collection purposes"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Clear and simple information about data processing and AI use"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Parental consent for under-14s accessing AI technologies"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Autonomous consent for 14-18 year olds with accessible information"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "AI must improve healthcare, prevention, diagnosis, treatment respecting rights"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Non-discrimination in healthcare access"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Patient right to be informed about AI use"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Medical decision authority remains with professionals — AI is support only"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "System reliability, periodic verification, and updates to minimize errors"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "AI must improve working conditions and protect worker psychophysical integrity"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Workplace AI must be safe, reliable, transparent, non-violating of dignity"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Employer must inform worker of AI use per remote-worker monitoring rules"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Non-discrimination in employment AI (sex, age, ethnicity, religion, sexual orientation, political opinions)"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "AI use in intellectual professions is ancillary and supportive only"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Professional must inform client of AI use in clear, simple, exhaustive language"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "PA must use AI to increase efficiency, reduce time, improve service quality"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "PA must ensure knowability of AI functioning and traceability of use"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "AI use is instrumental and supportive — decision authority with human"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "Magistrate decision authority — all interpretation, fact assessment, measures reserved to magistrate"
+    },
+    {
+      "matrix": "italy-law-132-2025.md",
+      "control_id": "AI for sports organization in compliance with general principles"
+    },
+    {
+      "matrix": "japan-ai-act.md",
+      "control_id": "Voluntary adoption of AI governance practices per government guidelines"
+    },
+    {
+      "matrix": "japan-ai-act.md",
+      "control_id": "Voluntary risk management for AI systems"
+    },
+    {
+      "matrix": "japan-ai-act.md",
+      "control_id": "Voluntary human oversight of AI systems"
+    },
+    {
+      "matrix": "japan-ai-act.md",
+      "control_id": "Voluntary transparency and disclosure"
+    },
+    {
+      "matrix": "japan-ai-act.md",
+      "control_id": "Voluntary security measures for AI systems"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 6: AI systems must ensure fairness and equality, excluding discrimination (origin, gender, race, nationality, language, religion, etc.)"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 7: Provide users complete information about AI system characteristics and limitations; right to be informed about automated processing and right to object"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 8(1): Owner/possessor/user must ensure continuous control over the AI system at all lifecycle stages"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 9: Preserve human autonomy and free will in decision-making when operating AI systems"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 10(1)–(2): AI use subject to data-protection requirements; no unauthorized collection/storage/dissemination of personal data; prevent unauthorized third-party access; use high-quality representative data sets"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 11(1): AI systems must meet safety and reliability requirements that exclude unforeseen consequences or abuse"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 11(2): Results of AI system activities must comply with the legislation of the Republic of Kazakhstan"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 15(2)(1) + Art. 11(3): Owners/holders must implement risk management of AI systems"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 18(1): Continuous risk management — identify, assess, mitigate risks; update at least annually"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 18(2): If prohibited capabilities (Art. 17(3)) are identified, take immediate measures including suspend or terminate operation"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 15(2)(2)–(3): Ensure security and reliability including protection from unauthorized access and failures; maintain documentation based on impact degree"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 16(1)(4): Right to receive explanations about AI results affecting rights, freedoms, and legitimate interests"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 16(1)(5): Right to request information about the data on which AI decisions were based"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 16(2)(1)–(2): Users must use AI only within granted access rights and comply with safety rules"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 17(1): Classify AI systems by risk level (minimal, medium, high) based on impact on users, society, and state"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 17(2): Classify AI systems by autonomy degree (low, medium, high) based on independence in decision-making"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 17(3)(1)–(2): Prohibited — subconscious/manipulative techniques distorting behavior; exploitation of vulnerabilities (age, disability, social status)"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 17(3)(3): Prohibited — social scoring: assessment/classification of individuals based on social behavior or personal characteristics"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 17(3)(4)–(5): Prohibited — unlawful personal-data collection/processing; biometric classification for discrimination (race, political views, religion)"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 17(3)(6)–(7): Prohibited — emotion determination without consent; creation/distribution of legally prohibited AI results"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 19(2) + Art. 20(2): Audit of AI systems for trusted-list inclusion — assess data-library quality/legitimacy and presence of prohibited capabilities"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 21(1): Users must be informed that goods, works, and services are produced or provided using AI systems"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 21(2)–(3): Synthetic AI results (deepfakes) must be marked in machine-readable form with visual/audio warning; owner/holder responsible"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 22(1)–(2): Machine-readable forms must be used for transparency and accountability, enabling automated recognition of conditions by AI systems"
+    },
+    {
+      "matrix": "kazakhstan-ai-law.md",
+      "control_id": "Art. 27(2)(5) + Art. 27(2): Data-library producer info must be in machine-readable form at creation and transfer; ensure data quality and compliance"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Design AI systems to avoid bias and discrimination, including unintentional biases in data processing"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Identify potential sources of bias in training data and take steps to mitigate them (developer best practice — Data Collection)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "AI systems should operate reliably and consistently under normal and unexpected conditions"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Implement fail-safe mechanisms to prevent harm in critical situations"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Resist being compromised by unauthorised parties"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Conduct rigorous testing and validation to ensure AI performs as accurately as intended (developer best practice — Validation)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Implement automatic measures to prevent data privacy breaches (rigorous testing, monitoring, fail-safe mechanisms)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Ensure data security and minimise potential harm, especially in high-risk areas (military, healthcare)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Incorporate user feedback to improve AI results and embed in applications (developer best practice — User Feedback)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(a) Full disclosure that an AI system is being used in decision-making"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(b) Disclose the intended purpose of the AI system"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(c) Provide information on training data and potential historical or social biases"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(e) Provide mechanisms for challenging AI decisions"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Provide clear explanations and justifications for AI decisions (developer best practice — Transparency)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Developers, owners, and operators accountable for system performance and compliance with governance and ethical principles"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Address system purpose to avoid consequential harm (Accountability element 1)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Address technology capability to avoid consequential harm (Accountability element 2)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Address quality and reliability to avoid consequential harm (Accountability element 3)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Design AI to enhance societal values and prioritize human-centred values for betterment of individuals and communities"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(a) Human-in-the-loop (HITL) — capability for human intervention in every decision cycle"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(b) Human-on-the-loop (HOTL) — human intervention during design cycle and monitoring of system operation"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "(c) Human-in-command (HIC) — oversight of overall AI activity and ability to decide when and how to use the system"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Prevent harm or misuse of AI technology"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Incorporate ethical considerations into AI design and proactively identify/address ethical challenges (Ethical Considerations)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "Continuously monitor AI performance and impact to identify biases, risks, or unintended consequences (Ongoing Monitoring)"
+    },
+    {
+      "matrix": "malaysia-aige-guidelines.md",
+      "control_id": "End-user right to be informed about data collection"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Conformity assessment procedures for high-risk AI systems prior to market placement"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Providers and importers maintain technical files and make them available to MDIA on request"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Implement risk management system for high-risk AI systems (identify, assess, mitigate)"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Maintain technical documentation demonstrating conformity (Annex IV)"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Automatic event logging for high-risk AI systems operating with recorded logs"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Record-keeping of risk-management iterations and design decisions"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Transparency obligations — notify users when interacting with AI (limited-transparency systems)"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Label AI-generated content (deepfakes, synthetic media) distinguishable from non-AI content"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Human oversight of high-risk AI systems, including named responsible person"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Operational limits on automated decision-making with human-in-the-loop review"
+    },
+    {
+      "matrix": "malta-ai-regulations.md",
+      "control_id": "Providers implement post-market monitoring system for high-risk AI"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "GV-1.6"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "GV-1.7"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "GV-4.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "GV-4.3"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "GV-6.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MP-1.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MP-2.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MP-2.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MP-3.3"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MP-3.5"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MP-4.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-1.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-1.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.3"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.4"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.5"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.6"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.7"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.8"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.10"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.13"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-3.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-3.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-4.3"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-1.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-1.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-1.3"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-1.4"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-2.3"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-2.4"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-3.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-4.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-4.2"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-4.3"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "GV.RM-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "GV.RR-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "GV.SC-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "GV.SC-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-05"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.AM-08"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.RA-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.RA-06"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.RA-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.IM-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.IM-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.IM-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.AA-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.AA-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.AA-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.AA-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.AA-05"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.DS-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.DS-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.PS-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.PS-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.PS-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.PS-06"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "PR.IR-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.CM-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.CM-06"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.CM-09"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.AE-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.AE-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.AE-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.AE-06"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "DE.AE-08"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.MA-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.MA-02"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.MA-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.MA-04"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.MA-05"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.AN-03"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.AN-06"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.AN-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.AN-08"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.MI-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RC.RP-01"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RC.RP-05"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RC.RP-06"
+    },
+    {
+      "matrix": "nyc-ll144.md",
+      "control_id": "Audit must include: selection rates per category, impact ratios per category, number of individuals assessed"
+    },
+    {
+      "matrix": "nyc-ll144.md",
+      "control_id": "Audit summary must include date of audit, source + explanation of data used, categories assessed"
+    },
+    {
+      "matrix": "nyc-ll144.md",
+      "control_id": "Notice to candidate residing in NYC at least 10 business days before AEDT use — that AEDT will be used + job qualifications + characteristics AEDT uses"
+    },
+    {
+      "matrix": "nyc-ll144.md",
+      "control_id": "Allow candidate to request alternative selection process or accommodation"
+    },
+    {
+      "matrix": "nyc-ll144.md",
+      "control_id": "Information about data type + source + retention policy"
+    },
+    {
+      "matrix": "nyc-ll144.md",
+      "control_id": "Employer/agency must retain audit data for period required for re-auditing"
+    },
+    {
+      "matrix": "owasp-agentic.md",
+      "control_id": "ASI01"
+    },
+    {
+      "matrix": "owasp-agentic.md",
+      "control_id": "ASI03"
+    },
+    {
+      "matrix": "owasp-agentic.md",
+      "control_id": "ASI04"
+    },
+    {
+      "matrix": "owasp-agentic.md",
+      "control_id": "ASI07"
+    },
+    {
+      "matrix": "owasp-agentic.md",
+      "control_id": "ASI08"
+    },
+    {
+      "matrix": "owasp-agentic.md",
+      "control_id": "ASI10"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM02:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM03:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM05:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM06:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM07:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM08:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM09:2025"
+    },
+    {
+      "matrix": "owasp-llm.md",
+      "control_id": "LLM10:2025"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Tripartite risk classification of AI systems: prohibited (uso indebido), high-risk (riesgo alto), acceptable (riesgo aceptable)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Prohibited: deceptive or manipulative influence on human decision-making using subliminal techniques or exploitation of vulnerabilities"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Prohibited: lethal autonomous systems that make decisions without human supervision causing physical harm"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Prohibited: inference of sensitive attributes (race, politics, religion, sexual orientation) from biometric data"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Prohibited: crime prediction based on personality profiling or trait assessment"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "High-risk classification: critical infrastructure, education, employment, social programs, credit, healthcare, emotion inference"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Mandatory impact assessment for public-entity high-risk AI before development or implementation (Art. 30)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Voluntary impact assessment for private-sector high-risk AI (Art. 32)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Mitigation measures when risks detected: model adjustments, data-quality improvement, human-oversight mechanisms"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Documentation retention for private impact assessments: minimum 3 years, available to judicial/administrative authorities"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Prior, clear, and simple notification to users of AI system purpose, functionality, and decision types"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Visible AI labeling of products, services, or AI-generated content, including capabilities and limitations"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Explanation of automated decisions affecting human rights, in accessible language with key criteria and factors"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Privacy by design: data minimization, anonymization techniques integrated into AI system development (Art. 29.b)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Bias identification and minimization using best practices, national/international standards"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Risk management: encryption, anomaly detection, model robustness measures for AI systems"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Security audits: mandatory before deployment and periodic during operation, identifying vulnerabilities and biases"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Incident management: AI-related incidents managed as part of Information Security Management System"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Human oversight of high-risk AI in public entities: health, education, justice, finance, social services (Art. 28.11)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Personnel must have capacity to stop, correct, or invalidate AI decisions (Art. 28.11.ii, 31.4.ii)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Updated, accessible registry of system operation principles, data sources, algorithm logic, and social/ethical impacts (Art. 31.1)"
+    },
+    {
+      "matrix": "peru-law-31814.md",
+      "control_id": "Policies, protocols, and procedures for security, privacy, transparency, explainability, and accountability (Art. 31.2)"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC2.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC3.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC4.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC4.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC5.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC5.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC6.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC6.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC6.3"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC6.5"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC6.6"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC6.7"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC7.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC7.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC7.3"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC7.4"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC8.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC9.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "A1.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "A1.3"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "PI1.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "PI1.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "PI1.3"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "PI1.5"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "C1.1"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "C1.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "P1 — Privacy notice"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "P2 — Choice + consent"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "P3 — Collection"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "P4 — Use, retention, disposal"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "P5 — Access"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "P7 — Quality"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Prior AI use notification to users for high-impact AI or generative AI"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Generative AI output labeling when outputs may be difficult to distinguish from non-AI content"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Realistic content (deepfake) labeling with clear AI-generation indicators"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Implement safety measures for compute-threshold systems (≥10²⁶ FLOPs)"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Establish risk management system to monitor and respond to AI safety accidents"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Identify, assess, and mitigate risks for compute-threshold systems"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Conduct prior review to determine whether AI constitutes high-impact AI"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Formulate and operate risk management plan for high-impact AI"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Formulate and implement explanation plan (results, criteria, training data overview)"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Formulate and operate user protection plan for high-impact AI"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Assign human management and oversight of high-impact AI, including named contact person"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Prepare and retain documentation verifying safety and trustworthiness measures for 5 years"
+    },
+    {
+      "matrix": "south-korea-ai-basic-act.md",
+      "control_id": "Human rights impact assessment for high-impact AI (soft obligation — \"should endeavor\")"
+    },
+    {
+      "matrix": "stride.md",
+      "control_id": "S"
+    },
+    {
+      "matrix": "stride.md",
+      "control_id": "T"
+    },
+    {
+      "matrix": "stride.md",
+      "control_id": "R"
+    },
+    {
+      "matrix": "stride.md",
+      "control_id": "I"
+    },
+    {
+      "matrix": "stride.md",
+      "control_id": "D"
+    },
+    {
+      "matrix": "stride.md",
+      "control_id": "E"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Human autonomy — support human autonomy, respect personality rights and fundamental rights, ensure human oversight"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Privacy protection and data governance — protect personal data, respect trade secrets, data minimization, promote open reuse of non-sensitive data"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Cybersecurity and safety — establish cybersecurity measures, prevent threats, ensure robustness and safety"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Transparency and explainability — AI outputs accompanied by appropriate disclosures or labeling to facilitate risk assessment"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Accountability — ensure internal governance responsibilities and external social responsibilities are assumed"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Prevent AI from infringing upon people's life, body, liberty, or property (Art. 5 ¶1)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "High-risk AI products must carry advisory notices or warnings (Art. 5 ¶2)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "MODA to promote internationally interoperable AI risk taxonomy and assessment framework (Art. 16 ¶1)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "AI outputs shall be accompanied by appropriate disclosures or labeling"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Disclosures shall facilitate assessment of potential risks and understanding of impact on rights and interests"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Establish cybersecurity measures to prevent security threats and attacks"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Ensure robustness and safety of the system"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Protect personal data privacy; respect corporate trade secrets; avoid data leakage (Art. 4(3))"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Adopt data minimization principle (Art. 4(3))"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Avoid unnecessary personal data collection/processing; privacy by design and by default (Art. 14)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Support human autonomy; ensure human oversight of AI systems (Art. 4(2))"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Government shall conduct risk assessments when using AI to perform duties or services (Art. 19 ¶1)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Government shall plan risk response measures (Art. 19 ¶1)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Government shall establish usage guidelines or internal control management mechanisms (Art. 19 ¶2)"
+    },
+    {
+      "matrix": "taiwan-ai-fundamental-act.md",
+      "control_id": "Ensure internal governance responsibilities and external social responsibilities are assumed (Art. 4(7))"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI manipulation to incite self-harm"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI manipulation to harm others"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI manipulation to encourage criminal activity"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on government social scoring systems"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on government biometric data capture without consent"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI designed to infringe constitutional rights"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI designed for unlawful discrimination"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI for child pornography production/distribution"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Prohibition on AI simulating child sexual conduct"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Government agency AI disclosure to consumers before/at interaction"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Disclosure must be clear, conspicuous, plain language, no dark patterns"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Healthcare AI disclosure timing — by date service first provided (emergency: ASAP)"
+    },
+    {
+      "matrix": "texas-traiga.md",
+      "control_id": "Rebuttable presumption of reasonable care for NIST AI RMF compliance"
+    },
+    {
+      "matrix": "utah-ai-policy-act.md",
+      "control_id": "Disclosure upon request — clearly and conspicuously disclose AI interaction when asked in consumer-protection-regulated activities"
+    },
+    {
+      "matrix": "utah-ai-policy-act.md",
+      "control_id": "Regulated occupation disclosure — prominently disclose when interacting with generative AI in regulated services"
+    },
+    {
+      "matrix": "utah-ai-policy-act.md",
+      "control_id": "Verbal disclosure timing — at start of oral exchange for regulated occupations"
+    },
+    {
+      "matrix": "utah-ai-policy-act.md",
+      "control_id": "Electronic disclosure timing — before written exchange for regulated occupations"
     }
   ],
   "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage."
