@@ -16,7 +16,7 @@ from hummbl_governance.kernel.doctrine_engine import (
     DoctrineInvariant,
     Stage,
 )
-from hummbl_governance.kernel.invariants import KernelInvariant, KernelPanic
+from hummbl_governance.kernel.invariants import KernelPanic
 
 
 def _make_engine() -> DoctrineEngine:

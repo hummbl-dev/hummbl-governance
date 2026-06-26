@@ -133,6 +133,15 @@ def validate_registry(registry_path: Path, markdown_path: Path) -> list[str]:
             if path_entry.get("exists_checked") is True:
                 try:
                     root = _resolve_repo_root(repo_roots, registry_path, str(path_entry.get("repo")))
+                except ValueError as exc:
+                    errors.append(f"{path_prefix}: {exc}")
+                    continue
+                if not root.exists():
+                    # Repo root not present in this checkout (e.g. CI only
+                    # has hummbl-governance). Skip cross-repo existence
+                    # verification rather than reporting a false mismatch.
+                    continue
+                try:
                     actual = _path_exists(root, str(path_entry.get("path")), str(path_type))
                 except ValueError as exc:
                     errors.append(f"{path_prefix}: {exc}")

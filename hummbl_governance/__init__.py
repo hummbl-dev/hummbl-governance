@@ -145,7 +145,7 @@ from hummbl_governance.kernel.doctrine_amendment import (
     AmendmentType,
     AmendmentStatus,
     validate_doctrine_amendment,
-    validate_operator_approval,
+    validate_operator_approval as validate_amendment_operator_approval,
     validate_amendment_evidence,
     validate_amendment,
 )
@@ -274,7 +274,7 @@ __all__ = [
     "AmendmentType",
     "AmendmentStatus",
     "validate_doctrine_amendment",
-    "validate_operator_approval",
+    "validate_amendment_operator_approval",
     "validate_amendment_evidence",
     "validate_amendment",
 ]
