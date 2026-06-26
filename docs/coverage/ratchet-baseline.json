@@ -1,8 +1,64 @@
 {
-  "validated_count": 619,
-  "fulfilled_count": 619,
+  "validated_count": 779,
+  "fulfilled_count": 779,
   "validated_pct": 100.0,
   "validated_rows": [
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Prohibit publication of deepfake media depicting candidates or citizens nude, in sexual acts, committing crimes, or suffering financial/reputational harm"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Apply candidate protections during the 180-day period before a scheduled election"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Establish \"actual knowledge\" standard — liability attaches when publisher knows content is a digital impersonation"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Detect and block AI-generated voice recordings, images, or videos used for fraud or harassment"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Preserve protected-speech exemptions for comedy, parody, art, criticism, and obviously edited media"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Maintain identity-provenance chain to distinguish authorized voice/image use from fraudulent impersonation"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Detect and block AI-generated or digitally manipulated images depicting minors indistinguishable from real children"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Apply indistinguishability standard — computer-generated images indistinguishable from actual children trigger exploitation statutes"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Escalate content depicting victims appearing under age 15 to dangerous-crime-against-children severity"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Require medical director to individually review claim denials and prior-authorization denials involving medical necessity"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Medical director must exercise independent medical judgment — cannot rely solely on AI-generated recommendations"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Medical director must hold active, unrestricted Arizona medical license"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Written denials must include explanation of why treatment was denied"
+    },
+    {
+      "matrix": "arizona-hb2394.md",
+      "control_id": "Prevent AI from serving as the sole/final decision-maker on medical necessity denials"
+    },
     {
       "matrix": "azerbaijan-ai-strategy.md",
       "control_id": "Establish normative legal framework ensuring ethical and responsible AI use within value-based principles"
@@ -46,6 +102,98 @@
     {
       "matrix": "azerbaijan-ai-strategy.md",
       "control_id": "Ensure human oversight and control over AI systems in public administration"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to prior information about interactions with AI systems"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to explanation of decisions, recommendations, or predictions"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to contest decisions producing legal effects or significantly affecting interests"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to human participation in AI decisions, considering context and state of the art"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to non-discrimination and correction of discriminatory biases (direct, indirect, illegal, or abusive)"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to privacy and personal data protection per LGPD"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to contest and request review of high-risk AI decisions, recommendations, or predictions"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to request human intervention or review when decisions produce relevant legal effects or significantly affect interests"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to correction of incomplete, inaccurate, or outdated data used by AI systems (per LGPD Art. 18)"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Right to fair and isonomic treatment — prohibition of direct, indirect, illegal, or abusive discrimination"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Prohibition on government social scoring systems"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Prohibition on indiscriminate biometric surveillance in public spaces (with law-enforcement exceptions)"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Prohibition on AI exploiting vulnerabilities of specific groups (children, elderly, persons with disabilities) causing harm"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Ensure safety of AI systems and rights of affected persons per regulatory requirements"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Conduct preliminary risk assessment to determine risk level before market placement or use"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Implement risk management system to identify, assess, and mitigate risks throughout lifecycle"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Document tests assessing appropriate levels of reliability and safety"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Document degree of human oversight contributing to results"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Implement measures to mitigate and prevent discriminatory biases"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Provide adequate information for interpretation of results and operation of AI systems (respecting trade secrecy)"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Human oversight of high-risk AI to prevent or minimize risks to rights and freedoms (Art. 8)"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "AI agents may conduct self-assessment to demonstrate compliance with safety, transparency, and ethical requirements"
+    },
+    {
+      "matrix": "brazil-pl2338.md",
+      "control_id": "Algorithmic impact assessment for high-risk systems"
     },
     {
       "matrix": "california-ab-2013.md",
@@ -190,6 +338,58 @@
     {
       "matrix": "california-sb-942.md",
       "control_id": "Latent disclosure detectable by provider's detection tool"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Establish measures with respect to the manner in which data is anonymized"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Establish measures with respect to the use or management of anonymized data"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Assess whether an AI system is a high-impact system (s. 7)"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Establish measures to identify, assess and mitigate risks of harm or biased output (s. 8)"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Establish measures to monitor compliance with mitigation measures and their effectiveness (s. 9)"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Conduct impact assessment for high-impact systems (amended — s. 10(1)(a))"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Ensure reliability and robustness of the system (amended — s. 10(1)(f))"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Promptly advise human user that they are communicating with an AI system where confusion is reasonably foreseeable (amended — all AI systems)"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Keep general records describing measures established under ss. 6, 8, 9 and reasons supporting high-impact assessment (s. 10(1))"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Keep additional records in respect of requirements under ss. 6 to 9 as prescribed (s. 10(2))"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Establish incident response and reporting; assess serious harm and near-misses; cease operations until modified; report to AI and Data Commissioner (amended — s. 11(1)(g))"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Enable human oversight features in high-impact systems — interpretability appropriate to context (amended — ss. 10(1)(d), 11(1)(d))"
+    },
+    {
+      "matrix": "canada-aida.md",
+      "control_id": "Establish accountability framework — roles, reporting structure, risk policies, incident procedures, data policies, training (amended)"
     },
     {
       "matrix": "ccpa-cpra.md",
@@ -984,6 +1184,54 @@
       "control_id": "Art. 33"
     },
     {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "\"Artificial intelligence\" definition — machine-based system that infers from input to generate outputs (predictions, content, recommendations, decisions); includes generative AI"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "\"Generative artificial intelligence\" definition — automated computing system producing outputs simulating human-produced content (text, images, multimedia, other)"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Protected classes under IHRA — race, color, ancestry, national origin, disability, religion, sex, sexual orientation, pregnancy, military status, age (40+), marital status, citizenship, work authorization, language, conviction/arrest record, family responsibilities, reproductive health decisions"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Prohibition on AI use that subjects employees to discrimination — recruitment and hiring contexts"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Prohibition on AI use that subjects employees to discrimination — promotion, renewal of employment, selection for training or apprenticeship"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Prohibition on AI use that subjects employees to discrimination — discharge, discipline, tenure, or terms/privileges/conditions of employment"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Prohibition on using zip codes as a proxy for protected classes under the Article"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Broad scope — statutory language encompasses any \"use\" of AI, not just fully automated decision-making"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Permitted use — nothing in the Act prevents use of AI to support inclusion of diverse candidates"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Employer must provide notice to employees that the employer is using AI for employment decisions"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "Notice obligation covers all employment decision contexts — recruitment through termination"
+    },
+    {
+      "matrix": "illinois-hb3773.md",
+      "control_id": "AIVICA (Artificial Intelligence Video Interview Act) — notice, explanation, and consent for AI analysis of video interviews (effective 2020)"
+    },
+    {
       "matrix": "imda-agentic.md",
       "control_id": "Determining the level of human involvement"
     },
@@ -1240,6 +1488,158 @@
       "control_id": "A.10.2"
     },
     {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI system (§3.1.4) — engineered system that generates outputs for human-defined objectives"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI agent (§3.1.1) — entity that perceives its environment and takes action to achieve goals"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI task (§3.1.35) — activity an AI system is designed to conduct"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Inference (§3.1.17) — reasoning by which conclusions are derived from known premises"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Knowledge (§3.1.21) — information organized for reasoning and inference"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Trustworthiness (§3.5.16) — ability to meet stakeholder expectations in a verifiable way"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI robustness (§5.15.2) — ability to maintain performance under perturbation or unexpected input"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI reliability (§5.15.3) — performance consistency across lifecycle phases"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI resilience (§5.15.4) — recovery and continued operation under adverse conditions"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI controllability (§3.5.x) — property allowing human or external agent to intervene in system functioning"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI predictability (§5.15.7) — expectation that AI system behavior is consistent with expectations"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Transparency (§3.5.15) — communication of activities and decisions to stakeholders in an accessible manner"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Safety (§5.15.x) — absence of unreasonable harm to persons or property"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Security (§5.15.x) — confidentiality, integrity, availability in AI contexts"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "AI system lifecycle model (§6.1) — framework of stages from inception to retirement"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Verification and validation (§6.2.4) — confirming system meets requirements and is fit for purpose"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Deployment + operation and monitoring (§6.2.5–6.2.6) — release to production and ongoing observation"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Continuous validation + re-evaluation (§6.2.7–6.2.8) — ongoing assessment and periodic re-assessment"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Retirement (§6.2.9) — decommissioning and removal from service"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Autonomy (§3.1.5) — system capable of modifying its domain or goal without external intervention"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Heteronomy (§3.1.6) — system operating under external intervention, control, or oversight"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Automation (§3.1.7) — process or system functioning without human intervention"
+    },
+    {
+      "matrix": "iso-iec-22989.md",
+      "control_id": "Human-in/on/over-the-loop (§5.13) — degrees of human involvement in AI system operation"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.2.5–6.2.6 Quality + knowledge management — quality policies and institutional knowledge for AI"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.3.3–6.3.4 Decision + risk management — structured decisions and AI risk treatment"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.3.5–6.3.6 Configuration + information management — version control and information assets"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.3.7–6.3.8 Measurement + quality assurance — quantitative metrics and QA for AI systems"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.2–6.4.3 Stakeholder needs + system requirements definition — eliciting and specifying requirements"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.8 AI data engineering process (AI-specific) — data acquisition, preparation, bias reduction, provenance"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.9 Implementation process (modified) — model training, algorithm selection, knowledge programming"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.10 Integration process — assembling AI system components"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.11 Verification process — confirming the AI system meets specified requirements"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.12 Transition process — deploying the AI system to the operational environment"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.13 Validation process — confirming the AI system meets stakeholder needs in intended context"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.14 Continuous validation process (AI-specific) — ongoing validation of deployed models for drift"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.15 Operation process — running the AI system in production"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.16 Maintenance process (modified) — updates, retraining, corrective action for AI systems"
+    },
+    {
+      "matrix": "iso-iec-5338.md",
+      "control_id": "6.4.17 Disposal process — decommissioning and retirement of the AI system"
+    },
+    {
       "matrix": "italy-law-132-2025.md",
       "control_id": "Compliance with EU AI Act — all provisions interpreted in conformity with Regulation (EU) 2024/1689"
     },
@@ -1468,6 +1868,90 @@
       "control_id": "Art. 27(2)(5) + Art. 27(2): Data-library producer info must be in machine-readable form at creation and transfer; ensure data quality and compliance"
     },
     {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Develop policy standards and guiding principles adhering to ISO/IEC 42001"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Establish technology standards and protocols for generative AI and high-risk AI systems"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Ensure transparency in the use of AI systems"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Maintain centralized registry with current inventory of generative AI and high-risk AI systems"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Develop approval process with registry of application, use case, and decision rationale"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Verify the use and development of generative AI and high-risk AI systems"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Ensure AI models have comprehensive and complete documentation available for review and inspection"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Require review and intervention by humans for all outcomes from generative and high-risk AI, scaled to use case and risk"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Ensure use of generative and high-risk AI is resilient, accountable, and explainable"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Allow only necessary data in AI systems; no unrestricted access to personal data controlled by the Commonwealth"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Secure all data and implement a timeframe for data retention"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "All departments subject to review of generative and high-risk AI systems to maintain infrastructure security"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Document how the AI system will not result in unlawful discrimination against any individual or group"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Document potential risks (cybersecurity, data protection, privacy, health/safety) with mitigation strategy; document data control and management for security and data quality"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Disclose to the public through clear and conspicuous disclaimer when AI is used to render decisions, inform decisions, or produce outputs"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Disclose how AI is used in the decision-making process for external decisions affecting citizens"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Provide the extent of human involvement in validating and oversight of any decision made"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Disclaimer shall include information about third-party AI products, including system cards or developer documentation"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Establish legal and ethical framework policies aligned to existing laws, updated at least annually"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Prohibit consequential decisions from high-risk AI without a risk management policy specifying principles, process, personnel, and bias identification/mitigation/documentation"
+    },
+    {
+      "matrix": "kentucky-krs42731.md",
+      "control_id": "Risk management policy adheres to ISO/IEC 42001 or equivalent, considering deployer size, system nature/scope, and data sensitivity/volume"
+    },
+    {
       "matrix": "malaysia-aige-guidelines.md",
       "control_id": "Design AI systems to avoid bias and discrimination, including unintentional biases in data processing"
     },
@@ -1614,6 +2098,66 @@
     {
       "matrix": "malta-ai-regulations.md",
       "control_id": "Providers implement post-market monitoring system for high-risk AI"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Annual data inventory identifying data meeting Chief Data Officer criteria, including when data is used in AI"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Data inventory in form prescribed by Chief Data Officer"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Conduct inventory of systems employing high-risk AI by December 1, 2025, and regularly thereafter"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Inventory includes system name, vendor, capabilities, purpose, and intended uses"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Inventory records whether system underwent impact assessment prior to deployment"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Inventory records whether system independently makes or informs high-risk decisions, with impact assessment summary"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Impact assessment for high-risk AI systems procured on or after February 1, 2026 (by December 31, 2026)"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Impact assessment for high-risk AI systems procured before February 1, 2026 (by July 1, 2027)"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Regular impact assessments for high-risk AI per Subcabinet determination"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Policies ensure adequate guardrails to protect individuals and communities"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Notify negatively impacted individuals and provide opt-out guidance"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Provide procurement guidance ensuring data privacy and statutory compliance"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Procurement ban: no new AI system procurement or deployment after July 1, 2025 unless compliant with DoIT policies"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Subcabinet oversees AI inventory, impact assessments, monitoring of high-risk AI, and compliance with State policies"
+    },
+    {
+      "matrix": "maryland-sb818.md",
+      "control_id": "Secretary of IT conducts AI system inventories and annually evaluates feasibility of AI for public services"
     },
     {
       "matrix": "nist-ai-rmf.md",
@@ -2464,6 +3008,82 @@
       "control_id": "Rebuttable presumption of reasonable care for NIST AI RMF compliance"
     },
     {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "AI systems should function in a robust, secure and safe way throughout the AI life cycle"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Risks should be continually identified, assessed and managed"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "AI systems should be technically secure and reliably function as intended"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "System developers should embed resilience to security threats at each life-cycle stage"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Regulators may require regular testing / due diligence on functioning, resilience and security"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Kill-switch / halt capability for unsafe AI behaviour"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Communicate appropriate information about an AI system (when, how, for which purposes it is used) to relevant people"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Decision-making processes should be accessible, interpretable and understandable (explainability)"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Transparency/explainability should be proportionate to the risk presented by the AI system"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "AI systems should not discriminate unfairly against individuals"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Governance measures should ensure effective oversight of the supply and use of AI systems"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Clear lines of accountability established across the AI life cycle"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "AI life cycle actors should adhere to the principles and implement measures at all stages"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Clear expectations for regulatory compliance placed on appropriate actors in the supply chain"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Assurance techniques (e.g. impact assessments) should identify risks early in the life cycle"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Organisations ensure proper functioning of AI systems they develop, deploy, or operate"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Users, impacted third parties and life-cycle actors should be able to contest an AI decision or outcome that is harmful"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Appropriate transparency and explainability support contestability implementation"
+    },
+    {
+      "matrix": "uk-ai-regulation-framework.md",
+      "control_id": "Cross-sectoral risk assessment — identify and prioritise new and emerging AI risks"
+    },
+    {
       "matrix": "utah-ai-policy-act.md",
       "control_id": "Disclosure upon request — clearly and conspicuously disclose AI interaction when asked in consumer-protection-regulated activities"
     },
@@ -2478,6 +3098,26 @@
     {
       "matrix": "utah-ai-policy-act.md",
       "control_id": "Electronic disclosure timing — before written exchange for regulated occupations"
+    },
+    {
+      "matrix": "vermont-act101.md",
+      "control_id": "Prevent harm from the use of augmented and other AI in health care and human services"
+    },
+    {
+      "matrix": "vermont-act101.md",
+      "control_id": "Right to mental and neural data privacy"
+    },
+    {
+      "matrix": "vermont-act101.md",
+      "control_id": "Right to change an individual's decision regarding neurotechnology and to determine by what means to change that decision"
+    },
+    {
+      "matrix": "vermont-act101.md",
+      "control_id": "Right to protection from neurotechnological interventions of the mind and from unauthorized access to or manipulation of an individual's brain activity"
+    },
+    {
+      "matrix": "vermont-act101.md",
+      "control_id": "Right to protection from unauthorized neurotechnological alterations in mental functions critical to personality"
     }
   ],
   "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage."

@@ -11,8 +11,8 @@ Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled row
 
 ## Aggregate (as of 2026-06-25)
 
-- **619 Fulfilled rows** across 34 matrices
-- **619 rows validated** (100.0%) — refs fully resolve
+- **779 Fulfilled rows** across 44 matrices
+- **779 rows validated** (100.0%) — refs fully resolve
 - **0 rows fail validation** — hardening gap
 - **0 rows carry NO evidence references** at all (subset of failing)
 
@@ -22,10 +22,13 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 
 | Matrix | Fulfilled | Validated | Coverage | No Refs |
 |---|---:|---:|---:|---:|
+| [`arizona-hb2394.md`](./arizona-hb2394.md) | 14 | 14 | 100.0% | 0 |
 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) | 11 | 11 | 100.0% | 0 |
+| [`brazil-pl2338.md`](./brazil-pl2338.md) | 23 | 23 | 100.0% | 0 |
 | [`california-ab-2013.md`](./california-ab-2013.md) | 13 | 13 | 100.0% | 0 |
 | [`california-sb-53.md`](./california-sb-53.md) | 17 | 17 | 100.0% | 0 |
 | [`california-sb-942.md`](./california-sb-942.md) | 6 | 6 | 100.0% | 0 |
+| [`canada-aida.md`](./canada-aida.md) | 13 | 13 | 100.0% | 0 |
 | [`ccpa-cpra.md`](./ccpa-cpra.md) | 44 | 44 | 100.0% | 0 |
 | [`chile-ai-bill.md`](./chile-ai-bill.md) | 22 | 22 | 100.0% | 0 |
 | [`china-genai-measures.md`](./china-genai-measures.md) | 35 | 35 | 100.0% | 0 |
@@ -36,14 +39,19 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`eu-ai-act.md`](./eu-ai-act.md) | 19 | 19 | 100.0% | 0 |
 | [`g7-ai-code.md`](./g7-ai-code.md) | 5 | 5 | 100.0% | 0 |
 | [`gdpr.md`](./gdpr.md) | 21 | 21 | 100.0% | 0 |
+| [`illinois-hb3773.md`](./illinois-hb3773.md) | 12 | 12 | 100.0% | 0 |
 | [`imda-agentic.md`](./imda-agentic.md) | 7 | 7 | 100.0% | 0 |
 | [`iso-27001.md`](./iso-27001.md) | 35 | 35 | 100.0% | 0 |
 | [`iso-42001.md`](./iso-42001.md) | 22 | 22 | 100.0% | 0 |
+| [`iso-iec-22989.md`](./iso-iec-22989.md) | 23 | 23 | 100.0% | 0 |
+| [`iso-iec-5338.md`](./iso-iec-5338.md) | 15 | 15 | 100.0% | 0 |
 | [`italy-law-132-2025.md`](./italy-law-132-2025.md) | 27 | 27 | 100.0% | 0 |
 | [`japan-ai-act.md`](./japan-ai-act.md) | 5 | 5 | 100.0% | 0 |
 | [`kazakhstan-ai-law.md`](./kazakhstan-ai-law.md) | 25 | 25 | 100.0% | 0 |
+| [`kentucky-krs42731.md`](./kentucky-krs42731.md) | 21 | 21 | 100.0% | 0 |
 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) | 26 | 26 | 100.0% | 0 |
 | [`malta-ai-regulations.md`](./malta-ai-regulations.md) | 11 | 11 | 100.0% | 0 |
+| [`maryland-sb818.md`](./maryland-sb818.md) | 15 | 15 | 100.0% | 0 |
 | [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 35 | 35 | 100.0% | 0 |
 | [`nist-csf.md`](./nist-csf.md) | 51 | 51 | 100.0% | 0 |
 | [`nyc-ll144.md`](./nyc-ll144.md) | 6 | 6 | 100.0% | 0 |
@@ -55,8 +63,10 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`stride.md`](./stride.md) | 6 | 6 | 100.0% | 0 |
 | [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) | 20 | 20 | 100.0% | 0 |
 | [`texas-traiga.md`](./texas-traiga.md) | 13 | 13 | 100.0% | 0 |
+| [`uk-ai-regulation-framework.md`](./uk-ai-regulation-framework.md) | 19 | 19 | 100.0% | 0 |
 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) | 4 | 4 | 100.0% | 0 |
-| **TOTAL** | **619** | **619** | **100.0%** | **0** |
+| [`vermont-act101.md`](./vermont-act101.md) | 5 | 5 | 100.0% | 0 |
+| **TOTAL** | **779** | **779** | **100.0%** | **0** |
 
 ## How to harden a row
 

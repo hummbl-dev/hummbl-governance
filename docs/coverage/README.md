@@ -31,14 +31,14 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | OWASP Agentic Top 10 (2025) | 10 risk categories (ASI01–ASI10) | 10 | 6 | 3 | 1 | 0 | [`owasp-agentic.md`](./owasp-agentic.md) |
 | South Korea AI Basic Act | 26 obligations (Arts. 31–43) | 26 | 13 | 3 | 10 | 0 | [`south-korea-ai-basic-act.md`](./south-korea-ai-basic-act.md) |
 | Texas TRAIGA (HB 149) | 22 obligations (Ch. 552) | 22 | 13 | 1 | 8 | 0 | [`texas-traiga.md`](./texas-traiga.md) |
-| Utah AI Policy Act (SB 149) | 23 obligations (Title 13, Ch. 72) | 23 | 4 | 1 | 18 | 0 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) |
+| Utah AI Policy Act (SB 149) | 23 obligations (Title 13, Ch. 72) | 23 | 4 | 3 | 16 | 0 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) |
 | California AI Transparency Act (SB 942) | 27 obligations (Ch. 25) | 27 | 6 | 8 | 13 | 0 | [`california-sb-942.md`](./california-sb-942.md) |
 | California AB 2013 (Training Data Transparency) | 18 obligations (Title 15.2) | 18 | 13 | 1 | 4 | 0 | [`california-ab-2013.md`](./california-ab-2013.md) |
 | California SB 53 (TFAIA) | 35 obligations (Ch. 25.1) | 35 | 17 | 3 | 15 | 0 | [`california-sb-53.md`](./california-sb-53.md) |
 | China Generative AI Interim Measures | 51 obligations (Arts. 4–23) | 51 | 35 | 6 | 10 | 0 | [`china-genai-measures.md`](./china-genai-measures.md) |
 | CCPA/CPRA (ADMT) | 47 obligations (Regs. §§ 7001–7222) | 47 | 44 | 2 | 1 | 0 | [`ccpa-cpra.md`](./ccpa-cpra.md) |
-| Japan AI Act (Act No. 53/2025) | 27 provisions (Arts. 5–19) | 27 | 5 | 2 | 20 | 0 | [`japan-ai-act.md`](./japan-ai-act.md) |
-| Italy Law No. 132/2025 | 91 obligations (Arts. 1–26) | 91 | 27 | 2 | 62 | 0 | [`italy-law-132-2025.md`](./italy-law-132-2025.md) |
+| Japan AI Act (Act No. 53/2025) | 27 provisions (Arts. 5–19) | 27 | 5 | 3 | 19 | 0 | [`japan-ai-act.md`](./japan-ai-act.md) |
+| Italy Law No. 132/2025 | 91 obligations (Arts. 1–26) | 91 | 27 | 8 | 56 | 0 | [`italy-law-132-2025.md`](./italy-law-132-2025.md) |
 | Taiwan AI Fundamental Act | 30 obligations (Arts. 4–20) | 30 | 20 | 4 | 6 | 0 | [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) |
 | Peru Law No. 31814 + SD 115-2025 | 31 obligations (Arts. 22–36) | 31 | 22 | 3 | 6 | 0 | [`peru-law-31814.md`](./peru-law-31814.md) |
 | El Salvador AI Promotion Law (Decree 234/363) | 30 obligations (Arts. 5–28) | 30 | 14 | 5 | 11 | 0 | [`el-salvador-ai-promotion-law.md`](./el-salvador-ai-promotion-law.md) |
@@ -49,7 +49,17 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | Malaysia AIGE Guidelines | 36 obligations (7 principles) | 36 | 26 | 6 | 4 | 0 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) |
 | Azerbaijan AI Strategy 2025-2028 | 32 obligations (5 pillars + decree) | 32 | 11 | 7 | 14 | 0 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) |
 | Connecticut SB 2 / SB 5 (PA 26-15) | 32 obligations (Secs. 1–39) | 32 | 20 | 6 | 6 | 0 | [`connecticut-sb2-sb5.md`](./connecticut-sb2-sb5.md) |
-| **FLEET (34 frameworks)** | **~1357 controls in source standards** | **1357 data rows** | **625** | **249** | **441** | **42** | — |
+| Maryland AI Governance Act (SB 818) | 26 obligations (Title 3.5) | 26 | 15 | 6 | 5 | 0 | [`maryland-sb818.md`](./maryland-sb818.md) |
+| Illinois IHRA AI Amendment (HB 3773) | 23 obligations (IHRA §§ 2-101, 2-102) | 23 | 12 | 3 | 8 | 0 | [`illinois-hb3773.md`](./illinois-hb3773.md) |
+| Vermont Act 101 (Neurological Rights + AI) | 23 obligations (Secs. 1–4) | 23 | 5 | 10 | 8 | 0 | [`vermont-act101.md`](./vermont-act101.md) |
+| Kentucky AI Governance Framework (KRS 42.731) | 25 obligations (12 subsections) | 25 | 21 | 3 | 1 | 0 | [`kentucky-krs42731.md`](./kentucky-krs42731.md) |
+| Arizona AI Laws (HB 2394 / SB 1295 / HB 2678 / HB 2175) | 21 obligations (4 bills) | 21 | 14 | 2 | 5 | 0 | [`arizona-hb2394.md`](./arizona-hb2394.md) |
+| UK AI Regulation Framework | 37 obligations (5 principles + central functions) | 37 | 19 | 8 | 10 | 0 | [`uk-ai-regulation-framework.md`](./uk-ai-regulation-framework.md) |
+| Canada AIDA (Bill C-27, Part 3) | 30 obligations (ss. 6–30) | 30 | 13 | 7 | 10 | 0 | [`canada-aida.md`](./canada-aida.md) |
+| Brazil PL 2338/2023 (Marco Legal da IA) | 36 obligations (Arts. 5–45) | 36 | 23 | 7 | 6 | 0 | [`brazil-pl2338.md`](./brazil-pl2338.md) |
+| ISO/IEC 22989:2022 (AI Concepts & Terminology) | 31 concepts (5 categories) | 31 | 23 | 4 | 4 | 0 | [`iso-iec-22989.md`](./iso-iec-22989.md) |
+| ISO/IEC 5338:2023 (AI System Lifecycle) | 24 processes (4 groups) | 24 | 15 | 6 | 3 | 0 | [`iso-iec-5338.md`](./iso-iec-5338.md) |
+| **FLEET (44 frameworks)** | **~1633 controls in source standards** | **1633 data rows** | **785** | **314** | **492** | **42** | — |
 
 > **These counts are enumeration evidence, not a score.** "Rows" is the count of data rows in each matrix file (some matrices include both Clause-level and Annex/control-level rows, so row count may exceed the source-standard surface count). ✅ + 🟡 + ⚪ + Unmarked = Rows for each matrix. The **Unmarked** column counts data rows in the matrix file that do NOT yet have a state glyph assigned — these are drafting gaps per ADR-001 row invariant (every row must be ✅/🟡/⚪/⛔). Surfacing them is intentional: PR #28 review identified silent unmarked-row dropping as a Goodhart channel (`feedback_no_self_grades_on_public_surface.md`). There is no implied "258 / 661 = 39%" coverage rate — the denominator includes 206 ⚪ Boundary rows (control is customer/regulator responsibility) and 42 Unmarked rows (drafting gap, not implemented coverage). Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts.
 
@@ -59,7 +69,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
-The **625 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **249 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **441 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
+The **785 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **314 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **492 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
 
 ## What this does NOT claim
 
