@@ -1,8 +1,56 @@
 {
-  "validated_count": 1242,
-  "fulfilled_count": 1244,
+  "validated_count": 1401,
+  "fulfilled_count": 1404,
   "validated_pct": 99.8,
   "validated_rows": [
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Establish appropriate AI governance systems and regulations at regional and national levels"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Adopt multi-tiered governance framework grounded in human rights, inclusion, and transparency"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Create institutional mechanisms for responsible, safe, and accountable AI development"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Adopt and implement ethical principles for AI that respect human dignity, gender equality, and human rights"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Ensure AI systems uphold inclusion, non-discrimination, and diversity (sex, gender, race, ethnicity, disability, age)"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Conduct impact assessments to identify and mitigate potential harms (bias, discrimination, marginalisation)"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Adopt and implement technical standards to ensure safety and security of AI systems across the continent"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Implement safeguards and protection from AI-related threats and misuse"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Protect personal data per Malabo Convention on Cyber Security and Personal Data Protection"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Ensure transparency and accountability in AI development and deployment"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Provide explainability and disclosure for AI-generated outputs"
+    },
+    {
+      "matrix": "african-union-ai-strategy.md",
+      "control_id": "Detect and label AI-generated content to combat misinformation"
+    },
     {
       "matrix": "arizona-hb2394.md",
       "control_id": "Prohibit publication of deepfake media depicting candidates or citizens nude, in sexual acts, committing crimes, or suffering financial/reputational harm"
@@ -58,6 +106,74 @@
     {
       "matrix": "arizona-hb2394.md",
       "control_id": "Prevent AI from serving as the sole/final decision-maker on medical necessity denials"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Transparency and Explainability — disclose AI usage to stakeholders and provide understandable explanations of how AI reaches outcomes"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Fairness and Equity — ensure algorithmic decisions do not create discriminatory or unjust impacts; rectify imbalances to ensure equity"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Security and Safety — adopt risk-prevention approach; precautions so humans can intervene to prevent harm from unsafe AI decisions"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Human-centricity — respect human-centered values throughout AI lifecycle; protect human rights, freedom, and well-being"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Privacy and Data Governance — mechanisms for data privacy/protection and data quality/integrity across lifecycle; data-access protocols"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Accountability and Integrity — AI actors accountable for AI-system decisions and compliance with laws and ethics; act with integrity"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Robustness and Reliability — consistent performance as designed; reproducible results; resist tampering and compromise"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Establish multi-disciplinary central governing body (e.g. AI Ethics Advisory Board) to oversee AI governance efforts, representative of diverse stakeholders, disciplines, and geographies"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Define clear roles and responsibilities for personnel responsible for AI design, development, and deployment"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Conduct risk impact assessments to determine the level of risk and appropriate human involvement"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Human-in-the-loop oversight for high-risk and human-over-the-loop monitoring for medium-risk AI-augmented decisions"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Human-out-of-loop permitted only for low-risk decisions with safeguards and periodic review"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Integrate AI governance into every stage of the AI lifecycle — data collection, model development, deployment, monitoring"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Maintain data quality, lineage, and provenance throughout the AI lifecycle"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Implement monitoring and incident-response mechanisms for deployed AI systems"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Validate AI outputs against safety, correctness, and policy constraints; enforce cost/resource budgets"
+    },
+    {
+      "matrix": "asean-ai-governance-guide.md",
+      "control_id": "Provide general disclosures of when AI is used in product or service offerings, including intended purpose and how AI affects the decision-making process"
     },
     {
       "matrix": "australia-ai-ethics.md",
@@ -1560,6 +1676,98 @@
       "control_id": "Art. 33"
     },
     {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Conduct risk analysis for performance and robustness, prioritising hazards with designated responsibilities"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Test and document robustness against non-malicious adverse, disruptive, or faulty inputs"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Implement fallback plans and general safety measures for system degradation"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Monitor for concept drift and data drift that may invalidate performance assumptions"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Implement resistance to AI-specific attacks (adversarial inputs, model poisoning, prompt injection)"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Document security measures and maintain audit trail for security-relevant events"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Document characteristics of each dataset used, including processing steps, labelling, and cleaning"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Perform systematic data quality checks (completeness, consistency, plausibility)"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Protect personal data in accordance with GDPR"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Enforce data access controls and protect proprietary data from unauthorised access"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Detect and mitigate unjustified distortions and bias in AI outputs"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Maintain traceability and documentation of system properties, decisions, and data lineage"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Provide explainability and interpretability of AI system behaviour and outputs"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Communicate externally to users and stakeholders about AI use and system limitations"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Ensure human capacity to act — ability to observe, modify, and terminate the AI system"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Maintain human supervision during ongoing operation with appropriate professional competence"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Describe the use case: intended purpose, context, components, limits of application domain"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Conduct protection needs analysis classifying each criterion as low, moderate, high, or not applicable"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Classify indicators via VCIO model and assign A–D observable levels with evidence"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Provide reproducible evidence: test reports, audit trails, full traceability for high protection need"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Produce overall assessment statement (pass/fail) comparing achieved vs. required levels per criterion"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Generate signed assessment report with system info, protection needs, quality levels, and validation statement"
+    },
+    {
+      "matrix": "germany-mission-ki.md",
+      "control_id": "Monitor validity: trigger reassessment on purpose change, significant technical change, or concept/data drift"
+    },
+    {
       "matrix": "ieee-3119.md",
       "control_id": "Define AI use case, problem statement, and intended purpose before solicitation"
     },
@@ -1802,6 +2010,78 @@
     {
       "matrix": "imda-agentic.md",
       "control_id": "6. Security"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Trust is the Foundation — embed trust across the value chain (technology, stakeholders, users)"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "People First — human-centric design, oversight, and empowerment for accountability and safety"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Fairness and Equity — design and test AI systems for fair, non-exclusionary, unbiased, non-discriminatory outcomes including for marginalised communities"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Accountability — clear attribution of accountability for developers and deployers based on role and risk of harm"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Understandable by Design — AI systems should be explainable and interpretable to the extent feasible"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Safety, Resilience and Sustainability — minimise risk of harm, detect anomalies, provide early warnings, environmental responsibility"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Identify and assess seven risk areas: malicious use, bias/discrimination, transparency failures, systemic risk, loss of control, national security threats, risk to vulnerable groups"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Adopt voluntary frameworks — principles, standards, self-certifications, and audits alongside techno-legal solutions (privacy-preserving architectures, algorithmic auditing, watermarking, consent-based data-sharing)"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Implement human-in-the-loop and system-level safeguards (audit trails, monitoring) for high-velocity AI use cases and loss-of-control risks, particularly in critical sectors"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Adopt graded liability framework proportionate to each stakeholder's role and level of risk, supported by transparency reports, self-certifications, internal policies, and techno-legal measures"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Transparency across the AI value chain — voluntary disclosures on underlying technology, interplay between actors, and flow of resources (data, compute)"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Implement content authentication and provenance techniques — watermarking, unique identifiers (C2PA-aligned), forensic tools, dataset provenance, model-attribution methods"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Counter deepfakes and AI-enabled disinformation through detection tools (anomaly detection, deepfake detection) and provenance verification"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Contribute to national AI incidents database — structured, interoperable, confidential reporting without threat of penalties; leverage CERT-In for AI system vulnerabilities"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Encourage voluntary incident reporting with confidentiality protections and no-penalty design to identify harms, assess impact, and mitigate"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Comply with applicable Indian laws — IT Act 2000, DPDP Act 2023, Consumer Protection Act 2019, Copyright Act 1957, and sectoral regulations"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Adopt voluntary compliance measures and maintain system documentation to facilitate oversight and audits by sectoral regulators or AISI"
+    },
+    {
+      "matrix": "india-ai-governance-guidelines.md",
+      "control_id": "Use techno-legal tools — privacy-preserving architectures, bias-mitigation technologies, and consent-based data-sharing models (DEPA for AI Training)"
     },
     {
       "matrix": "india-dpdp.md",
@@ -2644,6 +2924,70 @@
       "control_id": "Monitor evolving impacts over time due to data or legal-environment changes (Cl. 7.3)"
     },
     {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Establish computational infrastructures (national supercomputer) with governed access via compute-voucher model"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Form regulatory sandboxes in highly regulated fields with high financial potential"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Support pilot-stage projects with lifecycle oversight and health monitoring"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Realize potential of Israel's unique data assets with access controls and safeguards"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Implement AI tools in national and municipal government with full auditability"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Improve decision-making processes based on data and technology with evidence backing"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Assign human oversight of public-sector AI systems including named responsible parties"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Align domestic regulation with regulatory regimes established in leading countries"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Develop dual-use technology with safety controls and capability restrictions"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Sectoral, risk-based regulation led by relevant regulators with coordination"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Establish coordination mechanisms between regulators via knowledge and coordination centre"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Apply rigorous risk-management procedures for high-impact AI uses"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Two-tier monitoring — sectoral monitoring by regulators plus central oversight"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Human-centric approach protecting individual rights and rule-of-law values"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Ensure responsible use through privacy safeguards on data assets"
+    },
+    {
+      "matrix": "israel-ai-program.md",
+      "control_id": "Apply security safeguards around data reservoirs and computing infrastructure"
+    },
+    {
       "matrix": "italy-law-132-2025.md",
       "control_id": "Compliance with EU AI Act — all provisions interpreted in conformity with Regulation (EU) 2024/1689"
     },
@@ -3384,6 +3728,86 @@
       "control_id": "Right to information must not be compromised by automation mechanisms"
     },
     {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Actively mitigate misuse, accidents, and systemic security risks of and by generative AI models"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Prevent and manage accidents through rapid response capability"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Enforce safe operating boundaries on generative AI outputs"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Maintain systemic security through audit trail of safety-relevant events"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Address risks of inequality of opportunity and discrimination in generative AI outputs"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Ensure transparency and explainability of generative AI decisions"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Maintain non-discrimination as a fundamental public value"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Ensure generative AI serves human wellbeing and safeguards human autonomy"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Preserve meaningful human control over generative AI systems"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Protect privacy as a fundamental right in generative AI deployment"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Maintain transparency register for government generative AI initiatives"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Govern computational resource use to support sustainable economic growth"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Manage ecological footprint of generative AI compute"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Continuously monitor generative AI developments and public values under pressure"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Implement EU AI Act within the public sector (broad rollout from 2024)"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Develop a Dutch regulatory sandbox for generative AI"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Cooperate between regulators and stakeholders through shared evidence"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Provide guidelines for deployment of generative AI within government organizations"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Develop ethical guidelines for responsible use of generative AI"
+    },
+    {
+      "matrix": "netherlands-genai-vision.md",
+      "control_id": "Ensure reliable and transparent generative AI models through validation"
+    },
+    {
       "matrix": "new-hampshire-ch5d.md",
       "control_id": "Prohibition on classifying persons by behavior, socio-economic status, or personal characteristics resulting in unlawful discrimination"
     },
@@ -3418,6 +3842,142 @@
     {
       "matrix": "new-hampshire-ch5d.md",
       "control_id": "Newly deployed AI systems must comply with chapter and DoIT code of ethics"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Adopt OECD AI Principles — inclusive growth, human rights, transparency, robustness, accountability"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Light-touch, principles-based policy aligned with OECD to reduce regulatory uncertainty"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Responsible AI Guidance for Businesses — voluntary good-practice resource for trustworthy AI"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Transparency and responsible disclosure regarding AI systems and outputs"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Prioritise robustness, security, and safety in AI systems"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Establish systematic risk management approach across the AI system lifecycle"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Cybersecurity — integrity and protection of AI systems, datasets, and model operations"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Human oversight throughout the AI lifecycle with accountable humans at every stage"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Human-in-the-loop decision-making for AI-assisted outputs and decisions"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Clear lines of accountability, governance, and auditing with human oversight"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Training data quality — accurate, complete, lawfully obtained, representative, structured for transparency"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Data provenance and recordkeeping — trace origin and processing of training data"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Privacy protection for personal information in AI data pipelines"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Bias minimisation — minimise misleading, biased, or discriminatory outputs"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Traceability of data — ensure traceable data across public-sector AI systems"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Procurement risk assessment and assurance for AI tools"
+    },
+    {
+      "matrix": "new-zealand-ai-strategy.md",
+      "control_id": "Safety by design — minimise risk to individual or national safety under normal use, misuse, or adverse conditions"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Establish comprehensive ethical principles (fairness, transparency, accountability, privacy, human well-being)"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Standardized assessment tool ensuring AI projects align with ethical principles"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Bias mitigation across training data, algorithms, and protected characteristics"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Mandatory documentation: model cards and dataset data sheets"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Algorithmic impact assessments for high-risk AI systems"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Standards for explainability and consent in AI systems"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Risk assessment across accuracy, bias, transparency, and governance factors"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Risk-based classification of AI systems with compliance tiers (voluntary guidance → sandboxes → mandatory audits for high-risk)"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Comprehensive risk management framework minimizing negative AI impacts"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Incident reporting and redress mechanisms (appeals, independent review)"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Human oversight and intervention in AI systems"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Ongoing monitoring, testing, and validation of AI systems"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Data governance standards adhering to Nigeria Data Protection Act (NDPA)"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Privacy and data protection impact assessments for AI systems"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Consent management for data use in AI training and deployment"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Global data quality standards for sectoral AI applications"
+    },
+    {
+      "matrix": "nigeria-ai-strategy.md",
+      "control_id": "Suspension of service and remediation orders for non-compliant AI systems"
     },
     {
       "matrix": "nist-ai-rmf.md",
@@ -3850,6 +4410,38 @@
     {
       "matrix": "north-carolina-eo24.md",
       "control_id": "Ensure transparency, accountability, and security in state AI initiatives and partnerships"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Protect personal data per the Personal Data Act/GDPR in AI systems with privacy-by-design and data minimisation"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Impose transparency and accountability requirements on new public-administration AI systems"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Apply the Public Administration Act and Archival Act to AI-assisted public decisions (records, accountability, archival retention)"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Promote ethical principles for AI: transparency, human oversight, privacy protection, cautious testing, explainability"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Ensure transparency and accountability for AI outputs and decisions in public and private deployment"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Maintain human oversight of AI systems with named responsible contacts and intervention capability"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Apply privacy by design and ethics in AI development and deployment"
+    },
+    {
+      "matrix": "norway-ai-strategy.md",
+      "control_id": "Ensure security in AI-based systems (robustness, resilience, cyber-security protections)"
     },
     {
       "matrix": "nyc-ll144.md",
@@ -4574,6 +5166,50 @@
     {
       "matrix": "stride.md",
       "control_id": "E"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Drive development of responsible AI that maximises benefits, reduces risks, and increases trust; mitigate risks to personal privacy, copyright, and security"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Promote effective, secure, and ethical use of generative AI in public administration (DIGG/IMY guidelines)"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Support inquiry on safe and reliable AI aligned with EU AI Act national amendments (SOU 2025:101)"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Increase trust through transparency of AI-assisted decisions in public services"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Improve efficiency and shorten processing times via AI-supported automation of permit processes"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Maintain equitable treatment, transparency, and data protection in public-sector AI use"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Eliminate erroneous disbursements and criminal exploitation of benefit systems using AI"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Enable simple and secure data sharing among public and private actors with interoperability"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Identify and classify intellectual property and sensitive data; determine what is protected vs shareable"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Improve data-driven approach and secure data-sharing capability in public administration"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Mitigate malicious use of AI and build resilience against cyber threats"
     },
     {
       "matrix": "taiwan-ai-fundamental-act.md",

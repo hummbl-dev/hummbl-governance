@@ -77,7 +77,7 @@ The Policy applies to all AI development and deployment across Rwanda's public a
 | RURA monitors compliance with ethical AI guidelines through audits and stakeholder feedback | ✅ Audit-log immutable trail + compliance-mapper audit-template + stride-mapper threat audit support regulatory audit (cross-ref NIST AI RMF, ISO 42001) | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/stride_mapper.py` |
 | Prepare annual progress reports for Cabinet review and public dissemination | 🟡 Partial: compliance-report generator produces the report; Cabinet submission and publication is org task | `hummbl_governance/compliance_mapper.py` |
 | Hold an annual participatory consultation forum to update the Policy and guidelines | ⚪ Boundary: national consultation convening is organizational | |
-| Enforce data-protection compliance via NCSA under Law No. 058/2021 (administrative fines, criminal liability) | ⚪ Boundary: statutory enforcement and penalty assessment is legal/regulatory | |
+| Enforce data-protection compliance via NCSA under Law No. 058/2021 (administrative fines, criminal liability) | 🟡 Partial: audit-log immutable evidence trail + compliance-mapper Law 058/2021 mapping produce enforcement-ready evidence artifacts; statutory penalty assessment and criminal liability are governmental/legal tasks | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Maintain human oversight and named accountability for AI systems in regulated sectors | ✅ Human-oversight delegation token + identity-registry + contact-registration tuple (cross-ref EU AI Act Art. 14, South Korea AI Basic Act Art. 34) | `hummbl_governance/delegation.py`, `hummbl_governance/identity.py` |
 | Establish AI-specific liability frameworks through future legislation | ⚪ Boundary: legislative drafting is governmental | |
 
@@ -91,8 +91,8 @@ The Policy applies to all AI development and deployment across Rwanda's public a
 | Accelerator 1 — Public Sector AI (Recs 8–10) | 4 | 0 | 2 | 2 |
 | Accelerator 2 — Private Sector AI (Recs 11–12) | 3 | 1 | 0 | 2 |
 | Safeguard — Ethical Guidelines (Recs 13–14) | 5 | 2 | 1 | 2 |
-| Governance & Monitoring (RAI Office, RURA, NCSA) | 9 | 3 | 2 | 4 |
-| **Totals** | **29** | **7** | **7** | **15** |
+| Governance & Monitoring (RAI Office, RURA, NCSA) | 9 | 3 | 3 | 3 |
+| **Totals** | **29** | **7** | **8** | **14** |
 
 ---
 

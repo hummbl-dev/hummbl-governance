@@ -18,15 +18,15 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 | I — General provisions | Art. 1–4 | 0 | 0 | 4 |
 | II — Principles | Art. 5–11 | 5 | 2 | 0 |
 | III — Rights of the data subject | Art. 12–23 | 9 | 3 | 0 |
-| IV — Controller and processor | Art. 24–43 | 7 | 5 | 8 |
+| IV — Controller and processor | Art. 24–43 | 7 | 6 | 7 |
 | V — Transfers to third countries | Art. 44–50 | 0 | 3 | 4 |
 | VI — Supervisory authorities | Art. 51–59 | 0 | 0 | 9 |
 | VII — Cooperation and consistency | Art. 60–76 | 0 | 0 | 17 |
-| VIII — Remedies, liability, penalties | Art. 77–84 | 0 | 4 | 4 |
+| VIII — Remedies, liability, penalties | Art. 77–84 | 0 | 5 | 3 |
 | IX — Specific data-processing situations | Art. 85–91 | 0 | 1 | 6 |
 | X — Delegated acts | Art. 92–93 | 0 | 0 | 2 |
 | XI — Final provisions | Art. 94–99 | 0 | 0 | 6 |
-| **Totals** | **99** | **21** | **18** | **60** |
+| **Totals** | **99** | **21** | **20** | **58** |
 
 **Draft coverage intent (not public claim): every article in GDPR has a row. Load-bearing primitives concentrate in Chapter II (Principles) and Chapter IV (Controller obligations).
 
@@ -116,7 +116,7 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
 | Art. 35 | DPIA — required for high-risk processing (Art. 35(3): solely-automated decisions, large-scale special-category, large-scale public monitoring); content per Art. 35(7) | 🟡 Partial: DPIA template + evidence-bundle generator pulling from governance bus. Authorship of risk assessment is controller-org responsibility. | `[DRAFT — planned per ADR-001] compliance_mapper --export dpia-template --activity <id>` |
-| Art. 36 | Prior consultation — controller shall consult supervisory authority where DPIA indicates high residual risk | ⚪ Boundary: authority engagement is controller-org responsibility |
+| Art. 36 | Prior consultation — controller shall consult supervisory authority where DPIA indicates high residual risk | 🟡 Partial: compliance mapper exports DPIA evidence bundle (processing records, risk assessment inputs, audit trail) for prior consultation with supervisory authority. Consultation itself is authority engagement, controller-org responsibility. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 
 ### Section 4 — DPO (Art. 37–39)
 
@@ -197,7 +197,7 @@ All ⚪ Boundary — authority-to-authority cooperation, no software primitive.
 |---|---|---|---|
 | Art. 77 | Right to lodge a complaint with a supervisory authority | 🟡 Partial: compliance mapper exports evidence-on-demand (processing records, audit trail, DSAR history) to support data-subject complaint lodgement. Complaint submission itself is subject–authority interaction. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 | Art. 78 | Right to an effective judicial remedy against a supervisory authority | ⚪ Boundary: judicial procedure | |
-| Art. 79 | Right to an effective judicial remedy against a controller or processor | ⚪ Boundary: judicial procedure | |
+| Art. 79 | Right to an effective judicial remedy against a controller or processor | 🟡 Partial: audit log + compliance mapper export evidence-on-demand (processing history, access logs, breach records) for judicial proceedings against controller/processor. Liability determination is judicial. | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Art. 80 | Representation of data subjects | ⚪ Boundary: representation regime | |
 | Art. 81 | Suspension of proceedings | ⚪ Boundary: judicial procedure | |
 | Art. 82 | Right to compensation and liability | 🟡 Partial: audit log + compliance mapper export evidence-on-demand (processing history, access logs, breach records) for liability defense and compensation proceedings. Liability determination is judicial. | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |

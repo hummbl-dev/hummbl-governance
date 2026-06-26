@@ -169,7 +169,7 @@ Law No. 132/2025 is a cross-sector AI law covering healthcare, labor, intellectu
 | Authority powers attribution (supervisory, inspection, sanctioning) | ⚪ Boundary: government-rulemaking is institutional | |
 | Financial sector adaptation for EU AI Act compliance | ⚪ Boundary: government-rulemaking is institutional | |
 | Sanctions compliance with EU AI Act Art. 99 editorial limits | ⚪ Boundary: government-rulemaking is institutional | |
-| Unlawful AI use regulation — precautionary and sanctioning measures | ⚪ Boundary: government-rulemaking is institutional | |
+| Unlawful AI use regulation — precautionary and sanctioning measures | 🟡 Partial: kill-switch and circuit-breaker provide technical precautionary measures against unlawful AI use; governmental sanctioning regulation is institutional | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 
 ### Copyright and AI-generated works (Art. 25)
 
@@ -194,14 +194,14 @@ Law No. 132/2025 is a cross-sector AI law covering healthcare, labor, intellectu
 |---|---|---|
 | Conformity assessment body accreditation procedures | ⚪ Boundary: government-rulemaking is institutional | |
 | High-risk system lists and thresholds for Italy | 🟡 Partial: compliance-mapper can classify systems against EU AI Act risk tiers; Italian-specific lists and thresholds are government-determined | `hummbl_governance/compliance_mapper.py` |
-| Notification and conformity assessment procedures | ⚪ Boundary: government-rulemaking is institutional | |
+| Notification and conformity assessment procedures | 🟡 Partial: compliance-mapper can track conformity assessment notifications and status for AI systems; governmental procedure definition is institutional | `hummbl_governance/compliance_mapper.py` |
 | Sanctions and fines scales | ⚪ Boundary: government-rulemaking is institutional | |
 | Inspection procedures | 🟡 Partial: audit-log provides inspectable trail for AI system operations; governmental inspection procedure definition is institutional | `hummbl_governance/audit_log.py` |
 | Healthcare platform rules | ⚪ Boundary: government-rulemaking is institutional | |
 | Financial services AI rules | ⚪ Boundary: government-rulemaking is institutional | |
-| Civil liability for unlawful AI development or use | ⚪ Boundary: government-rulemaking is institutional | |
+| Civil liability for unlawful AI development or use | 🟡 Partial: audit-log provides evidence trail of AI development and use activities for liability determinations; governmental liability regime definition is institutional | `hummbl_governance/audit_log.py` |
 | Criminal liability criteria for AI-committed offenses | ⚪ Boundary: government-rulemaking is institutional | |
-| Liability for safety measure omission creating danger | ⚪ Boundary: government-rulemaking is institutional | |
+| Liability for safety measure omission creating danger | 🟡 Partial: audit-log records safety-measure activation status (kill-switch, circuit-breaker) for liability determinations; governmental liability regime definition is institutional | `hummbl_governance/audit_log.py`, `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 
 ## Summary
 
@@ -222,11 +222,11 @@ Law No. 132/2025 is a cross-sector AI law covering healthcare, labor, intellectu
 | Young people + sport (Art. 22) | 5 | 1 | 0 | 4 |
 | Investments (Art. 23) | 4 | 0 | 0 | 4 |
 | Delegations — data/algorithms (Art. 16) | 4 | 0 | 0 | 4 |
-| Delegations — implementation (Art. 24) | 5 | 0 | 0 | 5 |
+| Delegations — implementation (Art. 24) | 5 | 0 | 1 | 4 |
 | Copyright (Art. 25) | 2 | 0 | 2 | 0 |
 | Criminal provisions (Art. 26) | 5 | 0 | 0 | 5 |
-| Pending implementing decrees | 10 | 0 | 2 | 8 |
-| **Totals** | **91** | **27** | **10** | **54** |
+| Pending implementing decrees | 10 | 0 | 5 | 5 |
+| **Totals** | **91** | **27** | **14** | **50** |
 
 ---
 

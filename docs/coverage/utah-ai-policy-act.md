@@ -51,8 +51,8 @@ The Act applies to persons using generative AI in consumer transactions and regu
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Application process for regulatory mitigation or joint interpretation agreements | ⚪ Boundary: government-agreement process is institutional | |
-| Demonstrate eligibility criteria for regulatory mitigation | ⚪ Boundary: government-eligibility determination is institutional | |
+| Application process for regulatory mitigation or joint interpretation agreements | 🟡 Partial: compliance mapper can generate application documentation and evidence packages; application submission and review process remains institutional | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| Demonstrate eligibility criteria for regulatory mitigation | 🟡 Partial: compliance mapper can map controls to eligibility criteria and generate evidence; evidence engine produces structured evidence; eligibility determination remains institutional | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/kernel/evidence_engine.py` |
 | Agreement specifications — scope limits, safeguards, regulatory mitigation, consumer disclosures, reporting | 🟡 Partial: compliance-report generator can document agreement terms; negotiation is org task | `hummbl_governance/compliance_mapper.py` |
 
 ### Enforcement provisions
@@ -72,9 +72,9 @@ The Act applies to persons using generative AI in consumer transactions and regu
 | Generative AI liability (§ 13-2-12) | 6 | 4 | 2 | 0 |
 | Office of AI Policy (§ 13-72-201) | 7 | 0 | 0 | 7 |
 | Learning Laboratory (§ 13-72-301) | 2 | 0 | 0 | 2 |
-| Regulatory mitigation (§ 13-72-401) | 3 | 0 | 1 | 2 |
+| Regulatory mitigation (§ 13-72-401) | 3 | 0 | 3 | 0 |
 | Enforcement | 5 | 0 | 0 | 5 |
-| **Totals** | **23** | **4** | **3** | **16** |
+| **Totals** | **23** | **4** | **5** | **14** |
 
 ---
 

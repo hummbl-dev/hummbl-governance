@@ -21,8 +21,8 @@ The Japan AI Act is fundamentally different from the EU AI Act or US state AI la
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Cooperate with national government measures implemented under Art. 4 (binding) | 🟡 Partial: audit-log export + compliance-report generator supports government cooperation; cooperation act is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
-| Cooperate with local government measures implemented under Art. 5 (binding) | 🟡 Partial: same primitives as national cooperation | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
+| Cooperate with national government measures implemented under Art. 4 (binding) | 🟡 Partial: audit-log query + compliance-evidence export + tamper-evident receipts + evidence grading support government cooperation; cooperation act (receiving inquiries, deciding what to share, sending responses, implementing recommendations) is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/kernel/receipt_engine.py`, `hummbl_governance/kernel/evidence_engine.py` |
+| Cooperate with local government measures implemented under Art. 5 (binding) | 🟡 Partial: same primitives as national cooperation; cooperation act is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/kernel/receipt_engine.py`, `hummbl_governance/kernel/evidence_engine.py` |
 | Endeavor to enhance business efficiency and create new industries through AI utilization (soft) | ⚪ Boundary: voluntary business-strategy obligation is organizational | |
 
 ### Government responsibilities (Arts. 10-19)
@@ -45,7 +45,7 @@ The Japan AI Act is fundamentally different from the EU AI Act or US state AI la
 | Obligation | Coverage | Evidence |
 |---|---|---|
 | Endeavor to actively conduct AI R&D, disseminate results, train personnel (soft) | ⚪ Boundary: voluntary research obligation is organizational | |
-| Cooperate with national and local government measures (soft) | 🟡 Partial: audit-log export + compliance-report generator supports government cooperation; cooperation act is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
+| Cooperate with national and local government measures (soft) | 🟡 Partial: audit-log query + compliance-evidence export + tamper-evident receipts + evidence grading support government cooperation; cooperation act is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/kernel/receipt_engine.py`, `hummbl_governance/kernel/evidence_engine.py` |
 | Endeavor interdisciplinary R&D using humanities and natural sciences (soft) | ⚪ Boundary: voluntary research approach is organizational | |
 
 ### Local government obligations (Art. 5)
