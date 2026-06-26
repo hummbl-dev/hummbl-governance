@@ -27,9 +27,9 @@ Total addressed in this matrix: 51 criteria (CC + A + PI + C + P core).
 
 | TSC | Criteria | ✅ | 🟡 | ⚪ |
 |---|---|---|---|---|
-| CC1 — Control Environment | 5 | 0 | 2 | 3 |
+| CC1 — Control Environment | 5 | 0 | 3 | 2 |
 | CC2 — Communication + Information | 3 | 1 | 1 | 1 |
-| CC3 — Risk Assessment | 4 | 1 | 3 | 0 |
+| CC3 — Risk Assessment | 4 | 2 | 2 | 0 |
 | CC4 — Monitoring Activities | 2 | 2 | 0 | 0 |
 | CC5 — Control Activities | 3 | 2 | 1 | 0 |
 | CC6 — Logical + Physical Access Controls | 8 | 6 | 1 | 1 |
@@ -40,7 +40,7 @@ Total addressed in this matrix: 51 criteria (CC + A + PI + C + P core).
 | PI — Processing Integrity | 5 | 4 | 1 | 0 |
 | C — Confidentiality | 2 | 2 | 0 | 0 |
 | P — Privacy (8 sections) | 8 | 6 | 2 | 0 |
-| **Totals** | **51** | **32** | **14** | **5** |
+| **Totals** | **51** | **33** | **14** | **4** |
 
 **Draft coverage intent (not public claim): every Common Criterion + core TSC criterion has a row. Concentration of ✅ in CC6 (Access Control), CC7 (Operations), Availability, Processing Integrity, Confidentiality — the technically-implementable criteria.
 
@@ -54,7 +54,7 @@ Total addressed in this matrix: 51 criteria (CC + A + PI + C + P core).
 | CC1.2 | Board oversight | ⚪ Boundary | |
 | CC1.3 | Org structure + reporting via DCTX; structure design is org | 🟡 Partial | `hummbl_governance/delegation.py` |
 | CC1.4 | Commitment to competence — HR + DCT-based role binding | 🟡 Partial | `hummbl_governance/delegation.py` |
-| CC1.5 | Accountability assignment | ⚪ Boundary | |
+| CC1.5 | Accountability assignment — DCT-based role binding + scope accountability; full COSO accountability framework is org | 🟡 Partial | `hummbl_governance/delegation.py` |
 
 ## CC2 — Communication and Information (3)
 
@@ -71,7 +71,7 @@ Total addressed in this matrix: 51 criteria (CC + A + PI + C + P core).
 | CC3.1 | Risk objectives + categories — `INTENT` + adverse-event tuples (risk-register integration per Krineia connector spec) | 🟡 Partial | `hummbl_governance/audit_log.py` |
 | CC3.2 | Identify + analyze risks | ✅ risk-identification tuples + analysis primitives | `hummbl_governance/audit_log.py` |
 | CC3.3 | Fraud risk — fraud-flag tuples; assessment is org | 🟡 Partial | `hummbl_governance/audit_log.py` |
-| CC3.4 | Significant change in risk profile — change-event triggers | 🟡 Partial | `hummbl_governance/audit_log.py`, `hummbl_governance/health_probe.py` |
+| CC3.4 | Significant change in risk profile — change-event triggers | ✅ change-event triggers via health-state transitions + audit-log change records | `hummbl_governance/health_probe.py`, `hummbl_governance/audit_log.py` |
 
 ## CC4 — Monitoring Activities (2)
 

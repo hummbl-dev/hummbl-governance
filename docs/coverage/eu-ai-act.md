@@ -26,7 +26,7 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 |---|---|---|---|---|---|---|
 | I | General provisions | Art. 1–4 | 0 | 1 | 3 | 0 |
 | II | Prohibited AI practices | Art. 5 | 1 | 0 | 0 | 0 |
-| III | High-risk AI systems | Art. 6–49 | 13 | 9 | 22 | 0 |
+| III | High-risk AI systems | Art. 6–49 | 13 | 10 | 21 | 0 |
 | IV | Transparency obligations | Art. 50 | 0 | 1 | 0 | 0 |
 | V | GPAI models | Art. 51–56 | 0 | 3 | 3 | 0 |
 | VI | Innovation measures (regulatory sandboxes) | Art. 57–63 | 0 | 2 | 5 | 0 |
@@ -37,9 +37,9 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 | XI | Delegation of power, committee | Art. 96–98 | 0 | 0 | 3 | 0 |
 | XII | Penalties | Art. 99–101 | 0 | 0 | 3 | 0 |
 | XIII | Final provisions | Art. 102–113 | 0 | 0 | 12 | 0 |
-| **Article totals** | | **113 articles** | **19** | **21** | **73** | **0** |
+| **Article totals** | | **113 articles** | **19** | **22** | **72** | **0** |
 | **Annex totals** | | **13 annexes** | **6** | **3** | **4** | **0** |
-| **Grand totals** | | **126 rows** | **25** | **24** | **77** | **0** |
+| **Grand totals** | | **126 rows** | **25** | **25** | **76** | **0** |
 
 **Annexes**: 13 annexes. Annex I (high-risk list, NLF), Annex II (criminal offences for biometric ID), Annex III (high-risk use cases — 8 areas), Annex IV (technical documentation), Annex V (EU declaration of conformity), Annex VI–VII (conformity assessment procedures), Annex VIII (registration info), Annex IX (registration for law enforcement), Annex X (legislative acts), Annex XI–XII (GPAI documentation), Annex XIII (criteria for GPAI systemic risk).
 
@@ -130,7 +130,7 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 | Art. 45 | Information obligations of notified bodies | ⚪ Boundary: NB reporting. | n/a — boundary |
 | Art. 46 | Derogation from conformity assessment procedure — exceptional reasons of public security | ⚪ Boundary: Member State derogation mechanism. | n/a — boundary |
 | Art. 47 | EU declaration of conformity | ✅ Per Annex V, declaration generated from compliance-mapper output. Identifies AI system, provider, harmonised-standards alignment, conformity-assessment procedure used, evidence references. | `hummbl_governance/compliance_mapper.py` |
-| Art. 48 | CE marking | ⚪ Boundary: marking placement is provider-org responsibility (physical/digital affixing). HUMMBL provides the conformity record that justifies marking. | n/a — boundary |
+| Art. 48 | CE marking | 🟡 Partial: HUMMBL provides the conformity record (declaration of conformity per Art. 47, technical documentation per Art. 11, compliance evidence) that justifies CE marking via `compliance_mapper`. Physical/digital affixing of the CE marking is provider-org responsibility. | `hummbl_governance/compliance_mapper.py` |
 | Art. 49 | Registration in EU database — providers of Annex III high-risk systems register prior to placing on market | ✅ EU database registration interface — exports required registration info per Annex VIII. | `hummbl_governance/compliance_mapper.py` |
 
 ## Chapter IV — Transparency obligations for certain AI systems (Art. 50)
@@ -235,13 +235,13 @@ All boundary rows — institutional structure of the EU AI governance ecosystem.
 
 ## Chapter XI — Delegation of power and committee procedure (Art. 96–98)
 
-All boundary rows.
+All boundary rows — Commission delegation-of-power and committee procedure, not software controls.
 
-| Article | Topic |
-|---|---|
-| Art. 96 | Guidelines from the Commission on the implementation of this Regulation |
-| Art. 97 | Exercise of the delegation |
-| Art. 98 | Committee procedure |
+| Article | Topic | HUMMBL coverage |
+|---|---|---|
+| Art. 96 | Guidelines from the Commission on the implementation of this Regulation | ⚪ Boundary: Commission guidance. |
+| Art. 97 | Exercise of the delegation | ⚪ Boundary: EU delegation-of-power procedure. |
+| Art. 98 | Committee procedure | ⚪ Boundary: EU committee procedure. |
 
 ## Chapter XII — Penalties (Art. 99–101)
 
@@ -257,20 +257,20 @@ All boundary rows — regulatory penalty structure, not software controls.
 
 All boundary rows — implementing acts, amendments, repeals, transitional periods, entry-into-force timeline.
 
-| Article | Topic |
-|---|---|
-| Art. 102 | Amendment to Regulation (EC) 300/2008 |
-| Art. 103 | Amendment to Regulation (EU) 167/2013 |
-| Art. 104 | Amendment to Regulation (EU) 168/2013 |
-| Art. 105 | Amendment to Directive 2014/90/EU |
-| Art. 106 | Amendment to Directive (EU) 2016/797 |
-| Art. 107 | Amendment to Regulation (EU) 2018/858 |
-| Art. 108 | Amendment to Regulations (EU) 2018/1139 and (EU) 2019/2144 |
-| Art. 109 | Amendment to Directive (EU) 2020/1828 |
-| Art. 110 | Amendment to Regulation (EU) 2024/900 |
-| Art. 111 | AI systems already placed on the market or put into service before this Regulation |
-| Art. 112 | Evaluation and review |
-| Art. 113 | Entry into force and application — applies from 2 August 2026, with prohibitions (Art. 5) from 2 February 2025, GPAI rules (Art. 51–56) from 2 August 2025, high-risk obligations (Chapter III Section 2) from 2 August 2026, Art. 6(1)/Annex I from 2 August 2027 |
+| Article | Topic | HUMMBL coverage |
+|---|---|---|
+| Art. 102 | Amendment to Regulation (EC) 300/2008 | ⚪ Boundary: legislative amendment. |
+| Art. 103 | Amendment to Regulation (EU) 167/2013 | ⚪ Boundary: legislative amendment. |
+| Art. 104 | Amendment to Regulation (EU) 168/2013 | ⚪ Boundary: legislative amendment. |
+| Art. 105 | Amendment to Directive 2014/90/EU | ⚪ Boundary: legislative amendment. |
+| Art. 106 | Amendment to Directive (EU) 2016/797 | ⚪ Boundary: legislative amendment. |
+| Art. 107 | Amendment to Regulation (EU) 2018/858 | ⚪ Boundary: legislative amendment. |
+| Art. 108 | Amendment to Regulations (EU) 2018/1139 and (EU) 2019/2144 | ⚪ Boundary: legislative amendment. |
+| Art. 109 | Amendment to Directive (EU) 2020/1828 | ⚪ Boundary: legislative amendment. |
+| Art. 110 | Amendment to Regulation (EU) 2024/900 | ⚪ Boundary: legislative amendment. |
+| Art. 111 | AI systems already placed on the market or put into service before this Regulation | ⚪ Boundary: transitional provision. |
+| Art. 112 | Evaluation and review | ⚪ Boundary: Commission evaluation obligation. |
+| Art. 113 | Entry into force and application — applies from 2 August 2026, with prohibitions (Art. 5) from 2 February 2025, GPAI rules (Art. 51–56) from 2 August 2025, high-risk obligations (Chapter III Section 2) from 2 August 2026, Art. 6(1)/Annex I from 2 August 2027 | ⚪ Boundary: entry-into-force timeline. |
 
 ## Annexes I–XIII
 

@@ -19,14 +19,14 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 | II — Principles | Art. 5–11 | 5 | 2 | 0 |
 | III — Rights of the data subject | Art. 12–23 | 9 | 3 | 0 |
 | IV — Controller and processor | Art. 24–43 | 7 | 5 | 8 |
-| V — Transfers to third countries | Art. 44–50 | 0 | 1 | 6 |
+| V — Transfers to third countries | Art. 44–50 | 0 | 3 | 4 |
 | VI — Supervisory authorities | Art. 51–59 | 0 | 0 | 9 |
 | VII — Cooperation and consistency | Art. 60–76 | 0 | 0 | 17 |
-| VIII — Remedies, liability, penalties | Art. 77–84 | 0 | 2 | 6 |
-| IX — Specific data-processing situations | Art. 85–91 | 0 | 0 | 7 |
+| VIII — Remedies, liability, penalties | Art. 77–84 | 0 | 4 | 4 |
+| IX — Specific data-processing situations | Art. 85–91 | 0 | 1 | 6 |
 | X — Delegated acts | Art. 92–93 | 0 | 0 | 2 |
 | XI — Final provisions | Art. 94–99 | 0 | 0 | 6 |
-| **Totals** | **99** | **21** | **13** | **65** |
+| **Totals** | **99** | **21** | **18** | **60** |
 
 **Draft coverage intent (not public claim): every article in GDPR has a row. Load-bearing primitives concentrate in Chapter II (Principles) and Chapter IV (Controller obligations).
 
@@ -139,29 +139,29 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 44 | General principle — transfer only if conditions in Chapter V met | ⚪ Boundary: transfer legality is controller-org determination |
+| Art. 44 | General principle — transfer only if conditions in Chapter V met | 🟡 Partial: cross-border-transfer tuple type enforces that any transfer must reference a Chapter V legal basis (adequacy, SCC, BCR, or derogation code) before processing primitives accept it. Determination of which basis applies is controller-org decision. | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
 | Art. 45 | Transfers on basis of adequacy decision | ⚪ Boundary: Commission adequacy decision |
 | Art. 46 | Transfers subject to appropriate safeguards (SCCs, BCRs, certification) | 🟡 Partial: cross-border-transfer tuple type captures legal-basis (SCC ref, BCR ref, adequacy decision). SCC/BCR document authorship is legal-org task. | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
 | Art. 47 | Binding corporate rules | ⚪ Boundary: BCR is intra-group legal instrument |
 | Art. 48 | Transfers or disclosures not authorised by Union law | ⚪ Boundary: foreign-court-order regime |
-| Art. 49 | Derogations for specific situations (consent, contract, public interest, vital interests) | ⚪ Boundary: derogation-invocation is controller-org decision |
+| Art. 49 | Derogations for specific situations (consent, contract, public interest, vital interests) | 🟡 Partial: derogation-basis tuple type captures which Art. 49 derogation applies per transfer; audit log records invocation. Determination of whether derogation conditions are met is controller-org decision. | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
 | Art. 50 | International cooperation for the protection of personal data | ⚪ Boundary: Commission cooperation |
 
 ## Chapter VI — Independent supervisory authorities (Art. 51–59)
 
 All boundary rows — Member State authority structure.
 
-| Articles | Topic |
-|---|---|
-| Art. 51 | Supervisory authority |
-| Art. 52 | Independence |
-| Art. 53 | General conditions for the members of the supervisory authority |
-| Art. 54 | Rules on the establishment of the supervisory authority |
-| Art. 55 | Competence |
-| Art. 56 | Competence of the lead supervisory authority |
-| Art. 57 | Tasks |
-| Art. 58 | Powers (investigative, corrective, authorisation, advisory) |
-| Art. 59 | Activity reports |
+| Articles | Topic | Coverage |
+|---|---|---|
+| Art. 51 | Supervisory authority | ⚪ Boundary: Member State authority establishment |
+| Art. 52 | Independence | ⚪ Boundary: institutional independence guarantee |
+| Art. 53 | General conditions for the members of the supervisory authority | ⚪ Boundary: member appointment conditions |
+| Art. 54 | Rules on the establishment of the supervisory authority | ⚪ Boundary: MS institutional structure |
+| Art. 55 | Competence | ⚪ Boundary: authority competence rules |
+| Art. 56 | Competence of the lead supervisory authority | ⚪ Boundary: lead-authority designation |
+| Art. 57 | Tasks | ⚪ Boundary: authority statutory tasks |
+| Art. 58 | Powers (investigative, corrective, authorisation, advisory) | ⚪ Boundary: authority statutory powers |
+| Art. 59 | Activity reports | ⚪ Boundary: authority reporting obligation |
 
 All ⚪ Boundary.
 
@@ -169,25 +169,25 @@ All ⚪ Boundary.
 
 17 articles — all institutional procedure between authorities.
 
-| Articles | Topic |
-|---|---|
-| Art. 60 | Cooperation between the lead supervisory authority and the other supervisory authorities concerned |
-| Art. 61 | Mutual assistance |
-| Art. 62 | Joint operations of supervisory authorities |
-| Art. 63 | Consistency mechanism |
-| Art. 64 | Opinion of the Board |
-| Art. 65 | Dispute resolution by the Board |
-| Art. 66 | Urgency procedure |
-| Art. 67 | Exchange of information |
-| Art. 68 | European Data Protection Board |
-| Art. 69 | Independence of the Board |
-| Art. 70 | Tasks of the Board |
-| Art. 71 | Reports |
-| Art. 72 | Procedure |
-| Art. 73 | Chair |
-| Art. 74 | Tasks of the Chair |
-| Art. 75 | Secretariat |
-| Art. 76 | Confidentiality |
+| Articles | Topic | Coverage |
+|---|---|---|
+| Art. 60 | Cooperation between the lead supervisory authority and the other supervisory authorities concerned | ⚪ Boundary: authority-to-authority cooperation |
+| Art. 61 | Mutual assistance | ⚪ Boundary: authority mutual-assistance procedure |
+| Art. 62 | Joint operations of supervisory authorities | ⚪ Boundary: authority joint-operation procedure |
+| Art. 63 | Consistency mechanism | ⚪ Boundary: Board consistency mechanism |
+| Art. 64 | Opinion of the Board | ⚪ Boundary: Board opinion procedure |
+| Art. 65 | Dispute resolution by the Board | ⚪ Boundary: Board dispute-resolution procedure |
+| Art. 66 | Urgency procedure | ⚪ Boundary: Board urgency procedure |
+| Art. 67 | Exchange of information | ⚪ Boundary: authority information exchange |
+| Art. 68 | European Data Protection Board | ⚪ Boundary: Board establishment |
+| Art. 69 | Independence of the Board | ⚪ Boundary: Board independence guarantee |
+| Art. 70 | Tasks of the Board | ⚪ Boundary: Board statutory tasks |
+| Art. 71 | Reports | ⚪ Boundary: Board reporting obligation |
+| Art. 72 | Procedure | ⚪ Boundary: Board procedural rules |
+| Art. 73 | Chair | ⚪ Boundary: Chair election |
+| Art. 74 | Tasks of the Chair | ⚪ Boundary: Chair statutory tasks |
+| Art. 75 | Secretariat | ⚪ Boundary: Secretariat establishment |
+| Art. 76 | Confidentiality | ⚪ Boundary: Board confidentiality rules |
 
 All ⚪ Boundary — authority-to-authority cooperation, no software primitive.
 
@@ -195,26 +195,26 @@ All ⚪ Boundary — authority-to-authority cooperation, no software primitive.
 
 | Article | Topic | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 77 | Right to lodge a complaint with a supervisory authority | ⚪ Boundary: subject right | |
+| Art. 77 | Right to lodge a complaint with a supervisory authority | 🟡 Partial: compliance mapper exports evidence-on-demand (processing records, audit trail, DSAR history) to support data-subject complaint lodgement. Complaint submission itself is subject–authority interaction. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 | Art. 78 | Right to an effective judicial remedy against a supervisory authority | ⚪ Boundary: judicial procedure | |
 | Art. 79 | Right to an effective judicial remedy against a controller or processor | ⚪ Boundary: judicial procedure | |
 | Art. 80 | Representation of data subjects | ⚪ Boundary: representation regime | |
 | Art. 81 | Suspension of proceedings | ⚪ Boundary: judicial procedure | |
-| Art. 82 | Right to compensation and liability | ⚪ Boundary: civil liability | |
+| Art. 82 | Right to compensation and liability | 🟡 Partial: audit log + compliance mapper export evidence-on-demand (processing history, access logs, breach records) for liability defense and compensation proceedings. Liability determination is judicial. | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Art. 83 | General conditions for imposing administrative fines — up to €20M or 4% global annual turnover (Tier 1), up to €10M or 2% (Tier 2) | 🟡 Partial: audit log + compliance mapper export evidence-on-demand for due-diligence demonstration and defense against fines. Fine imposition is supervisory-authority action. | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Art. 84 | Penalties (Member State criminal penalties for infringements not subject to Art. 83) | 🟡 Partial: evidence-on-demand for criminal proceedings | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 
 ## Chapter IX — Specific data-processing situations (Art. 85–91)
 
-| Articles | Topic | HUMMBL coverage |
-|---|---|---|
-| Art. 85 | Processing and freedom of expression and information | ⚪ Boundary: MS legislative carve-out |
-| Art. 86 | Processing and public access to official documents | ⚪ Boundary: MS carve-out |
-| Art. 87 | Processing of the national identification number | ⚪ Boundary: MS regime |
-| Art. 88 | Processing in the context of employment | ⚪ Boundary: MS carve-out |
-| Art. 89 | Safeguards and derogations for archiving / research / statistical purposes | ⚪ Boundary: MS carve-out |
-| Art. 90 | Obligations of secrecy | ⚪ Boundary: profession-specific regime |
-| Art. 91 | Existing data-protection rules of churches and religious associations | ⚪ Boundary: religious-association carve-out |
+| Articles | Topic | HUMMBL coverage | Evidence |
+|---|---|---|---|
+| Art. 85 | Processing and freedom of expression and information | ⚪ Boundary: MS legislative carve-out | |
+| Art. 86 | Processing and public access to official documents | ⚪ Boundary: MS carve-out | |
+| Art. 87 | Processing of the national identification number | ⚪ Boundary: MS regime | |
+| Art. 88 | Processing in the context of employment | ⚪ Boundary: MS carve-out | |
+| Art. 89 | Safeguards and derogations for archiving / research / statistical purposes | 🟡 Partial: purpose-tag tuples (archiving, research, statistical) enforce minimisation + accuracy + storage-limitation safeguards at INTENT boundary; audit log tracks purpose-bound processing. Specific derogations and safeguards are MS-law-determined. | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
+| Art. 90 | Obligations of secrecy | ⚪ Boundary: profession-specific regime | |
+| Art. 91 | Existing data-protection rules of churches and religious associations | ⚪ Boundary: religious-association carve-out | |
 
 ## Chapter X — Delegated acts and implementing acts (Art. 92–93)
 

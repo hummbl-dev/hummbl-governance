@@ -20,13 +20,13 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 | Function | Categories | Subcategories | ✅ | 🟡 | ⚪ |
 |---|---|---|---|---|---|
-| GOVERN (GV) | 6 | 31 | 5 | 11 | 15 |
-| IDENTIFY (ID) | 3 | 21 | 13 | 8 | 0 |
-| PROTECT (PR) | 5 | 23 | 12 | 4 | 6 |
+| GOVERN (GV) | 6 | 31 | 7 | 14 | 10 |
+| IDENTIFY (ID) | 3 | 21 | 15 | 6 | 0 |
+| PROTECT (PR) | 5 | 22 | 12 | 5 | 5 |
 | DETECT (DE) | 2 | 11 | 8 | 2 | 1 |
-| RESPOND (RS) | 4 | 13 | 10 | 3 | 0 |
-| RECOVER (RC) | 2 | 7 | 3 | 2 | 3 |
-| **Totals** | **22** | **106** | **51** | **30** | **25** |
+| RESPOND (RS) | 4 | 13 | 11 | 2 | 0 |
+| RECOVER (RC) | 2 | 8 | 3 | 4 | 1 |
+| **Totals** | **22** | **106** | **56** | **33** | **17** |
 
 **Draft coverage intent (not public claim): every subcategory has a row. Load-bearing primitives concentrate in PROTECT (PR.AA Access Control, PR.DS Data Security, PR.IR Resilience), DETECT (governance bus = monitoring substrate), and RESPOND (incident-response primitives).
 
@@ -40,7 +40,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 |---|---|---|---|
 | GV.OC-01 | Organizational mission understood, informs cybersecurity risk mgmt | ⚪ Boundary: mission articulation | |
 | GV.OC-02 | Internal/external stakeholders + their requirements understood | ⚪ Boundary: stakeholder mapping | |
-| GV.OC-03 | Legal/regulatory/contractual requirements understood + managed | ⚪ Boundary: compliance registry (this matrix supports) | |
+| GV.OC-03 | Legal/regulatory/contractual requirements understood + managed | 🟡 Partial: compliance registry mapping; legal interpretation is org | `hummbl_governance/compliance_mapper.py` |
 | GV.OC-04 | Critical objectives, capabilities, services identified + communicated | 🟡 Partial: criticality-tag tuples; comms is org | |
 | GV.OC-05 | Outcomes, capabilities, services that org depends on understood | 🟡 Partial: dependency-map tuples | |
 
@@ -49,7 +49,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | GV.RM-01 | Risk management objectives established | ⚪ Boundary: risk objectives established by org | |
-| GV.RM-02 | Risk appetite + tolerance defined | ⚪ Boundary: risk appetite + tolerance | |
+| GV.RM-02 | Risk appetite + tolerance defined | 🟡 Partial: cost-threshold tolerance via cost governor; full risk appetite is org | `hummbl_governance/cost_governor.py` |
 | GV.RM-03 | Risk management processes + activities structured + standardized | 🟡 Partial: risk-tracking tuples; analysis is org | |
 | GV.RM-04 | Strategic direction + objectives inform risk management | ⚪ Boundary: strategic direction + objectives | |
 | GV.RM-05 | Risk management processes communicated + roles assigned | 🟡 Partial: communication-tuples; comms cadence is org | |
@@ -69,7 +69,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| GV.PO-01 | Cybersecurity policy established + communicated | ⚪ Boundary: policy authorship by leadership | |
+| GV.PO-01 | Cybersecurity policy established + communicated | 🟡 Partial: policy encoding via doctrine/law engine; authorship is org | `hummbl_governance/kernel/doctrine_engine.py`, `hummbl_governance/kernel/law_engine.py` |
 | GV.PO-02 | Cybersecurity policy reviewed + updated | ⚪ Boundary: policy review cadence | |
 
 ### GV.OV — Oversight (3)
@@ -85,15 +85,15 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | GV.SC-01 | C-SCRM strategy established + communicated | ⚪ Boundary: C-SCRM strategy | |
-| GV.SC-02 | Suppliers identified + prioritized | 🟡 Partial: supplier inventory tuples | |
+| GV.SC-02 | Suppliers identified + prioritized | ✅ Supplier-DCT identification + prioritization | `hummbl_governance/delegation.py` |
 | GV.SC-03 | C-SCRM integrated into cybersecurity risk management | ⚪ Boundary: org C-SCRM integration | |
 | GV.SC-04 | Suppliers known + prioritized by criticality | ✅ supplier-DCT criticality field | `hummbl_governance/delegation.py` |
 | GV.SC-05 | Supplier-contract requirements established | 🟡 Partial: supplier-contract requirements — DCT scope binding | |
 | GV.SC-06 | Planning + due diligence on supplier risk | 🟡 Partial: planning + due diligence on supplier risk | |
 | GV.SC-07 | Risks from suppliers monitored | ✅ supplier-activity tuples | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
-| GV.SC-08 | Suppliers integrated into incident response + BCP | ⚪ Boundary: integrate supplier into IR/BCP | |
-| GV.SC-09 | Supply chain practices in lifecycle | ⚪ Boundary: supply chain practices in lifecycle | |
-| GV.SC-10 | End-of-relationship supplier management | 🟡 Partial: end-of-relationship — DCT revocation | |
+| GV.SC-08 | Suppliers integrated into incident response + BCP | 🟡 Partial: supplier IR-integration via coordination bus; BCP is org | `hummbl_governance/coordination_bus.py` |
+| GV.SC-09 | Supply chain practices in lifecycle | 🟡 Partial: supplier lifecycle management; full C-SCRM practices are org | `hummbl_governance/lifecycle.py` |
+| GV.SC-10 | End-of-relationship supplier management | ✅ DCT revocation for end-of-relationship supplier management | `hummbl_governance/delegation.py` |
 
 ## IDENTIFY (ID) — 3 Categories, 21 Subcategories
 
@@ -115,13 +115,13 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 |---|---|---|---|
 | ID.RA-01 | Vulnerabilities in assets identified, validated, recorded | ✅ Vulnerability tuple + `pip-audit` integration | `hummbl_governance/audit_log.py`, `.github/workflows/ci.yml` |
 | ID.RA-02 | Cyber threat intelligence received from info-sharing forums | 🟡 Partial: threat-intel ingestion; participation is org | |
-| ID.RA-03 | Internal + external threats identified + recorded | 🟡 Partial: threat-tuples; threat-modeling is hybrid | |
+| ID.RA-03 | Internal + external threats identified + recorded | ✅ STRIDE threat identification + recording | `hummbl_governance/stride_mapper.py` |
 | ID.RA-04 | Potential impacts + likelihoods of threats exploiting vulns identified + recorded | 🟡 Partial: impact-likelihood tuples; analysis is org | |
 | ID.RA-05 | Threats, vulns, likelihoods, impacts used to understand inherent risk + inform risk response | 🟡 Partial: risk-aggregation tuples | |
 | ID.RA-06 | Risk responses chosen, prioritized, planned, tracked, communicated | ✅ Response-tracking tuple | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | ID.RA-07 | Changes + exceptions managed, assessed for risk impact, recorded, tracked | ✅ Change tuple + risk-impact field | `hummbl_governance/audit_log.py` |
 | ID.RA-08 | Processes for receiving, analyzing, responding to vulnerability disclosures established | 🟡 Partial: disclosure-receipt tuples; program is org | |
-| ID.RA-09 | Authenticity + integrity of HW + SW assessed prior to acquisition + use | 🟡 Partial: integrity-check tuples + signed-bundle verification | |
+| ID.RA-09 | Authenticity + integrity of HW + SW assessed prior to acquisition + use | ✅ Signed-bundle verification + integrity checks | `hummbl_governance/delegation.py`, `hummbl_governance/schema_validator.py` |
 | ID.RA-10 | Critical suppliers assessed prior to acquisition | 🟡 Partial: supplier-assessment tuples | |
 
 ### ID.IM — Improvement (3)
@@ -133,7 +133,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | ID.IM-03 | Improvements identified from execution of operational processes, procedures, activities | ✅ Operational-improvement tuple | `hummbl_governance/audit_log.py` |
 | ID.IM-04 | Incident response plans + plans-of-action established + improved | 🟡 Partial: IR-plan tuples; plan authorship is org | |
 
-## PROTECT (PR) — 5 Categories, 23 Subcategories
+## PROTECT (PR) — 5 Categories, 22 Subcategories
 
 ### PR.AA — Identity Management, Authentication, Access Control (6)
 
@@ -160,7 +160,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | PR.DS-01 | Confidentiality, integrity, availability of data-at-rest protected | ✅ Append-only + signed entries + encryption-at-rest (configurable) | `hummbl_governance/audit_log.py` |
 | PR.DS-02 | Confidentiality, integrity, availability of data-in-transit protected | ✅ TLS + signed tuples | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | PR.DS-10 | Confidentiality, integrity, availability of data-in-use protected | 🟡 Partial: signed-tuples in-memory; full DIU protection is platform | |
-| PR.DS-11 | Backups created, protected, maintained, tested | ⚪ Boundary: backup infra | |
+| PR.DS-11 | Backups created, protected, maintained, tested | 🟡 Partial: append-only log as governance-data backup; full backup infra is platform | `hummbl_governance/audit_log.py` |
 
 ### PR.PS — Platform Security (6)
 
@@ -231,7 +231,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | RS.CO-02 | Internal + external stakeholders notified per response procedures | 🟡 Partial: notification-tuples; comms-program is org | |
-| RS.CO-03 | Information shared with designated stakeholders | 🟡 Partial: information-sharing tuples | |
+| RS.CO-03 | Information shared with designated stakeholders | ✅ Information-sharing via coordination bus | `hummbl_governance/coordination_bus.py` |
 
 ### RS.MI — Incident Mitigation (2)
 
@@ -240,15 +240,15 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 | RS.MI-01 | Incidents contained | ✅ Containment primitive: `kill_switch_core` (4 modes) | `hummbl_governance/kill_switch.py` |
 | RS.MI-02 | Incidents eradicated | 🟡 Partial: eradication tuples; remediation execution varies | |
 
-## RECOVER (RC) — 2 Categories, 7 Subcategories
+## RECOVER (RC) — 2 Categories, 8 Subcategories
 
-### RC.RP — Incident Recovery Plan Execution (5)
+### RC.RP — Incident Recovery Plan Execution (6)
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | RC.RP-01 | Recovery portion of IR plan executed once initiated by IR process | ✅ Recovery-plan execution tuple | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | RC.RP-02 | Recovery actions selected, scoped, prioritized, performed | 🟡 Partial: recovery-action tuples; selection is org | |
-| RC.RP-03 | Integrity of backups + other restoration assets verified before use | ⚪ Boundary: backup integrity is infra | |
+| RC.RP-03 | Integrity of backups + other restoration assets verified before use | 🟡 Partial: integrity verification via signed entries; full backup infra is platform | `hummbl_governance/audit_log.py` |
 | RC.RP-04 | Critical mission functions + cybersecurity risk mgmt considered in restoration of normal operating capabilities | 🟡 Partial: mission-function tuples; consideration is org | |
 | RC.RP-05 | Integrity of restored assets verified, systems + services restored, normal status confirmed | ✅ Restoration-verification tuple | `hummbl_governance/audit_log.py` |
 | RC.RP-06 | End of incident recovery declared based on criteria, incident-related documentation completed | ✅ Recovery-end-declaration tuple | `hummbl_governance/audit_log.py` |
@@ -257,7 +257,7 @@ NIST CSF 2.0 is **voluntary** guidance, not a regulation. No certification body.
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| RC.CO-03 | Recovery activities + progress communicated to designated internal + external stakeholders | ⚪ Boundary: communications-program is org | |
+| RC.CO-03 | Recovery activities + progress communicated to designated internal + external stakeholders | 🟡 Partial: recovery-progress comms via coordination bus; comms-program is org | `hummbl_governance/coordination_bus.py` |
 | RC.CO-04 | Public updates on incident recovery shared using approved methods + messaging | ⚪ Boundary: public-comms approval is org | |
 
 ---

@@ -1,6 +1,6 @@
 {
-  "validated_count": 953,
-  "fulfilled_count": 953,
+  "validated_count": 1099,
+  "fulfilled_count": 1099,
   "validated_pct": 100.0,
   "validated_rows": [
     {
@@ -772,6 +772,174 @@
       "control_id": "Maintain risk registers and documentation for audit and conformity assessment"
     },
     {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Not use algorithms to harm national security/social public interest, upset economic/social order, or infringe others' lawful rights (Art. 6)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Not disseminate information prohibited by laws/regulations; take measures to prevent and curb harmful information (Art. 6)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Fulfil primary responsibility for algorithm security; establish management systems and technical measures for mechanism review, tech-ethics review, user registration, info-dissemination review, security assessment & monitoring, incident response, data security & PI protection, anti-fraud (Art. 7)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Regularly examine, verify, assess, and check algorithmic mechanisms, models, data, and application outcomes; not set up models leading to addiction or excessive consumption (Art. 8)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Strengthen info security management; establish feature databases to identify unlawful/harmful information (Art. 9)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Mark algorithmically generated/synthetic information with an indicator before dissemination (Art. 9)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Cease transmission of unlawful info immediately, delete, prevent spread, preserve records, and report to cybersecurity and informatization departments (Art. 9)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Strengthen user model and tagging management; not enter unlawful/harmful info as keywords or user tags for recommendation (Art. 10)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Strengthen page ecology management; establish manual intervention and autonomous user choice mechanisms; present mainstream-value info in key segments (Art. 11)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Not use algorithms for false registration, account trading, fake likes/comments/reshares, shielding info, over-recommendation, manipulating topic lists/search rankings/hot search, influencing public opinion, or evading supervision (Art. 14)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Notify users clearly about algorithmic recommendation services; publicize basic principles, purposes, motives, and main operational mechanisms (Art. 16)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Provide users a choice not targeted at personal characteristics, or a convenient option to switch off algorithmic recommendation; cease immediately when switched off (Art. 17)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Provide functions to choose or delete user tags used for personal-characteristic recommendations (Art. 17)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Protect consumers' fair trading rights; not use algorithms for unreasonable differentiated treatment in trading conditions/prices (big-data price discrimination) (Art. 21)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Install convenient complaint/reporting access; clarify handling workflows and feedback timeframes; timely receive, handle, and provide feedback (Art. 22)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Graded and categorized algorithm security management based on public-opinion properties, social mobilization, content categories, user scale, data importance, interference degree (Art. 23)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Providers with public-opinion/social-mobilization attributes conduct security assessment per State regulations (Art. 27)"
+    },
+    {
+      "matrix": "china-algorithm-recommendation.md",
+      "control_id": "Accept and handle public complaints/reports about violations (Art. 30)"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Comply with laws, regulations, social morality, and correct political/opinion/value direction"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Do not use deep synthesis to produce, reproduce, publish, or disseminate legally prohibited information"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Do not use deep synthesis to produce, reproduce, publish, or disseminate false news information"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Establish information security responsibility system (user registration, algorithm review, ethics review, content review, data security, PIPL, anti-fraud, emergency response)"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Maintain safe and controllable technical safeguards"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Conduct real-name identity verification of users (mobile number, ID number, unified social credit code, or national network identity authentication)"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Do not provide information publishing services to users without real-name authentication"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Review input data and synthesis results using technical or manual methods"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Build and maintain feature library for identifying illegal and harmful content with entry standards, rules, and procedures"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Record and retain relevant network logs"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Take disposal measures upon discovering illegal/harmful content (save records, report to authorities, warn/restrict/suspend/terminate users)"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Establish rumor-refutation mechanism; take counter-rumor measures, save records, and report to authorities when false information detected"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Strengthen training data management and take necessary measures to ensure training data security"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Comply with personal information protection regulations when training data contains personal information"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "For biometric (face, voice) editing features, prompt users to inform and obtain separate consent from edited individuals"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Periodically review, assess, and verify generative/synthetic algorithm mechanisms"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Conduct security assessment (self or commissioned) for models/templates that generate or edit biometric info or special non-biometric info involving national security/interest"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Add non-intrusive technical markers to all generated or edited content and retain logs per law"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Apply prominent labeling for deep synthesis content likely to cause public confusion (text, voice, face, immersive scenes)"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Provide prominent-labeling function and prompt users to apply it for other deep synthesis services"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Prohibit any organization or individual from removing, tampering with, or concealing deep synthesis labels"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Retain log information for labeled content per laws, regulations, and national provisions"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Conduct security assessment for new products, applications, or features with public opinion or social mobilization attributes"
+    },
+    {
+      "matrix": "china-deep-synthesis.md",
+      "control_id": "Comply with government risk-based suspension orders (pause info updates, user registration, or other services)"
+    },
+    {
       "matrix": "china-genai-measures.md",
       "control_id": "Generate content complying with laws, regulations, and social morality"
     },
@@ -1532,6 +1700,14 @@
       "control_id": "Penalty determination considers nature, gravity, duration, mitigation, and proportionality (S.33(2))"
     },
     {
+      "matrix": "ireland-eu-ai-designation.md",
+      "control_id": "Registration and recording of designated authority identities and jurisdictional scope"
+    },
+    {
+      "matrix": "ireland-eu-ai-designation.md",
+      "control_id": "Recording of SPOC communications and coordination artifacts with tamper-evidence"
+    },
+    {
       "matrix": "iso-27001.md",
       "control_id": "10"
     },
@@ -1686,6 +1862,10 @@
     {
       "matrix": "iso-42001.md",
       "control_id": "A.3.4"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.4.2"
     },
     {
       "matrix": "iso-42001.md",
@@ -2380,6 +2560,110 @@
       "control_id": "Risk management policy adheres to ISO/IEC 42001 or equivalent, considering deployer size, system nature/scope, and data sensitivity/volume"
     },
     {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Ensure AI systems are used ethically, responsibly, and safely, respecting fundamental human rights (Art. 2(5))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Implement measures to mitigate risks associated with AI use (Art. 2(6))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Identify security risks related to AI solutions in public and private sectors (Art. 4(1)(2))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Provide opinions on AI or deepfake technology use during election campaigns, election day, or state official appointment processes (Art. 4(1)(3))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Develop guidelines for public and private sectors on AI use and risk management (Art. 4(1)(5))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Prepare proposals on risks that significantly limit human rights, democratic governance, and public security (Art. 4(1)(6))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Process personal data only for AI development, testing, and validation; comply with purpose-limitation (Art. 9(2))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Apply data minimisation — process only personal data necessary for the specific AI system (Art. 9(4))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Anonymize or pseudonymize personal data where possible without defeating AI system purpose (Art. 9(4))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Restrict data access to directly involved subjects with written agreements; prohibit transfer to third parties (Art. 9(5)–(6))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Irreversibly delete all personal data after AI system development, except where law provides otherwise (Art. 9(7))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Organize special regulatory environment for AI system development, testing, and advancement (Art. 8(1))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Ensure AI development and testing does not endanger state, society, environment, economic security, or human health and life (Art. 8(2))"
+    },
+    {
+      "matrix": "latvia-ai-centre-law.md",
+      "control_id": "Ensure transparency in acquisition and use of financial resources and property (Art. 6(4))"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Maintain technical documentation for high-risk AI systems to support conformity assessment"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Implement risk management system for high-risk AI systems (EU AI Act Art. 9 via national operationalization)"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Implement human oversight for high-risk AI systems (EU AI Act Art. 14 via national operationalization)"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Provide controlled testing environment for AI systems under regulatory supervision"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Monitor sandbox participants for adverse events and safety incidents"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Enforce sandbox exit/halt conditions when testing reveals unacceptable risk"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Handle incident reporting and serious-incident notification to RRT and EU authorities"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Maintain records and documentation for market surveillance inquiries"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Provide transparency notification to users interacting with AI systems (EU AI Act Art. 50 via national operationalization)"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Label AI-generated synthetic content and deepfakes (EU AI Act Art. 50(2)/(4) via national operationalization)"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Conduct fundamental rights impact assessment for high-risk AI deployers (EU AI Act Art. 27 via national operationalization)"
+    },
+    {
+      "matrix": "lithuania-ai-act.md",
+      "control_id": "Ensure transparency of high-risk AI system operation to deployers (EU AI Act Art. 13 via national operationalization)"
+    },
+    {
       "matrix": "malaysia-aige-guidelines.md",
       "control_id": "Design AI systems to avoid bias and discrimination, including unintentional biases in data processing"
     },
@@ -2588,6 +2872,70 @@
       "control_id": "Secretary of IT conducts AI system inventories and annually evaluates feasibility of AI for public services"
     },
     {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "AI must expand rights, never reduce them — systems must not reproduce or perpetuate inequalities or generate new forms of discrimination"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "AI must contribute to well-being, inclusion, and social benefit rather than harm"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "AI must not affect human rights if used inappropriately — preventive risk controls"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Every AI-supported decision must have human accountability under clear institutional frameworks defining who designs, decides, supervises, and answers for effects"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "If a decision cannot be explained, it must not be automated — explainability gate before deployment"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Scientific research and knowledge production must use open and responsible practices allowing verification of results, reproduction of processes, and explicit declaration of AI use"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Institutional frameworks must define supervision and response chains for AI effects"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Before automating, understand who and what the system affects — prior impact analysis"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Decisions must reflect diverse stakeholder input and avoid concentration of automated authority"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Data is a public good that must be handled responsibly — data stewardship controls"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Avoid deliberate misuse of data and enable timely correction of erroneous data"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Data processing must not reproduce algorithmic bias or opacity in deep-learning models"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Protect personal data throughout the AI lifecycle"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "AI systems must be safe and not generate risks to social structures and fundamental rights"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Technical neutrality does not exist — systems must be governed against algorithmic bias and opacity"
+    },
+    {
+      "matrix": "mexico-chapultepec-principles.md",
+      "control_id": "Right to information must not be compromised by automation mechanisms"
+    },
+    {
       "matrix": "nist-ai-rmf.md",
       "control_id": "GV-1.5"
     },
@@ -2753,11 +3101,19 @@
     },
     {
       "matrix": "nist-csf.md",
+      "control_id": "GV.SC-02"
+    },
+    {
+      "matrix": "nist-csf.md",
       "control_id": "GV.SC-04"
     },
     {
       "matrix": "nist-csf.md",
       "control_id": "GV.SC-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "GV.SC-10"
     },
     {
       "matrix": "nist-csf.md",
@@ -2793,11 +3149,19 @@
     },
     {
       "matrix": "nist-csf.md",
+      "control_id": "ID.RA-03"
+    },
+    {
+      "matrix": "nist-csf.md",
       "control_id": "ID.RA-06"
     },
     {
       "matrix": "nist-csf.md",
       "control_id": "ID.RA-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "ID.RA-09"
     },
     {
       "matrix": "nist-csf.md",
@@ -2926,6 +3290,10 @@
     {
       "matrix": "nist-csf.md",
       "control_id": "RS.AN-08"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "RS.CO-03"
     },
     {
       "matrix": "nist-csf.md",
@@ -3200,6 +3568,30 @@
       "control_id": "Maintain human oversight and named accountability for AI systems in regulated sectors"
     },
     {
+      "matrix": "saudi-arabia-ai-strategy.md",
+      "control_id": "Develop adaptive policy frameworks and standards on Data & AI including ethical use of AI"
+    },
+    {
+      "matrix": "saudi-arabia-ai-strategy.md",
+      "control_id": "Apply SDAIA AI Ethics Principles across lifecycle: fairness, privacy & security, humanity, social & environmental benefit, reliability & safety, transparency & explainability, accountability"
+    },
+    {
+      "matrix": "saudi-arabia-ai-strategy.md",
+      "control_id": "Apply four-tier risk classification to AI systems across the lifecycle (design, data, deployment, monitoring, decommissioning)"
+    },
+    {
+      "matrix": "saudi-arabia-ai-strategy.md",
+      "control_id": "Implement national data governance framework covering data classification, sharing, open data, and freedom of information"
+    },
+    {
+      "matrix": "saudi-arabia-ai-strategy.md",
+      "control_id": "Apply \"open by default\", \"need to know\", least privilege, and segregation of duties for government-held data"
+    },
+    {
+      "matrix": "saudi-arabia-ai-strategy.md",
+      "control_id": "Protect personal data per PDPL in AI systems; minimize data collection and apply strong security controls"
+    },
+    {
       "matrix": "singapore-ai-verify.md",
       "control_id": "Provide responsible disclosure to individuals affected by AI systems so they understand the outcome"
     },
@@ -3368,12 +3760,52 @@
       "control_id": "AI solutions should be human-centric — preserve human agency and oversight"
     },
     {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Public disclosure of supervisory measures and sanctions — offender, responsible person, nature of measure, operative part, 3-year retention"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Maintain national register of high-risk AI systems in critical infrastructure"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Manage data submitted by providers of high-risk AI systems per Art. 49(1) EU AI Act"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Public-sector AI systems — unified information point for disclosure of AI system information"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Supervision of prohibited practices (Art. 5 EU AI Act) by Information Commissioner"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Conformity verification by importers/distributors before placing high-risk systems on market"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Fundamental rights impact assessment for high-risk AI deployers (Art. 27 EU AI Act)"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Human oversight of high-risk AI systems (Art. 14 EU AI Act)"
+    },
+    {
+      "matrix": "slovenia-ai-act.md",
+      "control_id": "Transparency obligations for AI systems — user notification and content labeling (Art. 50 EU AI Act)"
+    },
+    {
       "matrix": "soc2.md",
       "control_id": "CC2.1"
     },
     {
       "matrix": "soc2.md",
       "control_id": "CC3.2"
+    },
+    {
+      "matrix": "soc2.md",
+      "control_id": "CC3.4"
     },
     {
       "matrix": "soc2.md",
@@ -3780,6 +4212,102 @@
       "control_id": "Cross-sectoral risk assessment — identify and prioritise new and emerging AI risks"
     },
     {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Respect, protect, and promote human rights, fundamental freedoms, and human dignity throughout the AI life cycle (para 13–16)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Recognise, protect, and promote environment and ecosystem flourishing; reduce carbon footprint and environmental impact of AI systems (para 17–18)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Proportionality and do no harm — AI use must not exceed what is necessary for a legitimate aim; risk assessment procedures must be implemented (para 25–26)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Safety and security — unwanted harms and vulnerabilities to attack must be avoided, prevented, and eliminated throughout the AI life cycle (para 27)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Fairness and non-discrimination — minimise and avoid reinforcing biased applications and outcomes; effective remedy against discrimination must be available (para 28–30)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Sustainability — continuous assessment of human, social, cultural, economic, and environmental impact of AI technologies (para 31)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Right to privacy and data protection — privacy must be respected throughout the AI life cycle; adequate data protection frameworks and privacy impact assessments (para 32–34)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Human oversight and determination — ethical and legal responsibility must always be attributable to physical persons or legal entities; life-and-death decisions must not be ceded to AI (para 35–36)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Transparency and explainability — people must be informed when decisions are AI-informed; individuals should access reasons for decisions and request review (para 37–41)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Responsibility and accountability — ethical and legal responsibility must always be attributable to AI actors; oversight, audit, and due-diligence mechanisms must be developed (para 42–43)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Introduce frameworks for ethical impact assessments to identify benefits, concerns, risks, and mitigation measures for AI systems (para 50)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Develop due diligence and oversight mechanisms to identify, prevent, mitigate, and account for AI system impacts on human rights and rule of law (para 51)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Monitor all phases of the AI life cycle, including algorithm functioning, data, and AI actors involved (para 52)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Investigate and redress harms caused through AI systems; promote auditability and traceability (para 55)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Develop accountability and liability frameworks ensuring ultimate responsibility lies with natural or legal persons; AI systems must not be given legal personality (para 68)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Develop data governance strategies ensuring continual evaluation of training data quality, data security, and protection measures (para 71)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Put in place safeguards to protect the right to privacy; carry out privacy impact assessments and apply privacy by design (para 72)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Assess direct and indirect environmental impact throughout the AI life cycle including carbon footprint, energy consumption, and raw material extraction (para 84)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Favour data-, energy-, and resource-efficient AI methods; apply precautionary principle where disproportionate negative impacts exist (para 86)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Ensure AI systems in health care are safe, effective, scientifically proven, and that final diagnosis and treatment decisions are taken by humans (para 121–123)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Ensure users can easily identify whether they are interacting with a living being or an AI system and can request human intervention (para 127)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Regulate human-robot interactions; ensure AI-powered neurotechnologies and brain-computer interfaces preserve human dignity and autonomy (para 125–126)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Credibly and transparently monitor and evaluate policies, programmes, and mechanisms related to ethics of AI using quantitative and qualitative approaches (para 131)"
+    },
+    {
+      "matrix": "unesco-ai-ethics.md",
+      "control_id": "Develop tools and indicators for assessing effectiveness and efficiency against agreed standards; monitoring should be continuous and proportionate to risk (para 133)"
+    },
+    {
       "matrix": "utah-ai-policy-act.md",
       "control_id": "Disclosure upon request — clearly and conspicuously disclose AI interaction when asked in consumer-protection-regulated activities"
     },
@@ -3814,6 +4342,62 @@
     {
       "matrix": "vermont-act101.md",
       "control_id": "Right to protection from unauthorized neurotechnological alterations in mental functions critical to personality"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Right to confirm whether controller is processing personal data and to access such data"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Right to opt out of processing for targeted advertising, sale of personal data, or profiling with legal/significant effects"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Data minimization — limit collection to what is adequate, relevant, and reasonably necessary"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Purpose limitation — no processing incompatible with disclosed purposes without consent"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Establish and maintain reasonable administrative, technical, and physical data security practices"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Secure, authenticated means for consumers to submit rights requests; no new account required"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Obtain consumer consent before processing sensitive data (race, religion, health, sexual orientation, genetic/biometric, child data, precise geolocation)"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "No targeted advertising, sale, or profiling of children's data without parental consent per COPPA (§ 59.1-578.F)"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "No sale or offer for sale of precise geolocation data (2026 Chapter 820 amendment, § 59.1-578.A.6)"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Data protection assessment for profiling with foreseeable risk of unfair/deceptive treatment, disparate impact, injury, or intrusion (§ 59.1-580.A.3)"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Data protection assessment for sensitive data processing and heightened-risk processing activities (§ 59.1-580.A.4–5)"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Data protection assessment for online services directed to children; weigh benefits vs risks, factor de-identified data and consumer expectations (§ 59.1-580.B–C)"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Processor adheres to controller instructions and assists with consumer rights requests"
+    },
+    {
+      "matrix": "virginia-hb714.md",
+      "control_id": "Processor provides information for DPAs and allows controller or independent assessor assessments"
     }
   ],
   "description": "Frozen baseline for coverage-matrix ratchet. CI fails if validated_count drops below this value OR if any validated_rows identity is no longer passing. Raise by re-running --init-baseline after improving evidence coverage."
