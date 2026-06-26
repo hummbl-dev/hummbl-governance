@@ -18,10 +18,10 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | EU AI Act | 113 articles + 13 annexes | 126 | 25 | 24 | 62 | 15 | [`eu-ai-act.md`](./eu-ai-act.md) |
 | GDPR | 99 articles | 99 | 21 | 13 | 39 | 26 | [`gdpr.md`](./gdpr.md) |
 | ISO/IEC 27001:2022 | 93 Annex A controls + ISMS Clauses 4–10 | 100 | 35 | 25 | 40 | 0 | [`iso-27001.md`](./iso-27001.md) |
-| ISO/IEC 42001:2023 | 38 Annex A controls + Clauses 4–10 | 45 | 22 | 19 | 4 | 0 | [`iso-42001.md`](./iso-42001.md) |
-| NIST AI RMF 1.0 | ~70 subcategories (4 Functions) | 72 | 35 | 24 | 13 | 0 | [`nist-ai-rmf.md`](./nist-ai-rmf.md) |
+| ISO/IEC 42001:2023 | 38 Annex A controls + Clauses 4–10 | 45 | 24 | 17 | 4 | 0 | [`iso-42001.md`](./iso-42001.md) |
+| NIST AI RMF 1.0 | ~70 subcategories (4 Functions) | 72 | 38 | 24 | 10 | 0 | [`nist-ai-rmf.md`](./nist-ai-rmf.md) |
 | NIST CSF 2.0 | 106 subcategories (6 Functions) | 106 | 51 | 30 | 25 | 0 | [`nist-csf.md`](./nist-csf.md) |
-| SOC 2 (TSC 2017/2022) | ~61 TSC criteria (CC + A + PI + C + P) | 51 | 32 | 13 | 6 | 0 | [`soc2.md`](./soc2.md) |
+| SOC 2 (TSC 2017/2022) | ~61 TSC criteria (CC + A + PI + C + P) | 51 | 32 | 14 | 5 | 0 | [`soc2.md`](./soc2.md) |
 | OWASP LLM Top 10 (2025) | 10 risk categories | 10 | 8 | 2 | 0 | 0 | [`owasp-llm.md`](./owasp-llm.md) |
 | Colorado AI Act (SB 24-205) | 18 obligations | 18 | 16 | 2 | 0 | 0 | [`colorado-ai-act.md`](./colorado-ai-act.md) |
 | NYC Local Law 144 (AEDT) | 9 obligations | 9 | 6 | 2 | 1 | 0 | [`nyc-ll144.md`](./nyc-ll144.md) |
@@ -34,7 +34,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | Utah AI Policy Act (SB 149) | 23 obligations (Title 13, Ch. 72) | 23 | 4 | 3 | 16 | 0 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) |
 | California AI Transparency Act (SB 942) | 27 obligations (Ch. 25) | 27 | 6 | 8 | 13 | 0 | [`california-sb-942.md`](./california-sb-942.md) |
 | California AB 2013 (Training Data Transparency) | 18 obligations (Title 15.2) | 18 | 13 | 1 | 4 | 0 | [`california-ab-2013.md`](./california-ab-2013.md) |
-| California SB 53 (TFAIA) | 35 obligations (Ch. 25.1) | 35 | 17 | 3 | 15 | 0 | [`california-sb-53.md`](./california-sb-53.md) |
+| California SB 53 (TFAIA) | 35 obligations (Ch. 25.1) | 35 | 17 | 7 | 11 | 0 | [`california-sb-53.md`](./california-sb-53.md) |
 | China Generative AI Interim Measures | 51 obligations (Arts. 4–23) | 51 | 35 | 6 | 10 | 0 | [`china-genai-measures.md`](./china-genai-measures.md) |
 | CCPA/CPRA (ADMT) | 47 obligations (Regs. §§ 7001–7222) | 47 | 44 | 2 | 1 | 0 | [`ccpa-cpra.md`](./ccpa-cpra.md) |
 | Japan AI Act (Act No. 53/2025) | 27 provisions (Arts. 5–19) | 27 | 5 | 3 | 19 | 0 | [`japan-ai-act.md`](./japan-ai-act.md) |
@@ -43,11 +43,11 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | Peru Law No. 31814 + SD 115-2025 | 31 obligations (Arts. 22–36) | 31 | 22 | 3 | 6 | 0 | [`peru-law-31814.md`](./peru-law-31814.md) |
 | El Salvador AI Promotion Law (Decree 234/363) | 30 obligations (Arts. 5–28) | 30 | 14 | 5 | 11 | 0 | [`el-salvador-ai-promotion-law.md`](./el-salvador-ai-promotion-law.md) |
 | Kazakhstan AI Law (Law No. 230-VIII) | 31 obligations (Arts. 4–27) | 31 | 25 | 4 | 2 | 0 | [`kazakhstan-ai-law.md`](./kazakhstan-ai-law.md) |
-| Denmark AI Act (Law 467/2025) | 24 obligations (§§ 1–18) | 24 | 2 | 5 | 17 | 0 | [`denmark-ai-act.md`](./denmark-ai-act.md) |
+| Denmark AI Act (Law 467/2025) | 24 obligations (§§ 1–18) | 24 | 2 | 7 | 15 | 0 | [`denmark-ai-act.md`](./denmark-ai-act.md) |
 | Malta AI Regulations (LN 226/227 of 2025) | 30 obligations (LN 226/227) | 30 | 11 | 7 | 12 | 0 | [`malta-ai-regulations.md`](./malta-ai-regulations.md) |
 | Chile AI Bill (Boletín 16821-19) | 37 obligations (Arts. 4–27) | 37 | 22 | 7 | 8 | 0 | [`chile-ai-bill.md`](./chile-ai-bill.md) |
 | Malaysia AIGE Guidelines | 36 obligations (7 principles) | 36 | 26 | 6 | 4 | 0 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) |
-| Azerbaijan AI Strategy 2025-2028 | 32 obligations (5 pillars + decree) | 32 | 11 | 7 | 14 | 0 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) |
+| Azerbaijan AI Strategy 2025-2028 | 32 obligations (5 pillars + decree) | 32 | 11 | 8 | 13 | 0 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) |
 | Connecticut SB 2 / SB 5 (PA 26-15) | 32 obligations (Secs. 1–39) | 32 | 20 | 6 | 6 | 0 | [`connecticut-sb2-sb5.md`](./connecticut-sb2-sb5.md) |
 | Maryland AI Governance Act (SB 818) | 26 obligations (Title 3.5) | 26 | 15 | 6 | 5 | 0 | [`maryland-sb818.md`](./maryland-sb818.md) |
 | Illinois IHRA AI Amendment (HB 3773) | 23 obligations (IHRA §§ 2-101, 2-102) | 23 | 12 | 3 | 8 | 0 | [`illinois-hb3773.md`](./illinois-hb3773.md) |
@@ -59,7 +59,17 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | Brazil PL 2338/2023 (Marco Legal da IA) | 36 obligations (Arts. 5–45) | 36 | 23 | 7 | 6 | 0 | [`brazil-pl2338.md`](./brazil-pl2338.md) |
 | ISO/IEC 22989:2022 (AI Concepts & Terminology) | 31 concepts (5 categories) | 31 | 23 | 4 | 4 | 0 | [`iso-iec-22989.md`](./iso-iec-22989.md) |
 | ISO/IEC 5338:2023 (AI System Lifecycle) | 24 processes (4 groups) | 24 | 15 | 6 | 3 | 0 | [`iso-iec-5338.md`](./iso-iec-5338.md) |
-| **FLEET (44 frameworks)** | **~1633 controls in source standards** | **1633 data rows** | **785** | **314** | **492** | **42** | — |
+| India DPDP Act 2023 | 32 obligations (Ss. 4–33) | 32 | 16 | 7 | 9 | 0 | [`india-dpdp.md`](./india-dpdp.md) |
+| Australia AI Ethics Principles | 30 obligations (8 principles) | 30 | 29 | 1 | 0 | 0 | [`australia-ai-ethics.md`](./australia-ai-ethics.md) |
+| OECD AI Principles (2024 update) | 26 obligations (5 principles + 5 recommendations) | 26 | 15 | 7 | 4 | 0 | [`oecd-ai-principles.md`](./oecd-ai-principles.md) |
+| Council of Europe AI Convention (CETS 225) | 30 obligations (Arts. 4–26) | 30 | 11 | 7 | 12 | 0 | [`council-of-europe-ai-convention.md`](./council-of-europe-ai-convention.md) |
+| ISO/IEC 23894:2023 (AI Risk Management) | 21 guidance items (5 sections) | 21 | 19 | 1 | 1 | 0 | [`iso-iec-23894.md`](./iso-iec-23894.md) |
+| ISO/IEC 38507:2022 (Governance Implications of AI) | 31 obligations (Clauses 4–6 + Annex A) | 31 | 18 | 9 | 4 | 0 | [`iso-iec-38507.md`](./iso-iec-38507.md) |
+| Rwanda National AI Policy | 29 obligations (6 priority areas) | 29 | 7 | 7 | 15 | 0 | [`rwanda-ai-policy.md`](./rwanda-ai-policy.md) |
+| Egypt National AI Strategy | 27 obligations (6 pillars) | 27 | 12 | 3 | 12 | 0 | [`egypt-ai-strategy.md`](./egypt-ai-strategy.md) |
+| Singapore AI Verify | 21 obligations (11 principles, 5 pillars) | 21 | 14 | 6 | 1 | 0 | [`singapore-ai-verify.md`](./singapore-ai-verify.md) |
+| Singapore Model AI Governance Framework | 34 obligations (4 areas) | 34 | 28 | 4 | 2 | 0 | [`singapore-model-ai-governance.md`](./singapore-model-ai-governance.md) |
+| **FLEET (54 frameworks)** | **~1914 controls in source standards** | **1914 data rows** | **959** | **372** | **541** | **42** | — |
 
 > **These counts are enumeration evidence, not a score.** "Rows" is the count of data rows in each matrix file (some matrices include both Clause-level and Annex/control-level rows, so row count may exceed the source-standard surface count). ✅ + 🟡 + ⚪ + Unmarked = Rows for each matrix. The **Unmarked** column counts data rows in the matrix file that do NOT yet have a state glyph assigned — these are drafting gaps per ADR-001 row invariant (every row must be ✅/🟡/⚪/⛔). Surfacing them is intentional: PR #28 review identified silent unmarked-row dropping as a Goodhart channel (`feedback_no_self_grades_on_public_surface.md`). There is no implied "258 / 661 = 39%" coverage rate — the denominator includes 206 ⚪ Boundary rows (control is customer/regulator responsibility) and 42 Unmarked rows (drafting gap, not implemented coverage). Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts.
 
@@ -69,7 +79,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
-The **785 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **314 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **492 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
+The **959 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **372 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **541 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
 
 ## What this does NOT claim
 

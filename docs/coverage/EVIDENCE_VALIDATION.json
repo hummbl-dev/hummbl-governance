@@ -302,12 +302,663 @@
       }
     ]
   },
+  "australia-ai-ethics.md": {
+    "matrix": "docs/coverage/australia-ai-ethics.md",
+    "totals": {
+      "fulfilled": 29,
+      "partial": 1,
+      "boundary": 0,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 29,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "AI systems should benefit individuals, society, and the environment (Principle 1)",
+        "line_no": 24,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reward_monitor.py",
+            "path": "hummbl_governance/reward_monitor.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI systems should respect human rights, diversity, and the autonomy of individuals (Principle 2)",
+        "line_no": 25,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/law_engine.py",
+            "path": "hummbl_governance/kernel/law_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Minimize risk of negative impact on those affected by AI applications",
+        "line_no": 26,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enable human oversight of AI systems so individuals retain meaningful control",
+        "line_no": 27,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/sequence_engine.py",
+            "path": "hummbl_governance/kernel/sequence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure AI does not diminish human autonomy or override human decision-making authority",
+        "line_no": 28,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI systems should not involve or result in unfair discrimination against individuals, communities, or groups",
+        "line_no": 35,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Identify potential sources of bias in training data and take steps to mitigate them",
+        "line_no": 36,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI systems should respect and uphold privacy rights and data protection",
+        "line_no": 42,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure the security of data throughout the AI lifecycle",
+        "line_no": 43,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/law_engine.py",
+            "path": "hummbl_governance/kernel/law_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement measures to prevent data privacy breaches (monitoring, fail-safe mechanisms)",
+        "line_no": 44,
+        "refs": [
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Resist compromise by unauthorised parties accessing AI systems or data",
+        "line_no": 45,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI systems should reliably operate in accordance with their intended purpose",
+        "line_no": 51,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement fail-safe mechanisms to prevent harm in critical situations",
+        "line_no": 52,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Conduct rigorous testing and validation to ensure AI performs as accurately as intended",
+        "line_no": 53,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Monitor AI systems in operation to detect anomalies and unintended behaviour",
+        "line_no": 54,
+        "refs": [
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/convergence_guard.py",
+            "path": "hummbl_governance/convergence_guard.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Transparency and responsible disclosure so people understand when they are being significantly impacted by AI",
+        "line_no": 60,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "People can find out when an AI system is engaging with them",
+        "line_no": 61,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Disclose the intended purpose of the AI system",
+        "line_no": 62,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Provide information on training data and potential historical or social biases",
+        "line_no": 63,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Provide clear explanations and justifications for AI decisions",
+        "line_no": 64,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "When an AI system significantly impacts a person, community, group, or environment, there should be a timely process to challenge the use or outcomes",
+        "line_no": 70,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Provide mechanisms for people to contest AI decisions that affect them",
+        "line_no": 71,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enable timely human review of contested AI outcomes",
+        "line_no": 72,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/sequence_engine.py",
+            "path": "hummbl_governance/kernel/sequence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Suspend or halt AI operation pending contestation outcome",
+        "line_no": 73,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "People responsible for the different phases of the AI system lifecycle should be identifiable and accountable for outcomes",
+        "line_no": 79,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human oversight of AI systems should be enabled",
+        "line_no": 80,
+        "refs": [
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/convergence_guard.py",
+            "path": "hummbl_governance/convergence_guard.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Maintain auditable records of AI system decisions and actions for accountability",
+        "line_no": 81,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lamport_clock.py",
+            "path": "hummbl_governance/lamport_clock.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Address system purpose to avoid consequential harm",
+        "line_no": 82,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Address technology capability to avoid consequential harm",
+        "line_no": 83,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
   "azerbaijan-ai-strategy.md": {
     "matrix": "docs/coverage/azerbaijan-ai-strategy.md",
     "totals": {
       "fulfilled": 11,
-      "partial": 7,
-      "boundary": 14,
+      "partial": 8,
+      "boundary": 13,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
@@ -1285,8 +1936,8 @@
     "matrix": "docs/coverage/california-sb-53.md",
     "totals": {
       "fulfilled": 17,
-      "partial": 3,
-      "boundary": 15,
+      "partial": 7,
+      "boundary": 11,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
@@ -4631,12 +5282,345 @@
       }
     ]
   },
+  "council-of-europe-ai-convention.md": {
+    "matrix": "docs/coverage/council-of-europe-ai-convention.md",
+    "totals": {
+      "fulfilled": 11,
+      "partial": 7,
+      "boundary": 12,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 11,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Ensure adequate transparency and oversight requirements tailored to specific contexts and risks, including identification of AI-generated content (Art. 8)",
+        "line_no": 33,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure accountability and responsibility for adverse impacts on human rights, democracy, and the rule of law resulting from AI lifecycle activities (Art. 9)",
+        "line_no": 34,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Promote reliability of AI systems and trust in their outputs, including quality and security throughout the lifecycle (Art. 12)",
+        "line_no": 39,
+        "refs": [
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enable establishment of controlled environments (sandboxes) for developing, experimenting, and testing AI systems under supervision of competent authorities (Art. 13)",
+        "line_no": 40,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/cost_governor.py",
+            "path": "hummbl_governance/cost_governor.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Document relevant information regarding AI systems and usage, provide to authorized bodies and, where appropriate, to affected persons (Art. 14(2)(a))",
+        "line_no": 47,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure information is sufficient for affected persons to contest decisions made by or substantially informed by AI systems, and the use of the system itself (Art. 14(2)(b))",
+        "line_no": 48,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Notify persons interacting with AI systems that they are interacting with such systems rather than a human (Art. 15(2))",
+        "line_no": 51,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Adopt measures for identification, assessment, prevention, and mitigation of risks posed by AI systems, considering actual and potential impacts on human rights, democracy, and the rule of law (Art. 16(1))",
+        "line_no": 57,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement graduated and differentiated measures: context and intended use (a), severity and probability (b), stakeholder perspectives (c), iterative application (d), monitoring (e), documentation (f), testing before first use and significant modification (g) (Art. 16(2))",
+        "line_no": 58,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/schedule_engine.py",
+            "path": "hummbl_governance/kernel/schedule_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure adverse impacts are adequately addressed; document impacts and measures, and inform risk management (Art. 16(3))",
+        "line_no": 59,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Assess need for moratorium, ban, or other measures on certain AI uses incompatible with human rights, democracy, or rule of law (Art. 16(4))",
+        "line_no": 60,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
   "denmark-ai-act.md": {
     "matrix": "docs/coverage/denmark-ai-act.md",
     "totals": {
       "fulfilled": 2,
-      "partial": 5,
-      "boundary": 17,
+      "partial": 7,
+      "boundary": 15,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
@@ -4685,6 +5669,335 @@
           {
             "ref": "hummbl_governance/capability_fence.py",
             "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
+  "egypt-ai-strategy.md": {
+    "matrix": "docs/coverage/egypt-ai-strategy.md",
+    "totals": {
+      "fulfilled": 12,
+      "partial": 3,
+      "boundary": 12,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 12,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Establish a comprehensive national regulatory framework for AI ensuring ethical and responsible use",
+        "line_no": 24,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/law_engine.py",
+            "path": "hummbl_governance/kernel/law_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Apply risk-based tier model (Red/Orange/Yellow/Green) to classify AI systems by risk level",
+        "line_no": 25,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Conduct \"dual-check\" compliance for high-risk (Orange-tier) systems: AI Ethical Impact Assessment (AIEIA) + Technical Conformity Audit (TEVV)",
+        "line_no": 26,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enforce Egyptian Charter for Responsible AI principles: fairness, transparency, accountability, inclusivity, privacy, human oversight",
+        "line_no": 27,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Operate AI Audit Lab for pre-deployment testing and auditing of AI systems",
+        "line_no": 28,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/admission_control.py",
+            "path": "hummbl_governance/kernel/admission_control.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Establish comprehensive frameworks and standards for national data governance and lifecycle management",
+        "line_no": 36,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Strengthen data privacy and security measures in AI systems",
+        "line_no": 37,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure transparency and accountability in AI model development and deployment",
+        "line_no": 48,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enforce compute-resource governance and cost controls for AI workloads",
+        "line_no": 57,
+        "refs": [
+          {
+            "ref": "hummbl_governance/cost_governor.py",
+            "path": "hummbl_governance/cost_governor.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/admission_control.py",
+            "path": "hummbl_governance/kernel/admission_control.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure continuous monitoring and incident response for deployed AI systems",
+        "line_no": 66,
+        "refs": [
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reward_monitor.py",
+            "path": "hummbl_governance/reward_monitor.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure human oversight and control over AI systems in public administration",
+        "line_no": 74,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement continuous risk identification, assessment, and mitigation for AI systems",
+        "line_no": 75,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
             "status": "pass",
             "detail": "file exists"
           }
@@ -6344,6 +7657,355 @@
       }
     ]
   },
+  "india-dpdp.md": {
+    "matrix": "docs/coverage/india-dpdp.md",
+    "totals": {
+      "fulfilled": 16,
+      "partial": 7,
+      "boundary": 9,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 16,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Process personal data only for a lawful purpose under consent (S.6) or certain legitimate uses (S.7)",
+        "line_no": 24,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Provide notice to Data Principal before or with consent request — personal data, purpose, rights, complaint mechanism (S.5)",
+        "line_no": 25,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Consent must be free, specific, informed, unconditional, unambiguous, with clear affirmative action (S.6(1))",
+        "line_no": 26,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Data Principal may withdraw consent at any time with ease comparable to giving it (S.6(4))",
+        "line_no": 27,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Data Fiduciary is responsible for compliance regardless of agreement or Data Principal's own duties (S.8(1))",
+        "line_no": 34,
+        "refs": [
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Engage Data Processor only under a valid contract for goods/services to Data Principals (S.8(2))",
+        "line_no": 35,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/contract_net.py",
+            "path": "hummbl_governance/contract_net.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure completeness, accuracy, and consistency of personal data used for decisions or disclosures (S.8(3))",
+        "line_no": 36,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement appropriate technical and organisational measures for effective observance (S.8(4))",
+        "line_no": 37,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Take reasonable security safeguards to prevent personal data breach (S.8(5))",
+        "line_no": 38,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Erase personal data upon consent withdrawal or when purpose is no longer served; cause Processor to erase (S.8(7))",
+        "line_no": 40,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Obtain verifiable parental / lawful-guardian consent before processing a child's data (S.9(1))",
+        "line_no": 46,
+        "refs": [
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "No tracking, behavioural monitoring, or targeted advertising directed at children (S.9(3))",
+        "line_no": 48,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "SDF: conduct periodic Data Protection Impact Assessment (S.10(2)(c)(i))",
+        "line_no": 51,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Right to access — summary of personal data, processing activities, and identities of shared Fiduciaries/Processors (S.11)",
+        "line_no": 58,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Right to correction, completion, updating, and erasure of personal data (S.12)",
+        "line_no": 59,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Penalty determination considers nature, gravity, duration, mitigation, and proportionality (S.33(2))",
+        "line_no": 79,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
   "iso-27001.md": {
     "matrix": "docs/coverage/iso-27001.md",
     "totals": {
@@ -6956,13 +8618,13 @@
   "iso-42001.md": {
     "matrix": "docs/coverage/iso-42001.md",
     "totals": {
-      "fulfilled": 22,
-      "partial": 19,
+      "fulfilled": 24,
+      "partial": 17,
       "boundary": 4,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 22,
+      "rows_passed": 24,
       "rows_failed": 0,
       "rows_without_refs": 0,
       "coverage_pct": 100.0
@@ -7035,6 +8697,40 @@
           {
             "ref": "hummbl_governance/delegation.py",
             "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "A.4.3",
+        "line_no": 86,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "A.4.4",
+        "line_no": 87,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
             "status": "pass",
             "detail": "file exists"
           }
@@ -7878,6 +9574,864 @@
           {
             "ref": "hummbl_governance/identity.py",
             "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
+  "iso-iec-23894.md": {
+    "matrix": "docs/coverage/iso-iec-23894.md",
+    "totals": {
+      "fulfilled": 19,
+      "partial": 1,
+      "boundary": 1,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 19,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Inclusive (Cl. 4) — stakeholders help identify risks in data collection, define fairness criteria, identify bias, determine human-oversight needs",
+        "line_no": 26,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Dynamic (Cl. 4) — risks can emerge, change, or disappear as AI systems learn, adapt, and optimize",
+        "line_no": 27,
+        "refs": [
+          {
+            "ref": "hummbl_governance/convergence_guard.py",
+            "path": "hummbl_governance/convergence_guard.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reward_monitor.py",
+            "path": "hummbl_governance/reward_monitor.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Best Available Information (Cl. 4) — risk decisions based on best available evidence; AI introduces uncertainty in data, models, and emergent behavior",
+        "line_no": 28,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human and Cultural Factors (Cl. 4) — AI risk management considers human behavior, oversight capacity, and organizational culture",
+        "line_no": 29,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Continual Improvement (Cl. 4) — risk management learns from experience and outcomes; AI systems require iterative refinement",
+        "line_no": 30,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "5.4.3 Assigning organizational roles, authorities, responsibilities, and accountabilities — named individuals with authority to address AI risks",
+        "line_no": 37,
+        "refs": [
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "5.4.4 Allocating resources — resources for AI risk management including expertise, tools, and compute budgets",
+        "line_no": 38,
+        "refs": [
+          {
+            "ref": "hummbl_governance/cost_governor.py",
+            "path": "hummbl_governance/cost_governor.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/admission_control.py",
+            "path": "hummbl_governance/kernel/admission_control.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "5.7 Improvement — continual improvement of the framework, incorporating lessons learned",
+        "line_no": 40,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.4.2 Risk identification — identify AI-specific risk sources using Annex B catalogue (data quality/bias, model opacity, emergent behavior, adversarial attacks, misuse, sociotechnical impacts)",
+        "line_no": 46,
+        "refs": [
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.4.3 Risk analysis — analyze risk sources, events, controls, and consequences; consider combinations and sequences of multiple risks",
+        "line_no": 47,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/convergence_guard.py",
+            "path": "hummbl_governance/convergence_guard.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.4.4 Risk evaluation — compare analysis results against risk criteria to determine which risks require treatment and priority",
+        "line_no": 48,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.3.4 Defining risk criteria — establish quantitative and qualitative criteria covering data, software, models, physical extensions, and human-in-the-loop",
+        "line_no": 49,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/law_engine.py",
+            "path": "hummbl_governance/kernel/law_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/schedule_engine.py",
+            "path": "hummbl_governance/kernel/schedule_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.5.2 Selection of risk treatment options — avoidance, mitigation (technical + procedural controls), transfer, acceptance; human oversight as a treatment",
+        "line_no": 55,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.5.3 Preparing and implementing risk treatment plans — documented plans specifying controls, owners, target dates, and evidence",
+        "line_no": 56,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/schedule_engine.py",
+            "path": "hummbl_governance/kernel/schedule_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human oversight as risk treatment — particular attention to human oversight mechanisms as a treatment option",
+        "line_no": 57,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.2 Communication and consultation — ongoing risk communication with stakeholders throughout the process",
+        "line_no": 63,
+        "refs": [
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lamport_clock.py",
+            "path": "hummbl_governance/lamport_clock.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.6 Monitoring and review — continuous monitoring of AI system behavior, risk indicators, and control effectiveness; detect drift and emergent behavior",
+        "line_no": 64,
+        "refs": [
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reward_monitor.py",
+            "path": "hummbl_governance/reward_monitor.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/convergence_guard.py",
+            "path": "hummbl_governance/convergence_guard.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.7 Recording and reporting — document risk-management decisions, retain evidence, report to relevant stakeholders in audience-appropriate form",
+        "line_no": 65,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/sequence_engine.py",
+            "path": "hummbl_governance/kernel/sequence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Annex C — risk-management activities mapped against AI system lifecycle stages",
+        "line_no": 66,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
+  "iso-iec-38507.md": {
+    "matrix": "docs/coverage/iso-iec-38507.md",
+    "totals": {
+      "fulfilled": 18,
+      "partial": 9,
+      "boundary": 4,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 18,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "4.3 — Accountability established across all aspects of AI use (impacts, strategy, lifecycle phases, environment changes, security, decommissioning)",
+        "line_no": 27,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "4.3 — Appropriate security controls in place to protect organization, stakeholders, and data",
+        "line_no": 28,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "5.2.1 — Governance of decision automation; understand implications of automated decisions",
+        "line_no": 35,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "5.2.2 — Governance of data-driven problem-solving; ensure data quality and suitability",
+        "line_no": 36,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "5.2.3 — Governance of adaptive/learning systems; monitor for drift and unintended adaptation",
+        "line_no": 37,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reward_monitor.py",
+            "path": "hummbl_governance/reward_monitor.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/convergence_guard.py",
+            "path": "hummbl_governance/convergence_guard.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.2 — Governance oversight based on policies; identify individual and collective accountability in chain of responsibility",
+        "line_no": 46,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.2 — Ensure sufficient human oversight; persons using AI are properly trained and know how to raise concerns",
+        "line_no": 47,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.3 — Governance of decision-making; appropriate level of automation vs human involvement",
+        "line_no": 49,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.3 — Transparency of AI-assisted decisions; explainability of decision processes",
+        "line_no": 50,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.3 — Accountability for AI-driven decisions; traceability from decision to responsible actor",
+        "line_no": 51,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.4 — Data used for correct purpose; sensitive data protected and secured",
+        "line_no": 57,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.4 — Prior assessment of availability, quality, quantity, and suitability of data",
+        "line_no": 58,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.4 — Formulate description of AI system (algorithms, data, models) for transparency and intended-use verification",
+        "line_no": 60,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.6.1 — Identify and meet compliance obligations (legal, regulatory, contractual) for AI use",
+        "line_no": 68,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.6.2 — Compliance management; processes to manage and monitor ongoing compliance",
+        "line_no": 69,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.7.2 — Implement risk management processes throughout AI lifecycle (cross-ref ISO/IEC 23894)",
+        "line_no": 76,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.7.4 — Identify AI-specific risk sources (unwanted bias, cyber-threats, lack of AI expertise)",
+        "line_no": 78,
+        "refs": [
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/reward_monitor.py",
+            "path": "hummbl_governance/reward_monitor.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "6.7.5 — Implement controls to manage identified risks",
+        "line_no": 79,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/cost_governor.py",
+            "path": "hummbl_governance/cost_governor.py",
             "status": "pass",
             "detail": "file exists"
           }
@@ -11124,18 +13678,38 @@
   "nist-ai-rmf.md": {
     "matrix": "docs/coverage/nist-ai-rmf.md",
     "totals": {
-      "fulfilled": 35,
+      "fulfilled": 38,
       "partial": 24,
-      "boundary": 13,
+      "boundary": 10,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 35,
+      "rows_passed": 38,
       "rows_failed": 0,
       "rows_without_refs": 0,
       "coverage_pct": 100.0
     },
     "rows": [
+      {
+        "control_id": "GV-1.5",
+        "line_no": 41,
+        "refs": [
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
       {
         "control_id": "GV-1.6",
         "line_no": 42,
@@ -11519,6 +14093,26 @@
         "detail": "all refs resolve"
       },
       {
+        "control_id": "MS-2.9",
+        "line_no": 149,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
         "control_id": "MS-2.10",
         "line_no": 150,
         "refs": [
@@ -11745,6 +14339,32 @@
           {
             "ref": "hummbl_governance/audit_log.py",
             "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "MG-3.2",
+        "line_no": 196,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
             "status": "pass",
             "detail": "file exists"
           }
@@ -12796,6 +15416,377 @@
       }
     ]
   },
+  "oecd-ai-principles.md": {
+    "matrix": "docs/coverage/oecd-ai-principles.md",
+    "totals": {
+      "fulfilled": 15,
+      "partial": 7,
+      "boundary": 4,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 15,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Privacy and data protection throughout the AI lifecycle",
+        "line_no": 33,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement mechanisms and safeguards, such as capacity for human determination, appropriate to context",
+        "line_no": 35,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Safeguard information integrity; address misinformation and disinformation in context of generative AI (2024 addition)",
+        "line_no": 36,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Provide meaningful information to foster general understanding of AI systems",
+        "line_no": 42,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Make stakeholders aware of their interactions with AI systems, including in the workplace",
+        "line_no": 43,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enable those affected by an AI system to understand the outcome",
+        "line_no": 44,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Enable those adversely affected to challenge outcome based on plain, easy-to-understand information on factors and logic",
+        "line_no": 45,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI systems robust, secure, safe throughout entire lifecycle — normal use, foreseeable use or misuse, adverse conditions",
+        "line_no": 51,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure traceability of datasets, processes, and decisions throughout AI lifecycle to enable analysis and inquiry",
+        "line_no": 52,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/sequence_engine.py",
+            "path": "hummbl_governance/kernel/sequence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Apply systematic risk management approach to each phase of lifecycle on continuous basis — privacy, digital security, safety, bias",
+        "line_no": 53,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure AI systems can be overridden, repaired, and/or decommissioned safely by human interaction (2024 addition)",
+        "line_no": 54,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Address uses outside intended purpose, intentional misuse, or unintentional misuse (2024 addition)",
+        "line_no": 55,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI actors accountable for proper functioning of AI systems based on roles, context, and state of art",
+        "line_no": 62,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Accountability for respect of all principles (1.1–1.4) based on roles and context",
+        "line_no": 63,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Evidence-based accountability — auditable records of decisions, actions, and oversight throughout lifecycle",
+        "line_no": 64,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lamport_clock.py",
+            "path": "hummbl_governance/lamport_clock.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
   "owasp-agentic.md": {
     "matrix": "docs/coverage/owasp-agentic.md",
     "totals": {
@@ -13639,12 +16630,1103 @@
       }
     ]
   },
+  "rwanda-ai-policy.md": {
+    "matrix": "docs/coverage/rwanda-ai-policy.md",
+    "totals": {
+      "fulfilled": 7,
+      "partial": 7,
+      "boundary": 15,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 7,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Ensure personal-data processing complies with Data Protection & Privacy Law (Law No. 058/2021) principles (lawfulness, fairness, transparency, purpose limitation, accuracy)",
+        "line_no": 41,
+        "refs": [
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure private-sector AI deployments remain safe and controllable in production",
+        "line_no": 58,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Operationalize and share Rwanda's \"Guidelines on the Ethical Development and Implementation of AI\" (RURA) across the AI system lifecycle",
+        "line_no": 64,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Apply beneficence, non-maleficence, autonomy, justice, and explicability principles in all AI development",
+        "line_no": 65,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/doctrine_engine.py",
+            "path": "hummbl_governance/kernel/doctrine_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Monitor and evaluate policy implementation against defined indicators and benchmarks",
+        "line_no": 76,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "RURA monitors compliance with ethical AI guidelines through audits and stakeholder feedback",
+        "line_no": 77,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/stride_mapper.py",
+            "path": "hummbl_governance/stride_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Maintain human oversight and named accountability for AI systems in regulated sectors",
+        "line_no": 81,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
+  "singapore-ai-verify.md": {
+    "matrix": "docs/coverage/singapore-ai-verify.md",
+    "totals": {
+      "fulfilled": 14,
+      "partial": 6,
+      "boundary": 1,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 14,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Provide responsible disclosure to individuals affected by AI systems so they understand the outcome",
+        "line_no": 24,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Disclose use of AI in the system, its intended use, limitations, and risk assessments (process checks of documentary evidence)",
+        "line_no": 25,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Explainability — assess factors contributing to the AI system's decision, behaviour, outcomes, and implications (technical tests + process checks)",
+        "line_no": 32,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Repeatability / reproducibility — ensure consistency in AI output by replicating the system internally or via third party (process checks of model/data provenance, versioning)",
+        "line_no": 34,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lamport_clock.py",
+            "path": "hummbl_governance/lamport_clock.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Safety — conduct impact/risk assessments and ensure known risks are identified and mitigated (process checks)",
+        "line_no": 40,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Safety — implement measures to mitigate harm, including physical harm, with kill-switch and fast-fail controls",
+        "line_no": 41,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/physical_governor.py",
+            "path": "hummbl_governance/physical_governor.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Robustness — ensure the AI system functions despite unexpected input (technical tests + process checks on adversarial resilience)",
+        "line_no": 43,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Fairness — define sensitive attributes consistent with legislation and corporate values; document fairness-metric selection aligned with intended outcomes (process checks)",
+        "line_no": 50,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Accountability — establish clear internal governance mechanisms for proper management and oversight of AI system development and deployment (process checks)",
+        "line_no": 57,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/authority_engine.py",
+            "path": "hummbl_governance/kernel/authority_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Accountability — assign clear roles and responsibilities for AI system operation and oversight",
+        "line_no": 58,
+        "refs": [
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human agency and oversight — design AI system so it does not diminish human ability to make decisions or take control (process checks)",
+        "line_no": 59,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human agency and oversight — define the role of humans (human-in-the-loop, human-over-the-loop, human-out-of-the-loop) for the AI system",
+        "line_no": 60,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "MGF internal governance — set up corporate governance and oversight processes with internal controls, monitoring, and reporting systems",
+        "line_no": 67,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/law_engine.py",
+            "path": "hummbl_governance/kernel/law_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/schedule_engine.py",
+            "path": "hummbl_governance/kernel/schedule_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/sequence_engine.py",
+            "path": "hummbl_governance/kernel/sequence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "MGF operations management — ensure good data accountability, minimise bias, and maintain model robustness through regular tuning and reproducibility",
+        "line_no": 68,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/lamport_clock.py",
+            "path": "hummbl_governance/lamport_clock.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
+  "singapore-model-ai-governance.md": {
+    "matrix": "docs/coverage/singapore-model-ai-governance.md",
+    "totals": {
+      "fulfilled": 28,
+      "partial": 4,
+      "boundary": 2,
+      "out_of_scope": 0
+    },
+    "fulfilled_validation": {
+      "rows_passed": 28,
+      "rows_failed": 0,
+      "rows_without_refs": 0,
+      "coverage_pct": 100.0
+    },
+    "rows": [
+      {
+        "control_id": "Allocate clear roles and responsibilities for ethical AI deployment across personnel and departments",
+        "line_no": 24,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/identity.py",
+            "path": "hummbl_governance/identity.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Establish coordinating body with cross-organisation representation and relevant expertise",
+        "line_no": 25,
+        "refs": [
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Apply risk management framework to assess and manage AI deployment risks, including adverse impact on individuals",
+        "line_no": 26,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement internal checks and balances — separate teams for methodology/deployment and validation",
+        "line_no": 29,
+        "refs": [
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure AI deployment complies with existing laws and regulations (PDPA, Competition Act, sectoral rules)",
+        "line_no": 30,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kernel/law_engine.py",
+            "path": "hummbl_governance/kernel/law_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Develop and maintain governance handbook documenting the entire AI deployment process",
+        "line_no": 31,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Determine appropriate level of human involvement — human-in-the-loop, human-over-the-loop, or human-out-of-the-loop",
+        "line_no": 37,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human-in-the-loop for high-impact decisions requiring affirmative human action before execution",
+        "line_no": 38,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Human-over-the-loop intervention when AI encounters unexpected or undesirable events",
+        "line_no": 39,
+        "refs": [
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Assess risk appetite and severity of harm to determine oversight level",
+        "line_no": 40,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Minimise risk of harm to individuals from AI-augmented decisions",
+        "line_no": 41,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Use statistical confidence levels to trigger human review of low-confidence AI outputs",
+        "line_no": 42,
+        "refs": [
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure data quality — assess representativeness, completeness, reliability, and relevance of training data",
+        "line_no": 48,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Minimise bias in data and models to prevent unintended discriminatory decisions",
+        "line_no": 49,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Justify model selection and design against intended objective and use case",
+        "line_no": 50,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Ensure model robustness, reproducibility, and auditability",
+        "line_no": 51,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lamport_clock.py",
+            "path": "hummbl_governance/lamport_clock.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Establish monitoring and reporting systems for deployed AI performance and issues",
+        "line_no": 52,
+        "refs": [
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Maintain, document, and review deployed AI models with remediation measures",
+        "line_no": 53,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Incorporate explainability features in model design — report confidence levels and decision rationale",
+        "line_no": 54,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Implement regular tuning and parameter adjustment based on monitoring feedback",
+        "line_no": 55,
+        "refs": [
+          {
+            "ref": "hummbl_governance/lifecycle.py",
+            "path": "hummbl_governance/lifecycle.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Monitor upstream data source changes for adverse model impact (data drift)",
+        "line_no": 56,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/health_probe.py",
+            "path": "hummbl_governance/health_probe.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Disclose AI use to stakeholders — make AI policies known to users",
+        "line_no": 62,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Provide explanations of AI-augmented decisions to individuals (how AI works, how a decision was made, reasons, impact)",
+        "line_no": 63,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Establish feedback channels for stakeholders to provide input on AI systems",
+        "line_no": 64,
+        "refs": [
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI decisions should be explainable — provide understandable rationale for algorithmic decisions",
+        "line_no": 72,
+        "refs": [
+          {
+            "ref": "hummbl_governance/reasoning.py",
+            "path": "hummbl_governance/reasoning.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/evidence_engine.py",
+            "path": "hummbl_governance/kernel/evidence_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI decisions should be transparent — make AI use and decision processes visible",
+        "line_no": 73,
+        "refs": [
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kernel/receipt_engine.py",
+            "path": "hummbl_governance/kernel/receipt_engine.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI decisions should be fair — avoid unintended discriminatory outcomes",
+        "line_no": 74,
+        "refs": [
+          {
+            "ref": "hummbl_governance/output_validator.py",
+            "path": "hummbl_governance/output_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "AI solutions should be human-centric — preserve human agency and oversight",
+        "line_no": 75,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      }
+    ]
+  },
   "soc2.md": {
     "matrix": "docs/coverage/soc2.md",
     "totals": {
       "fulfilled": 32,
-      "partial": 13,
-      "boundary": 6,
+      "partial": 14,
+      "boundary": 5,
       "out_of_scope": 0
     },
     "fulfilled_validation": {

@@ -1,6 +1,6 @@
 {
-  "validated_count": 779,
-  "fulfilled_count": 779,
+  "validated_count": 953,
+  "fulfilled_count": 953,
   "validated_pct": 100.0,
   "validated_rows": [
     {
@@ -58,6 +58,122 @@
     {
       "matrix": "arizona-hb2394.md",
       "control_id": "Prevent AI from serving as the sole/final decision-maker on medical necessity denials"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "AI systems should benefit individuals, society, and the environment (Principle 1)"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "AI systems should respect human rights, diversity, and the autonomy of individuals (Principle 2)"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Minimize risk of negative impact on those affected by AI applications"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Enable human oversight of AI systems so individuals retain meaningful control"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Ensure AI does not diminish human autonomy or override human decision-making authority"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "AI systems should not involve or result in unfair discrimination against individuals, communities, or groups"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Identify potential sources of bias in training data and take steps to mitigate them"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "AI systems should respect and uphold privacy rights and data protection"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Ensure the security of data throughout the AI lifecycle"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Implement measures to prevent data privacy breaches (monitoring, fail-safe mechanisms)"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Resist compromise by unauthorised parties accessing AI systems or data"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "AI systems should reliably operate in accordance with their intended purpose"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Implement fail-safe mechanisms to prevent harm in critical situations"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Conduct rigorous testing and validation to ensure AI performs as accurately as intended"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Monitor AI systems in operation to detect anomalies and unintended behaviour"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Transparency and responsible disclosure so people understand when they are being significantly impacted by AI"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "People can find out when an AI system is engaging with them"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Disclose the intended purpose of the AI system"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Provide information on training data and potential historical or social biases"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Provide clear explanations and justifications for AI decisions"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "When an AI system significantly impacts a person, community, group, or environment, there should be a timely process to challenge the use or outcomes"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Provide mechanisms for people to contest AI decisions that affect them"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Enable timely human review of contested AI outcomes"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Suspend or halt AI operation pending contestation outcome"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "People responsible for the different phases of the AI system lifecycle should be identifiable and accountable for outcomes"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Human oversight of AI systems should be enabled"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Maintain auditable records of AI system decisions and actions for accountability"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Address system purpose to avoid consequential harm"
+    },
+    {
+      "matrix": "australia-ai-ethics.md",
+      "control_id": "Address technology capability to avoid consequential harm"
     },
     {
       "matrix": "azerbaijan-ai-strategy.md",
@@ -940,12 +1056,104 @@
       "control_id": "Default settings for minors: 1-hour daily algorithmic-content limit, private account mode, notification curfew (8 a.m.–9 p.m.), sensitive-content blocking"
     },
     {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Ensure adequate transparency and oversight requirements tailored to specific contexts and risks, including identification of AI-generated content (Art. 8)"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Ensure accountability and responsibility for adverse impacts on human rights, democracy, and the rule of law resulting from AI lifecycle activities (Art. 9)"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Promote reliability of AI systems and trust in their outputs, including quality and security throughout the lifecycle (Art. 12)"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Enable establishment of controlled environments (sandboxes) for developing, experimenting, and testing AI systems under supervision of competent authorities (Art. 13)"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Document relevant information regarding AI systems and usage, provide to authorized bodies and, where appropriate, to affected persons (Art. 14(2)(a))"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Ensure information is sufficient for affected persons to contest decisions made by or substantially informed by AI systems, and the use of the system itself (Art. 14(2)(b))"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Notify persons interacting with AI systems that they are interacting with such systems rather than a human (Art. 15(2))"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Adopt measures for identification, assessment, prevention, and mitigation of risks posed by AI systems, considering actual and potential impacts on human rights, democracy, and the rule of law (Art. 16(1))"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Implement graduated and differentiated measures: context and intended use (a), severity and probability (b), stakeholder perspectives (c), iterative application (d), monitoring (e), documentation (f), testing before first use and significant modification (g) (Art. 16(2))"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Ensure adverse impacts are adequately addressed; document impacts and measures, and inform risk management (Art. 16(3))"
+    },
+    {
+      "matrix": "council-of-europe-ai-convention.md",
+      "control_id": "Assess need for moratorium, ban, or other measures on certain AI uses incompatible with human rights, democracy, or rule of law (Art. 16(4))"
+    },
+    {
       "matrix": "denmark-ai-act.md",
       "control_id": "Registration and retention of information collected during surveillance activities (§ 5(2))"
     },
     {
       "matrix": "denmark-ai-act.md",
       "control_id": "Temporary prohibitions on AI systems using Art. 5 prohibited practices (§ 7)"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Establish a comprehensive national regulatory framework for AI ensuring ethical and responsible use"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Apply risk-based tier model (Red/Orange/Yellow/Green) to classify AI systems by risk level"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Conduct \"dual-check\" compliance for high-risk (Orange-tier) systems: AI Ethical Impact Assessment (AIEIA) + Technical Conformity Audit (TEVV)"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Enforce Egyptian Charter for Responsible AI principles: fairness, transparency, accountability, inclusivity, privacy, human oversight"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Operate AI Audit Lab for pre-deployment testing and auditing of AI systems"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Establish comprehensive frameworks and standards for national data governance and lifecycle management"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Strengthen data privacy and security measures in AI systems"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Ensure transparency and accountability in AI model development and deployment"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Enforce compute-resource governance and cost controls for AI workloads"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Ensure continuous monitoring and incident response for deployed AI systems"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Ensure human oversight and control over AI systems in public administration"
+    },
+    {
+      "matrix": "egypt-ai-strategy.md",
+      "control_id": "Implement continuous risk identification, assessment, and mitigation for AI systems"
     },
     {
       "matrix": "el-salvador-ai-promotion-law.md",
@@ -1260,6 +1468,70 @@
       "control_id": "6. Security"
     },
     {
+      "matrix": "india-dpdp.md",
+      "control_id": "Process personal data only for a lawful purpose under consent (S.6) or certain legitimate uses (S.7)"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Provide notice to Data Principal before or with consent request — personal data, purpose, rights, complaint mechanism (S.5)"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Consent must be free, specific, informed, unconditional, unambiguous, with clear affirmative action (S.6(1))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Data Principal may withdraw consent at any time with ease comparable to giving it (S.6(4))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Data Fiduciary is responsible for compliance regardless of agreement or Data Principal's own duties (S.8(1))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Engage Data Processor only under a valid contract for goods/services to Data Principals (S.8(2))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Ensure completeness, accuracy, and consistency of personal data used for decisions or disclosures (S.8(3))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Implement appropriate technical and organisational measures for effective observance (S.8(4))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Take reasonable security safeguards to prevent personal data breach (S.8(5))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Erase personal data upon consent withdrawal or when purpose is no longer served; cause Processor to erase (S.8(7))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Obtain verifiable parental / lawful-guardian consent before processing a child's data (S.9(1))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "No tracking, behavioural monitoring, or targeted advertising directed at children (S.9(3))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "SDF: conduct periodic Data Protection Impact Assessment (S.10(2)(c)(i))"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Right to access — summary of personal data, processing activities, and identities of shared Fiduciaries/Processors (S.11)"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Right to correction, completion, updating, and erasure of personal data (S.12)"
+    },
+    {
+      "matrix": "india-dpdp.md",
+      "control_id": "Penalty determination considers nature, gravity, duration, mitigation, and proportionality (S.33(2))"
+    },
+    {
       "matrix": "iso-27001.md",
       "control_id": "10"
     },
@@ -1414,6 +1686,14 @@
     {
       "matrix": "iso-42001.md",
       "control_id": "A.3.4"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.4.3"
+    },
+    {
+      "matrix": "iso-42001.md",
+      "control_id": "A.4.4"
     },
     {
       "matrix": "iso-42001.md",
@@ -1578,6 +1858,154 @@
     {
       "matrix": "iso-iec-22989.md",
       "control_id": "Human-in/on/over-the-loop (§5.13) — degrees of human involvement in AI system operation"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Inclusive (Cl. 4) — stakeholders help identify risks in data collection, define fairness criteria, identify bias, determine human-oversight needs"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Dynamic (Cl. 4) — risks can emerge, change, or disappear as AI systems learn, adapt, and optimize"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Best Available Information (Cl. 4) — risk decisions based on best available evidence; AI introduces uncertainty in data, models, and emergent behavior"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Human and Cultural Factors (Cl. 4) — AI risk management considers human behavior, oversight capacity, and organizational culture"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Continual Improvement (Cl. 4) — risk management learns from experience and outcomes; AI systems require iterative refinement"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "5.4.3 Assigning organizational roles, authorities, responsibilities, and accountabilities — named individuals with authority to address AI risks"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "5.4.4 Allocating resources — resources for AI risk management including expertise, tools, and compute budgets"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "5.7 Improvement — continual improvement of the framework, incorporating lessons learned"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.4.2 Risk identification — identify AI-specific risk sources using Annex B catalogue (data quality/bias, model opacity, emergent behavior, adversarial attacks, misuse, sociotechnical impacts)"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.4.3 Risk analysis — analyze risk sources, events, controls, and consequences; consider combinations and sequences of multiple risks"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.4.4 Risk evaluation — compare analysis results against risk criteria to determine which risks require treatment and priority"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.3.4 Defining risk criteria — establish quantitative and qualitative criteria covering data, software, models, physical extensions, and human-in-the-loop"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.5.2 Selection of risk treatment options — avoidance, mitigation (technical + procedural controls), transfer, acceptance; human oversight as a treatment"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.5.3 Preparing and implementing risk treatment plans — documented plans specifying controls, owners, target dates, and evidence"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Human oversight as risk treatment — particular attention to human oversight mechanisms as a treatment option"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.2 Communication and consultation — ongoing risk communication with stakeholders throughout the process"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.6 Monitoring and review — continuous monitoring of AI system behavior, risk indicators, and control effectiveness; detect drift and emergent behavior"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "6.7 Recording and reporting — document risk-management decisions, retain evidence, report to relevant stakeholders in audience-appropriate form"
+    },
+    {
+      "matrix": "iso-iec-23894.md",
+      "control_id": "Annex C — risk-management activities mapped against AI system lifecycle stages"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "4.3 — Accountability established across all aspects of AI use (impacts, strategy, lifecycle phases, environment changes, security, decommissioning)"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "4.3 — Appropriate security controls in place to protect organization, stakeholders, and data"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "5.2.1 — Governance of decision automation; understand implications of automated decisions"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "5.2.2 — Governance of data-driven problem-solving; ensure data quality and suitability"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "5.2.3 — Governance of adaptive/learning systems; monitor for drift and unintended adaptation"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.2 — Governance oversight based on policies; identify individual and collective accountability in chain of responsibility"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.2 — Ensure sufficient human oversight; persons using AI are properly trained and know how to raise concerns"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.3 — Governance of decision-making; appropriate level of automation vs human involvement"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.3 — Transparency of AI-assisted decisions; explainability of decision processes"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.3 — Accountability for AI-driven decisions; traceability from decision to responsible actor"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.4 — Data used for correct purpose; sensitive data protected and secured"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.4 — Prior assessment of availability, quality, quantity, and suitability of data"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.4 — Formulate description of AI system (algorithms, data, models) for transparency and intended-use verification"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.6.1 — Identify and meet compliance obligations (legal, regulatory, contractual) for AI use"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.6.2 — Compliance management; processes to manage and monitor ongoing compliance"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.7.2 — Implement risk management processes throughout AI lifecycle (cross-ref ISO/IEC 23894)"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.7.4 — Identify AI-specific risk sources (unwanted bias, cyber-threats, lack of AI expertise)"
+    },
+    {
+      "matrix": "iso-iec-38507.md",
+      "control_id": "6.7.5 — Implement controls to manage identified risks"
     },
     {
       "matrix": "iso-iec-5338.md",
@@ -2161,6 +2589,10 @@
     },
     {
       "matrix": "nist-ai-rmf.md",
+      "control_id": "GV-1.5"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
       "control_id": "GV-1.6"
     },
     {
@@ -2241,6 +2673,10 @@
     },
     {
       "matrix": "nist-ai-rmf.md",
+      "control_id": "MS-2.9"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
       "control_id": "MS-2.10"
     },
     {
@@ -2286,6 +2722,10 @@
     {
       "matrix": "nist-ai-rmf.md",
       "control_id": "MG-3.1"
+    },
+    {
+      "matrix": "nist-ai-rmf.md",
+      "control_id": "MG-3.2"
     },
     {
       "matrix": "nist-ai-rmf.md",
@@ -2528,6 +2968,66 @@
       "control_id": "Employer/agency must retain audit data for period required for re-auditing"
     },
     {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Privacy and data protection throughout the AI lifecycle"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Implement mechanisms and safeguards, such as capacity for human determination, appropriate to context"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Safeguard information integrity; address misinformation and disinformation in context of generative AI (2024 addition)"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Provide meaningful information to foster general understanding of AI systems"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Make stakeholders aware of their interactions with AI systems, including in the workplace"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Enable those affected by an AI system to understand the outcome"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Enable those adversely affected to challenge outcome based on plain, easy-to-understand information on factors and logic"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "AI systems robust, secure, safe throughout entire lifecycle — normal use, foreseeable use or misuse, adverse conditions"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Ensure traceability of datasets, processes, and decisions throughout AI lifecycle to enable analysis and inquiry"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Apply systematic risk management approach to each phase of lifecycle on continuous basis — privacy, digital security, safety, bias"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Ensure AI systems can be overridden, repaired, and/or decommissioned safely by human interaction (2024 addition)"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Address uses outside intended purpose, intentional misuse, or unintentional misuse (2024 addition)"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "AI actors accountable for proper functioning of AI systems based on roles, context, and state of art"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Accountability for respect of all principles (1.1–1.4) based on roles and context"
+    },
+    {
+      "matrix": "oecd-ai-principles.md",
+      "control_id": "Evidence-based accountability — auditable records of decisions, actions, and oversight throughout lifecycle"
+    },
+    {
       "matrix": "owasp-agentic.md",
       "control_id": "ASI01"
     },
@@ -2670,6 +3170,202 @@
     {
       "matrix": "peru-law-31814.md",
       "control_id": "Policies, protocols, and procedures for security, privacy, transparency, explainability, and accountability (Art. 31.2)"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "Ensure personal-data processing complies with Data Protection & Privacy Law (Law No. 058/2021) principles (lawfulness, fairness, transparency, purpose limitation, accuracy)"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "Ensure private-sector AI deployments remain safe and controllable in production"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "Operationalize and share Rwanda's \"Guidelines on the Ethical Development and Implementation of AI\" (RURA) across the AI system lifecycle"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "Apply beneficence, non-maleficence, autonomy, justice, and explicability principles in all AI development"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "Monitor and evaluate policy implementation against defined indicators and benchmarks"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "RURA monitors compliance with ethical AI guidelines through audits and stakeholder feedback"
+    },
+    {
+      "matrix": "rwanda-ai-policy.md",
+      "control_id": "Maintain human oversight and named accountability for AI systems in regulated sectors"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Provide responsible disclosure to individuals affected by AI systems so they understand the outcome"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Disclose use of AI in the system, its intended use, limitations, and risk assessments (process checks of documentary evidence)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Explainability — assess factors contributing to the AI system's decision, behaviour, outcomes, and implications (technical tests + process checks)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Repeatability / reproducibility — ensure consistency in AI output by replicating the system internally or via third party (process checks of model/data provenance, versioning)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Safety — conduct impact/risk assessments and ensure known risks are identified and mitigated (process checks)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Safety — implement measures to mitigate harm, including physical harm, with kill-switch and fast-fail controls"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Robustness — ensure the AI system functions despite unexpected input (technical tests + process checks on adversarial resilience)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Fairness — define sensitive attributes consistent with legislation and corporate values; document fairness-metric selection aligned with intended outcomes (process checks)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Accountability — establish clear internal governance mechanisms for proper management and oversight of AI system development and deployment (process checks)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Accountability — assign clear roles and responsibilities for AI system operation and oversight"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Human agency and oversight — design AI system so it does not diminish human ability to make decisions or take control (process checks)"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "Human agency and oversight — define the role of humans (human-in-the-loop, human-over-the-loop, human-out-of-the-loop) for the AI system"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "MGF internal governance — set up corporate governance and oversight processes with internal controls, monitoring, and reporting systems"
+    },
+    {
+      "matrix": "singapore-ai-verify.md",
+      "control_id": "MGF operations management — ensure good data accountability, minimise bias, and maintain model robustness through regular tuning and reproducibility"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Allocate clear roles and responsibilities for ethical AI deployment across personnel and departments"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Establish coordinating body with cross-organisation representation and relevant expertise"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Apply risk management framework to assess and manage AI deployment risks, including adverse impact on individuals"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Implement internal checks and balances — separate teams for methodology/deployment and validation"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Ensure AI deployment complies with existing laws and regulations (PDPA, Competition Act, sectoral rules)"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Develop and maintain governance handbook documenting the entire AI deployment process"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Determine appropriate level of human involvement — human-in-the-loop, human-over-the-loop, or human-out-of-the-loop"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Human-in-the-loop for high-impact decisions requiring affirmative human action before execution"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Human-over-the-loop intervention when AI encounters unexpected or undesirable events"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Assess risk appetite and severity of harm to determine oversight level"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Minimise risk of harm to individuals from AI-augmented decisions"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Use statistical confidence levels to trigger human review of low-confidence AI outputs"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Ensure data quality — assess representativeness, completeness, reliability, and relevance of training data"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Minimise bias in data and models to prevent unintended discriminatory decisions"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Justify model selection and design against intended objective and use case"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Ensure model robustness, reproducibility, and auditability"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Establish monitoring and reporting systems for deployed AI performance and issues"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Maintain, document, and review deployed AI models with remediation measures"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Incorporate explainability features in model design — report confidence levels and decision rationale"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Implement regular tuning and parameter adjustment based on monitoring feedback"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Monitor upstream data source changes for adverse model impact (data drift)"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Disclose AI use to stakeholders — make AI policies known to users"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Provide explanations of AI-augmented decisions to individuals (how AI works, how a decision was made, reasons, impact)"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "Establish feedback channels for stakeholders to provide input on AI systems"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "AI decisions should be explainable — provide understandable rationale for algorithmic decisions"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "AI decisions should be transparent — make AI use and decision processes visible"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "AI decisions should be fair — avoid unintended discriminatory outcomes"
+    },
+    {
+      "matrix": "singapore-model-ai-governance.md",
+      "control_id": "AI solutions should be human-centric — preserve human agency and oversight"
     },
     {
       "matrix": "soc2.md",

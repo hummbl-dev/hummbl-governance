@@ -33,7 +33,7 @@ The Strategy applies to AI development and deployment across Azerbaijan's public
 | Obligation | Coverage | Evidence |
 |---|---|---|
 | Invest in high-performance computing infrastructure for AI model training | ⚪ Boundary: physical-infrastructure procurement is organizational, not software-addressable | |
-| Develop open datasets and natural language processing (NLP) in Azerbaijani language | ⚪ Boundary: dataset creation and NLP-model training are research/organizational tasks | |
+| Develop open datasets and natural language processing (NLP) in Azerbaijani language | 🟡 Partial: schema-validator enforces dataset schema/quality constraints + compliance-mapper maps open-data governance standards; dataset creation and NLP-model training are research/organizational tasks | `hummbl_governance/schema_validator.py`, `hummbl_governance/compliance_mapper.py` |
 | Ensure data privacy and protection in AI systems | ✅ Capability-fence restricting data access + identity-based authorization + schema validation for data quality (cross-ref GDPR Art. 5, EU AI Act Art. 10) | `hummbl_governance/capability_fence.py`, `hummbl_governance/identity.py`, `hummbl_governance/schema_validator.py` |
 | SCİS to conduct information-security risk analysis in AI application areas of government bodies | ✅ Risk-assessment template + STRIDE threat-modeling + audit-log evidence export (cross-ref NIST CSF, ISO 27001) | `hummbl_governance/stride_mapper.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 | SCİS to take necessary measures ensuring AI-related information security in government bodies | ✅ Capability-fence access control + circuit-breaker fast-fail on security-policy violation + kill-switch halt | `hummbl_governance/capability_fence.py`, `hummbl_governance/circuit_breaker.py`, `hummbl_governance/kill_switch.py` |
@@ -84,12 +84,12 @@ The Strategy applies to AI development and deployment across Azerbaijan's public
 | Section | Obligations | ✅ | 🟡 | ⚪ |
 |---|---:|---:|---:|---:|
 | AI governance, regulation & ethical framework (Pillar 1) | 6 | 3 | 2 | 1 |
-| Data management, infrastructure & information security (Pillar 3 + Decree §3) | 6 | 3 | 1 | 2 |
+| Data management, infrastructure & information security (Pillar 3 + Decree §3) | 6 | 3 | 2 | 1 |
 | Talent, education & workforce development (Pillar 2) | 4 | 0 | 0 | 4 |
 | Research, innovation & business environment (Pillar 4) | 5 | 0 | 1 | 4 |
 | International cooperation & standards alignment (Pillar 5) | 3 | 1 | 0 | 2 |
 | Implementation, monitoring & risk mitigation (Decree §§2-4) | 8 | 4 | 3 | 1 |
-| **Totals** | **32** | **11** | **7** | **14** |
+| **Totals** | **32** | **11** | **8** | **13** |
 
 ---
 

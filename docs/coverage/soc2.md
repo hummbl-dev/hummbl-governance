@@ -21,7 +21,7 @@ SOC 2 Trust Services Criteria (TSC):
 - **Confidentiality (C)** — optional, 2 criteria
 - **Privacy (P)** — optional, 8 sections × multiple criteria (~18 total)
 
-Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
+Total addressed in this matrix: 51 criteria (CC + A + PI + C + P core).
 
 ## Summary
 
@@ -29,7 +29,7 @@ Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
 |---|---|---|---|---|
 | CC1 — Control Environment | 5 | 0 | 2 | 3 |
 | CC2 — Communication + Information | 3 | 1 | 1 | 1 |
-| CC3 — Risk Assessment | 4 | 1 | 2 | 1 |
+| CC3 — Risk Assessment | 4 | 1 | 3 | 0 |
 | CC4 — Monitoring Activities | 2 | 2 | 0 | 0 |
 | CC5 — Control Activities | 3 | 2 | 1 | 0 |
 | CC6 — Logical + Physical Access Controls | 8 | 6 | 1 | 1 |
@@ -39,8 +39,8 @@ Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
 | A — Availability | 3 | 2 | 1 | 0 |
 | PI — Processing Integrity | 5 | 4 | 1 | 0 |
 | C — Confidentiality | 2 | 2 | 0 | 0 |
-| P — Privacy (8 sections) | ~18 | 6 | 9 | 3 |
-| **Totals** | **~61** | **32** | **20** | **9** |
+| P — Privacy (8 sections) | 8 | 6 | 2 | 0 |
+| **Totals** | **51** | **32** | **14** | **5** |
 
 **Draft coverage intent (not public claim): every Common Criterion + core TSC criterion has a row. Concentration of ✅ in CC6 (Access Control), CC7 (Operations), Availability, Processing Integrity, Confidentiality — the technically-implementable criteria.
 
@@ -48,119 +48,121 @@ Total addressed in this matrix: ~61 criteria (CC + A + PI + C + P core).
 
 ## CC1 — Control Environment (5)
 
-| ID | Coverage | Notes |
-|---|---|---|
-| CC1.1 | ⚪ Boundary | COSO Integrity + ethical values — leadership |
-| CC1.2 | ⚪ Boundary | Board oversight |
-| CC1.3 | 🟡 Partial | Org structure + reporting via DCTX; structure design is org |
-| CC1.4 | 🟡 Partial | Commitment to competence — HR + DCT-based role binding |
-| CC1.5 | ⚪ Boundary | Accountability assignment |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC1.1 | COSO Integrity + ethical values — leadership | ⚪ Boundary | |
+| CC1.2 | Board oversight | ⚪ Boundary | |
+| CC1.3 | Org structure + reporting via DCTX; structure design is org | 🟡 Partial | `hummbl_governance/delegation.py` |
+| CC1.4 | Commitment to competence — HR + DCT-based role binding | 🟡 Partial | `hummbl_governance/delegation.py` |
+| CC1.5 | Accountability assignment | ⚪ Boundary | |
 
 ## CC2 — Communication and Information (3)
 
-| ID | Coverage | Notes |
-|---|---|---|
-| CC2.1 | ✅ Information requirements + sources — tuple-schema enforced data quality |
-| CC2.2 | 🟡 Partial | Internal communication — bus = comms substrate; comms practice is org |
-| CC2.3 | ⚪ Boundary | External communication |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC2.1 | Information requirements + sources | ✅ tuple-schema enforced data quality | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
+| CC2.2 | Internal communication — bus = comms substrate; comms practice is org | 🟡 Partial | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
+| CC2.3 | External communication | ⚪ Boundary | |
 
 ## CC3 — Risk Assessment (4)
 
-| ID | Coverage | Notes |
-|---|---|---|
-| CC3.1 | 🟡 Partial | Risk objectives + categories — `INTENT` + adverse-event tuples (risk-register integration per Krineia connector spec) |
-| CC3.2 | ✅ Identify + analyze risks — risk-identification tuples + analysis primitives |
-| CC3.3 | 🟡 Partial | Fraud risk — fraud-flag tuples; assessment is org |
-| CC3.4 | ⚪ Boundary | Significant change in risk profile — change-event triggers |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC3.1 | Risk objectives + categories — `INTENT` + adverse-event tuples (risk-register integration per Krineia connector spec) | 🟡 Partial | `hummbl_governance/audit_log.py` |
+| CC3.2 | Identify + analyze risks | ✅ risk-identification tuples + analysis primitives | `hummbl_governance/audit_log.py` |
+| CC3.3 | Fraud risk — fraud-flag tuples; assessment is org | 🟡 Partial | `hummbl_governance/audit_log.py` |
+| CC3.4 | Significant change in risk profile — change-event triggers | 🟡 Partial | `hummbl_governance/audit_log.py`, `hummbl_governance/health_probe.py` |
 
 ## CC4 — Monitoring Activities (2)
 
-| ID | Coverage |
-|---|---|
-| CC4.1 | ✅ Ongoing + separate evaluations — governance bus + audit-log queries |
-| CC4.2 | ✅ Evaluate + communicate deficiencies — deficiency tuples + escalation |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC4.1 | Ongoing + separate evaluations | ✅ governance bus + audit-log queries | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
+| CC4.2 | Evaluate + communicate deficiencies | ✅ deficiency tuples + escalation | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ## CC5 — Control Activities (3)
 
-| ID | Coverage |
-|---|---|
-| CC5.1 | ✅ Selection + development of controls — control-catalog tuples |
-| CC5.2 | ✅ Selection + development of technology controls — primitives shipped + tested |
-| CC5.3 | 🟡 Partial | Deployment through policies + procedures — policy authorship is org |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC5.1 | Selection + development of controls | ✅ control-catalog tuples | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
+| CC5.2 | Selection + development of technology controls | ✅ primitives shipped + tested | `.github/workflows/ci.yml` |
+| CC5.3 | Deployment through policies + procedures — policy authorship is org | 🟡 Partial | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
 
 ## CC6 — Logical and Physical Access Controls (8) — **load-bearing**
 
-| ID | Coverage |
-|---|---|
-| CC6.1 | ✅ Logical access security — DCT delegation + ops_allowed |
-| CC6.2 | ✅ Authorization + registration of users — DCT issuance |
-| CC6.3 | ✅ Authentication credentials — HMAC-SHA256 signed tokens |
-| CC6.4 | ⚪ Boundary | Physical access — facility security |
-| CC6.5 | ✅ Logical access prevented when no longer required — DCT revocation |
-| CC6.6 | ✅ Logical access restricted via boundary protections — DCT scope binding |
-| CC6.7 | ✅ Transmission + movement of information — TLS + signed tuples |
-| CC6.8 | 🟡 Partial | Prevention/detection of unauthorized software — stdlib-only at app layer; OS layer is platform |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC6.1 | Logical access security | ✅ DCT delegation + ops_allowed | `hummbl_governance/delegation.py` |
+| CC6.2 | Authorization + registration of users | ✅ DCT issuance | `hummbl_governance/delegation.py` |
+| CC6.3 | Authentication credentials | ✅ HMAC-SHA256 signed tokens | `hummbl_governance/delegation.py` |
+| CC6.4 | Physical access — facility security | ⚪ Boundary | |
+| CC6.5 | Logical access prevented when no longer required | ✅ DCT revocation | `hummbl_governance/delegation.py` |
+| CC6.6 | Logical access restricted via boundary protections | ✅ DCT scope binding | `hummbl_governance/delegation.py` |
+| CC6.7 | Transmission + movement of information | ✅ TLS + signed tuples | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| CC6.8 | Prevention/detection of unauthorized software — stdlib-only at app layer; OS layer is platform | 🟡 Partial | `hummbl_governance/capability_fence.py` |
 
 ## CC7 — System Operations (5)
 
-| ID | Coverage |
-|---|---|
-| CC7.1 | ✅ Detection of new vulnerabilities — `pip-audit` blocking + Bandit + Semgrep |
-| CC7.2 | ✅ Monitoring + analysis of security events — governance bus monitoring |
-| CC7.3 | ✅ Incident management procedures — IR tuple chain |
-| CC7.4 | ✅ Incident communications — incident-comm tuple + escalation |
-| CC7.5 | 🟡 Partial | Recovery — backup integrity is infra; service-level recovery covered |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC7.1 | Detection of new vulnerabilities | ✅ `pip-audit` blocking + Bandit + Semgrep | `.github/workflows/ci.yml`, `hummbl_governance/audit_log.py` |
+| CC7.2 | Monitoring + analysis of security events | ✅ governance bus monitoring | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
+| CC7.3 | Incident management procedures | ✅ IR tuple chain | `hummbl_governance/audit_log.py`, `hummbl_governance/kill_switch.py` |
+| CC7.4 | Incident communications | ✅ incident-comm tuple + escalation | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| CC7.5 | Recovery — backup integrity is infra; service-level recovery covered | 🟡 Partial | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/audit_log.py` |
 
 ## CC8 — Change Management (1)
 
-| CC8.1 | ✅ Change management process — change tuples + signed audit trail + Conventional Commits + PR review |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC8.1 | Change management process | ✅ change tuples + signed audit trail + Conventional Commits + PR review | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ## CC9 — Risk Mitigation (2)
 
-| ID | Coverage |
-|---|---|
-| CC9.1 | ✅ Risk mitigation activities — risk-treatment tuple + circuit-breaker primitives |
-| CC9.2 | 🟡 Partial | Vendor + business partner risk — supplier-DCT + SBOM; due-diligence program is org |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| CC9.1 | Risk mitigation activities | ✅ risk-treatment tuple + circuit-breaker primitives | `hummbl_governance/audit_log.py`, `hummbl_governance/circuit_breaker.py` |
+| CC9.2 | Vendor + business partner risk — supplier-DCT + SBOM; due-diligence program is org | 🟡 Partial | `hummbl_governance/delegation.py` |
 
 ## Availability (A) — 3 criteria
 
-| ID | Coverage |
-|---|---|
-| A1.1 | ✅ Capacity demand + management — capacity-monitoring tuples + circuit-breaker overload handling |
-| A1.2 | 🟡 Partial | Environmental protection + recovery — backup infra is platform |
-| A1.3 | ✅ Recovery + business continuity — circuit-breaker state machine + IR recovery tuples |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| A1.1 | Capacity demand + management | ✅ capacity-monitoring tuples + circuit-breaker overload handling | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/audit_log.py` |
+| A1.2 | Environmental protection + recovery — backup infra is platform | 🟡 Partial | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/health_probe.py` |
+| A1.3 | Recovery + business continuity | ✅ circuit-breaker state machine + IR recovery tuples | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/audit_log.py` |
 
 ## Processing Integrity (PI) — 5 criteria
 
-| ID | Coverage |
-|---|---|
-| PI1.1 | ✅ Procedures to ensure complete, valid, accurate inputs — tuple-schema validation at ingress |
-| PI1.2 | ✅ Procedures to detect + correct errors during processing — error tuples + correction primitives |
-| PI1.3 | ✅ Procedures to ensure complete, valid, accurate processing — append-only + signed processing tuples |
-| PI1.4 | 🟡 Partial | Outputs delivered timely, complete, accurate — delivery-confirmation tuples; SLA tracking is config |
-| PI1.5 | ✅ Procedures protect data inputs, processing, outputs through retention | Append-only governance bus + signed entries + retention policy |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| PI1.1 | Procedures to ensure complete, valid, accurate inputs | ✅ tuple-schema validation at ingress | `hummbl_governance/schema_validator.py` |
+| PI1.2 | Procedures to detect + correct errors during processing | ✅ error tuples + correction primitives | `hummbl_governance/audit_log.py` |
+| PI1.3 | Procedures to ensure complete, valid, accurate processing | ✅ append-only + signed processing tuples | `hummbl_governance/audit_log.py` |
+| PI1.4 | Outputs delivered timely, complete, accurate — delivery-confirmation tuples; SLA tracking is config | 🟡 Partial | `hummbl_governance/output_validator.py`, `hummbl_governance/audit_log.py` |
+| PI1.5 | Procedures protect data inputs, processing, outputs through retention | ✅ Append-only governance bus + signed entries + retention policy | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ## Confidentiality (C) — 2 criteria
 
-| ID | Coverage |
-|---|---|
-| C1.1 | ✅ Confidential information identified + protected — classification tag + restricted access via DCT |
-| C1.2 | ✅ Confidential information retained, transferred, destroyed per agreements + retention policies — retention/erasure tuples |
+| ID | Description | Coverage | Evidence |
+|---|---|---|---|
+| C1.1 | Confidential information identified + protected | ✅ classification tag + restricted access via DCT | `hummbl_governance/schema_validator.py`, `hummbl_governance/delegation.py` |
+| C1.2 | Confidential information retained, transferred, destroyed per agreements + retention policies | ✅ retention/erasure tuples | `hummbl_governance/audit_log.py` |
 
 ## Privacy (P) — 8 sections, ~18 criteria
 
 The Privacy TSC overlaps heavily with GDPR; rows summarized here, with detail in [`gdpr.md`](./gdpr.md).
 
-| Section | Topic | Coverage summary |
-|---|---|---|
-| P1 — Privacy notice | Provide notice + obtain consent | ✅ (cross-ref GDPR Art. 13/14, Art. 7) |
-| P2 — Choice + consent | Obtain consent, communicate purposes, document refusal | ✅ Consent-record tuples |
-| P3 — Collection | Limit collection to identified purposes | ✅ Tuple-schema enforces declared-field-only |
-| P4 — Use, retention, disposal | Use only for stated purposes, retain only as needed, dispose securely | ✅ Purpose-tag + retention + erasure tuples |
-| P5 — Access | Provide individuals access to their info | ✅ DSAR export (GDPR Art. 15) |
-| P6 — Disclosure to third parties | Disclose only per purposes + consent | 🟡 Partial: disclosure tuples + downstream DCT propagation |
-| P7 — Quality | Maintain accuracy + completeness | ✅ Rectification tuple |
-| P8 — Monitoring + enforcement | Monitor compliance, address complaints + violations | 🟡 Partial: monitoring tuples + complaint-intake; resolution is org |
+| Section | Topic | Coverage | Evidence |
+|---|---|---|---|
+| P1 — Privacy notice | Provide notice + obtain consent | ✅ (cross-ref GDPR Art. 13/14, Art. 7) | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
+| P2 — Choice + consent | Obtain consent, communicate purposes, document refusal | ✅ Consent-record tuples | `hummbl_governance/audit_log.py` |
+| P3 — Collection | Limit collection to identified purposes | ✅ Tuple-schema enforces declared-field-only | `hummbl_governance/schema_validator.py` |
+| P4 — Use, retention, disposal | Use only for stated purposes, retain only as needed, dispose securely | ✅ Purpose-tag + retention + erasure tuples | `hummbl_governance/audit_log.py` |
+| P5 — Access | Provide individuals access to their info | ✅ DSAR export (GDPR Art. 15) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| P6 — Disclosure to third parties | Disclose only per purposes + consent | 🟡 Partial: disclosure tuples + downstream DCT propagation | `hummbl_governance/delegation.py`, `hummbl_governance/audit_log.py` |
+| P7 — Quality | Maintain accuracy + completeness | ✅ Rectification tuple | `hummbl_governance/audit_log.py` |
+| P8 — Monitoring + enforcement | Monitor compliance, address complaints + violations | 🟡 Partial: monitoring tuples + complaint-intake; resolution is org | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 Per the GDPR matrix, the technical privacy criteria are ✅ Fulfilled. The boundary rows in P6-P8 reflect customer-org policies and program execution.
 

@@ -32,7 +32,7 @@ The Act applies to providers, deployers, importers, distributors, and authorised
 |---|---|---|
 | Authorities may demand all necessary information from providers, deployers, importers, and distributors for surveillance purposes (§ 5) | 🟡 Partial: audit-log export + evidence engine produces structured information; response to authority demand is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/kernel/evidence_engine.py` |
 | Providers/deployers must demonstrate how compliance measures were implemented upon authority request (§ 5) | 🟡 Partial: compliance mapper generates compliance evidence and implementation records; submission is org task (cross-ref EU AI Act Art. 9, Art. 12) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/kernel/evidence_engine.py` |
-| On-site access to business premises and documentation without prior judicial authorization (§ 6) | ⚪ Boundary: physical inspection and premises access are organizational, not software-addressable | |
+| On-site access to business premises and documentation without prior judicial authorization (§ 6) | 🟡 Partial: audit-log + evidence engine provide structured documentation for on-site access; physical premises access is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/kernel/evidence_engine.py` |
 | Technical examinations of AI systems by authorities or designated independent experts (§ 9) | 🟡 Partial: audit-log + evidence export provides technical records for examination; on-site technical review is authority task | `hummbl_governance/audit_log.py`, `hummbl_governance/kernel/evidence_engine.py` |
 | Registration and retention of information collected during surveillance activities (§ 5(2)) | ✅ Immutable audit-log retention + receipt engine records surveillance artifacts with tamper-evidence | `hummbl_governance/audit_log.py`, `hummbl_governance/kernel/receipt_engine.py` |
 
@@ -42,7 +42,7 @@ The Act applies to providers, deployers, importers, distributors, and authorised
 |---|---|---|
 | Temporary prohibitions on AI systems using Art. 5 prohibited practices (§ 7) | ✅ Kill-switch HALT mode + circuit-breaker fast-fail enforce prohibition at technical level; capability_fence blocks prohibited capabilities (cross-ref EU AI Act Art. 5) | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py`, `hummbl_governance/capability_fence.py` |
 | Corrective orders requiring remediation of non-compliant AI systems (§ 8) | 🟡 Partial: compliance mapper tracks remediation status and corrective-action tuples; compliance with authority order is org task | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
-| Product recalls and market withdrawals of non-compliant AI systems (§ 8) | ⚪ Boundary: product recall and withdrawal logistics are organizational, not software-addressable | |
+| Product recalls and market withdrawals of non-compliant AI systems (§ 8) | 🟡 Partial: lifecycle management tracks decommissioning/withdrawal status; kill-switch HALT enforces technical system withdrawal; market recall logistics are org task | `hummbl_governance/lifecycle.py`, `hummbl_governance/kill_switch.py` |
 | Publication of enforcement decisions by market surveillance authorities | ⚪ Boundary: authority publication of rulings is institutional, not software-addressable | |
 
 ### Penalties and sanctions (§§ 10–11, § 18)
@@ -76,12 +76,12 @@ The Act applies to providers, deployers, importers, distributors, and authorised
 | Section | Obligations | ✅ | 🟡 | ⚪ |
 |---|---:|---:|---:|---:|
 | Institutional framework (§ 2) | 4 | 0 | 0 | 4 |
-| Market surveillance powers (§§ 5–9) | 5 | 1 | 3 | 1 |
-| Enforcement and corrective measures (§§ 7–8) | 4 | 1 | 1 | 2 |
+| Market surveillance powers (§§ 5–9) | 5 | 1 | 4 | 0 |
+| Enforcement and corrective measures (§§ 7–8) | 4 | 1 | 2 | 1 |
 | Penalties and sanctions (§§ 10–11, § 18) | 5 | 0 | 0 | 5 |
 | Procedural safeguards, appeals, cooperation (§§ 3–4) | 4 | 0 | 1 | 3 |
 | Territorial scope and implementation (§ 1) | 2 | 0 | 0 | 2 |
-| **Totals** | **24** | **2** | **5** | **17** |
+| **Totals** | **24** | **2** | **7** | **15** |
 
 ---
 
