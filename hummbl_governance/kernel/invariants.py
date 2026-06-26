@@ -9,7 +9,7 @@ import enum
 
 
 class KernelInvariant(enum.Enum):
-    """The seven unbreakable Kernel invariants."""
+    """The eight unbreakable Kernel invariants."""
 
     RECEIPT = "K1"
     """Every action that affects shared state produces a structured, signed receipt."""

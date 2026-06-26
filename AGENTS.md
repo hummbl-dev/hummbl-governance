@@ -48,4 +48,4 @@ Python path: `C:\gitea\runner\toolcache\Python\3.13.13\x64`
 
 - For Claude Code: see `CLAUDE.md`
 - Published to PyPI: `pip install hummbl-governance`
-- MCP servers expose 15 governance primitives as 32 JSON-RPC tools (v1.1.0)
+- MCP servers expose 26 governance primitives as 57 JSON-RPC tools (v1.1.0)

@@ -42,7 +42,7 @@ Entry points via `hummbl-*-mcp` CLI commands or direct `python -m`:
 | `mcp_sandbox.py` | 5 | CapabilityFence, OutputValidator sandbox |
 | `mcp_identity.py` | 10 | AgentRegistry, DelegationTokenManager, LamportClock |
 | `mcp_agent_monitor.py` | 11 | BehaviorMonitor, ConvergenceDetector, GovernanceLifecycle, EvolutionLineage |
-| `mcp_reasoning.py` | — | ReasoningEngine, SchemaValidator, ContractNetManager |
+| `mcp_reasoning.py` | 10 | ReasoningEngine, SchemaValidator, ContractNetManager |
 | `mcp_physical.py` | 6 | KinematicGovernor, pHRISafetyMonitor |
 
 ## CI
