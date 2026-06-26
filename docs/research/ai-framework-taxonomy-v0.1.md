@@ -22,7 +22,7 @@
 - [x] 3 weak families patched with stronger representatives
 - [x] YAML object model converted to schema candidate with status/authority/evidence/gate fields
 - [x] Stack view reconciled with HUMMBL tier systems (control-layer stack is orthogonal to Set Grammar tiers: tier1_governance_core through tier4_semantic_identity)
-- [x] HUMMBL primitive crosswalk added (25 original safety primitives + Kernel governance subsystem; exact count depends on whether Kernel sub-engines are counted as separate primitives)
+- [x] HUMMBL primitive crosswalk added (expanded from 25 to 40 primitives: 26 existing + 14 proposed from hummbl-primitive-expansion-v0.1.md; P27-P30 implemented 2026-07-14)
 - [ ] HUMMBL translations reviewed against current primitive set (crosswalk added; full review pending)
 - [ ] Proposed YAML schema candidate validated against `docs/ecosystem/schemas/hummbl_object_envelope.schema.json` and `hummbl_governance/data/*.schema.json` conventions (pending tooling)
 - [ ] L-1 Admission layer cross-checked against `hummbl_governance/kernel/admission_control.py` and `hummbl_governance/data/admission_control.schema.json` (required gates: authority, executor, scope, evidence, receipt). `capability_fence` and `identity` are adjacent authorization/identity surfaces, not the admission primitive. (mapped in crosswalk; implementation validation pending)
@@ -637,9 +637,12 @@ The HUMMBL object-envelope schema (`docs/ecosystem/schemas/hummbl_object_envelop
 
 For HUMMBL/BaseN, the L-1 Admission layer is the one most existing frameworks under-specify. It is implemented by the HUMMBL Admission Control primitive (`hummbl_governance/kernel/admission_control.py`, schema: `hummbl_governance/data/admission_control.schema.json`) with required gates: authority, executor, scope, evidence, receipt. The `capability_fence` and `identity` primitives are adjacent authorization and identity surfaces, not the admission primitive itself. L-1 Admission is the layer that decides whether an AI use case, model, agent, tool, memory, dataset, or durable state transition is allowed to enter the system at all.
 
-### HUMMBL 25-primitive crosswalk (audit P1-8)
+### HUMMBL 40-primitive crosswalk (updated 2026-07-14)
 
-Maps the 25 hummbl-governance primitives to the taxonomy control layers they implement. This is a **crosswalk**, not a 1:1 mapping — many primitives span multiple control layers.
+Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxonomy control layers they implement. This is a **crosswalk**, not a 1:1 mapping — many primitives span multiple control layers.
+
+**Existing primitives (P1-P26):** implemented and tested.
+**Proposed primitives (P27-P40):** schema-drafted (P27-P30) or not yet started (P31-P40). Mappings are projected.
 
 | HUMMBL primitive | Category | Control layer(s) | Role in taxonomy |
 |---|---|---|---|
@@ -668,8 +671,24 @@ Maps the 25 hummbl-governance primitives to the taxonomy control layers they imp
 | `failure_modes` | Error Taxonomy | L4 Risk | Failure mode classification; risk identification |
 | `evolution_lineage` | Error Taxonomy | L10 Receipts | Tracks primitive evolution; provenance and lineage |
 | `ValidationError` | Exports | L0 Concept, L6 Assurance | Schema validation failure signal; grammar layer enforcement |
+| `admission_control` (P25) | Governance Kernel | L-1 Admission | 5-gate admission: authority, executor, scope, evidence, receipt |
+| `receipt_engine` (P26) | Governance Kernel | L10 Receipts | SHA-256 hash-chained receipts; K1 enforcement |
+| `canon_registry` (P27, NEW) | Governance Kernel | L-1 Admission, L3 Governance | Draft-to-canonical promotion; D5 enforcement |
+| `rollback` (P28, NEW) | Governance Kernel | L4 Risk, L9 Operations | K9 reversibility: rollback path or irreversibility acceptance |
+| `recovery_verifier` (P29, NEW) | Governance Kernel | L8 Security, L9 Operations | K10 recovery: root-cause + operator approval before re-engagement |
+| `receipt_integrity_monitor` (P30, NEW) | Governance Kernel | L10 Receipts | K11 integrity: sequence gaps, hash chain breaks, retroactive insertion |
+| `contestability` (P31, PROPOSED) | Governance Ecology | L3 Governance, L6 Assurance | D6: affected parties can flag AI decisions for human review |
+| `dispute_resolution` (P32, PROPOSED) | Governance Ecology | L3 Governance | Inter-agent conflict resolution |
+| `succession` (P33, PROPOSED) | Governance Ecology | L3 Governance | Authority transfer for governance continuity |
+| `authority_sweeper` (P34, PROPOSED) | Identity & Auth | L3 Governance, L9 Operations | Sweeps expired authority grants; revokes and notifies |
+| `regulator_export` (P35, PROPOSED) | Audit & Compliance | L5 Compliance | Regulator-ready evidence export (EU AI Act, SOC 2) |
+| `trust_adjuster` (P36, PROPOSED) | Identity & Auth | L3 Governance, L5 Compliance | Compliance-to-identity loop: violations reduce trust tier |
+| `treaty` (P37, PROPOSED) | Governance Ecology | L3 Governance | Inter-agent agreements with shared authority |
+| `doctrine_amendment` (P38, PROPOSED) | Governance Ecology | L3 Governance | D7: governs changes to invariants themselves |
+| `governance_fitness` (P39, PROPOSED) | Behavior & Health | L6 Assurance | Evaluates governance pattern effectiveness over time |
+| `draft_sweeper` (P40, PROPOSED) | Governance Kernel | L3 Governance | Tracks draft age; flags stale drafts for mandatory review |
 
-**Note:** The `admission_control` primitive in `hummbl_governance/kernel/` is not counted among the original 25 primitives listed in `CLAUDE.md`. It is a newer addition (candidate 004 promotion). If counted, the primitive set is 26. This crosswalk uses the 25-primitive list from `CLAUDE.md` as the canonical reference.
+**Note:** The original 25-primitive crosswalk (audit P1-8) has been expanded to 40 primitives. P25 (`admission_control`) and P26 (`receipt_engine`) were already in the kernel but not counted in the original 25. P27-P40 are proposed primitives from `hummbl-primitive-expansion-v0.1.md`. P27-P30 are now implemented with schemas and tests. P31-P40 are not yet started.
 
 **L-1 Admission primitive cross-check (audit P1-8 specific requirement):**
 
@@ -683,11 +702,11 @@ Maps the 25 hummbl-governance primitives to the taxonomy control layers they imp
 | **ReceiptBundle** | What durable evidence proves admission occurred? | `audit_log`, `eal` | Mapped |
 | **DecisionLedger** | Who decided, under what claim and evidence? | `coordination_bus`, `audit_log` | Mapped |
 | **RiskRegister** | What residual risk remains after gates? | `stride_mapper`, `failure_modes` | Mapped |
-| **CanonRegistry** | What promotes from draft to canon? | `evolution_lineage` (partial); object-envelope `canon_level` field | Partial — needs dedicated canon registry primitive |
+| **CanonRegistry** | What promotes from draft to canon? | `canon_registry` (P27, implemented); `evolution_lineage` (adjacent) | Mapped (P27 implemented 2026-07-14) |
 | **CapabilityRegistry** | What capabilities are granted or withheld? | `capability_fence` | Mapped |
 | **AgentRegistry** | What agents may act, delegate, or mutate state? | `identity` | Mapped |
 
-**Crosswalk summary:** 25 of 25 primitives mapped to at least one control layer. 10 of 11 L-1 Admission surfaces fully mapped; 1 partial (CanonRegistry — `evolution_lineage` tracks lineage but does not provide a full canon-promotion registry; the object-envelope `canon_level` field provides status tracking but not a dedicated primitive). This partial gap is noted as a future primitive candidate.
+**Crosswalk summary:** 40 of 40 primitives mapped to at least one control layer (26 existing + 14 proposed). 11 of 11 L-1 Admission surfaces now fully mapped — CanonRegistry gap closed by P27 implementation (2026-07-14). P28-P30 (Rollback, RecoveryVerifier, ReceiptIntegrityMonitor) add K9-K11 enforcement. P31-P40 are projected mappings pending implementation.
 
 ---
 
