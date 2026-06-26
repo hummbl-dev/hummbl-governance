@@ -11,8 +11,8 @@ Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled row
 
 ## Aggregate (as of 2026-06-25)
 
-- **614 Fulfilled rows** across 34 matrices
-- **614 rows validated** (100.0%) — refs fully resolve
+- **619 Fulfilled rows** across 34 matrices
+- **619 rows validated** (100.0%) — refs fully resolve
 - **0 rows fail validation** — hardening gap
 - **0 rows carry NO evidence references** at all (subset of failing)
 
@@ -33,9 +33,9 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`connecticut-sb2-sb5.md`](./connecticut-sb2-sb5.md) | 20 | 20 | 100.0% | 0 |
 | [`denmark-ai-act.md`](./denmark-ai-act.md) | 2 | 2 | 100.0% | 0 |
 | [`el-salvador-ai-promotion-law.md`](./el-salvador-ai-promotion-law.md) | 14 | 14 | 100.0% | 0 |
-| [`eu-ai-act.md`](./eu-ai-act.md) | 16 | 16 | 100.0% | 0 |
+| [`eu-ai-act.md`](./eu-ai-act.md) | 19 | 19 | 100.0% | 0 |
 | [`g7-ai-code.md`](./g7-ai-code.md) | 5 | 5 | 100.0% | 0 |
-| [`gdpr.md`](./gdpr.md) | 20 | 20 | 100.0% | 0 |
+| [`gdpr.md`](./gdpr.md) | 21 | 21 | 100.0% | 0 |
 | [`imda-agentic.md`](./imda-agentic.md) | 7 | 7 | 100.0% | 0 |
 | [`iso-27001.md`](./iso-27001.md) | 35 | 35 | 100.0% | 0 |
 | [`iso-42001.md`](./iso-42001.md) | 22 | 22 | 100.0% | 0 |
@@ -45,7 +45,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) | 26 | 26 | 100.0% | 0 |
 | [`malta-ai-regulations.md`](./malta-ai-regulations.md) | 11 | 11 | 100.0% | 0 |
 | [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 35 | 35 | 100.0% | 0 |
-| [`nist-csf.md`](./nist-csf.md) | 50 | 50 | 100.0% | 0 |
+| [`nist-csf.md`](./nist-csf.md) | 51 | 51 | 100.0% | 0 |
 | [`nyc-ll144.md`](./nyc-ll144.md) | 6 | 6 | 100.0% | 0 |
 | [`owasp-agentic.md`](./owasp-agentic.md) | 6 | 6 | 100.0% | 0 |
 | [`owasp-llm.md`](./owasp-llm.md) | 8 | 8 | 100.0% | 0 |
@@ -56,7 +56,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) | 20 | 20 | 100.0% | 0 |
 | [`texas-traiga.md`](./texas-traiga.md) | 13 | 13 | 100.0% | 0 |
 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) | 4 | 4 | 100.0% | 0 |
-| **TOTAL** | **614** | **614** | **100.0%** | **0** |
+| **TOTAL** | **619** | **619** | **100.0%** | **0** |
 
 ## How to harden a row
 

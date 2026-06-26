@@ -1,6 +1,6 @@
 {
-  "validated_count": 614,
-  "fulfilled_count": 614,
+  "validated_count": 619,
+  "fulfilled_count": 619,
   "validated_pct": 100.0,
   "validated_rows": [
     {
@@ -805,6 +805,10 @@
     },
     {
       "matrix": "eu-ai-act.md",
+      "control_id": "Art. 5"
+    },
+    {
+      "matrix": "eu-ai-act.md",
       "control_id": "Art. 8"
     },
     {
@@ -865,7 +869,15 @@
     },
     {
       "matrix": "eu-ai-act.md",
+      "control_id": "Art. 86"
+    },
+    {
+      "matrix": "eu-ai-act.md",
       "control_id": "Art. 91"
+    },
+    {
+      "matrix": "eu-ai-act.md",
+      "control_id": "Art. 95"
     },
     {
       "matrix": "g7-ai-code.md",
@@ -898,6 +910,10 @@
     {
       "matrix": "gdpr.md",
       "control_id": "Art. 9"
+    },
+    {
+      "matrix": "gdpr.md",
+      "control_id": "Art. 10"
     },
     {
       "matrix": "gdpr.md",
@@ -1742,6 +1758,10 @@
     {
       "matrix": "nist-csf.md",
       "control_id": "GV.RM-07"
+    },
+    {
+      "matrix": "nist-csf.md",
+      "control_id": "GV.RR-01"
     },
     {
       "matrix": "nist-csf.md",

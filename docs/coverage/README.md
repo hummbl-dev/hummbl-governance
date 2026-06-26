@@ -15,12 +15,12 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 | Framework | Surface | Rows | ✅ | 🟡 | ⚪ | Unmarked | File |
 |---|---:|---:|---:|---:|---:|---:|---|
-| EU AI Act | 113 articles + 13 annexes | 126 | 22 | 18 | 71 | 15 | [`eu-ai-act.md`](./eu-ai-act.md) |
-| GDPR | 99 articles | 99 | 20 | 11 | 42 | 26 | [`gdpr.md`](./gdpr.md) |
-| ISO/IEC 27001:2022 | 93 Annex A controls + ISMS Clauses 4–10 | 100 | 35 | 24 | 41 | 0 | [`iso-27001.md`](./iso-27001.md) |
+| EU AI Act | 113 articles + 13 annexes | 126 | 25 | 24 | 62 | 15 | [`eu-ai-act.md`](./eu-ai-act.md) |
+| GDPR | 99 articles | 99 | 21 | 13 | 39 | 26 | [`gdpr.md`](./gdpr.md) |
+| ISO/IEC 27001:2022 | 93 Annex A controls + ISMS Clauses 4–10 | 100 | 35 | 25 | 40 | 0 | [`iso-27001.md`](./iso-27001.md) |
 | ISO/IEC 42001:2023 | 38 Annex A controls + Clauses 4–10 | 45 | 22 | 19 | 4 | 0 | [`iso-42001.md`](./iso-42001.md) |
 | NIST AI RMF 1.0 | ~70 subcategories (4 Functions) | 72 | 35 | 24 | 13 | 0 | [`nist-ai-rmf.md`](./nist-ai-rmf.md) |
-| NIST CSF 2.0 | 106 subcategories (6 Functions) | 106 | 50 | 31 | 25 | 0 | [`nist-csf.md`](./nist-csf.md) |
+| NIST CSF 2.0 | 106 subcategories (6 Functions) | 106 | 51 | 30 | 25 | 0 | [`nist-csf.md`](./nist-csf.md) |
 | SOC 2 (TSC 2017/2022) | ~61 TSC criteria (CC + A + PI + C + P) | 51 | 32 | 13 | 6 | 0 | [`soc2.md`](./soc2.md) |
 | OWASP LLM Top 10 (2025) | 10 risk categories | 10 | 8 | 2 | 0 | 0 | [`owasp-llm.md`](./owasp-llm.md) |
 | Colorado AI Act (SB 24-205) | 18 obligations | 18 | 16 | 2 | 0 | 0 | [`colorado-ai-act.md`](./colorado-ai-act.md) |
@@ -49,7 +49,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 | Malaysia AIGE Guidelines | 36 obligations (7 principles) | 36 | 26 | 6 | 4 | 0 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) |
 | Azerbaijan AI Strategy 2025-2028 | 32 obligations (5 pillars + decree) | 32 | 11 | 7 | 14 | 0 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) |
 | Connecticut SB 2 / SB 5 (PA 26-15) | 32 obligations (Secs. 1–39) | 32 | 20 | 6 | 6 | 0 | [`connecticut-sb2-sb5.md`](./connecticut-sb2-sb5.md) |
-| **FLEET (34 frameworks)** | **~1357 controls in source standards** | **1357 data rows** | **620** | **241** | **454** | **42** | — |
+| **FLEET (34 frameworks)** | **~1357 controls in source standards** | **1357 data rows** | **625** | **249** | **441** | **42** | — |
 
 > **These counts are enumeration evidence, not a score.** "Rows" is the count of data rows in each matrix file (some matrices include both Clause-level and Annex/control-level rows, so row count may exceed the source-standard surface count). ✅ + 🟡 + ⚪ + Unmarked = Rows for each matrix. The **Unmarked** column counts data rows in the matrix file that do NOT yet have a state glyph assigned — these are drafting gaps per ADR-001 row invariant (every row must be ✅/🟡/⚪/⛔). Surfacing them is intentional: PR #28 review identified silent unmarked-row dropping as a Goodhart channel (`feedback_no_self_grades_on_public_surface.md`). There is no implied "258 / 661 = 39%" coverage rate — the denominator includes 206 ⚪ Boundary rows (control is customer/regulator responsibility) and 42 Unmarked rows (drafting gap, not implemented coverage). Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md), HUMMBL does not publish self-issued grades against external frameworks; the matrices are row-by-row receipts.
 
@@ -59,7 +59,7 @@ Per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md): **completeness,
 
 These matrices are internal coverage scaffolds, not public claim support yet. Do not use the aggregate counts or headline language externally until row counts, evidence cells, command examples, and boundary classifications pass validation plus operator/legal review.
 
-The **620 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **241 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **454 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
+The **625 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **249 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **441 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
 
 ## What this does NOT claim
 

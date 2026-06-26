@@ -3913,21 +3913,65 @@
   "eu-ai-act.md": {
     "matrix": "docs/coverage/eu-ai-act.md",
     "totals": {
-      "fulfilled": 16,
-      "partial": 15,
-      "boundary": 67,
+      "fulfilled": 19,
+      "partial": 21,
+      "boundary": 58,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 16,
+      "rows_passed": 19,
       "rows_failed": 0,
       "rows_without_refs": 0,
       "coverage_pct": 100.0
     },
     "rows": [
       {
+        "control_id": "Art. 5",
+        "line_no": 63,
+        "refs": [
+          {
+            "ref": "hummbl_governance/kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "kill_switch.py",
+            "path": "hummbl_governance/kill_switch.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "circuit_breaker.py",
+            "path": "hummbl_governance/circuit_breaker.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
         "control_id": "Art. 8",
-        "line_no": 76,
+        "line_no": 78,
         "refs": [
           {
             "ref": "hummbl_governance/compliance_mapper.py",
@@ -3947,7 +3991,7 @@
       },
       {
         "control_id": "Art. 9",
-        "line_no": 77,
+        "line_no": 79,
         "refs": [
           {
             "ref": "hummbl_governance/audit_log.py",
@@ -3967,7 +4011,7 @@
       },
       {
         "control_id": "Art. 10",
-        "line_no": 78,
+        "line_no": 80,
         "refs": [
           {
             "ref": "hummbl_governance/schema_validator.py",
@@ -3987,7 +4031,7 @@
       },
       {
         "control_id": "Art. 11",
-        "line_no": 79,
+        "line_no": 81,
         "refs": [
           {
             "ref": "hummbl_governance/compliance_mapper.py",
@@ -4001,7 +4045,7 @@
       },
       {
         "control_id": "Art. 12",
-        "line_no": 80,
+        "line_no": 82,
         "refs": [
           {
             "ref": "_state/coordination/messages.tsv",
@@ -4021,7 +4065,7 @@
       },
       {
         "control_id": "Art. 13",
-        "line_no": 81,
+        "line_no": 83,
         "refs": [
           {
             "ref": "hummbl_governance/compliance_mapper.py",
@@ -4035,7 +4079,7 @@
       },
       {
         "control_id": "Art. 14",
-        "line_no": 82,
+        "line_no": 84,
         "refs": [
           {
             "ref": "hummbl_governance/kill_switch.py",
@@ -4061,7 +4105,7 @@
       },
       {
         "control_id": "Art. 15",
-        "line_no": 83,
+        "line_no": 85,
         "refs": [
           {
             "ref": "hummbl_governance/circuit_breaker.py",
@@ -4087,7 +4131,7 @@
       },
       {
         "control_id": "Art. 18",
-        "line_no": 91,
+        "line_no": 93,
         "refs": [
           {
             "ref": "hummbl_governance/audit_log.py",
@@ -4107,7 +4151,7 @@
       },
       {
         "control_id": "Art. 19",
-        "line_no": 92,
+        "line_no": 94,
         "refs": [
           {
             "ref": "hummbl_governance/coordination_bus.py",
@@ -4127,7 +4171,7 @@
       },
       {
         "control_id": "Art. 21",
-        "line_no": 94,
+        "line_no": 96,
         "refs": [
           {
             "ref": "hummbl_governance/compliance_mapper.py",
@@ -4147,20 +4191,6 @@
       },
       {
         "control_id": "Art. 47",
-        "line_no": 130,
-        "refs": [
-          {
-            "ref": "hummbl_governance/compliance_mapper.py",
-            "path": "hummbl_governance/compliance_mapper.py",
-            "status": "pass",
-            "detail": "file exists"
-          }
-        ],
-        "status": "pass",
-        "detail": "all refs resolve"
-      },
-      {
-        "control_id": "Art. 49",
         "line_no": 132,
         "refs": [
           {
@@ -4174,8 +4204,22 @@
         "detail": "all refs resolve"
       },
       {
+        "control_id": "Art. 49",
+        "line_no": 134,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
         "control_id": "Art. 72",
-        "line_no": 189,
+        "line_no": 191,
         "refs": [
           {
             "ref": "hummbl_governance/coordination_bus.py",
@@ -4195,7 +4239,7 @@
       },
       {
         "control_id": "Art. 73",
-        "line_no": 190,
+        "line_no": 192,
         "refs": [
           {
             "ref": "services/incident_reporting",
@@ -4208,9 +4252,61 @@
         "detail": "all refs resolve"
       },
       {
-        "control_id": "Art. 91",
-        "line_no": 223,
+        "control_id": "Art. 86",
+        "line_no": 215,
         "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Art. 91",
+        "line_no": 225,
+        "refs": [
+          {
+            "ref": "hummbl_governance/compliance_mapper.py",
+            "path": "hummbl_governance/compliance_mapper.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Art. 95",
+        "line_no": 234,
+        "refs": [
+          {
+            "ref": "hummbl_governance/coordination_bus.py",
+            "path": "hummbl_governance/coordination_bus.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
           {
             "ref": "hummbl_governance/compliance_mapper.py",
             "path": "hummbl_governance/compliance_mapper.py",
@@ -4349,13 +4445,13 @@
   "gdpr.md": {
     "matrix": "docs/coverage/gdpr.md",
     "totals": {
-      "fulfilled": 20,
-      "partial": 11,
-      "boundary": 42,
+      "fulfilled": 21,
+      "partial": 13,
+      "boundary": 39,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 20,
+      "rows_passed": 21,
       "rows_failed": 0,
       "rows_without_refs": 0,
       "coverage_pct": 100.0
@@ -4402,6 +4498,32 @@
           {
             "ref": "hummbl_governance/schema_validator.py",
             "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/audit_log.py",
+            "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "Art. 10",
+        "line_no": 53,
+        "refs": [
+          {
+            "ref": "hummbl_governance/schema_validator.py",
+            "path": "hummbl_governance/schema_validator.py",
+            "status": "pass",
+            "detail": "file exists"
+          },
+          {
+            "ref": "hummbl_governance/capability_fence.py",
+            "path": "hummbl_governance/capability_fence.py",
             "status": "pass",
             "detail": "file exists"
           },
@@ -4882,8 +5004,8 @@
     "matrix": "docs/coverage/iso-27001.md",
     "totals": {
       "fulfilled": 35,
-      "partial": 24,
-      "boundary": 41,
+      "partial": 25,
+      "boundary": 40,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
@@ -8611,13 +8733,13 @@
   "nist-csf.md": {
     "matrix": "docs/coverage/nist-csf.md",
     "totals": {
-      "fulfilled": 50,
-      "partial": 31,
+      "fulfilled": 51,
+      "partial": 30,
       "boundary": 25,
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 50,
+      "rows_passed": 51,
       "rows_failed": 0,
       "rows_without_refs": 0,
       "coverage_pct": 100.0
@@ -8630,6 +8752,20 @@
           {
             "ref": "hummbl_governance/audit_log.py",
             "path": "hummbl_governance/audit_log.py",
+            "status": "pass",
+            "detail": "file exists"
+          }
+        ],
+        "status": "pass",
+        "detail": "all refs resolve"
+      },
+      {
+        "control_id": "GV.RR-01",
+        "line_no": 63,
+        "refs": [
+          {
+            "ref": "hummbl_governance/delegation.py",
+            "path": "hummbl_governance/delegation.py",
             "status": "pass",
             "detail": "file exists"
           }
