@@ -218,7 +218,7 @@ class TestValidateMonitorReport:
             "severity": "CRITICAL",
             "description": "fake panic",
         }
-        with pytest.raises(ValueError, match="all checks passed"):
+        with pytest.raises(ValueError, match="passed but panic_triggered is True"):
             validate_monitor_report(report)
 
     def test_inconsistent_fail_without_panic(self):
@@ -229,5 +229,5 @@ class TestValidateMonitorReport:
         report = run_integrity_check(receipts, "agent-001")
         report["panic_triggered"] = False
         report["panic_details"] = None
-        with pytest.raises(ValueError, match="show failures"):
+        with pytest.raises(ValueError, match="failed but panic_triggered is False"):
             validate_monitor_report(report)

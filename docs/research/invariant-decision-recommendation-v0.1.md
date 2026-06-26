@@ -1,9 +1,10 @@
 # Invariant Decision Recommendation: K9-K11, D6-D7
 
-**Status:** RECOMMENDATION_FOR_OPERATOR
-**Date:** 2026-07-14
+**Status:** APPROVED_WITH_CONSTRAINTS — enum promotion of K9-K11 and D6-D7 approved by operator 2026-06-26
+**Date:** 2026-06-26 (corrected from 2026-07-14 — original was future-dated relative to session)
 **Steward:** HUMMBL Research Institute
 **Decision needed:** Should K9-K11 be added to `KernelInvariant` enum (KernelPanic on violation) or kept as doctrine-level guidance? Same for D6-D7 in `DoctrineInvariant` enum.
+**Receipt note:** Original date `2026-07-14` was future-dated relative to the actual session date `2026-06-26`. Corrected with this receipt note per operator instruction.
 
 ---
 
@@ -94,8 +95,8 @@ The primitive expansion (`hummbl-primitive-expansion-v0.1.md`) proposed 5 new in
 5. Add tests verifying K9-K11 and D6-D7 are recognized by the enum
 6. Wire P28-P30 enforcement to raise `KernelPanic(K9/K10/K11)` on violation
 
-## Operator decision needed
+## Operator decision
 
-- [ ] Approve K9-K11 as KernelInvariant enum values (KernelPanic enforcement)
-- [ ] Approve D6-D7 as DoctrineInvariant enum values (stage promotion block)
-- [ ] Or specify alternative enforcement level for any invariant
+- [x] Approve K9-K11 as KernelInvariant enum values (KernelPanic enforcement) — APPROVED 2026-06-26
+- [x] Approve D6-D7 as DoctrineInvariant enum values (stage promotion block) — APPROVED 2026-06-26
+- [x] Constraints: K9 scoped to durable-state mutations + irreversible external side effects; K10 scoped to re-engagement after halt/quarantine/open breaker; K11 sequence/hash only (timestamp anomalies are warnings); D6 requires evidence for contest; D7 blocks ungated amendments

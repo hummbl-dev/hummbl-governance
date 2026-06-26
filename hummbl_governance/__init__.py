@@ -107,6 +107,7 @@ from hummbl_governance.kernel.rollback import (
     validate_rollback,
     validate_reversibility,
     validate_rollback_declaration,
+    raise_on_rollback_violation,
 )
 
 # Recovery Verifier (P29) — gates re-engagement after halt (K10 RECOVERY)
@@ -115,6 +116,7 @@ from hummbl_governance.kernel.recovery_verifier import (
     validate_root_cause,
     validate_recovery_operator_approval,
     validate_recovery,
+    raise_on_recovery_violation,
 )
 
 # Receipt Integrity Monitor (P30) — detects receipt sequence gaps, hash chain breaks
@@ -123,6 +125,7 @@ from hummbl_governance.kernel.receipt_integrity_monitor import (
     check_hash_chain,
     check_timestamps,
     run_integrity_check,
+    raise_on_integrity_violation,
     validate_receipt_integrity_monitor,
     validate_monitor_report,
 )
@@ -225,16 +228,19 @@ __all__ = [
     "validate_rollback",
     "validate_reversibility",
     "validate_rollback_declaration",
+    "raise_on_rollback_violation",
     # Recovery Verifier (P29)
     "validate_recovery_verifier",
     "validate_root_cause",
     "validate_recovery_operator_approval",
     "validate_recovery",
+    "raise_on_recovery_violation",
     # Receipt Integrity Monitor (P30)
     "check_sequence",
     "check_hash_chain",
     "check_timestamps",
     "run_integrity_check",
+    "raise_on_integrity_violation",
     "validate_receipt_integrity_monitor",
     "validate_monitor_report",
 ]

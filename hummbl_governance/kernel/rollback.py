@@ -6,6 +6,9 @@ reversibility loop: no action may proceed without either a concrete
 rollback plan (reversible / partially_reversible) or a documented risk
 acceptance signed by an operator (irreversible).
 
+K9 scoping (operator constraint 2026-07-14): applies to governed durable-
+state mutations and irreversible external side effects only.
+
 Schema: hummbl_governance/data/rollback.schema.json
 """
 
@@ -16,6 +19,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
+from hummbl_governance.kernel.invariants import KernelInvariant, KernelPanic
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 
 _SCHEMA_PATH = Path(__file__).parent.parent / "data" / "rollback.schema.json"
@@ -124,9 +128,40 @@ def validate_rollback_declaration(declaration: dict[str, Any]) -> None:
     validate_reversibility(declaration)
 
 
+def raise_on_rollback_violation(declaration: dict[str, Any]) -> None:
+    """Validate rollback declaration and raise KernelPanic(K9) on violation.
+
+    K9 scoping: applies to governed durable-state mutations and irreversible
+    external side effects. A declaration that fails schema or reversibility
+    validation is a K9 (REVERSIBILITY) violation.
+
+    Args:
+        declaration: The rollback declaration dict.
+
+    Raises:
+        KernelPanic: With invariant=K9 if schema or reversibility validation
+            fails. The underlying error type is noted in the detail.
+    """
+    try:
+        validate_rollback_declaration(declaration)
+    except ValidationError as e:
+        raise KernelPanic(
+            invariant=KernelInvariant.REVERSIBILITY,
+            detail=f"K9 (REVERSIBILITY) violation — schema invalid: {e}",
+            severity="CRITICAL",
+        ) from e
+    except ValueError as e:
+        raise KernelPanic(
+            invariant=KernelInvariant.REVERSIBILITY,
+            detail=f"K9 (REVERSIBILITY) violation — {e}",
+            severity="CRITICAL",
+        ) from e
+
+
 __all__ = [
     "Reversibility",
     "validate_rollback",
     "validate_reversibility",
     "validate_rollback_declaration",
+    "raise_on_rollback_violation",
 ]

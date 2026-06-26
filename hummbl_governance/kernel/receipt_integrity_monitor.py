@@ -2,8 +2,10 @@
 hash chain breaks, and retroactive insertion.
 
 Enforces K11 (INTEGRITY): receipt sequences are complete and unbroken.
-Gaps in receipt sequences (K4 violation), hash chain breaks (K1), and
-retroactive insertion are detected. Raises KernelPanic on violation.
+Sequence gaps (K4) and hash chain breaks (K1) trigger KernelPanic.
+Timestamp-only anomalies do NOT automatically trigger KernelPanic — they
+route to warning, quarantine, or operator review unless combined with
+sequence or hash compromise.
 
 Schema: hummbl_governance/data/receipt_integrity_monitor.schema.json
 """
@@ -14,6 +16,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from hummbl_governance.kernel.invariants import KernelInvariant, KernelPanic
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 
 _SCHEMA_PATH = (
@@ -170,6 +173,13 @@ def run_integrity_check(
 ) -> dict[str, Any]:
     """Run all integrity checks and build a monitor report.
 
+    K11 enforcement scoping (operator constraint 2026-07-14):
+    - Sequence gaps → KernelPanic (K4 or K11)
+    - Hash-chain breaks → KernelPanic (K1 or K11)
+    - Timestamp-only anomalies → WARNING, not KernelPanic. Routes to
+      warning/quarantine/operator review unless combined with sequence
+      or hash compromise.
+
     Args:
         receipts: List of receipt dicts to check.
         agent_id: ID of the agent whose receipts are being monitored.
@@ -181,8 +191,9 @@ def run_integrity_check(
     chain_passed, broken = check_hash_chain(receipts)
     ts_passed, anomalies = check_timestamps(receipts)
 
-    all_passed = seq_passed and chain_passed and ts_passed
-    panic_triggered = not all_passed
+    # Only sequence and hash-chain failures trigger KernelPanic.
+    # Timestamp-only anomalies are warnings.
+    panic_triggered = not seq_passed or not chain_passed
 
     panic_details = None
     if panic_triggered:
@@ -234,6 +245,45 @@ def run_integrity_check(
     }
 
 
+def raise_on_integrity_violation(
+    receipts: list[dict[str, Any]],
+    agent_id: str,
+) -> dict[str, Any]:
+    """Run integrity check and raise KernelPanic if K11 is violated.
+
+    Only sequence gaps and hash-chain breaks raise KernelPanic.
+    Timestamp-only anomalies do NOT raise — they are reported as warnings
+    in the returned report.
+
+    Args:
+        receipts: List of receipt dicts to check.
+        agent_id: ID of the agent whose receipts are being monitored.
+
+    Returns:
+        Monitor report dict.
+
+    Raises:
+        KernelPanic: If sequence gaps (K4) or hash-chain breaks (K1) are
+            detected. The invariant field on the panic will be K11
+            (INTEGRITY) with the underlying violation noted in the detail.
+    """
+    report = run_integrity_check(receipts, agent_id)
+    if report["panic_triggered"]:
+        details = report["panic_details"]
+        underlying = details["invariant_violated"]
+        raise KernelPanic(
+            invariant=KernelInvariant.INTEGRITY,
+            detail=(
+                f"K11 (INTEGRITY) violation for agent {agent_id}: "
+                f"underlying {underlying} compromise detected — "
+                f"{details['description']}"
+            ),
+            agent_id=agent_id,
+            severity=details["severity"],
+        )
+    return report
+
+
 def validate_receipt_integrity_monitor(report: dict[str, Any]) -> None:
     """Validate a monitor report against schema v1.0.0.
 
@@ -251,6 +301,11 @@ def validate_receipt_integrity_monitor(report: dict[str, Any]) -> None:
 def validate_monitor_report(report: dict[str, Any]) -> None:
     """Full validation of a monitor report: schema + panic consistency.
 
+    Panic consistency rules (operator constraint 2026-07-14):
+    - panic_triggered must be True if sequence_check or hash_chain_check failed
+    - panic_triggered must be False if both sequence_check and hash_chain_check passed
+    - timestamp_check failures do NOT affect panic_triggered
+
     Args:
         report: The monitor report dict.
 
@@ -263,20 +318,20 @@ def validate_monitor_report(report: dict[str, Any]) -> None:
     check_results = report.get("check_results", {})
     seq_passed = check_results.get("sequence_check", {}).get("passed", True)
     chain_passed = check_results.get("hash_chain_check", {}).get("passed", True)
-    ts_passed = check_results.get("timestamp_check", {}).get("passed", True)
 
-    any_failed = not (seq_passed and chain_passed and ts_passed)
+    # Only sequence and hash-chain failures require panic.
+    integrity_failed = not seq_passed or not chain_passed
     panic_triggered = report.get("panic_triggered", False)
 
-    if any_failed and not panic_triggered:
+    if integrity_failed and not panic_triggered:
         raise ValueError(
-            "Monitor report inconsistent: check results show failures but "
-            "panic_triggered is False"
+            "Monitor report inconsistent: sequence or hash-chain check "
+            "failed but panic_triggered is False"
         )
-    if not any_failed and panic_triggered:
+    if not integrity_failed and panic_triggered:
         raise ValueError(
-            "Monitor report inconsistent: all checks passed but "
-            "panic_triggered is True"
+            "Monitor report inconsistent: sequence and hash-chain checks "
+            "passed but panic_triggered is True"
         )
 
 
@@ -285,6 +340,7 @@ __all__ = [
     "check_hash_chain",
     "check_timestamps",
     "run_integrity_check",
+    "raise_on_integrity_violation",
     "validate_receipt_integrity_monitor",
     "validate_monitor_report",
 ]

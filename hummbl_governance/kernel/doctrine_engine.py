@@ -1,4 +1,4 @@
-"""Doctrine Engine — D1-D5 invariant enforcement.
+"""Doctrine Engine — D1-D7 invariant enforcement.
 
 The Kernel is an epistemic gatekeeper. DoctrineEngine enforces hard
 boundaries between speculation and action across the fleet promotion graph.
@@ -27,7 +27,7 @@ class Stage(Enum):
 
 
 class DoctrineInvariant(Enum):
-    """The five doctrine invariants."""
+    """The seven doctrine invariants."""
 
     ZERO_TRUST = "D1"
     """Playground is zero-trust: no playground artifact influences fleet state
@@ -44,6 +44,16 @@ class DoctrineInvariant(Enum):
 
     NO_AUTO_PROMOTION = "D5"
     """No stage promotes itself. Every gate requires operator approval."""
+
+    CONTESTABILITY = "D6"
+    """Affected parties can flag AI decisions for human review. A decision that
+    cannot be contested lacks human oversight. Requires evidence or justification
+    for the contest, not just a bare flag."""
+
+    DOCTRINE_AMENDMENT = "D7"
+    """Changes to invariants themselves are governed. No invariant or doctrine
+    amendment may take effect without operator approval and a recorded receipt.
+    Ungated amendments are blocked at the promotion gate."""
 
 
 @dataclass

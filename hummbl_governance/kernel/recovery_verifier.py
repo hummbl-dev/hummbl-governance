@@ -4,6 +4,9 @@ Enforces K10 (RECOVERY): re-engagement after halt requires root-cause
 verification, evidence collection, and operator approval. Gates the
 kill_switch/circuit_breaker recovery path.
 
+K10 scoping (operator constraint 2026-07-14): applies to re-engagement
+after halt, quarantine, or open breaker only.
+
 Gates:
     - root_cause_analysis.identified must be True
     - if fix_applied is True, fix_description must be non-empty
@@ -19,6 +22,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from hummbl_governance.kernel.invariants import KernelInvariant, KernelPanic
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 
 _SCHEMA_PATH = Path(__file__).parent.parent / "data" / "recovery_verifier.schema.json"
@@ -128,9 +132,40 @@ def validate_recovery(verification: dict[str, Any]) -> None:
     validate_recovery_operator_approval(verification)
 
 
+def raise_on_recovery_violation(verification: dict[str, Any]) -> None:
+    """Validate recovery record and raise KernelPanic(K10) on violation.
+
+    K10 scoping: applies to re-engagement after halt, quarantine, or open
+    breaker. A verification record that fails schema, root-cause, or
+    operator-approval validation is a K10 (RECOVERY) violation.
+
+    Args:
+        verification: The recovery-verification record dict.
+
+    Raises:
+        KernelPanic: With invariant=K10 if schema, root-cause, or
+            operator-approval validation fails.
+    """
+    try:
+        validate_recovery(verification)
+    except ValidationError as e:
+        raise KernelPanic(
+            invariant=KernelInvariant.RECOVERY,
+            detail=f"K10 (RECOVERY) violation — schema invalid: {e}",
+            severity="CRITICAL",
+        ) from e
+    except ValueError as e:
+        raise KernelPanic(
+            invariant=KernelInvariant.RECOVERY,
+            detail=f"K10 (RECOVERY) violation — {e}",
+            severity="CRITICAL",
+        ) from e
+
+
 __all__ = [
     "validate_recovery_verifier",
     "validate_root_cause",
     "validate_recovery_operator_approval",
     "validate_recovery",
+    "raise_on_recovery_violation",
 ]
