@@ -1,9 +1,11 @@
 # HUMMBL Governance Primitives — Complete Reference
 
-**Version:** v1.1.0
+**Version:** v1.2.0
 **Existing primitives:** 26 (P1-P26)
-**Proposed primitives:** 14 (P27-P40) — schema candidates only, not yet implemented
-**Proposed invariants:** K9-K11, D6-D7 — pending operator decision on enum vs. doctrine
+**Implemented expansion primitives:** 8 (P27-P31, P34, P36, P38) — schemas, modules, and tests
+**Proposed primitives:** 6 (P32-P33, P35, P37, P39-P40) — not yet started
+**Kernel invariants:** K1-K11 (all implemented and wired into Kernel)
+**Doctrine invariants:** D1-D7 (all implemented)
 
 This document is the canonical reference for all HUMMBL governance primitives. For the research analysis behind the proposed primitives, see `docs/research/hummbl-primitive-expansion-v0.1.md` and `docs/research/hummbl-primitive-matrix-v0.1.md`.
 
@@ -11,7 +13,7 @@ This document is the canonical reference for all HUMMBL governance primitives. F
 
 ## Invariants
 
-### Kernel invariants (K1-K8) — enforced by `kernel/invariants.py`
+### Kernel invariants (K1-K11) — enforced by `kernel/invariants.py`
 
 | ID | Name | Invariant | Enforcing engine |
 |---|---|---|---|
@@ -22,9 +24,12 @@ This document is the canonical reference for all HUMMBL governance primitives. F
 | K5 | EVIDENCE | Every claim in a receipt is graded or marked speculative | `EvidenceEngine` |
 | K6 | AUTHORITY | Every authority exercise is scoped, limited, and leaves a receipt | `AuthorityEngine` |
 | K7 | ROLE | Every role is a runtime claim, not a static assignment | `IdentityEngine` |
-| K8 | DOCTRINE | Every fleet artifact respects the doctrine invariants D1-D5 | `DoctrineEngine` |
+| K8 | DOCTRINE | Every fleet artifact respects the doctrine invariants D1-D7 | `DoctrineEngine` |
+| K9 | REVERSIBILITY | Every governed durable-state mutation or irreversible external side effect declares a rollback path or is explicitly marked irreversible with a recorded risk acceptance | `Kernel.validate_rollback()` → `rollback.py` |
+| K10 | RECOVERY | Re-engagement after halt, quarantine, or open breaker requires root-cause verification, evidence collection, and operator approval | `Kernel.validate_recovery()` → `recovery_verifier.py` |
+| K11 | INTEGRITY | Receipt sequences are complete and unbroken. Sequence gaps and hash-chain breaks trigger KernelPanic | `Kernel.check_receipt_integrity()` → `receipt_integrity_monitor.py` |
 
-### Doctrine invariants (D1-D5) — enforced by `kernel/doctrine_engine.py`
+### Doctrine invariants (D1-D7) — enforced by `kernel/doctrine_engine.py`
 
 | ID | Name | Invariant |
 |---|---|---|
@@ -33,16 +38,8 @@ This document is the canonical reference for all HUMMBL governance primitives. F
 | D3 | NO_INHERITED_AUTHORITY | Credibility is earned per artifact, not borrowed from lineage |
 | D4 | DIVERGENCE_CONTAINED | Novelty generation must not destabilize convergent operations |
 | D5 | NO_AUTO_PROMOTION | No stage promotes itself. Every gate requires operator approval. |
-
-### Proposed invariants (pending operator decision: enum or doctrine?)
-
-| ID | Name | Invariant | Proposed primitive |
-|---|---|---|---|
-| K9 | REVERSIBILITY | Every governed action declares a rollback path or is explicitly marked irreversible with a recorded risk acceptance | P28 Rollback |
-| K10 | RECOVERY | Re-engagement after halt requires root-cause verification, evidence collection, and operator approval | P29 RecoveryVerifier |
-| K11 | INTEGRITY | Receipt sequences are complete and unbroken. Gaps, hash chain breaks, and retroactive insertions are detected and raise KernelPanic | P30 ReceiptIntegrityMonitor |
-| D6 | CONTESTABILITY | Affected parties can flag AI-mediated decisions for human review, suspending the decision's effects until review completes | P31 Contestability |
-| D7 | DOCTRINE_AMENDMENT | Changes to invariants themselves are governed: proposed change -> operator review -> evidence -> receipt -> promotion | P38 DoctrineAmendment |
+| D6 | CONTESTABILITY | Affected parties can flag AI-mediated decisions for human review, suspending the decision's effects until review completes. Requires evidence or justification, not just a bare flag. |
+| D7 | DOCTRINE_AMENDMENT | No invariant or doctrine amendment may take effect without operator approval and a recorded receipt. Ungated amendments are blocked. |
 
 ---
 
@@ -131,36 +128,31 @@ This document is the canonical reference for all HUMMBL governance primitives. F
 
 ---
 
-## Proposed primitives (P27-P40)
+## Expansion primitives (P27-P40)
 
-### Tier 1: HIGH priority — close existing feedback loops
+### Implemented (P27-P31, P34, P36, P38)
 
-| ID | Name | Description | Invariant | Schema | Status |
-|---|---|---|---|---|---|
-| P27 | CanonRegistry | Governs promotion from draft to canonical status. 6 levels: draft, reviewed, validated, adopted, canonical, deprecated | D5 | `canon_registry.schema.json` | Schema drafted |
-| P28 | Rollback | Enforces reversibility: every governed action declares a rollback path or is marked irreversible with risk acceptance | K9 | `rollback.schema.json` | Schema drafted |
-| P29 | RecoveryVerifier | Gates re-engagement after halt with root-cause verification, evidence, and operator approval | K10 | `recovery_verifier.schema.json` | Schema drafted |
-| P30 | ReceiptIntegrityMonitor | Detects receipt sequence gaps, hash chain breaks, retroactive insertion, and invalid signatures. Raises KernelPanic | K11 | `receipt_integrity_monitor.schema.json` | Schema drafted |
+| ID | Name | Description | Invariant | Module | Schema | Status |
+|---|---|---|---|---|---|---|
+| P27 | CanonRegistry | Governs promotion from draft to canonical status. 6 levels: draft, reviewed, validated, adopted, canonical, deprecated | D5 | `kernel/canon_registry.py` | `canon_registry.schema.json` | ✅ Implemented |
+| P28 | Rollback | Enforces reversibility: every governed action declares a rollback path or is marked irreversible with risk acceptance | K9 | `kernel/rollback.py` | `rollback.schema.json` | ✅ Implemented + wired into Kernel |
+| P29 | RecoveryVerifier | Gates re-engagement after halt with root-cause verification, evidence, and operator approval | K10 | `kernel/recovery_verifier.py` | `recovery_verifier.schema.json` | ✅ Implemented + wired into Kernel |
+| P30 | ReceiptIntegrityMonitor | Detects receipt sequence gaps, hash chain breaks, retroactive insertion, and invalid signatures. Raises KernelPanic | K11 | `kernel/receipt_integrity_monitor.py` | `receipt_integrity_monitor.schema.json` | ✅ Implemented + wired into Kernel |
+| P31 | Contestability | Allows affected parties to flag AI-mediated decisions for human review, suspending effects until review completes | D6 | `kernel/contestability.py` | `contestability.schema.json` | ✅ Implemented |
+| P34 | AuthoritySweeper | Periodically sweeps for expired authority grants, revokes them, and notifies grantee and grantor | K6 | `kernel/authority_sweeper.py` | `authority_sweeper.schema.json` | ✅ Implemented |
+| P36 | TrustAdjuster | Closes compliance-to-identity loop: repeated violations reduce trust tier, sustained compliance increases it | K3 | `kernel/trust_adjuster.py` | `trust_adjuster.schema.json` | ✅ Implemented |
+| P38 | DoctrineAmendment | Governs changes to invariants themselves: proposed change -> operator review -> evidence -> receipt -> promotion | D7 | `kernel/doctrine_amendment.py` | `doctrine_amendment.schema.json` | ✅ Implemented + wired into Kernel |
 
-### Tier 2: MEDIUM priority — new control surfaces
+### Not yet started (P32-P33, P35, P37, P39-P40)
 
-| ID | Name | Description | Invariant | Schema | Status |
-|---|---|---|---|---|---|
-| P31 | Contestability | Allows affected parties to flag AI-mediated decisions for human review, suspending effects until review completes | D6 | — | Not started |
-| P32 | DisputeResolution | Inter-agent conflict resolution primitive (from government corpus doctrine) | — | — | Not started |
-| P33 | Succession | Authority transfer primitive for governance continuity (from government corpus doctrine) | — | — | Not started |
-| P34 | AuthoritySweeper | Periodically sweeps for expired authority grants, revokes them, and notifies grantee and grantor | — | — | Not started |
-| P35 | RegulatorExport | Produces compliance evidence in regulator-accepted formats (EU AI Act technical file, SOC 2 audit packet) | — | — | Not started |
-| P36 | TrustAdjuster | Closes compliance-to-identity loop: repeated violations reduce trust tier, sustained compliance increases it | — | — | Not started |
-
-### Tier 3: LOWER priority — paradigmatic expansion
-
-| ID | Name | Description | Invariant | Schema | Status |
-|---|---|---|---|---|---|
-| P37 | Treaty | Inter-agent agreements with shared authority, mutual obligations, and dispute resolution | — | — | Not started |
-| P38 | DoctrineAmendment | Governs changes to invariants themselves: proposed change -> operator review -> evidence -> receipt -> promotion | D7 | — | Not started |
-| P39 | GovernanceFitness | Evaluates governance pattern effectiveness over time, not just compliance | — | — | Not started |
-| P40 | DraftSweeper | Tracks draft age and flags drafts exceeding configurable maximum age for mandatory review | — | — | Not started |
+| ID | Name | Description | Invariant | Status |
+|---|---|---|---|---|
+| P32 | DisputeResolution | Inter-agent conflict resolution primitive (from government corpus doctrine) | — | Not started |
+| P33 | Succession | Authority transfer primitive for governance continuity (from government corpus doctrine) | — | Not started |
+| P35 | RegulatorExport | Produces compliance evidence in regulator-accepted formats (EU AI Act technical file, SOC 2 audit packet) | — | Not started |
+| P37 | Treaty | Inter-agent agreements with shared authority, mutual obligations, and dispute resolution | — | Not started |
+| P39 | GovernanceFitness | Evaluates governance pattern effectiveness over time, not just compliance | — | Not started |
+| P40 | DraftSweeper | Tracks draft age and flags drafts exceeding configurable maximum age for mandatory review | — | Not started |
 
 ### Candidates under consideration (P41-P43)
 
@@ -174,24 +166,24 @@ This document is the canonical reference for all HUMMBL governance primitives. F
 
 ## Primitive categories
 
-| Category | Existing | Proposed | Total |
-|---|---|---|---|
-| Governance Kernel | 2 (P25, P26) | 4 (P27-P30) | 6 |
-| Safety | 4 (P1-P4) | 0 | 4 |
-| Cost & Budget | 1 (P5) | 0 | 1 |
-| Identity & Auth | 2 (P6, P7) | 1 (P34) | 3 |
-| Audit & Compliance | 3 (P8-P10) | 2 (P35, P36) | 5 |
-| Reasoning & Contract | 3 (P11-P13) | 0 | 3 |
-| Coordination | 3 (P14-P16) | 2 (P32, P37) | 5 |
-| Behavior & Health | 3 (P17-P19) | 1 (P39) | 4 |
-| Physical AI | 1 (P20) | 0 | 1 |
-| Execution Assurance | 1 (P21) | 0 | 1 |
-| Error Taxonomy | 3 (P22-P24) | 0 | 3 |
-| Governance Ecology | 0 | 3 (P31, P33, P38) | 3 |
-| Lifecycle Hygiene | 0 | 2 (P40, P41) | 2 |
-| Concept Layer | 0 | 1 (P42) | 1 |
-| Risk Management | 0 | 1 (P43) | 1 |
-| **Total** | **26** | **17** | **43** |
+| Category | Existing | Implemented expansion | Proposed | Total |
+|---|---|---|---|---|
+| Governance Kernel | 2 (P25, P26) | 4 (P27-P30) | 1 (P40) | 7 |
+| Safety | 4 (P1-P4) | 0 | 0 | 4 |
+| Cost & Budget | 1 (P5) | 0 | 0 | 1 |
+| Identity & Auth | 2 (P6, P7) | 2 (P34, P36) | 0 | 4 |
+| Audit & Compliance | 3 (P8-P10) | 0 | 1 (P35) | 4 |
+| Reasoning & Contract | 3 (P11-P13) | 0 | 0 | 3 |
+| Coordination | 3 (P14-P16) | 0 | 2 (P32, P37) | 5 |
+| Behavior & Health | 3 (P17-P19) | 0 | 1 (P39) | 4 |
+| Physical AI | 1 (P20) | 0 | 0 | 1 |
+| Execution Assurance | 1 (P21) | 0 | 0 | 1 |
+| Error Taxonomy | 3 (P22-P24) | 0 | 0 | 3 |
+| Governance Ecology | 0 | 2 (P31, P38) | 2 (P33, P37) | 4 |
+| Lifecycle Hygiene | 0 | 0 | 1 (P40) | 1 |
+| Concept Layer | 0 | 0 | 1 (P42) | 1 |
+| Risk Management | 0 | 0 | 1 (P43) | 1 |
+| **Total** | **26** | **8** | **8** | **42** |
 
 ---
 
@@ -216,5 +208,5 @@ This document is the canonical reference for all HUMMBL governance primitives. F
 - `docs/research/hummbl-primitive-matrix-v0.1.md` — framework coverage, lifecycle, relationships, admission sub-taxonomy
 - `docs/research/ai-framework-taxonomy-v0.1.md` — 26 framework families, 498-framework inventory
 - `hummbl_governance/data/*.schema.json` — JSON Schema files for all governed objects
-- `hummbl_governance/kernel/invariants.py` — K1-K8 enum definitions
-- `hummbl_governance/kernel/doctrine_engine.py` — D1-D5 enum definitions
+- `hummbl_governance/kernel/invariants.py` — K1-K11 enum definitions
+- `hummbl_governance/kernel/doctrine_engine.py` — D1-D7 enum definitions

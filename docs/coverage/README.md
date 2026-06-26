@@ -121,6 +121,8 @@ These matrices are internal coverage scaffolds, not public claim support yet. Do
 
 The **1502 ✅ Fulfilled** rows concentrate in the technical / measurement / access-control / audit-trail / lifecycle / data-governance surfaces where software primitives do the work. The **626 🟡 Partial** rows are where HUMMBL provides the technical primitive and the customer organization provides the policy, contract, or program completion. The **695 ⚪ Boundary** rows are organizational structures, regulatory institutions, civil/criminal liability mechanisms, member-state legislative regimes, and physical-security controls that no software product can implement. (Counts mechanically generated; see [`scripts/count_coverage_rows.py`](../../scripts/count_coverage_rows.py).)
 
+> **Note on count discrepancy:** The fleet total of 1502 ✅ Fulfilled rows (from `count_coverage_rows.py`) counts all rows marked with the ✅ glyph. The [`EVIDENCE_VALIDATION.md`](./EVIDENCE_VALIDATION.md) report shows 1496 validated fulfilled rows — a stricter count that includes only ✅ rows whose evidence references actually resolve to existing artifacts. The 6-row difference represents ✅ rows with missing or unresolvable evidence references; these are hardening gaps, not count errors. Both numbers are correct for their respective purposes.
+
 ## What this does NOT claim
 
 - HUMMBL is not a certification body. Where statutory certification is required (ISO 27001 accredited registrar, SOC 2 CPA-firm attestation, EU AI Act Notified Body conformity assessment for biometric ID systems), customer organizations must engage qualified third parties.
