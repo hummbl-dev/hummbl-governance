@@ -4,8 +4,10 @@ The Kernel is not a role. It is the operating system of the fleet — the shared
 substrate that guarantees every agent action is observable, every observation is
 checkable, and every check is against empirical law.
 
-Eight invariants (K1-K8) and eight engines provide the foundation for AI officer
-roles, compliance enforcement, and scaling-law governance.
+Eleven invariants (K1-K11) and their engines provide the foundation for AI officer
+roles, compliance enforcement, and scaling-law governance. K1-K8 are enforced on
+every receipt path; K9-K11 are enum-defined, schema-backed, and exposed through
+Kernel validation methods (mandatory at call sites that invoke them).
 
 All engines are stdlib-only. No vendor-specific APIs, models, or runtimes.
 

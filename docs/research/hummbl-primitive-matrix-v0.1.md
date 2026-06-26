@@ -1,17 +1,20 @@
 # HUMMBL Primitive Matrix v0.1 — Framework Coverage, Lifecycle, Relationships, Admission
 
+> **⚠️ HISTORICAL RESEARCH ARTIFACT.** This document was the matrix analysis that mapped P27-P40 coverage. It reflects the codebase state as of 2026-06-25 (proposed primitives not yet implemented). It has been **superseded by `PRIMITIVES.md` v1.2.0** for current implementation status. Do not use this file as current primitive-state authority. The matrix analysis content remains valid as research background; the implementation claims are stale.
+
 **Status:** DRAFT_RESEARCH_ARTIFACT
 **Promotion posture:** ADAPT_REQUIRED
 **Canonical status:** NOT_CANON
-**Origin:** Continuation of primitive expansion analysis, 2026-07-14
+**Origin:** Continuation of primitive expansion analysis, 2026-06-25
 **Steward:** HUMMBL Research Institute
 **Companion artifacts:**
 - `hummbl-primitive-expansion-v0.1.md` (proposes primitives P27-P40, invariants K9-K11/D6-D7)
 - `ai-framework-taxonomy-v0.1.md` (26 framework families, 498-framework inventory)
 - `ai-governance-framework-inventory.md` (framework catalog)
+- **`PRIMITIVES.md` v1.2.0 (canonical implementation status)**
 
-**Validated scope:** matrices grounded in live codebase evidence (48 modules, 87 exports) and the 26-family taxonomy
-**Unvalidated scope:** proposed primitive (P27-P40) coverage is projected, not measured — no implementations exist yet
+**Validated scope:** matrices grounded in live codebase evidence (48 modules, 87 exports) and the 26-family taxonomy — **as of 2026-06-25**
+**Unvalidated scope:** at time of writing, proposed primitive (P27-P40) coverage was projected, not measured — 8 have since been implemented (P27-P31, P34, P36, P38); see `PRIMITIVES.md` v1.2.0
 
 ---
 

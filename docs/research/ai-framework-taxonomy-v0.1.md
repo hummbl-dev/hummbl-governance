@@ -639,10 +639,11 @@ For HUMMBL/BaseN, the L-1 Admission layer is the one most existing frameworks un
 
 ### HUMMBL 40-primitive crosswalk (updated 2026-06-26)
 
-Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxonomy control layers they implement. This is a **crosswalk**, not a 1:1 mapping — many primitives span multiple control layers.
+Maps the 40 hummbl-governance primitives (26 existing + 14 expansion) to the taxonomy control layers they implement. This is a **crosswalk**, not a 1:1 mapping — many primitives span multiple control layers.
 
 **Existing primitives (P1-P26):** implemented and tested.
-**Proposed primitives (P27-P40):** schema-drafted (P27-P30) or not yet started (P31-P40). Mappings are projected.
+**Implemented expansion primitives (P27-P31, P34, P36, P38):** schemas, modules, and tests. K9-K11 exposed through Kernel validation methods. D7 wired into `DoctrineEngine.promote()` (field-triggered).
+**Proposed primitives (P32-P33, P35, P37, P39-P40):** not yet started. Mappings are projected.
 
 | HUMMBL primitive | Category | Control layer(s) | Role in taxonomy |
 |---|---|---|---|
@@ -724,11 +725,11 @@ The L-1 Admission layer is HUMMBL's distinctive contribution — no framework in
 
 **Authority invariant:** Agents can never self-approve consequential admissions (Problem Grammar invariant 1, enforced by D5 NO_AUTO_PROMOTION).
 
-**Admission lifecycle:** PROPOSED → REVIEWED → NEEDS-EVIDENCE → VALIDATED → ADMITTED → MONITORED → (REVOKED). Rejected admissions can be APPEALED (requires P31 Contestability, proposed).
+**Admission lifecycle:** PROPOSED → REVIEWED → NEEDS-EVIDENCE → VALIDATED → ADMITTED → MONITORED → (REVOKED). Rejected admissions can be APPEALED (requires P31 Contestability, implemented).
 
-**Admission gaps mapped to proposed primitives:**
-- No appeal mechanism → P31 Contestability
-- No revocation sweep → P34 AuthoritySweeper
+**Admission gaps mapped to primitives:**
+- No appeal mechanism → P31 Contestability (implemented)
+- No revocation sweep → P34 AuthoritySweeper (implemented, callable — not scheduled)
 - No canon promotion → P27 CanonRegistry (implemented)
 - No rollback after admission → P28 Rollback (implemented)
 - No admission audit export → P35 RegulatorExport
