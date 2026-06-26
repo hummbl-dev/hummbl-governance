@@ -708,6 +708,34 @@ Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxo
 
 **Crosswalk summary:** 40 of 40 primitives mapped to at least one control layer (26 existing + 14 proposed). 11 of 11 L-1 Admission surfaces now fully mapped — CanonRegistry gap closed by P27 implementation (2026-07-14). P28-P30 (Rollback, RecoveryVerifier, ReceiptIntegrityMonitor) add K9-K11 enforcement. P31-P40 are projected mappings pending implementation.
 
+### Admission sub-taxonomy (added 2026-07-14)
+
+The L-1 Admission layer is HUMMBL's distinctive contribution — no framework in the 498-item inventory addresses it directly. The admission primitive (`admission_control.py`) currently treats all admissions uniformly (same 5 gates). The sub-taxonomy distinguishes 7 admission decision types, each with different gate emphases:
+
+| Type | What's admitted | Primary gate | Secondary gates | Enforcing primitive(s) |
+|---|---|---|---|---|
+| A1: Use-case | New AI use case (e.g., hiring screening) | Authority | Evidence, Scope | `admission_control` |
+| A2: Model | Trained model for deployment | Evidence | Authority, Scope | `admission_control`, `eal` (partial) |
+| A3: Agent | New agent joining fleet | Identity | Authority, Scope | `identity`, `admission_control` |
+| A4: Tool | New tool for agent use | Capability | Authority, Scope | `capability_fence`, `admission_control` |
+| A5: Data | Dataset for training/inference | Evidence | Scope, Receipt | `schema_validator` (partial) |
+| A6: Memory | Memory entry into durable state | Receipt | Scope, Evidence | `audit_log` (partial) |
+| A7: State-transition | Durable state transition | Authority | Evidence, Receipt | `admission_control`, `coordination_bus` |
+
+**Authority invariant:** Agents can never self-approve consequential admissions (Problem Grammar invariant 1, enforced by D5 NO_AUTO_PROMOTION).
+
+**Admission lifecycle:** PROPOSED → REVIEWED → NEEDS-EVIDENCE → VALIDATED → ADMITTED → MONITORED → (REVOKED). Rejected admissions can be APPEALED (requires P31 Contestability, proposed).
+
+**Admission gaps mapped to proposed primitives:**
+- No appeal mechanism → P31 Contestability
+- No revocation sweep → P34 AuthoritySweeper
+- No canon promotion → P27 CanonRegistry (implemented)
+- No rollback after admission → P28 Rollback (implemented)
+- No admission audit export → P35 RegulatorExport
+- No admission fitness tracking → P39 GovernanceFitness
+
+See `hummbl-primitive-matrix-v0.1.md` Part 4 for the full admission sub-taxonomy with gate emphasis matrix, authority matrix, and evidence requirements.
+
 ---
 
 ## Clean distinction among the main branches
