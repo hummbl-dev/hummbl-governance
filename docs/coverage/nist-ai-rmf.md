@@ -18,11 +18,11 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 | Function | Subcategories | ✅ | 🟡 | ⚪ |
 |---|---|---|---|---|
-| GOVERN | ~19 | 6 | 7 | 6 |
-| MAP | ~18 | 6 | 8 | 4 |
+| GOVERN | ~19 | 6 | 9 | 4 |
+| MAP | ~18 | 6 | 9 | 3 |
 | MEASURE | ~20 | 15 | 7 | 0 |
 | MANAGE | ~13 | 11 | 2 | 0 |
-| **Totals** | **~70** | **38** | **24** | **10** |
+| **Totals** | **~70** | **38** | **27** | **7** |
 
 **Draft coverage intent (not public claim): every NIST AI RMF subcategory has a row. Load-bearing primitives concentrate in MEASURE (measurement infrastructure is what HUMMBL is) and MANAGE (kill-switch + incident-response primitives).
 
@@ -35,8 +35,8 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | GV-1.1 | Legal and regulatory requirements involving AI are understood, managed, documented | 🟡 Partial: compliance-mapping primitive provides mechanism; legal-reg interpretation is org | `hummbl_governance/compliance_mapper.py` |
-| GV-1.2 | Characteristics of trustworthy AI integrated into org policies | ⚪ Boundary: org policy authorship | |
-| GV-1.3 | Processes, procedures, practices documented for risk management activities | 🟡 Partial: runbooks documented; org tailoring complete | |
+| GV-1.2 | Characteristics of trustworthy AI integrated into org policies | 🟡 Partial: doctrine-engine encodes trustworthy-AI policies + compliance-mapper maps characteristics; policy authorship is org | `hummbl_governance/kernel/doctrine_engine.py`, `hummbl_governance/compliance_mapper.py` |
+| GV-1.3 | Processes, procedures, practices documented for risk management activities | 🟡 Partial: audit-log documents governance actions + lifecycle manages procedures; org tailoring complete | `hummbl_governance/audit_log.py`, `hummbl_governance/lifecycle.py` |
 | GV-1.4 | Risk management process aligned with applicable standards | 🟡 Partial: standards-crosswalk mapping primitive; alignment validation is org | `hummbl_governance/compliance_mapper.py` |
 | GV-1.5 | Ongoing monitoring + periodic review of risk mgmt process | ✅ Health-probe monitoring + lifecycle review cycles | `hummbl_governance/health_probe.py`, `hummbl_governance/lifecycle.py` |
 | GV-1.6 | Mechanisms in place to inventory AI systems + categorize by risk | ✅ AI-system inventory tuple + risk-classification field | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
@@ -46,7 +46,7 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| GV-2.1 | Roles, responsibilities, lines of communication documented | 🟡 Partial: DCTX (delegation context) tuples document; org structure is task | |
+| GV-2.1 | Roles, responsibilities, lines of communication documented | 🟡 Partial: DCTX (delegation context) tuples document; org structure is task | `hummbl_governance/delegation.py`, `hummbl_governance/identity.py` |
 | GV-2.2 | Org's personnel + partners receive AI risk mgmt training | ⚪ Boundary: training program is org | |
 | GV-2.3 | Executive leadership responsible + accountable for decisions | ⚪ Boundary: org accountability | |
 
@@ -61,7 +61,7 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| GV-4.1 | Org policies/practices in place fostering critical thinking, safety-first | ⚪ Boundary: culture | |
+| GV-4.1 | Org policies/practices in place fostering critical thinking, safety-first | 🟡 Partial: doctrine-engine encodes safety-first policies + kill-switch is safety-first practice; culture fostering is org | `hummbl_governance/kernel/doctrine_engine.py`, `hummbl_governance/kill_switch.py` |
 | GV-4.2 | Org teams document risks/impacts they identify | ✅ Risk-register tuples + impact assessment | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | GV-4.3 | Org practices enable testing, incident response, recovery | ✅ Test framework + kill-switch + incident-response primitives | `hummbl_governance/kill_switch.py`, `.github/workflows/ci.yml` |
 
@@ -69,14 +69,14 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| GV-5.1 | Org policies + practices for engagement with relevant AI actors | 🟡 Partial: actor-engagement tuples; engagement program is org | |
-| GV-5.2 | Mechanisms for receiving + integrating feedback from external groups | 🟡 Partial: feedback-intake tuples; external program is org | |
+| GV-5.1 | Org policies + practices for engagement with relevant AI actors | 🟡 Partial: actor-engagement tuples; engagement program is org | `hummbl_governance/coordination_bus.py` |
+| GV-5.2 | Mechanisms for receiving + integrating feedback from external groups | 🟡 Partial: feedback-intake tuples; external program is org | `hummbl_governance/coordination_bus.py` |
 
 ### GOVERN 6 — Address risks from third-party software/data/AI (govern.6.1–6.2)
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| GV-6.1 | Policies/procedures for risk inventories from third-party entities | 🟡 Partial: supplier-DCT tuples + SBOM; vendor mgmt program is org | |
+| GV-6.1 | Policies/procedures for risk inventories from third-party entities | 🟡 Partial: supplier-DCT tuples + SBOM; vendor mgmt program is org | `hummbl_governance/delegation.py`, `hummbl_governance/audit_log.py` |
 | GV-6.2 | Contingency processes for failures from third-party data/AI/services | ✅ Circuit-breaker + fallback primitives | `hummbl_governance/circuit_breaker.py` |
 
 ## MAP — Context, categorization, impact
@@ -89,8 +89,8 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 | MP-1.2 | Inter-disciplinary AI actors collaborate | 🟡 Partial: coordination-bus enables actor collaboration; team composition is org | `hummbl_governance/coordination_bus.py` |
 | MP-1.3 | Org's mission + relevant goals understood | ⚪ Boundary: org strategy | |
 | MP-1.4 | Business value clearly defined | ⚪ Boundary: business case | |
-| MP-1.5 | Org risk tolerances determined | ⚪ Boundary: risk-tolerance policy | |
-| MP-1.6 | System requirements (cost-benefit) elicited from stakeholders | 🟡 Partial: requirements tuples; stakeholder engagement is org | |
+| MP-1.5 | Org risk tolerances determined | 🟡 Partial: cost-governor budgets + kill-switch thresholds + circuit-breaker thresholds enforce risk tolerances; tolerance determination is org | `hummbl_governance/cost_governor.py`, `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
+| MP-1.6 | System requirements (cost-benefit) elicited from stakeholders | 🟡 Partial: requirements tuples; stakeholder engagement is org | `hummbl_governance/schema_validator.py` |
 
 ### MAP 2 — Categorization
 
@@ -98,14 +98,14 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 |---|---|---|---|
 | MP-2.1 | AI system task + method specifically defined | ✅ AI-system tuple with task/method fields | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
 | MP-2.2 | Information needs to AI system (data, infrastructure, knowledge) documented | ✅ Information-need tuple | `hummbl_governance/audit_log.py` |
-| MP-2.3 | Scientific integrity + technical-rigor considerations identified + documented | 🟡 Partial: scientific-integrity tuples; review practice is org | |
+| MP-2.3 | Scientific integrity + technical-rigor considerations identified + documented | 🟡 Partial: scientific-integrity tuples; review practice is org | `hummbl_governance/reasoning.py`, `hummbl_governance/audit_log.py` |
 
 ### MAP 3 — AI capabilities/usage/goals
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| MP-3.1 | Benefits assessed; system-task-method comparison documented | 🟡 Partial: comparison tuples; assessment is org judgment | |
-| MP-3.2 | Likelihood/magnitude of each adverse impact identified | 🟡 Partial: impact-likelihood tuple type; assessment is org | |
+| MP-3.1 | Benefits assessed; system-task-method comparison documented | 🟡 Partial: comparison tuples; assessment is org judgment | `hummbl_governance/audit_log.py` |
+| MP-3.2 | Likelihood/magnitude of each adverse impact identified | 🟡 Partial: impact-likelihood tuple type; assessment is org | `hummbl_governance/stride_mapper.py`, `hummbl_governance/audit_log.py` |
 | MP-3.3 | Targeted application scope specified + documented based on context-relevant constraints | ✅ Scope tuple + DCT scope binding | `hummbl_governance/delegation.py` |
 | MP-3.4 | Processes for operator + practitioner proficiency defined | ⚪ Boundary: org training | |
 | MP-3.5 | Processes for human oversight defined per system context | ✅ Human-in-loop DCT + kill-switch primitives | `hummbl_governance/delegation.py`, `hummbl_governance/kill_switch.py` |
@@ -114,15 +114,15 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| MP-4.1 | Approaches for mapping AI tech + legal risks documented | 🟡 Partial: risk-mapping tuples; legal mapping is org | |
+| MP-4.1 | Approaches for mapping AI tech + legal risks documented | 🟡 Partial: risk-mapping tuples; legal mapping is org | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/stride_mapper.py` |
 | MP-4.2 | Internal risk controls for components of AI system + third-party tech examined | ✅ Component risk tuple + supplier-DCT | `hummbl_governance/delegation.py`, `hummbl_governance/audit_log.py` |
 
 ### MAP 5 — Impacts on individuals/groups/society
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| MP-5.1 | Likelihood + magnitude of each negative impact (intentional/unintentional) examined | 🟡 Partial: negative-impact tuple; assessment is org | |
-| MP-5.2 | Practices + personnel for human-AI configurations defined | 🟡 Partial: config tuples; staffing is org | |
+| MP-5.1 | Likelihood + magnitude of each negative impact (intentional/unintentional) examined | 🟡 Partial: negative-impact tuple; assessment is org | `hummbl_governance/stride_mapper.py`, `hummbl_governance/audit_log.py` |
+| MP-5.2 | Practices + personnel for human-AI configurations defined | 🟡 Partial: config tuples; staffing is org | `hummbl_governance/delegation.py` |
 
 ## MEASURE — Measurement infrastructure
 
@@ -132,14 +132,14 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 |---|---|---|---|
 | MS-1.1 | Approaches + metrics for measurement identified | ✅ Metric-registry tuple + measurement-plan tuple | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
 | MS-1.2 | Appropriate evaluation tools/methods selected | ✅ Evaluation-method tuple + test-framework | `hummbl_governance/benchmark.py`, `.github/workflows/ci.yml` |
-| MS-1.3 | Internal experts review evaluations | 🟡 Partial: review tuples; expert engagement is org | |
+| MS-1.3 | Internal experts review evaluations | 🟡 Partial: review tuples; expert engagement is org | `hummbl_governance/audit_log.py`, `hummbl_governance/lifecycle.py` |
 
 ### MEASURE 2 — AI systems evaluated for trustworthy characteristics
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
 | MS-2.1 | Test sets, metrics, performance details documented | ✅ Test-set tuple + metric tuples | `hummbl_governance/benchmark.py`, `hummbl_governance/audit_log.py` |
-| MS-2.2 | Evaluations involving human subjects meet applicable requirements | 🟡 Partial: consent tuples; IRB is org | |
+| MS-2.2 | Evaluations involving human subjects meet applicable requirements | 🟡 Partial: consent tuples; IRB is org | `hummbl_governance/audit_log.py` |
 | MS-2.3 | AI system performance/assurance evaluated regularly | ✅ Regular-evaluation tuples + CI integration | `.github/workflows/ci.yml`, `hummbl_governance/benchmark.py` |
 | MS-2.4 | Deployment-context-relevant performance evaluations performed | ✅ Deployment-context tuple + per-context metrics | `hummbl_governance/audit_log.py`, `hummbl_governance/lifecycle.py` |
 | MS-2.5 | AI system valid + reliable, capability demonstrated | ✅ Validity-evidence tuples + 927-test corpus | `.github/workflows/ci.yml`, `hummbl_governance/benchmark.py` |
@@ -148,8 +148,8 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 | MS-2.8 | Risks associated with transparency + accountability examined + documented | ✅ Transparency-eval tuple + accountability-chain audit | `hummbl_governance/audit_log.py`, `hummbl_governance/delegation.py` |
 | MS-2.9 | AI model explained; identifications of model + behavior | ✅ Reasoning-engine explanations + model/behavior audit tuples | `hummbl_governance/reasoning.py`, `hummbl_governance/audit_log.py` |
 | MS-2.10 | Privacy risk of AI system examined + documented | ✅ Privacy-risk tuple (cross-ref GDPR matrix) | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
-| MS-2.11 | Fairness + bias evaluated, documented + informed by input | 🟡 Partial: fairness-eval tuple; evaluation methodology is org choice | |
-| MS-2.12 | Environmental impact + sustainability evaluated + documented | 🟡 Partial: compute-cost tuple; environmental program is org | |
+| MS-2.11 | Fairness + bias evaluated, documented + informed by input | 🟡 Partial: fairness-eval tuple; evaluation methodology is org choice | `hummbl_governance/audit_log.py`, `hummbl_governance/output_validator.py` |
+| MS-2.12 | Environmental impact + sustainability evaluated + documented | 🟡 Partial: compute-cost tuple; environmental program is org | `hummbl_governance/cost_governor.py`, `hummbl_governance/audit_log.py` |
 | MS-2.13 | Mechanisms in place to assess effectiveness | ✅ Effectiveness-assessment tuple | `hummbl_governance/audit_log.py`, `hummbl_governance/benchmark.py` |
 
 ### MEASURE 3 — Mechanisms for tracking AI risk + impact
@@ -158,14 +158,14 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 |---|---|---|---|
 | MS-3.1 | Approaches/procedures for identifying AI risks documented | ✅ Risk-identification runbook + tuple types | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | MS-3.2 | Risk-tracking approaches considered for emergent risks | ✅ Emergent-risk tuple + monitoring primitives | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
-| MS-3.3 | Feedback processes for end-users + impacted communities documented | 🟡 Partial: feedback tuples; community-engagement program is org | |
+| MS-3.3 | Feedback processes for end-users + impacted communities documented | 🟡 Partial: feedback tuples; community-engagement program is org | `hummbl_governance/coordination_bus.py` |
 
 ### MEASURE 4 — Feedback informs measurement
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| MS-4.1 | Measurement approaches reviewed regularly to ensure effectiveness | 🟡 Partial: review tuples; review-cadence is org policy | |
-| MS-4.2 | Measurement results assessed for validity, reliability, relevance | 🟡 Partial: validity-assessment tuple; expert judgment is org | |
+| MS-4.1 | Measurement approaches reviewed regularly to ensure effectiveness | 🟡 Partial: review tuples; review-cadence is org policy | `hummbl_governance/health_probe.py`, `hummbl_governance/lifecycle.py` |
+| MS-4.2 | Measurement results assessed for validity, reliability, relevance | 🟡 Partial: validity-assessment tuple; expert judgment is org | `hummbl_governance/audit_log.py` |
 | MS-4.3 | Measurable performance improvements detected via feedback | ✅ Improvement-detection tuple | `hummbl_governance/audit_log.py`, `hummbl_governance/benchmark.py` |
 
 ## MANAGE — Risks prioritized + acted upon
@@ -183,8 +183,8 @@ NIST AI RMF organizes around 4 Functions (GOVERN, MAP, MEASURE, MANAGE), each wi
 
 | ID | Subcategory | Coverage | Evidence |
 |---|---|---|---|
-| MG-2.1 | Resources for managing risks allocated, regularly updated | 🟡 Partial: resource-allocation tuples; budget is org | |
-| MG-2.2 | Mechanisms in place + applied to sustain AI system value | 🟡 Partial: monitoring + improvement primitives; value-mgmt is org | |
+| MG-2.1 | Resources for managing risks allocated, regularly updated | 🟡 Partial: resource-allocation tuples; budget is org | `hummbl_governance/cost_governor.py` |
+| MG-2.2 | Mechanisms in place + applied to sustain AI system value | 🟡 Partial: monitoring + improvement primitives; value-mgmt is org | `hummbl_governance/health_probe.py`, `hummbl_governance/lifecycle.py` |
 | MG-2.3 | Procedures in place + followed for system-replacement decisions | ✅ Replacement-decision tuple + decommission primitives | `hummbl_governance/lifecycle.py`, `hummbl_governance/audit_log.py` |
 | MG-2.4 | Procedures in place + followed to respond + recover from previously unknown risks | ✅ Unknown-risk-response tuple + kill-switch escalation | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 

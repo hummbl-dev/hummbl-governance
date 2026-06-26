@@ -32,14 +32,14 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 | VI | Innovation measures (regulatory sandboxes) | Art. 57–63 | 0 | 2 | 5 | 0 |
 | VII | Governance (EU AI Office, AI Board) | Art. 64–70 | 0 | 0 | 7 | 0 |
 | VIII | EU database for high-risk systems | Art. 71 | 0 | 1 | 0 | 0 |
-| IX | Post-market monitoring, info-sharing, market surveillance | Art. 72–94 | 4 | 4 | 15 | 0 |
+| IX | Post-market monitoring, info-sharing, market surveillance | Art. 72–94 | 4 | 6 | 13 | 0 |
 | X | Codes of conduct | Art. 95 | 1 | 0 | 0 | 0 |
 | XI | Delegation of power, committee | Art. 96–98 | 0 | 0 | 3 | 0 |
 | XII | Penalties | Art. 99–101 | 0 | 0 | 3 | 0 |
 | XIII | Final provisions | Art. 102–113 | 0 | 0 | 12 | 0 |
-| **Article totals** | | **113 articles** | **19** | **22** | **72** | **0** |
+| **Article totals** | | **113 articles** | **19** | **24** | **70** | **0** |
 | **Annex totals** | | **13 annexes** | **6** | **3** | **4** | **0** |
-| **Grand totals** | | **126 rows** | **25** | **25** | **76** | **0** |
+| **Grand totals** | | **126 rows** | **25** | **27** | **74** | **0** |
 
 **Annexes**: 13 annexes. Annex I (high-risk list, NLF), Annex II (criminal offences for biometric ID), Annex III (high-risk use cases — 8 areas), Annex IV (technical documentation), Annex V (EU declaration of conformity), Annex VI–VII (conformity assessment procedures), Annex VIII (registration info), Annex IX (registration for law enforcement), Annex X (legislative acts), Annex XI–XII (GPAI documentation), Annex XIII (criteria for GPAI systemic risk).
 
@@ -220,11 +220,11 @@ All boundary rows — institutional structure of the EU AI governance ecosystem.
 | Article | Topic | HUMMBL coverage | Evidence |
 |---|---|---|---|
 | Art. 88 | Enforcement of obligations of providers of GPAI models | ⚪ Boundary: Commission enforcement. | |
-| Art. 89 | Monitoring actions | ⚪ Boundary: Commission monitoring. | |
+| Art. 89 | Monitoring actions | 🟡 Partial: Commission monitoring powers are institutional. HUMMBL provides monitoring primitives (`health_probe.py` for system health/behavior monitoring, `audit_log.py` for evidence trail) that supply the monitoring data substrate the provider can share with the AI Office. Commission exercise of monitoring powers is boundary. | `hummbl_governance/health_probe.py`, `hummbl_governance/audit_log.py` |
 | Art. 90 | Alerts of systemic risks by the scientific panel | ⚪ Boundary: scientific panel mechanism. | |
 | Art. 91 | Power to request documentation and information | ✅ Documentation export on demand per Art. 21. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
-| Art. 92 | Power to conduct evaluations | 🟡 Partial: evaluation-run tuples accessible to Commission on request. | |
-| Art. 93 | Power to request measures | ⚪ Boundary: Commission power. | |
+| Art. 92 | Power to conduct evaluations | 🟡 Partial: evaluation-run tuples accessible to Commission on request. HUMMBL provides evaluation governance via `audit_log.py` (evaluation-result evidence trail) and `compliance_mapper.py` (documentation export). Commission's power to conduct independent evaluations is boundary. | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
+| Art. 93 | Power to request measures | 🟡 Partial: Commission's power to request corrective measures is institutional. HUMMBL provides corrective-measure primitives (`kill_switch.py` for immediate disable, `circuit_breaker.py` for automatic escalation) that the provider can implement in response to Commission requests. Commission's exercise of power is boundary. | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 | Art. 94 | Procedural rights of economic operators of the GPAI model | ⚪ Boundary: due-process right. | |
 
 ## Chapter X — Codes of conduct and guidelines (Art. 95)

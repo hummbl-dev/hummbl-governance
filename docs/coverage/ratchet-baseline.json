@@ -1,7 +1,7 @@
 {
-  "validated_count": 1099,
-  "fulfilled_count": 1099,
-  "validated_pct": 100.0,
+  "validated_count": 1242,
+  "fulfilled_count": 1244,
+  "validated_pct": 99.8,
   "validated_rows": [
     {
       "matrix": "arizona-hb2394.md",
@@ -1560,6 +1560,174 @@
       "control_id": "Art. 33"
     },
     {
+      "matrix": "ieee-3119.md",
+      "control_id": "Define AI use case, problem statement, and intended purpose before solicitation"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Determine whether the AI system constitutes high-risk (consequential decisions with significant impacts)"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Perform preliminary AI system impact assessment during problem framing"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Define AI-specific technical requirements including data transparency and governance maturity"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Specify data requirements including provenance, quality, and transparency obligations"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Assess vendor competence, awareness, and AI risk management practices"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Evaluate vendor resources, tooling, and documented information for AI system support"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Identify and analyze vendor-side AIS risks unique to the proposed solution"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Evaluate technical solution against defined requirements and intended use"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Conduct AI system impact assessment on individuals, groups, and society"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Evaluate, prioritize, and document solution-specific AIS risks"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Assess data quality, provenance, and preparation methodology"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Evaluate solution transparency, documentation, and communication adequacy"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Define AI risk treatment terms and mitigation obligations in contract"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Establish monitoring, measurement, analysis, and evaluation requirements"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Define nonconformity and corrective-action obligations for vendor"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Allocate responsibility between buyer and vendor via contractual delegation"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Continuously monitor AI system performance and operational behavior"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Reassess AI risks including emergent and changing regulatory risks"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Control documented information and manage changes to AI system"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Conduct internal audits and management reviews of procured AI system"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Respond to nonconformity with corrective action and track to resolution"
+    },
+    {
+      "matrix": "ieee-3119.md",
+      "control_id": "Monitor AI system impact assessment and update as context evolves"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L1: Provide user manual documenting how the system behaves in different circumstances"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L3: Equip system with \"why did you just do that?\" function providing natural-language explanation of previous action"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L4: Equip system with \"what would you do if…?\" counterfactual explanation function (L5 not defined for this group)"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L1: System identifies itself as an autonomous system at start of any interaction (Turing Red Flag)"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L2: System provides warnings and information about data collected or recorded from bystanders"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L3: Publicly available documentation including system purpose and operator contact information"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L1: Provide list of specifications and verified attributes of the system"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L2: Provide evidence of verification and validation processes"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L1: Equip physical system with recording device for capture/playback; software system records input and output"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L2: Data logging system recording date/time-stamped sensor inputs, user commands, and actuator outputs"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L3: Data logging conforms to an open or industry standard and additionally logs high-level decisions"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L4: Data logger also records the reasons for high-level decisions"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L2: System has been subjected to an ethical risk assessment, available to lawyers/expert witnesses"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L3: Ethical risk assessment and control — documented risk treatments and mitigations"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "L4–5: Full-process audit tracking — complete traceability from design through operation"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "System Transparency Assessment (STA): assess transparency of existing systems across all five stakeholder groups, reported via multi-element compliance description (not a simple \"compliant\" statement)"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "System Transparency Specification (STS): define target transparency levels prior to or during design"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "Ethical risk assessment to guide selection of appropriate transparency levels per stakeholder group"
+    },
+    {
+      "matrix": "ieee-7001.md",
+      "control_id": "Iterative evaluation: reassess transparency after major updates or operational changes"
+    },
+    {
       "matrix": "illinois-hb3773.md",
       "control_id": "\"Artificial intelligence\" definition — machine-based system that infers from input to generate outputs (predictions, content, recommendations, decisions); includes generative AI"
     },
@@ -1698,6 +1866,50 @@
     {
       "matrix": "india-dpdp.md",
       "control_id": "Penalty determination considers nature, gravity, duration, mitigation, and proportionality (S.33(2))"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Clearly and conspicuously disclose to minor account holders that they are interacting with AI (persistent visible disclaimer, or beginning-of-interaction + at least once every 3 hours)"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent producing visual depictions of sexually explicit material for minor account holders"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent stating that a minor account holder should engage in sexually explicit conduct"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent sexually objectifying a minor account holder"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent explicit claims that the conversational AI service is sentient or human"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent statements simulating emotional dependence on a minor account holder"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent statements simulating romantic interaction or sexual innuendo with a minor"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Reasonable measures to prevent role-playing an adult-minor romantic relationship"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Clearly and conspicuously disclose via persistent visible disclaimer, or a disclaimer appearing after every 3 hours of continuous interaction, that the service is AI — when a reasonable individual would believe they are interacting with a human"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Adopt protocols for responding to user prompts regarding suicidal ideation or self-harm"
+    },
+    {
+      "matrix": "iowa-sf2417.md",
+      "control_id": "Do not knowingly and intentionally cause or program the service to make representations that it provides professional psychology or behavioral health services requiring licensure under ch. 154B or 154D"
     },
     {
       "matrix": "ireland-eu-ai-designation.md",
@@ -2040,6 +2252,38 @@
       "control_id": "Human-in/on/over-the-loop (§5.13) — degrees of human involvement in AI system operation"
     },
     {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Define the task — establish goals, requirements, input/output formats for the ML system (6.1–6.2)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "System validation — verify trained model meets stakeholder needs and initial environmental assumptions (8.5)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Operation — model used in batch or continuous mode on production data; outputs sent to applications or humans (8.7)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Monitoring — detect data drift, concept drift, poor generalization; continuous-learning monitoring with guard-rails (8.7)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Risk management and governance — applies across entire ML pipeline (8.1)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Security and privacy — applies across entire ML pipeline (8.1)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Accountability, transparency, and explainability — applies across entire ML pipeline (8.1)"
+    },
+    {
+      "matrix": "iso-iec-23053.md",
+      "control_id": "Safety, resilience, robustness, and fairness — applies across entire ML pipeline (8.1)"
+    },
+    {
       "matrix": "iso-iec-23894.md",
       "control_id": "Inclusive (Cl. 4) — stakeholders help identify risks in data collection, define fairness criteria, identify bias, determine human-oversight needs"
     },
@@ -2188,6 +2432,82 @@
       "control_id": "6.7.5 — Implement controls to manage identified risks"
     },
     {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.1 Establish a structured, consistent AIIA process tailored to organizational context (internal and external factors)"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.2 Document the AIIA process including methodology, roles, inputs, outputs, and decision-making workflow"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.3 Integrate AIIA with existing organizational governance, risk management, and compliance processes"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.4 Define timing of assessments — at design, pre-deployment, and after major system changes"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.5 Define scope of each AIIA — which AI systems, components, uses, and stakeholders are covered"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.6 Allocate responsibilities for performing, reviewing, and approving assessments across multidisciplinary teams"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.8 Perform assessment systematically — identify impacts, potential harms, and benefits across dimensions (human rights, safety, security, fairness, autonomy, socioeconomic well-being)"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.9 Analyse results — evaluate severity and likelihood of identified impacts, considering vulnerability of affected parties and reversibility of harm"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.10 Record and report findings, mitigation measures, and approvals for transparency and audit readiness"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.11 Define approval workflows and authority levels for impact assessment outcomes"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "5.12 Implement ongoing monitoring and periodic review to keep assessments current as AI systems or context evolve"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.2 Document the scope of the AI system impact assessment"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.3 Document AI system information — description, functionalities, capabilities, purpose, intended uses, and unintended (reasonably foreseeable) uses"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.4 Document data information and quality — sources, quality characteristics, and data documentation"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.5 Document algorithm and model information — algorithms used, development history, model versioning"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.7 Identify relevant interested parties — directly and indirectly affected stakeholders"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.8 Document actual and reasonably foreseeable impacts — harms, benefits, and potential misuse scenarios"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "6.9 Record measures to address harms and maximize benefits — mitigation actions, design changes, and enhancement plans"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "Annex C: Apply Harms and Benefits Taxonomy to systematically categorize identified impacts"
+    },
+    {
       "matrix": "iso-iec-5338.md",
       "control_id": "6.2.5–6.2.6 Quality + knowledge management — quality policies and institutional knowledge for AI"
     },
@@ -2246,6 +2566,82 @@
     {
       "matrix": "iso-iec-5338.md",
       "control_id": "6.4.17 Disposal process — decommissioning and retirement of the AI system"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Identify AI application context — where, why, who, when of the application (Cl. 5.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Identify AI stakeholders and their roles across the AI system life cycle (Cl. 5.3.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Define processes for stakeholder engagement across life-cycle stages (Cl. 5.3.4)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Validity and reliability of AI application outputs (Cl. 5.5.2.2–5.5.2.3, 5.5.2.9)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Safety of AI application — prevent harm to users and subjects (Cl. 5.5.2.4)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Security and resilience of the AI application (Cl. 5.5.2.4)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Accountability — trace actions to responsible parties (Cl. 5.5.2.8)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Transparency — disclose AI use, capabilities, and limitations (Cl. 5.5.2.8)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Explainability and interpretability of AI application decisions (Cl. 5.5.2.x)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Establish risk management system for the AI application (Cl. 5.5.3)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Identify, assess, and mitigate risks across the life cycle (Cl. 5.5.3)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI producer should identify customers, users, and stakeholders for the application (Cl. 7.1.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI producer should manage data sources, quality, and provenance (Cl. 7.1.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI application provider should define deployment mode and technical infrastructure (Cl. 7.1.5)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI producer should address trustworthiness and risk concerns in production (Cl. 7.1.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI customer should verify AI application meets requirements (Cl. 7.2.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI user should understand AI application capabilities and limitations (Cl. 7.2.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "AI customer should monitor AI application performance during operation (Cl. 7.2.2)"
+    },
+    {
+      "matrix": "iso-iec-5339.md",
+      "control_id": "Monitor evolving impacts over time due to data or legal-environment changes (Cl. 7.3)"
     },
     {
       "matrix": "italy-law-132-2025.md",
@@ -2664,6 +3060,58 @@
       "control_id": "Ensure transparency of high-risk AI system operation to deployers (EU AI Act Art. 13 via national operationalization)"
     },
     {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Identify whether system qualifies as \"artificial intelligence chatbot\" (software simulating human conversation via textual or aural communication)"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Maintain inventory of chatbot deployments engaging with consumers in trade/commerce"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Prohibition on using AI chatbot to mislead or deceive a reasonable consumer into believing they are engaging with a human"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Notify consumer in a clear and conspicuous manner that they are not engaging with a human being"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Provide disclosure for textual (chat/messaging) AI chatbot communications"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Provide disclosure for aural (voice/speech) AI chatbot communications"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Ensure disclosure is presented before or at the outset of consumer engagement"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Maintain disclosure persistence throughout the chatbot interaction session"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Halt or block chatbot output if disclosure has not been delivered to the consumer"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Provide consumer transparency regarding automated nature of interaction"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Log disclosure delivery events for audit and consumer-complaint response"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Enable consumer to request human escalation after AI disclosure"
+    },
+    {
+      "matrix": "maine-ai-chatbot.md",
+      "control_id": "Retain disclosure-delivery records for enforcement response and statute-of-limitations window"
+    },
+    {
       "matrix": "malaysia-aige-guidelines.md",
       "control_id": "Design AI systems to avoid bias and discrimination, including unintentional biases in data processing"
     },
@@ -2934,6 +3382,42 @@
     {
       "matrix": "mexico-chapultepec-principles.md",
       "control_id": "Right to information must not be compromised by automation mechanisms"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Prohibition on classifying persons by behavior, socio-economic status, or personal characteristics resulting in unlawful discrimination"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Prohibition on real-time/remote biometric identification for public-space surveillance, except law enforcement with a warrant"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Prohibition on deepfakes used for deceptive or malicious purposes"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Human review of irreversible AI recommendations/decisions before they take effect"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Human review required for irreversible decisions affecting rights/freedoms, biometric ID, critical infrastructure, law enforcement, and sentencing/ statutory interpretation"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Disclosure that unreviewed generative-AI content was AI-generated"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Notify users they are interacting with an AI system (directly or indirectly)"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Review all AI use in agency computer systems within 9 months; remove prohibited systems"
+    },
+    {
+      "matrix": "new-hampshire-ch5d.md",
+      "control_id": "Newly deployed AI systems must comply with chapter and DoIT code of ethics"
     },
     {
       "matrix": "nist-ai-rmf.md",
@@ -3312,6 +3796,62 @@
       "control_id": "RC.RP-06"
     },
     {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Establish Agency AI Oversight Teams with min. 4 members possessing business, policy, and technical expertise"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Accelerator assesses use cases for strategic alignment, potential impact, and risk"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Agencies must maintain inventory of AI tools/applications (types of AI, users, purposes)"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Accelerator defines what constitutes a high-risk AI use case (sensitive data, critical sectors, interconnected systems)"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Agencies must use the NIST AI RMF for risk assessment of AI use cases"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Accelerator develops a risk-assessment framework for AI use cases that agencies use when submitting proposals"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Monitor AI activities across state agencies to track AI-related risks across the use-case inventory"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Develop AI Governance Framework with principles: fairness, accountability, transparency, security, privacy, civil liberties"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Identify and standardize state-wide definitions for AI and Generative AI"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Track training-program participation and outcomes for the state workforce"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Develop and enforce IP and data-protection frameworks to safeguard sensitive information and define ownership of AI-generated outputs"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Protect sensitive data provided to the state by North Carolinians (privacy, data-protection risks)"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Provide guidance on safeguarding public safety and critical infrastructure from AI-related risks, including misuse or failure in high-impact systems"
+    },
+    {
+      "matrix": "north-carolina-eo24.md",
+      "control_id": "Ensure transparency, accountability, and security in state AI initiatives and partnerships"
+    },
+    {
       "matrix": "nyc-ll144.md",
       "control_id": "Audit must include: selection rates per category, impact ratios per category, number of individuals assessed"
     },
@@ -3590,6 +4130,38 @@
     {
       "matrix": "saudi-arabia-ai-strategy.md",
       "control_id": "Protect personal data per PDPL in AI systems; minimize data collection and apply strong security controls"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Remove technologies never obtained or no longer used from the Inventory"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose technology name, vendor, purpose, function, intended use, and context/domain (items 1–4)"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose training data, how the technology works, and output data (items 5–7)"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose optimization goals, accuracy, optimal performance conditions, and degrading conditions (items 8–10)"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose whether bias testing has been performed (race, gender, etc.) and the results (item 11)"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose testing conditions/circumstances and adverse incident monitoring and communication procedures (items 13–14)"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose level of human oversight and whether data can be used for training proprietary/third-party systems (items 15–16)"
+    },
+    {
+      "matrix": "sf-ai-inventory-ordinance.md",
+      "control_id": "Disclose intended users, affected communities, rights/opportunity/access impacts, accessibility, workforce impacts, use justification, and identified risks and mitigations (items 17–22)"
     },
     {
       "matrix": "singapore-ai-verify.md",

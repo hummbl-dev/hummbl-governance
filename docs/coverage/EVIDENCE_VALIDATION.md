@@ -9,11 +9,11 @@ For each Fulfilled row in every coverage matrix, the validator extracts backtick
 
 Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled rows are public claim support ONLY when their Evidence column points to a validated runnable command or resolvable artifact. Rows without resolved evidence remain DRAFT until hardened.
 
-## Aggregate (as of 2026-06-25)
+## Aggregate (as of 2026-06-26)
 
-- **1099 Fulfilled rows** across 64 matrices
-- **1099 rows validated** (100.0%) — refs fully resolve
-- **0 rows fail validation** — hardening gap
+- **1244 Fulfilled rows** across 74 matrices
+- **1242 rows validated** (99.8%) — refs fully resolve
+- **2 rows fail validation** — hardening gap
 - **0 rows carry NO evidence references** at all (subset of failing)
 
 Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this report quantifies the residual hardening work.
@@ -44,28 +44,37 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`eu-ai-act.md`](./eu-ai-act.md) | 19 | 19 | 100.0% | 0 |
 | [`g7-ai-code.md`](./g7-ai-code.md) | 5 | 5 | 100.0% | 0 |
 | [`gdpr.md`](./gdpr.md) | 21 | 21 | 100.0% | 0 |
+| [`ieee-3119.md`](./ieee-3119.md) | 23 | 23 | 100.0% | 0 |
+| [`ieee-7001.md`](./ieee-7001.md) | 19 | 19 | 100.0% | 0 |
 | [`illinois-hb3773.md`](./illinois-hb3773.md) | 12 | 12 | 100.0% | 0 |
 | [`imda-agentic.md`](./imda-agentic.md) | 7 | 7 | 100.0% | 0 |
 | [`india-dpdp.md`](./india-dpdp.md) | 16 | 16 | 100.0% | 0 |
+| [`iowa-sf2417.md`](./iowa-sf2417.md) | 11 | 11 | 100.0% | 0 |
 | [`ireland-eu-ai-designation.md`](./ireland-eu-ai-designation.md) | 2 | 2 | 100.0% | 0 |
 | [`iso-27001.md`](./iso-27001.md) | 35 | 35 | 100.0% | 0 |
 | [`iso-42001.md`](./iso-42001.md) | 25 | 25 | 100.0% | 0 |
 | [`iso-iec-22989.md`](./iso-iec-22989.md) | 23 | 23 | 100.0% | 0 |
+| [`iso-iec-23053.md`](./iso-iec-23053.md) | 8 | 8 | 100.0% | 0 |
 | [`iso-iec-23894.md`](./iso-iec-23894.md) | 19 | 19 | 100.0% | 0 |
 | [`iso-iec-38507.md`](./iso-iec-38507.md) | 18 | 18 | 100.0% | 0 |
+| [`iso-iec-42005.md`](./iso-iec-42005.md) | 21 | 19 | 90.5% | 0 |
 | [`iso-iec-5338.md`](./iso-iec-5338.md) | 15 | 15 | 100.0% | 0 |
+| [`iso-iec-5339.md`](./iso-iec-5339.md) | 19 | 19 | 100.0% | 0 |
 | [`italy-law-132-2025.md`](./italy-law-132-2025.md) | 27 | 27 | 100.0% | 0 |
 | [`japan-ai-act.md`](./japan-ai-act.md) | 5 | 5 | 100.0% | 0 |
 | [`kazakhstan-ai-law.md`](./kazakhstan-ai-law.md) | 25 | 25 | 100.0% | 0 |
 | [`kentucky-krs42731.md`](./kentucky-krs42731.md) | 21 | 21 | 100.0% | 0 |
 | [`latvia-ai-centre-law.md`](./latvia-ai-centre-law.md) | 14 | 14 | 100.0% | 0 |
 | [`lithuania-ai-act.md`](./lithuania-ai-act.md) | 12 | 12 | 100.0% | 0 |
+| [`maine-ai-chatbot.md`](./maine-ai-chatbot.md) | 13 | 13 | 100.0% | 0 |
 | [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) | 26 | 26 | 100.0% | 0 |
 | [`malta-ai-regulations.md`](./malta-ai-regulations.md) | 11 | 11 | 100.0% | 0 |
 | [`maryland-sb818.md`](./maryland-sb818.md) | 15 | 15 | 100.0% | 0 |
 | [`mexico-chapultepec-principles.md`](./mexico-chapultepec-principles.md) | 16 | 16 | 100.0% | 0 |
+| [`new-hampshire-ch5d.md`](./new-hampshire-ch5d.md) | 9 | 9 | 100.0% | 0 |
 | [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 38 | 38 | 100.0% | 0 |
 | [`nist-csf.md`](./nist-csf.md) | 56 | 56 | 100.0% | 0 |
+| [`north-carolina-eo24.md`](./north-carolina-eo24.md) | 14 | 14 | 100.0% | 0 |
 | [`nyc-ll144.md`](./nyc-ll144.md) | 6 | 6 | 100.0% | 0 |
 | [`oecd-ai-principles.md`](./oecd-ai-principles.md) | 15 | 15 | 100.0% | 0 |
 | [`owasp-agentic.md`](./owasp-agentic.md) | 6 | 6 | 100.0% | 0 |
@@ -73,6 +82,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`peru-law-31814.md`](./peru-law-31814.md) | 22 | 22 | 100.0% | 0 |
 | [`rwanda-ai-policy.md`](./rwanda-ai-policy.md) | 7 | 7 | 100.0% | 0 |
 | [`saudi-arabia-ai-strategy.md`](./saudi-arabia-ai-strategy.md) | 6 | 6 | 100.0% | 0 |
+| [`sf-ai-inventory-ordinance.md`](./sf-ai-inventory-ordinance.md) | 8 | 8 | 100.0% | 0 |
 | [`singapore-ai-verify.md`](./singapore-ai-verify.md) | 14 | 14 | 100.0% | 0 |
 | [`singapore-model-ai-governance.md`](./singapore-model-ai-governance.md) | 28 | 28 | 100.0% | 0 |
 | [`slovenia-ai-act.md`](./slovenia-ai-act.md) | 9 | 9 | 100.0% | 0 |
@@ -86,7 +96,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) | 4 | 4 | 100.0% | 0 |
 | [`vermont-act101.md`](./vermont-act101.md) | 5 | 5 | 100.0% | 0 |
 | [`virginia-hb714.md`](./virginia-hb714.md) | 14 | 14 | 100.0% | 0 |
-| **TOTAL** | **1099** | **1099** | **100.0%** | **0** |
+| **TOTAL** | **1244** | **1242** | **99.8%** | **0** |
 
 ## How to harden a row
 
@@ -105,6 +115,13 @@ python scripts/build_evidence_validation_report.py
 ```
 
 ## Failing rows by matrix
+
+### iso-iec-42005.md
+
+| Line | Control | Status | Detail |
+|---:|---|---|---|
+| 70 | Annex A: Integrate AIIA process with ISO/IEC 42001 | fail | 1 of 2 refs unresolved |
+| 71 | Annex B: Align AIIA with ISO/IEC 23894 AI risk man | fail | 1 of 3 refs unresolved |
 
 ---
 
