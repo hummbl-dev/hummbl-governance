@@ -130,14 +130,13 @@ jobs:
           PY
 
   coverage-matrix-validate:
-    name: coverage-matrix-validate (advisory)
+    name: coverage-matrix-validate
     runs-on: ubuntu-latest
-    # Advisory while matrices are DRAFT scaffolds per docs/coverage/README.md.
-    # The ratchet gate (below) prevents regression in validated evidence count.
-    # Flip continue-on-error to false once validated_pct >= 50% per ADR-001
-    # and the ratchet promotion threshold is reached.
+    # Ratchet gate promoted 2026-06-26: validated_pct reached 100.0% (1404/1404).
+    # Per ADR-007, continue-on-error flipped to false once promotion threshold
+    # (50%) was crossed. Ratchet baseline = 1404 validated rows.
     # Tracked by: hummbl-dev/hummbl-governance#128
-    continue-on-error: true
+    continue-on-error: false
     outputs:
       ratchet-result: ${{ steps.ratchet.outputs.ratchet_result }}
       validated-count: ${{ steps.ratchet.outputs.validated_count }}

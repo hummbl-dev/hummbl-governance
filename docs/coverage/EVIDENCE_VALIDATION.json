@@ -14379,10 +14379,10 @@
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 19,
-      "rows_failed": 2,
+      "rows_passed": 21,
+      "rows_failed": 0,
       "rows_without_refs": 0,
-      "coverage_pct": 90.5
+      "coverage_pct": 100.0
     },
     "rows": [
       {
@@ -14768,14 +14768,14 @@
             "detail": "file exists"
           },
           {
-            "ref": "iso-42001.md",
-            "path": "iso-42001.md",
-            "status": "fail",
-            "detail": "file not found"
+            "ref": "docs/coverage/iso-42001.md",
+            "path": "docs/coverage/iso-42001.md",
+            "status": "pass",
+            "detail": "file exists"
           }
         ],
-        "status": "fail",
-        "detail": "1 of 2 refs unresolved"
+        "status": "pass",
+        "detail": "all refs resolve"
       },
       {
         "control_id": "Annex B: Align AIIA with ISO/IEC 23894 AI risk management lifecycle",
@@ -14794,14 +14794,14 @@
             "detail": "file exists"
           },
           {
-            "ref": "iso-iec-23894.md",
-            "path": "iso-iec-23894.md",
-            "status": "fail",
-            "detail": "file not found"
+            "ref": "docs/coverage/iso-iec-23894.md",
+            "path": "docs/coverage/iso-iec-23894.md",
+            "status": "pass",
+            "detail": "file exists"
           }
         ],
-        "status": "fail",
-        "detail": "1 of 3 refs unresolved"
+        "status": "pass",
+        "detail": "all refs resolve"
       },
       {
         "control_id": "Annex C: Apply Harms and Benefits Taxonomy to systematically categorize identified impacts",
@@ -27694,10 +27694,10 @@
       "out_of_scope": 0
     },
     "fulfilled_validation": {
-      "rows_passed": 11,
-      "rows_failed": 1,
+      "rows_passed": 12,
+      "rows_failed": 0,
       "rows_without_refs": 0,
-      "coverage_pct": 91.7
+      "coverage_pct": 100.0
     },
     "rows": [
       {
@@ -27911,10 +27911,10 @@
         "line_no": 61,
         "refs": [
           {
-            "ref": "hummbl_governance/physical_governance.py",
-            "path": "hummbl_governance/physical_governance.py",
-            "status": "fail",
-            "detail": "file not found"
+            "ref": "hummbl_governance/physical_governor.py",
+            "path": "hummbl_governance/physical_governor.py",
+            "status": "pass",
+            "detail": "file exists"
           },
           {
             "ref": "hummbl_governance/capability_fence.py",
@@ -27923,8 +27923,8 @@
             "detail": "file exists"
           }
         ],
-        "status": "fail",
-        "detail": "1 of 2 refs unresolved"
+        "status": "pass",
+        "detail": "all refs resolve"
       },
       {
         "control_id": "Mitigate malicious use of AI and build resilience against cyber threats",

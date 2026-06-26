@@ -58,7 +58,7 @@ The Strategy applies to all AI-related work in Sweden — public administration,
 |---|---|---|
 | Ensure secure and competitive digital infrastructure including subsea cable expansion | ⚪ Boundary: physical-infrastructure buildout is governmental | |
 | Provide access to computing capacity (HPC) for AI training and inference | 🟡 Partial: cost-governor enforces compute budgets at agent level; national HPC provisioning is governmental | `hummbl_governance/cost_governor.py` |
-| Use AI to protect internal and external security and freedom of action (total defence) | ✅ Physical-governor + capability-fence constrain autonomous systems in safety-critical contexts | `hummbl_governance/physical_governance.py`, `hummbl_governance/capability_fence.py` |
+| Use AI to protect internal and external security and freedom of action (total defence) | ✅ Physical-governor + capability-fence constrain autonomous systems in safety-critical contexts | `hummbl_governance/physical_governor.py`, `hummbl_governance/capability_fence.py` |
 | Mitigate malicious use of AI and build resilience against cyber threats | ✅ Kill-switch 4-mode halt + circuit-breaker fast-fail for adversarial-trigger containment | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 | Address existential and safety risks from advanced AI development (AI Security Institute) | 🟡 Partial: reward-monitor + convergence-guard detect misaligned agent behaviour; institute funding is governmental | `hummbl_governance/reward_monitor.py`, `hummbl_governance/convergence_guard.py` |
 

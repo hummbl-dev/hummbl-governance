@@ -22,7 +22,7 @@
 - [x] 3 weak families patched with stronger representatives
 - [x] YAML object model converted to schema candidate with status/authority/evidence/gate fields
 - [x] Stack view reconciled with HUMMBL tier systems (control-layer stack is orthogonal to Set Grammar tiers: tier1_governance_core through tier4_semantic_identity)
-- [x] HUMMBL primitive crosswalk added (expanded from 25 to 40 primitives: 26 existing + 14 proposed from hummbl-primitive-expansion-v0.1.md; P27-P30 implemented 2026-07-14)
+- [x] HUMMBL primitive crosswalk added (expanded from 25 to 40 primitives: 26 existing + 14 proposed from hummbl-primitive-expansion-v0.1.md; P27-P31, P38 implemented 2026-07-14; K9-K11 wired into Kernel 2026-07-15)
 - [ ] HUMMBL translations reviewed against current primitive set (crosswalk added; full review pending)
 - [ ] Proposed YAML schema candidate validated against `docs/ecosystem/schemas/hummbl_object_envelope.schema.json` and `hummbl_governance/data/*.schema.json` conventions (pending tooling)
 - [ ] L-1 Admission layer cross-checked against `hummbl_governance/kernel/admission_control.py` and `hummbl_governance/data/admission_control.schema.json` (required gates: authority, executor, scope, evidence, receipt). `capability_fence` and `identity` are adjacent authorization/identity surfaces, not the admission primitive. (mapped in crosswalk; implementation validation pending)
@@ -677,18 +677,18 @@ Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxo
 | `rollback` (P28, NEW) | Governance Kernel | L4 Risk, L9 Operations | K9 reversibility: rollback path or irreversibility acceptance |
 | `recovery_verifier` (P29, NEW) | Governance Kernel | L8 Security, L9 Operations | K10 recovery: root-cause + operator approval before re-engagement |
 | `receipt_integrity_monitor` (P30, NEW) | Governance Kernel | L10 Receipts | K11 integrity: sequence gaps, hash chain breaks, retroactive insertion |
-| `contestability` (P31, PROPOSED) | Governance Ecology | L3 Governance, L6 Assurance | D6: affected parties can flag AI decisions for human review |
+| `contestability` (P31, IMPLEMENTED) | Governance Ecology | L3 Governance, L6 Assurance | D6: affected parties can flag AI decisions for human review |
 | `dispute_resolution` (P32, PROPOSED) | Governance Ecology | L3 Governance | Inter-agent conflict resolution |
 | `succession` (P33, PROPOSED) | Governance Ecology | L3 Governance | Authority transfer for governance continuity |
 | `authority_sweeper` (P34, PROPOSED) | Identity & Auth | L3 Governance, L9 Operations | Sweeps expired authority grants; revokes and notifies |
 | `regulator_export` (P35, PROPOSED) | Audit & Compliance | L5 Compliance | Regulator-ready evidence export (EU AI Act, SOC 2) |
 | `trust_adjuster` (P36, PROPOSED) | Identity & Auth | L3 Governance, L5 Compliance | Compliance-to-identity loop: violations reduce trust tier |
 | `treaty` (P37, PROPOSED) | Governance Ecology | L3 Governance | Inter-agent agreements with shared authority |
-| `doctrine_amendment` (P38, PROPOSED) | Governance Ecology | L3 Governance | D7: governs changes to invariants themselves |
+| `doctrine_amendment` (P38, IMPLEMENTED) | Governance Ecology | L3 Governance | D7: governs changes to invariants themselves |
 | `governance_fitness` (P39, PROPOSED) | Behavior & Health | L6 Assurance | Evaluates governance pattern effectiveness over time |
 | `draft_sweeper` (P40, PROPOSED) | Governance Kernel | L3 Governance | Tracks draft age; flags stale drafts for mandatory review |
 
-**Note:** The original 25-primitive crosswalk (audit P1-8) has been expanded to 40 primitives. P25 (`admission_control`) and P26 (`receipt_engine`) were already in the kernel but not counted in the original 25. P27-P40 are proposed primitives from `hummbl-primitive-expansion-v0.1.md`. P27-P30 are now implemented with schemas and tests. P31-P40 are not yet started.
+**Note:** The original 25-primitive crosswalk (audit P1-8) has been expanded to 40 primitives. P25 (`admission_control`) and P26 (`receipt_engine`) were already in the kernel but not counted in the original 25. P27-P40 are proposed primitives from `hummbl-primitive-expansion-v0.1.md`. P27-P31 and P38 are now implemented with schemas and tests. K9-K11 are wired into the Kernel (2026-07-15). P32-P37, P39-P40 are not yet started.
 
 **L-1 Admission primitive cross-check (audit P1-8 specific requirement):**
 
@@ -706,7 +706,7 @@ Maps the 40 hummbl-governance primitives (26 existing + 14 proposed) to the taxo
 | **CapabilityRegistry** | What capabilities are granted or withheld? | `capability_fence` | Mapped |
 | **AgentRegistry** | What agents may act, delegate, or mutate state? | `identity` | Mapped |
 
-**Crosswalk summary:** 40 of 40 primitives mapped to at least one control layer (26 existing + 14 proposed). 11 of 11 L-1 Admission surfaces now fully mapped — CanonRegistry gap closed by P27 implementation (2026-07-14). P28-P30 (Rollback, RecoveryVerifier, ReceiptIntegrityMonitor) add K9-K11 enforcement. P31-P40 are projected mappings pending implementation.
+**Crosswalk summary:** 40 of 40 primitives mapped to at least one control layer (26 existing + 14 proposed). 11 of 11 L-1 Admission surfaces now fully mapped — CanonRegistry gap closed by P27 implementation (2026-07-14). P28-P30 (Rollback, RecoveryVerifier, ReceiptIntegrityMonitor) add K9-K11 enforcement, wired into Kernel 2026-07-15. P31 (Contestability) and P38 (DoctrineAmendment) add D6-D7 enforcement. P32-P37, P39-P40 are projected mappings pending implementation.
 
 ### Admission sub-taxonomy (added 2026-07-14)
 

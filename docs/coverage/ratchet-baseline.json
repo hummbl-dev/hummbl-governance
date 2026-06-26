@@ -1,7 +1,7 @@
 {
-  "validated_count": 1401,
+  "validated_count": 1404,
   "fulfilled_count": 1404,
-  "validated_pct": 99.8,
+  "validated_pct": 100.0,
   "validated_rows": [
     {
       "matrix": "african-union-ai-strategy.md",
@@ -2785,6 +2785,14 @@
     },
     {
       "matrix": "iso-iec-42005.md",
+      "control_id": "Annex A: Integrate AIIA process with ISO/IEC 42001 AI management system to avoid duplication"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
+      "control_id": "Annex B: Align AIIA with ISO/IEC 23894 AI risk management lifecycle"
+    },
+    {
+      "matrix": "iso-iec-42005.md",
       "control_id": "Annex C: Apply Harms and Benefits Taxonomy to systematically categorize identified impacts"
     },
     {
@@ -5206,6 +5214,10 @@
     {
       "matrix": "sweden-ai-strategy.md",
       "control_id": "Improve data-driven approach and secure data-sharing capability in public administration"
+    },
+    {
+      "matrix": "sweden-ai-strategy.md",
+      "control_id": "Use AI to protect internal and external security and freedom of action (total defence)"
     },
     {
       "matrix": "sweden-ai-strategy.md",

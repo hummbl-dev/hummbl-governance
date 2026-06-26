@@ -67,8 +67,8 @@ ISO/IEC 42005:2025 applies to any organization developing, providing, or using A
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Annex A: Integrate AIIA process with ISO/IEC 42001 AI management system to avoid duplication | ✅ ISO crosswalk mapping + shared evidence substrate (cross-ref [`iso-42001.md`](./iso-42001.md)) | `hummbl_governance/compliance_mapper.py` |
-| Annex B: Align AIIA with ISO/IEC 23894 AI risk management lifecycle | ✅ Cross-framework risk mapping + STRIDE-to-risk-treatment bridge (cross-ref [`iso-iec-23894.md`](./iso-iec-23894.md)) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/stride_mapper.py` |
+| Annex A: Integrate AIIA process with ISO/IEC 42001 AI management system to avoid duplication | ✅ ISO crosswalk mapping + shared evidence substrate (cross-ref [`docs/coverage/iso-42001.md`](./iso-42001.md)) | `hummbl_governance/compliance_mapper.py` |
+| Annex B: Align AIIA with ISO/IEC 23894 AI risk management lifecycle | ✅ Cross-framework risk mapping + STRIDE-to-risk-treatment bridge (cross-ref [`docs/coverage/iso-iec-23894.md`](./iso-iec-23894.md)) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/stride_mapper.py` |
 | Annex C: Apply Harms and Benefits Taxonomy to systematically categorize identified impacts | ✅ STRIDE threat categories + impact-classification tuples covering bias, privacy, safety, security, economic, and benefit dimensions | `hummbl_governance/stride_mapper.py`, `hummbl_governance/compliance_mapper.py` |
 | Annex D: Align AIIA with other organizational assessments (privacy/DPIA, ethics, environmental) | 🟡 Partial: compliance-mapper supports cross-framework mapping and shared evidence; scheduling combined assessments and inter-team coordination is org task | `hummbl_governance/compliance_mapper.py` |
 

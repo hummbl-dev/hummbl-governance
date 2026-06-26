@@ -12,8 +12,8 @@ Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled row
 ## Aggregate (as of 2026-06-26)
 
 - **1404 Fulfilled rows** across 84 matrices
-- **1401 rows validated** (99.8%) — refs fully resolve
-- **3 rows fail validation** — hardening gap
+- **1404 rows validated** (100.0%) — refs fully resolve
+- **0 rows fail validation** — hardening gap
 - **0 rows carry NO evidence references** at all (subset of failing)
 
 Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this report quantifies the residual hardening work.
@@ -61,7 +61,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`iso-iec-23053.md`](./iso-iec-23053.md) | 8 | 8 | 100.0% | 0 |
 | [`iso-iec-23894.md`](./iso-iec-23894.md) | 19 | 19 | 100.0% | 0 |
 | [`iso-iec-38507.md`](./iso-iec-38507.md) | 18 | 18 | 100.0% | 0 |
-| [`iso-iec-42005.md`](./iso-iec-42005.md) | 21 | 19 | 90.5% | 0 |
+| [`iso-iec-42005.md`](./iso-iec-42005.md) | 21 | 21 | 100.0% | 0 |
 | [`iso-iec-5338.md`](./iso-iec-5338.md) | 15 | 15 | 100.0% | 0 |
 | [`iso-iec-5339.md`](./iso-iec-5339.md) | 19 | 19 | 100.0% | 0 |
 | [`israel-ai-program.md`](./israel-ai-program.md) | 16 | 16 | 100.0% | 0 |
@@ -98,7 +98,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`soc2.md`](./soc2.md) | 33 | 33 | 100.0% | 0 |
 | [`south-korea-ai-basic-act.md`](./south-korea-ai-basic-act.md) | 13 | 13 | 100.0% | 0 |
 | [`stride.md`](./stride.md) | 6 | 6 | 100.0% | 0 |
-| [`sweden-ai-strategy.md`](./sweden-ai-strategy.md) | 12 | 11 | 91.7% | 0 |
+| [`sweden-ai-strategy.md`](./sweden-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
 | [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) | 20 | 20 | 100.0% | 0 |
 | [`texas-traiga.md`](./texas-traiga.md) | 13 | 13 | 100.0% | 0 |
 | [`uk-ai-regulation-framework.md`](./uk-ai-regulation-framework.md) | 19 | 19 | 100.0% | 0 |
@@ -106,7 +106,7 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) | 4 | 4 | 100.0% | 0 |
 | [`vermont-act101.md`](./vermont-act101.md) | 5 | 5 | 100.0% | 0 |
 | [`virginia-hb714.md`](./virginia-hb714.md) | 14 | 14 | 100.0% | 0 |
-| **TOTAL** | **1404** | **1401** | **99.8%** | **0** |
+| **TOTAL** | **1404** | **1404** | **100.0%** | **0** |
 
 ## How to harden a row
 
@@ -125,19 +125,6 @@ python scripts/build_evidence_validation_report.py
 ```
 
 ## Failing rows by matrix
-
-### iso-iec-42005.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 70 | Annex A: Integrate AIIA process with ISO/IEC 42001 | fail | 1 of 2 refs unresolved |
-| 71 | Annex B: Align AIIA with ISO/IEC 23894 AI risk man | fail | 1 of 3 refs unresolved |
-
-### sweden-ai-strategy.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 61 | Use AI to protect internal and external security a | fail | 1 of 2 refs unresolved |
 
 ---
 
