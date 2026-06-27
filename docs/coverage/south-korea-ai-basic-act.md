@@ -52,7 +52,7 @@ The Act applies to AI business operators providing products or services in South
 | Obligation | Coverage | Evidence |
 |---|---|---|
 | Human rights impact assessment for high-impact AI (soft obligation — "should endeavor") | ✅ Impact-assessment template with human-rights component (cross-ref EU AI Act Art. 27 FRIA) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
-| Government agencies must prioritize impact-assessed high-impact AI systems | ⚪ Boundary: government procurement preference is organizational | |
+| Government agencies must prioritize impact-assessed high-impact AI systems | 🟡 Partial: impact-assessment tuples + compliance-mapper generate structured impact assessment evidence for high-impact AI systems; government procurement preference policy remains organizational | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 
 ### Domestic representative (Art. 36)
 
@@ -67,7 +67,7 @@ The Act applies to AI business operators providing products or services in South
 |---|---|---|
 | Extraterritorial application — conduct outside Korea with domestic impact is covered | ⚪ Boundary: jurisdictional scope is legal determination | |
 | Cooperate with government inspections and fact-finding investigations | 🟡 Partial: audit-log export + compliance-report generator supports inspection; cooperation act is org task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
-| Comply with MSIT corrective orders for transparency, safety, or reliability violations | ⚪ Boundary: regulatory-order compliance is organizational | |
+| Comply with MSIT corrective orders for transparency, safety, or reliability violations | 🟡 Partial: kill-switch + circuit-breaker provide corrective-action primitives for immediate response to regulatory orders; regulatory-order compliance process and MSIT reporting remain organizational | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
 
 ### Penalties (Arts. 42–43)
 

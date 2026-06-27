@@ -37,8 +37,8 @@ The Act applies to persons using generative AI in consumer transactions and regu
 | Create and administer AI Learning Laboratory Program | ⚪ Boundary: government-program administration is institutional | |
 | Consult with businesses and stakeholders on regulatory proposals | ⚪ Boundary: government-stakeholder consultation is institutional | |
 | Make rules for learning laboratory (procedures, criteria, data limits, disclosures, reporting) | ⚪ Boundary: government-rulemaking is institutional | |
-| Annual reporting to legislature on learning agenda, findings, regulatory mitigation, recommended legislation | ⚪ Boundary: government-legislative reporting is institutional | |
-| Develop and publish guidance and best practices for Utah consumers about AI | ⚪ Boundary: government-guidance publication is institutional | |
+| Annual reporting to legislature on learning agenda, findings, regulatory mitigation, recommended legislation | 🟡 Partial: compliance-mapper generates structured evidence reports on AI policy findings, regulatory mitigation activity, and recommended legislative changes; legislative submission remains institutional | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| Develop and publish guidance and best practices for Utah consumers about AI | 🟡 Partial: compliance-mapper documentation export produces AI governance guidance content and best-practice templates; publication and consumer-facing distribution remains institutional | `hummbl_governance/compliance_mapper.py` |
 
 ### Learning Laboratory Program (§ 13-72-301)
 

@@ -415,3 +415,24 @@ class Kernel:
                 r["sequence_id"] = r.get("sequence_id", 0) - 1
 
         return raise_on_integrity_violation(receipts, agent_id)
+
+    def validate_doctrine_amendment(self, amendment: dict[str, Any]) -> None:
+        """Validate a doctrine amendment with D7 enforcement.
+
+        Wraps DoctrineEngine.assert_invariant_change_gated() to enforce
+        D7 (DOCTRINE_AMENDMENT): no invariant or doctrine amendment may
+        take effect without operator approval, evidence, and a recorded
+        receipt. Ungated amendments raise KernelPanic.
+
+        Args:
+            amendment: A doctrine amendment record dict conforming to
+                doctrine_amendment.schema.json. Must have
+                authority.operator_approval=True, a non-empty approver_id,
+                at least one evidence reference, and a receipt with
+                receipt_hash.
+
+        Raises:
+            KernelPanic: With invariant=K8 (DOCTRINE) if the amendment
+                is ungated or missing required fields.
+        """
+        self.doctrine.assert_invariant_change_gated(amendment)

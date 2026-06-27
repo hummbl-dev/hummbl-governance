@@ -2,9 +2,9 @@
 
 ## Project
 
-**hummbl-governance** — Governance primitives for AI agent orchestration. v1.2.0, 1737 tests, zero third-party runtime dependencies.
+**hummbl-governance** — Governance primitives for AI agent orchestration. v1.2.0, 1827 tests, zero third-party runtime dependencies.
 
-Standalone Python package extracted from founder-mode. Provides 32 governance primitives across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel (K1-K11 invariants, D1-D7 doctrine invariants). Ships 7 MCP servers exposing all primitives as JSON-RPC tools.
+Standalone Python package extracted from founder-mode. Provides 34 governance primitives across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel (K1-K11 invariants, D1-D7 doctrine invariants). Ships 7 MCP servers exposing all primitives as JSON-RPC tools.
 
 ## Commands
 
@@ -14,12 +14,12 @@ pip install -e ".[test]"
 python -m pytest tests/ -v --cov=hummbl_governance --cov-fail-under=80
 ```
 
-## Primitives (32)
+## Primitives (34)
 
 | Category | Modules |
 |---|---|
 | Governance Kernel | `kernel` — receipts, identity, roles, laws, evidence, sequence, authority, schedule, doctrine (K1-K11, D1-D7) |
-| Kernel Primitives | `canon_registry`, `rollback` (K9), `recovery_verifier` (K10), `receipt_integrity_monitor` (K11), `contestability` (D6), `doctrine_amendment` (D7) |
+| Kernel Primitives | `canon_registry`, `rollback` (K9), `recovery_verifier` (K10), `receipt_integrity_monitor` (K11), `contestability` (D6), `doctrine_amendment` (D7), `authority_sweeper` (P34), `trust_adjuster` (P36) |
 | Safety | `kill_switch`, `circuit_breaker`, `output_validator`, `capability_fence` |
 | Cost & Budget | `cost_governor` |
 | Identity & Auth | `identity`, `delegation` |

@@ -1,13 +1,15 @@
 # HUMMBL Primitive Expansion v0.1 — HUAOMP x MTSMU Analysis
 
+> **⚠️ HISTORICAL RESEARCH ARTIFACT.** This document was the analysis that proposed P27-P40 and K9-K11/D6-D7. It reflects the codebase state as of 2026-06-25 (8 kernel invariants, 5 doctrine invariants, proposed primitives not yet implemented). It has been **superseded by `PRIMITIVES.md` v1.2.0** for current implementation status. Do not use this file as current primitive-state authority. The analysis content remains valid as research background; the implementation claims are stale.
+
 **Status:** DRAFT_RESEARCH_ARTIFACT
 **Promotion posture:** ADAPT_REQUIRED
 **Canonical status:** NOT_CANON
 **Origin:** HUAOMP 6-lens analysis + MTSMU evidence-first rigor, 2026-06-25
 **Steward:** HUMMBL Research Institute
-**Validated scope:** analysis grounded in live codebase evidence (48 modules, 87 exports, 8 kernel invariants, 5 doctrine invariants, 20 Set Grammar object types, 5 schema files)
-**Unvalidated scope:** proposed primitives are candidates only — no implementation, no tests, no schema validation
-**Companion artifacts:** `ai-framework-taxonomy-v0.1.md`, `ai-governance-framework-inventory.md`
+**Validated scope:** analysis grounded in live codebase evidence (48 modules, 87 exports, 8 kernel invariants, 5 doctrine invariants, 20 Set Grammar object types, 5 schema files) — **as of 2026-06-25; see `PRIMITIVES.md` v1.2.0 for current state (K1-K11, D1-D7, 8 implemented expansion primitives)**
+**Unvalidated scope:** proposed primitives were candidates only at time of writing — 8 have since been implemented (P27-P31, P34, P36, P38); see `PRIMITIVES.md` v1.2.0
+**Companion artifacts:** `ai-framework-taxonomy-v0.1.md`, `ai-governance-framework-inventory.md`, **`PRIMITIVES.md` v1.2.0 (canonical implementation status)**
 
 ---
 

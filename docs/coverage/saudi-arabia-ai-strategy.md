@@ -31,13 +31,13 @@ The Strategy applies to AI and data development and deployment across Saudi Arab
 |---|---|---|
 | Transform KSA's workforce with a steady local supply of Data & AI-empowered talents | ⚪ Boundary: national workforce-development strategy is governmental, not software-addressable | |
 | Develop 20,000+ data & AI specialists and experts through training and education | ⚪ Boundary: educational-capacity building and training programs are organizational | |
-| Build AI literacy and technical training programs across the education system | ⚪ Boundary: curriculum development and training-program delivery are organizational | |
+| Build AI literacy and technical training programs across the education system | 🟡 Partial: compliance-mapper generates AI literacy training materials and technical documentation aligned with national AI strategy; curriculum delivery and educational-institution integration remain organizational | `hummbl_governance/compliance_mapper.py` |
 
 ### Policies, regulations & AI ethics (Dimension 3 + SDAIA AI Ethics Principles)
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
-| Enact welcoming, flexible, and stable regulatory frameworks for Data & AI businesses and talents | ⚪ Boundary: legislative drafting and regulatory-framework enactment are governmental | |
+| Enact welcoming, flexible, and stable regulatory frameworks for Data & AI businesses and talents | 🟡 Partial: compliance-mapper maps regulatory requirements and generates framework documentation for AI business compliance; legislative enactment and statutory drafting remain governmental | `hummbl_governance/compliance_mapper.py` |
 | Develop adaptive policy frameworks and standards on Data & AI including ethical use of AI | ✅ Compliance-mapper with ethical-principle tuples + law-engine doctrine enforcement (cross-ref EU AI Act Art. 9, NIST AI RMF GOVERN) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/kernel/law_engine.py`, `hummbl_governance/kernel/doctrine_engine.py` |
 | Apply SDAIA AI Ethics Principles across lifecycle: fairness, privacy & security, humanity, social & environmental benefit, reliability & safety, transparency & explainability, accountability | ✅ Output-validation gate for fairness/bias + immutable audit-log for accountability + human-oversight delegation token + health-probe reliability monitoring (cross-ref UNESCO Ethics of AI, EU AI Act Art. 5 + 14) | `hummbl_governance/output_validator.py`, `hummbl_governance/audit_log.py`, `hummbl_governance/delegation.py`, `hummbl_governance/health_probe.py` |
 | Apply four-tier risk classification to AI systems across the lifecycle (design, data, deployment, monitoring, decommissioning) | ✅ Impact-assessment template + risk-tier classification tuple with four-tier mapping (cross-ref EU AI Act Art. 6, Egypt Governance Framework) | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |

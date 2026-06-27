@@ -32,7 +32,7 @@ ZIUDHPUI applies to all AI systems and operators subject to the EU AI Act within
 |---|---|---|
 | Market surveillance authorities exercise powers under technical-product and inspection legislation, with sector-specific procedures | 🟡 Partial: audit-log export + compliance-report generator supports inspection; enforcement powers are org/legal task | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Public disclosure of supervisory measures and sanctions — offender, responsible person, nature of measure, operative part, 3-year retention | ✅ Publication + sanctions-disclosure tuple with retention enforcement (cross-ref EU AI Act Art. 92) | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
-| Establish coordination council of market surveillance authorities for coordinated action | ⚪ Boundary: inter-agency coordination council is institutional, not software-addressable | |
+| Establish coordination council of market surveillance authorities for coordinated action | 🟡 Partial: coordination-bus provides multi-agent coordination and audit trail infrastructure for inter-agency data sharing; council establishment and statutory authority remain institutional | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
 | Consultation between market surveillance authorities and sectoral inspection bodies | ⚪ Boundary: inter-agency consultation is institutional | |
 
 ### Support measures and innovation (Arts. 9–14)
@@ -42,14 +42,14 @@ ZIUDHPUI applies to all AI systems and operators subject to the EU AI Act within
 | Establish regulatory sandboxes for AI testing (AKOS, first sandbox by 2 August 2026) | 🟡 Partial: capability-fence sandbox supports controlled testing environment; national sandbox infrastructure is org task | `hummbl_governance/capability_fence.py`, `hummbl_governance/circuit_breaker.py` |
 | Maintain national register of high-risk AI systems in critical infrastructure | ✅ Registration + inventory tuple (cross-ref EU AI Act Art. 49) | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 | Manage data submitted by providers of high-risk AI systems per Art. 49(1) EU AI Act | ✅ Evidence-submission + receipt tuple with immutable storage | `hummbl_governance/audit_log.py`, `hummbl_governance/kernel/receipt_engine.py` |
-| Establish single contact point / HelpDesk for SMEs and general public on AI Act implementation | ⚪ Boundary: helpdesk is organizational, not software-addressable | |
+| Establish single contact point / HelpDesk for SMEs and general public on AI Act implementation | 🟡 Partial: compliance-mapper generates AI Act implementation documentation, FAQ content, and guidance templates for helpdesk use; helpdesk staffing and operation remain organizational | `hummbl_governance/compliance_mapper.py` |
 
 ### National Council for Ethics in AI and AI literacy (Arts. 15–17)
 
 | Obligation | Coverage | Evidence |
 |---|---|---|
 | Establish National Council for Ethics in AI for ethical questions and responsible AI use | ⚪ Boundary: ethics-council establishment is institutional, not software-addressable | |
-| Promote AI literacy per Art. 4 EU AI Act — campaigns, training for public officials | ⚪ Boundary: literacy programs and training are organizational | |
+| Promote AI literacy per Art. 4 EU AI Act — campaigns, training for public officials | 🟡 Partial: compliance-mapper generates AI literacy training materials and documentation aligned with EU AI Act Art. 4 requirements; campaign delivery and training execution remain organizational | `hummbl_governance/compliance_mapper.py` |
 | Public-sector AI systems — unified information point for disclosure of AI system information | ✅ Public-sector disclosure tuple (cross-ref EU AI Act Art. 60) | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
 
 ### Fundamental rights and high-risk oversight (cross-ref EU AI Act)

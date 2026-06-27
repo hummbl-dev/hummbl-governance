@@ -11,8 +11,8 @@ Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled row
 
 ## Aggregate (as of 2026-06-26)
 
-- **1404 Fulfilled rows** across 84 matrices
-- **1404 rows validated** (100.0%) — refs fully resolve
+- **1496 Fulfilled rows** across 94 matrices
+- **1496 rows validated** (100.0%) — refs fully resolve
 - **0 rows fail validation** — hardening gap
 - **0 rows carry NO evidence references** at all (subset of failing)
 
@@ -23,10 +23,12 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | Matrix | Fulfilled | Validated | Coverage | No Refs |
 |---|---:|---:|---:|---:|
 | [`african-union-ai-strategy.md`](./african-union-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
+| [`argentina-ai-plan.md`](./argentina-ai-plan.md) | 9 | 9 | 100.0% | 0 |
 | [`arizona-hb2394.md`](./arizona-hb2394.md) | 14 | 14 | 100.0% | 0 |
 | [`asean-ai-governance-guide.md`](./asean-ai-governance-guide.md) | 17 | 17 | 100.0% | 0 |
 | [`australia-ai-ethics.md`](./australia-ai-ethics.md) | 29 | 29 | 100.0% | 0 |
 | [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) | 11 | 11 | 100.0% | 0 |
+| [`belgium-ai-strategy.md`](./belgium-ai-strategy.md) | 10 | 10 | 100.0% | 0 |
 | [`brazil-pl2338.md`](./brazil-pl2338.md) | 23 | 23 | 100.0% | 0 |
 | [`california-ab-2013.md`](./california-ab-2013.md) | 13 | 13 | 100.0% | 0 |
 | [`california-sb-53.md`](./california-sb-53.md) | 17 | 17 | 100.0% | 0 |
@@ -43,10 +45,13 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`denmark-ai-act.md`](./denmark-ai-act.md) | 2 | 2 | 100.0% | 0 |
 | [`egypt-ai-strategy.md`](./egypt-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
 | [`el-salvador-ai-promotion-law.md`](./el-salvador-ai-promotion-law.md) | 14 | 14 | 100.0% | 0 |
+| [`estonia-ai-strategy.md`](./estonia-ai-strategy.md) | 10 | 10 | 100.0% | 0 |
 | [`eu-ai-act.md`](./eu-ai-act.md) | 19 | 19 | 100.0% | 0 |
+| [`finland-ai-strategy.md`](./finland-ai-strategy.md) | 9 | 9 | 100.0% | 0 |
 | [`g7-ai-code.md`](./g7-ai-code.md) | 5 | 5 | 100.0% | 0 |
 | [`gdpr.md`](./gdpr.md) | 21 | 21 | 100.0% | 0 |
 | [`germany-mission-ki.md`](./germany-mission-ki.md) | 23 | 23 | 100.0% | 0 |
+| [`hong-kong-ai-guidelines.md`](./hong-kong-ai-guidelines.md) | 13 | 13 | 100.0% | 0 |
 | [`ieee-3119.md`](./ieee-3119.md) | 23 | 23 | 100.0% | 0 |
 | [`ieee-7001.md`](./ieee-7001.md) | 19 | 19 | 100.0% | 0 |
 | [`illinois-hb3773.md`](./illinois-hb3773.md) | 12 | 12 | 100.0% | 0 |
@@ -96,17 +101,22 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 | [`singapore-model-ai-governance.md`](./singapore-model-ai-governance.md) | 28 | 28 | 100.0% | 0 |
 | [`slovenia-ai-act.md`](./slovenia-ai-act.md) | 9 | 9 | 100.0% | 0 |
 | [`soc2.md`](./soc2.md) | 33 | 33 | 100.0% | 0 |
+| [`south-africa-ai-policy.md`](./south-africa-ai-policy.md) | 10 | 10 | 100.0% | 0 |
 | [`south-korea-ai-basic-act.md`](./south-korea-ai-basic-act.md) | 13 | 13 | 100.0% | 0 |
+| [`spain-ai-strategy.md`](./spain-ai-strategy.md) | 7 | 7 | 100.0% | 0 |
 | [`stride.md`](./stride.md) | 6 | 6 | 100.0% | 0 |
 | [`sweden-ai-strategy.md`](./sweden-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
+| [`switzerland-ai-strategy.md`](./switzerland-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
 | [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) | 20 | 20 | 100.0% | 0 |
 | [`texas-traiga.md`](./texas-traiga.md) | 13 | 13 | 100.0% | 0 |
+| [`thailand-ai-strategy.md`](./thailand-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
+| [`uae-ai-strategy.md`](./uae-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
 | [`uk-ai-regulation-framework.md`](./uk-ai-regulation-framework.md) | 19 | 19 | 100.0% | 0 |
 | [`unesco-ai-ethics.md`](./unesco-ai-ethics.md) | 24 | 24 | 100.0% | 0 |
 | [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) | 4 | 4 | 100.0% | 0 |
 | [`vermont-act101.md`](./vermont-act101.md) | 5 | 5 | 100.0% | 0 |
 | [`virginia-hb714.md`](./virginia-hb714.md) | 14 | 14 | 100.0% | 0 |
-| **TOTAL** | **1404** | **1404** | **100.0%** | **0** |
+| **TOTAL** | **1496** | **1496** | **100.0%** | **0** |
 
 ## How to harden a row
 
