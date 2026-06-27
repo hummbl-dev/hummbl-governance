@@ -2,12 +2,12 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-1288%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-1244%20passing-brightgreen)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
+[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](pyproject.toml)
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
 
-**hummbl-governance** is a Python library that provides 26 governance primitives for AI agent orchestration, including a governance Kernel (receipts, identity, roles, laws, evidence), kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1288 passing tests, and supports Python 3.11 through 3.14.
+**hummbl-governance** is a Python library that provides 26 governance primitives for AI agent orchestration, including a governance Kernel (receipts, identity, roles, laws, evidence), kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1244 passing tests, and supports Python 3.11 through 3.14.
 
 Learn more at [hummbl.io](https://hummbl.io).
 
@@ -33,8 +33,8 @@ pip install hummbl-governance
 uv pip install hummbl-governance
 ```
 
-[![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)]()
-[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)]()
+[![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)](docs/REPO_HEALTH.md)
+[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)](docs/REPO_HEALTH.md)
 
 ## Quick Start -- 5 Minutes
 
@@ -77,14 +77,23 @@ graph TD
     J --> K[SOC2 / GDPR / NIST Report]
 ```
 
-## What's New in v1.1.0
+## What's New in v1.2.0
+
+- **API server auth + CORS** — opt-in authentication and CORS for the governance API server (STD-004/007)
+- **Repo naming exception policy** — governance for authorized repo naming deviations
+- **Scientific grounding coordination matrix** — ecosystem-wide evidence chain documentation
+- **Contestability (P31) + DoctrineAmendment (P38)** — two new governance standards landed
+- **Test suite growth** — 1032 → 1244 tests (+212)
+- **Python 3.14 classifiers** — added to pyproject.toml (CI-tested on 3.11/3.12/3.13)
+
+### v1.1.0 highlights
 
 - **Governance Kernel** — the 26th primitive. A minimal, stdlib-only substrate for AI fleet governance: signed receipts, identity registry, role claims, sequence enforcement, evidence grading, authority scoping, schedule tracking, and scaling-law evaluation against the HUMMBL Scaling Law Atlas (17 empirically-tested laws).
   - 12 runtime modules, 10 test files, 136 tests (adversarial, chaos, edge cases, fuzzing, integration, invariants, law atlas, performance, properties, race recovery)
   - Full CLI: `python -m hummbl_governance.kernel boot|status|health|inspect|laws|roles`
   - Portable paths via `HUMMBL_KERNEL_STATE_DIR` and `HUMMBL_KERNEL_ATLAS_DIR`
 - **1 new test** — `test_kernel_primitives_exported()` verifying all 11 Kernel symbols in `__all__`
-- **1032 total tests** (1031 → 1032) — _historical count at v1.1.0 release; current count is 1288 (see badge above)_
+- **1032 total tests** (1031 → 1032) — _historical count at v1.1.0 release; current count is 1244 (see badge above)_
 
 ### v0.8.0 highlights
 
@@ -145,7 +154,7 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 ## Features
 
 - **26 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel
-- **1288 tests** with full coverage across all modules
+- **1244 tests** with full coverage across all modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
@@ -228,7 +237,7 @@ for f in examples/*.py; do echo "=== $f ==="; python "$f"; done
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety.
 
-**Production-tested.** The governance primitives were extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows across its full surface. The governance layer extracted here has 1288 dedicated tests and runs daily in production.
+**Production-tested.** The governance primitives were extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows across its full surface. The governance layer extracted here has 1244 dedicated tests and runs daily in production.
 
 ## hummbl-governance vs Alternatives
 
@@ -265,7 +274,7 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [34](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Total: 1288 tests across 26 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
+**Total: 1244 tests across 26 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 

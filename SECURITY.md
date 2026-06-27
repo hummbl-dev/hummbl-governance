@@ -4,7 +4,7 @@
 
 | Version | Supported          |
 |---------|--------------------|
-| 1.1.x   | Yes                |
+| 1.2.x   | Yes (current)      |
 | 1.0.x   | Yes (security fixes only) |
 | < 1.0   | No                 |
 
@@ -19,14 +19,14 @@ If you discover a security vulnerability in hummbl-governance, please report it 
 
 ## Scope
 
-This policy covers the `hummbl_governance` Python package (v1.1.0) and its 26
+This policy covers the `hummbl_governance` Python package (v1.2.0) and its 26
 governance primitives covering safety, cost, identity, compliance, reasoning,
 coordination, physical-AI, execution assurance, and the governance Kernel.
 Full primitive inventory in the project README and `PRIMITIVES.md`.
 
 The package supports Python 3.11 through 3.14 (per `pyproject.toml` classifiers).
 CI-tested on Python 3.11, 3.12, and 3.13 (GitHub Actions matrix); Python 3.14
-is classified but not yet CI-tested. The test suite comprises 1168 tests.
+is classified but not yet CI-tested. The test suite comprises 1244 tests.
 
 ## Audit-log signature semantics
 
