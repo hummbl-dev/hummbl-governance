@@ -27,7 +27,7 @@ jobs:
             --registry docs/nosec-registry.json \
             --strict
       - name: Upload registry artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nosec-registry
           path: docs/nosec-registry.json
