@@ -10,6 +10,7 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+
 - **HUMMBL Repo Standard v0.1** (`docs/standards/HUMMBL_REPO_STANDARD.md`) — global baseline for all `hummbl-dev` repositories: 15-item artifact stack, five repo classes with required/prescribed/optional weightings, conflict-precedence ladder, provider-neutrality constraint, and routing doctrine (deterministic spine, stochastic muscle).
 - **`hummbl-repo-manifest.schema.json`** (`schemas/`) — JSON Schema Draft 2020-12 for the machine-readable `hummbl.repo.yaml` registry atom. Enforces provider neutrality (`model_provider_neutral: const true`) and KRINEIA operator surface (`append`/`project`/`cut` only).
 - **ADR-003** (`docs/adr/ADR-003-hummbl-repo-standard.md`) — decision record for the standard, including the live 91-repo audit findings (0% `KRINEIA.md`, 0% `hummbl.repo.yaml`, 1% `CONSTITUTION.md` coverage) and the split-home choice (canonical in `hummbl-governance`, templates mirrored in `.github`).
@@ -17,6 +18,7 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [1.2.0] — 2026-06-23
 
 ### Added
+
 - **API server auth + CORS** — opt-in authentication and CORS for the governance API server (STD-004/007)
 - **Repo naming exception policy** — governance for authorized repo naming deviations
 - **Scientific grounding coordination matrix** — ecosystem-wide evidence chain documentation
@@ -25,6 +27,7 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Python 3.14 classifiers** — added to pyproject.toml
 
 ### Changed
+
 - `__version__` bumped to `1.2.0`.
 - Total test suite: 1032 → 1244 tests (+212).
 - SECURITY.md supported-version table updated for v1.2.x line.

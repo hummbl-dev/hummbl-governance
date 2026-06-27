@@ -2,9 +2,9 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-1244%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-1244%20passing-brightgreen)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
+[![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](pyproject.toml)
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
 
 **hummbl-governance** is a Python library that provides 26 governance primitives for AI agent orchestration, including a governance Kernel (receipts, identity, roles, laws, evidence), kill switch, circuit breaker, cost governor, delegation tokens, reasoning engine, execution assurance, physical-AI safety, and audit logging. It has zero third-party dependencies (stdlib only), 1244 passing tests, and supports Python 3.11 through 3.14.
@@ -33,8 +33,8 @@ pip install hummbl-governance
 uv pip install hummbl-governance
 ```
 
-[![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)]()
-[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)]()
+[![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)](docs/REPO_HEALTH.md)
+[![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)](docs/REPO_HEALTH.md)
 
 ## Quick Start -- 5 Minutes
 
