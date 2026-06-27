@@ -28,7 +28,6 @@ from hummbl_governance.kernel.recovery_verifier import (
     raise_on_recovery_violation,
 )
 from hummbl_governance.kernel.rollback import (
-    Reversibility,
     raise_on_rollback_violation,
 )
 
@@ -413,9 +412,6 @@ class TestD7BlocksUngatedAmendment:
         """The D7 source docstring must mention operator approval requirement."""
         from pathlib import Path
 
-        source = Path(
-            DoctrineInvariant.__module__.replace(".", "/") + ".py"
-        )
         # Resolve against the package
         import hummbl_governance.kernel.doctrine_engine as de_mod
 

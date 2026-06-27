@@ -82,7 +82,18 @@ def _path_exists(root: Path, relative_path: str, path_type: str) -> bool:
     raise ValueError(f"unknown path_type: {path_type}")
 
 
-def validate_registry(registry_path: Path, markdown_path: Path) -> list[str]:
+def validate_registry(
+    registry_path: Path,
+    markdown_path: Path,
+    *,
+    available_repos: set[str] | None = None,
+) -> list[str]:
+    """Validate the registry.
+
+    If *available_repos* is provided, only verify path existence for repos in
+    that set. Other repos are skipped (they may not be checked out in this
+    context, e.g. CI). If *None*, verify all repos whose root directory exists.
+    """
     errors: list[str] = []
     data = _load_json(registry_path)
 
@@ -131,8 +142,20 @@ def validate_registry(registry_path: Path, markdown_path: Path) -> list[str]:
                 errors.append(f"{path_prefix}: invalid path_type: {path_type}")
                 continue
             if path_entry.get("exists_checked") is True:
+                repo_name = str(path_entry.get("repo"))
+                if available_repos is not None and repo_name not in available_repos:
+                    continue
                 try:
-                    root = _resolve_repo_root(repo_roots, registry_path, str(path_entry.get("repo")))
+                    root = _resolve_repo_root(repo_roots, registry_path, repo_name)
+                except ValueError as exc:
+                    errors.append(f"{path_prefix}: {exc}")
+                    continue
+                if available_repos is None and not root.exists():
+                    # Repo root not present in this checkout (e.g. CI only
+                    # has hummbl-governance). Skip cross-repo existence
+                    # verification rather than reporting a false mismatch.
+                    continue
+                try:
                     actual = _path_exists(root, str(path_entry.get("path")), str(path_type))
                 except ValueError as exc:
                     errors.append(f"{path_prefix}: {exc}")
@@ -176,10 +199,21 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Validate the candidate Memory System Registry")
     parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--markdown", type=Path, default=DEFAULT_MARKDOWN)
+    parser.add_argument(
+        "--repos",
+        nargs="*",
+        default=None,
+        help="Only verify path existence for these repos (e.g. --repos hummbl-governance). "
+        "If omitted, verify all repos whose root directory exists.",
+    )
     args = parser.parse_args()
 
     try:
-        errors = validate_registry(args.registry, args.markdown)
+        errors = validate_registry(
+            args.registry,
+            args.markdown,
+            available_repos=set(args.repos) if args.repos is not None else None,
+        )
     except ValueError as exc:
         errors = [str(exc)]
 

@@ -10,8 +10,6 @@ from __future__ import annotations
 import pytest
 
 from hummbl_governance.kernel.trust_adjuster import (
-    Severity,
-    TRUST_TIER_ORDER,
     build_adjustment,
     compute_proposed_tier,
     run_adjustment,

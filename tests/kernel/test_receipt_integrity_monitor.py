@@ -69,11 +69,6 @@ class TestCheckHashChain:
         assert broken == []
 
     def test_valid_chain_passes(self):
-        receipts = [
-            _receipt(0, "aaa", prev_hash=""),
-            _receipt(1, "bbb", prev_hash="aaa"),
-            _receipt(2, "ccc", prev_hash="bbb"),
-        ]
         passed, broken = check_hash_chain([])
         assert passed is True
 
