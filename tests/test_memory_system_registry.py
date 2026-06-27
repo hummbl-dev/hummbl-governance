@@ -16,7 +16,9 @@ def _registry() -> dict:
 
 
 def test_memory_system_registry_validates():
-    assert validate_registry(REGISTRY, MARKDOWN) == []
+    # In CI only hummbl-governance is checked out; cross-repo path existence
+    # (founder-mode, local-home) is verified locally, not in CI.
+    assert validate_registry(REGISTRY, MARKDOWN, available_repos={"hummbl-governance"}) == []
 
 
 def test_registry_entries_use_structured_paths():
