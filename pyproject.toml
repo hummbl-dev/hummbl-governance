@@ -65,7 +65,7 @@ py-modules = [
 ]
 
 [tool.setuptools.package-data]
-hummbl_governance = ["data/*.json", "data/atlas/*.yaml"]
+hummbl_governance = ["data/*.json", "data/atlas/*.yaml", "governance.yml"]
 
 [tool.vulture]
 exclude = [".venv", "demo", "src"]

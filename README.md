@@ -120,6 +120,49 @@ graph TD
 - **Independently importable** -- use only the modules you need
 - **Python 3.11 - 3.13** CI-tested. 3.14 tracked.
 
+## governance.yml
+
+Every HUMMBL package ships a `governance.yml` file declaring its governance posture — safety controls, cost limits, compliance frameworks, and build provenance. This is the first-class metadata artifact for the HUMMBL ecosystem.
+
+```yaml
+# hummbl_governance/governance.yml (shipped in the wheel)
+package:
+  name: hummbl-governance
+  version: 1.2.0
+  license: Apache-2.0
+
+safety:
+  kill_switch:
+    supported: true
+    default_mode: DISENGAGED
+    modes_available: [DISENGAGED, HALT_NONCRITICAL, HALT_ALL, EMERGENCY]
+
+cost:
+  cost_governor:
+    supported: true
+    soft_cap_usd: 50.0
+    hard_cap_usd: 100.0
+
+provenance:
+  build_system: github-actions
+  trusted_publishing: true
+  dependencies: zero
+  tests: 1849
+```
+
+Read it at runtime (the file is human-readable YAML; parse with PyYAML if available, or read as text):
+
+```python
+from pathlib import Path
+
+governance_file = Path(__file__).parent / "governance.yml"
+text = governance_file.read_text()
+# Parse with yaml.safe_load(text) if PyYAML is installed
+# Or just inspect the raw YAML — it's designed to be human-readable
+```
+
+Every HUMMBL PyPI package includes `governance.yml` inside its wheel. No other Python ecosystem ships declarative governance metadata with every release.
+
 ## All 34 Primitives
 
 ### Core Primitives (26)
