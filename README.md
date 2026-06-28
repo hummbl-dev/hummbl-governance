@@ -81,6 +81,9 @@ No other library provides this combination of kill switch, circuit breaker, cost
 pip install hummbl-governance
 ```
 
+**Integrate with your framework** (CrewAI, LangChain, AutoGen, raw OpenAI):
+See [docs/integrations/README.md](docs/integrations/README.md) for copy-paste examples.
+
 Explore all 34 primitives:
 
 ```bash

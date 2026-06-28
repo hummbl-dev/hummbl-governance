@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+"""Integration example: wrapping CrewAI with hummbl-governance.
+
+CrewAI gives you tools to BUILD agents. hummbl-governance gives you tools
+to GOVERN them. This example shows the 3-line integration pattern that
+adds kill switch, circuit breaker, and cost governance to any CrewAI crew.
+
+Related CrewAI issues this solves:
+- https://github.com/crewAIInc/crewAI/issues/6025 (runtime control)
+- https://github.com/crewAIInc/crewAI/issues/5888 (governance middleware)
+
+Usage:
+    # With CrewAI installed:
+    pip install crewai hummbl-governance
+    python examples/crewai_integration.py
+
+    # Without CrewAI (demo mode uses a mock):
+    python examples/crewai_integration.py
+"""
+
+import sys
+import tempfile
+from pathlib import Path
+
+from hummbl_governance import (
+    CircuitBreaker,
+    CostGovernor,
+    KillSwitch,
+    KillSwitchMode,
+)
+from hummbl_governance.circuit_breaker import CircuitBreakerOpen
+
+
+def run_with_crewai():
+    """Real CrewAI integration — requires `pip install crewai`."""
+    from crewai import Agent, Crew, Task
+
+    # 1. Define your crew as usual
+    researcher = Agent(
+        role="Researcher",
+        goal="Find information",
+        backstory="A diligent researcher",
+        tools=[],  # add your tools here
+    )
+
+    task = Task(
+        description="Research a topic",
+        expected_output="A summary",
+        agent=researcher,
+    )
+
+    crew = Crew(agents=[researcher], tasks=[task])
+
+    # 2. Wrap with hummbl-governance (3 lines)
+    ks = KillSwitch()
+    cb = CircuitBreaker(failure_threshold=3, recovery_timeout=30.0)
+    gov = CostGovernor(str(Path(tempfile.mkdtemp()) / "costs.db"),
+                       soft_cap=5.0, hard_cap=10.0)
+
+    # 3. Run with governance
+    result = ks.check_task_allowed("research")
+    if not result["allowed"]:
+        print(f"Blocked by kill switch: {ks.mode.name}")
+        return
+
+    try:
+        output = cb.call(crew.kickoff)
+        gov.record_usage("openai", "gpt-4", 1000, 500, 0.015)
+        print(f"Result: {output}")
+    except CircuitBreakerOpen:
+        print("Circuit breaker open — too many failures, fast-failing")
+        ks.engage(KillSwitchMode.HALT_NONCRITICAL,
+                  reason="Circuit breaker opened",
+                  triggered_by="circuit_breaker")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+def run_demo_mode():
+    """Demo without CrewAI — shows the same pattern with a mock."""
+    print("Running in demo mode (CrewAI not installed)")
+    print("Install with: pip install crewai\n")
+
+    # Mock crew.kickoff()
+    def mock_kickoff():
+        print("  Crew: executing tasks...")
+        return "Research complete: AI governance is important"
+
+    # Same 3-line governance wrap
+    ks = KillSwitch()
+    cb = CircuitBreaker(failure_threshold=3, recovery_timeout=30.0)
+    gov = CostGovernor(":memory:", soft_cap=5.0, hard_cap=10.0)
+
+    # Simulate a successful run
+    print("=== Run 1: Normal operation ===")
+    result = ks.check_task_allowed("research")
+    print(f"  Kill switch: {result['allowed']} ({ks.mode.name})")
+
+    output = cb.call(mock_kickoff)
+    gov.record_usage("openai", "gpt-4", 1000, 500, 0.015)
+    status = gov.check_budget_status()
+    print(f"  Cost: ${status.current_spend:.3f} / ${status.hard_cap} (decision: {status.decision})")
+    print(f"  Result: {output}")
+
+    # Simulate failures triggering circuit breaker
+    print("\n=== Run 2: Cascading failures ===")
+    def failing_kickoff():
+        raise ConnectionError("LLM API unavailable")
+
+    for i in range(4):
+        try:
+            cb.call(failing_kickoff)
+        except ConnectionError:
+            print(f"  Attempt {i+1}: ConnectionError (breaker: {cb.state.name})")
+        except CircuitBreakerOpen:
+            print(f"  Attempt {i+1}: CircuitBreakerOpen — fast-fail (breaker: {cb.state.name})")
+            break
+
+    # Kill switch engages automatically
+    ks.engage(KillSwitchMode.HALT_NONCRITICAL,
+              reason="Circuit breaker opened",
+              triggered_by="circuit_breaker")
+    print(f"\n  Kill switch engaged: {ks.mode.name}")
+
+    # Subsequent runs are blocked
+    print("\n=== Run 3: Blocked by kill switch ===")
+    result = ks.check_task_allowed("research")
+    print(f"  Kill switch: allowed={result['allowed']} ({ks.mode.name})")
+    if not result["allowed"]:
+        print(f"  Blocked: {result['reason']}")
+
+    # Audit trail
+    print("\n=== Audit trail ===")
+    print(f"  Kill switch mode: {ks.mode.name}")
+    print(f"  Circuit breaker state: {cb.state.name}")
+    status = gov.check_budget_status()
+    print(f"  Cost: ${status.current_spend:.3f} (decision: {status.decision})")
+    print(f"  Total failures: {cb.failure_count}, successes: {cb.success_count}")
+
+
+if __name__ == "__main__":
+    try:
+        import crewai  # noqa: F401
+        run_with_crewai()
+    except ImportError:
+        run_demo_mode()
