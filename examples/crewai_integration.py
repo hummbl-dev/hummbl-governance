@@ -18,7 +18,6 @@ Usage:
     python examples/crewai_integration.py
 """
 
-import sys
 import tempfile
 from pathlib import Path
 
