@@ -9,7 +9,7 @@
 
 ## The Problem
 
-Your AI agent calls an API. The API starts returning errors. Your agent retries, and retries, and retries — burning through $200 of API credits in 20 minutes before anyone notices. Or worse: your agent decides to "optimize" and starts calling endpoints it was never supposed to touch.
+Your AI agent calls an API. The API starts returning errors. Your agent retries, and retries, and retries — burning through hundreds of dollars in API credits before anyone notices. Or worse: your agent decides to "optimize" and starts calling endpoints it was never supposed to touch.
 
 Every team shipping AI agents hits the same walls: runaway costs, cascading failures, agents doing things they shouldn't, and no audit trail to explain what happened after the fact. The frameworks you're using (LangChain, CrewAI, AutoGPT) give you tools to *build* agents but nothing to *govern* them. You're left writing the same safety code from scratch every time — if you write it at all.
 
@@ -33,7 +33,7 @@ ks.check_task_allowed("data_export")  # {"allowed": False, ...}
 
 # Circuit breaker: auto-opens after 3 failures, auto-recovers
 cb = CircuitBreaker(failure_threshold=3, recovery_timeout=10.0)
-result = cb.call(risky_api_call, arg1, arg2)  # Fast-fails after 3 errors
+result = cb.call(lambda: 1 / 0)  # Raises ZeroDivisionError 3x, then fast-fails
 
 # Cost governor: soft cap warns, hard cap blocks
 gov = CostGovernor(":memory:", soft_cap=50.0, hard_cap=100.0)
@@ -45,23 +45,23 @@ Every primitive works standalone. Use `KillSwitch` without pulling in `CostGover
 
 ## vs Alternatives
 
-| Capability | hummbl-governance | Raw stdlib | LangChain Guardrails | CrewAI Guardrails |
-|------------|:-----------------:|:----------:|:--------------------:|:-----------------:|
-| Zero dependencies | Yes | Yes | No (requires langchain) | No (requires crewai) |
-| Kill switch (graduated modes) | 4 modes | DIY | No | No |
-| Circuit breaker | 3 states | DIY | No | No |
-| Cost governance (budget caps) | Soft + hard caps | DIY | No | No |
-| Delegation tokens (HMAC signed) | Yes | DIY | No | No |
-| Append-only audit log | Yes | DIY | Partial | No |
-| Agent identity registry | Yes | DIY | No | No |
-| STRIDE threat mapping | Yes | No | No | No |
-| SOC2/GDPR/OWASP compliance mapping | Yes | No | No | No |
-| JSON Schema validation (stdlib) | Draft 2020-12 | No | Requires jsonschema | Requires pydantic |
-| Governance reasoning engine | Yes | No | No | No |
-| Thread-safe | Yes | Varies | Varies | Varies |
-| Modules work standalone | Yes | N/A | No (framework lock-in) | No (framework lock-in) |
+| Capability | hummbl-governance | Raw stdlib | LangChain ecosystem | CrewAI ecosystem | guardrails-ai |
+|------------|:-----------------:|:----------:|:--------------------:|:-----------------:|:-------------:|
+| Zero dependencies | Yes | Yes | No (requires langchain) | No (requires crewai) | No (requires guardrails-ai) |
+| Kill switch (graduated modes) | 4 modes | DIY | No | No | No |
+| Circuit breaker | 3 states | DIY | No | No | No |
+| Cost governance (budget caps) | Soft + hard caps | DIY | No | No | No |
+| Delegation tokens (HMAC signed) | Yes | DIY | No | No | No |
+| Append-only audit log | Yes | DIY | Partial | No | No |
+| Agent identity registry | Yes | DIY | No | No | No |
+| STRIDE threat mapping | Yes | No | No | No | No |
+| SOC2/GDPR/OWASP compliance mapping | Yes | No | No | No | No |
+| JSON Schema validation (stdlib) | Draft 2020-12 | No | Requires jsonschema | Requires pydantic | Requires pydantic |
+| Governance reasoning engine | Yes | No | No | No | No |
+| Thread-safe | Yes | Varies | Varies | Varies | Varies |
+| Modules work standalone | Yes | N/A | No (framework lock-in) | No (framework lock-in) | No (framework lock-in) |
 
-No other library provides all of these. That's the point — governance primitives don't exist in the PyPI ecosystem. hummbl-governance is the first.
+No other library provides this combination of kill switch, circuit breaker, cost governor, delegation tokens, and compliance mapping in a single zero-dependency package. That gap is why hummbl-governance exists.
 
 ## Why hummbl-governance?
 
@@ -71,9 +71,25 @@ No other library provides all of these. That's the point — governance primitiv
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety — evidence you can hand to an auditor or compliance team.
 
-**Production-tested.** Extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 15,600+ tests and 14 CI workflows. The governance layer has 1849 dedicated tests and runs daily in production.
+**Production-tested.** Extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 20,000+ tests and 14 CI workflows. The governance layer has 1849 dedicated tests and runs daily in production.
 
 **OWASP Top 10 for Agentic Applications.** Covers all 10 risks in the [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). See the [full mapping below](#owasp-top-10-for-agentic-applications-2026-coverage).
+
+## Quick Start
+
+```bash
+pip install hummbl-governance
+```
+
+Explore all 34 primitives:
+
+```bash
+git clone https://github.com/hummbl-dev/hummbl-governance.git
+cd hummbl-governance
+python examples/kill_switch_modes.py
+python examples/circuit_breaker_wrap.py
+python examples/cost_governor.py
+```
 
 ## Architecture
 
@@ -92,52 +108,8 @@ graph TD
     J --> K[SOC2 / GDPR / NIST Report]
 ```
 
-## Quick Start
-
-```bash
-pip install hummbl-governance
-```
-
-Run a complete governance example in 60 seconds:
-
-```bash
-python -c "
-from hummbl_governance import KillSwitch, KillSwitchMode
-ks = KillSwitch()
-ks.engage(KillSwitchMode.HALT_NONCRITICAL, reason='Demo', triggered_by='user')
-print(ks.check_task_allowed('critical_task'))
-"
-```
-
-Explore all 34 primitives:
-
-```bash
-git clone https://github.com/hummbl-dev/hummbl-governance.git
-cd hummbl-governance
-python examples/kill_switch_modes.py
-python examples/circuit_breaker_wrap.py
-python examples/cost_governor.py
-```
-
 [![Tested on](https://img.shields.io/badge/Tested%20on-Ubuntu%2024.04%20%C2%B7%20macOS%20M--series%20%C2%B7%20Windows%2011%20%2B%20WSL2-blue)]()
 [![Architecture](https://img.shields.io/badge/Architecture-x86__64%20%7C%20ARM64-brightgreen)]()
-
-## Usage Example
-
-```python
-from hummbl_governance import KillSwitch, KillSwitchMode, CircuitBreaker, CostGovernor
-
-ks = KillSwitch()
-ks.engage(KillSwitchMode.HALT_ALL, reason="Budget exceeded", triggered_by="cost_governor")
-print(ks.check_task_allowed("data_export"))  # {"allowed": False, ...}
-
-cb = CircuitBreaker(failure_threshold=3, recovery_timeout=10.0)
-result = cb.call(my_function, arg1, arg2)  # Opens after 3 failures
-
-gov = CostGovernor(":memory:", soft_cap=50.0, hard_cap=100.0)
-gov.record_usage(provider="anthropic", model="claude-4", tokens_in=1000, tokens_out=500, cost=0.015)
-status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY")
-```
 
 ## Features
 
@@ -149,6 +121,8 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 - **Python 3.11 - 3.13** CI-tested. 3.14 tracked.
 
 ## All 34 Primitives
+
+### Core Primitives (26)
 
 | Module | Description |
 |--------|-------------|
@@ -178,6 +152,19 @@ status = gov.check_budget_status()  # status.decision in ("ALLOW", "WARN", "DENY
 | `failure_modes` | Structured failure mode catalog with classification and error cross-reference |
 | `evolution_lineage` | In-memory lineage tracking for eAI variants with drift detection |
 | `ValidationError` | Top-level exception for schema validation failures (exported from `schema_validator`) |
+
+### Kernel Sub-Primitives (8)
+
+| Module | Invariant | Description |
+|--------|-----------|-------------|
+| `canon_registry` | — | Canonical operator approval registry for governance transitions |
+| `rollback` | K9 | Rollback declaration validation with reversibility checks |
+| `recovery_verifier` | K10 | Recovery verification with root-cause and operator approval validation |
+| `receipt_integrity_monitor` | K11 | Sequence, hash-chain, and timestamp integrity checks for receipts |
+| `contestability` | D6 | Contest status tracking with review outcome validation |
+| `doctrine_amendment` | D7 | Doctrine amendment validation with operator approval and tier transitions |
+| `authority_sweeper` | P34 | Authority sweep validation with revocation consistency checks |
+| `trust_adjuster` | P36 | Trust tier adjustment validation with severity classification |
 
 ## Runnable Examples
 
@@ -228,10 +215,10 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI03** Identity & Privilege Abuse | [`DelegationTokenManager`](hummbl_governance/delegation.py), [`AgentRegistry`](hummbl_governance/identity.py) | [16](tests/test_delegation.py) + [26](tests/test_identity.py) | HMAC-signed scoped tokens with chain-depth limits. Identity registry with trust tiers and alias canonicalization. |
 | **ASI04** Supply Chain | Zero dependencies | — | Stdlib-only. No transitive dependencies to compromise. `pip audit` finds nothing because there is nothing to audit. |
 | **ASI05** Unexpected Code Execution | [`OutputValidator`](hummbl_governance/output_validator.py), [`InjectionDetector`](hummbl_governance/output_validator.py) | [49](tests/test_output_validator.py) | Prompt injection detection, blocked-term filtering, and content validation before agent output reaches downstream systems. |
-| **ASI06** Memory & Context Poisoning | [`BusWriter`](hummbl_governance/coordination_bus.py), [`AuditLog`](hummbl_governance/audit_log.py) | [63](tests/test_coordination_bus.py) + [17](tests/test_audit_log.py) | Append-only governance bus with content hashing. Tamper-evident audit log. Poisoned entries are detectable. |
+| **ASI06** Memory & Context Poisoning | [`BusWriter`](hummbl_governance/coordination_bus.py), [`AuditLog`](hummbl_governance/audit_log.py) | [63](tests/test_coordination_bus.py) + [34](tests/test_audit_log.py) | Append-only governance bus with content hashing. Tamper-evident audit log. Poisoned entries are detectable. |
 | **ASI07** Insecure Inter-Agent Comms | [`LamportClock`](hummbl_governance/lamport_clock.py), [`ContractNetManager`](hummbl_governance/contract_net.py) | [20](tests/test_lamport_clock.py) + [19](tests/test_contract_net.py) | Hardened logical clocks for causal ordering. Contract Net protocol for structured multi-agent task allocation with bid verification. |
 | **ASI08** Cascading Failures | [`CircuitBreaker`](hummbl_governance/circuit_breaker.py), [`HealthProbe`](hummbl_governance/health_probe.py) | [17](tests/test_circuit_breaker.py) + [30](tests/test_health_probe.py) | CLOSED/HALF_OPEN/OPEN state machine isolates failing components. Health probes detect degradation before cascade. |
-| **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [34](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
+| **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [112](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
 **Total: 1849 tests across 34 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
@@ -300,49 +287,32 @@ mapper = ComplianceMapper()
 report = mapper.map_events(audit_entries)  # Returns ComplianceReport with control mappings
 ```
 
-## Extended Quick Start
+## Multi-Agent Example
+
+Delegation tokens and agent identity for multi-agent systems:
 
 ```python
-from hummbl_governance import (
-    KillSwitch, KillSwitchMode,
-    CircuitBreaker,
-    CostGovernor,
-    DelegationToken, DelegationTokenManager,
-    AuditLog,
-    AgentRegistry,
-    SchemaValidator,
-)
-
-# Kill Switch
-ks = KillSwitch()
-ks.engage(KillSwitchMode.HALT_ALL, reason="Budget exceeded", triggered_by="cost_governor")
-result = ks.check_task_allowed("data_export")
-# result["allowed"] == False
-
-# Circuit Breaker
-cb = CircuitBreaker(failure_threshold=3, recovery_timeout=10.0)
-result = cb.call(some_function, arg1, arg2)
-
-# Cost Governor
-gov = CostGovernor(":memory:", soft_cap=50.0, hard_cap=100.0)
-gov.record_usage(provider="anthropic", model="claude-4", tokens_in=1000, tokens_out=500, cost=0.015)
-status = gov.check_budget_status()
-# status.decision in ("ALLOW", "WARN", "DENY")
-
-# Delegation Tokens
-mgr = DelegationTokenManager(secret=b"my-secret")
+from hummbl_governance import DelegationTokenManager, AgentRegistry
 from hummbl_governance.delegation import TokenBinding
-token = mgr.create_token(
-    issuer="orchestrator", subject="worker",
-    ops_allowed=["read"], binding=TokenBinding("task-1", "contract-1"),
-)
-valid, error = mgr.validate_token(token)
 
-# Agent Registry
+# Agent registry: identity + trust tiers
 registry = AgentRegistry()
 registry.register_agent("orchestrator", trust="high")
+registry.register_agent("worker-1", trust="medium")
 registry.add_alias("orch-1", "orchestrator")
 registry.canonicalize("orch-1")  # -> "orchestrator"
+
+# Delegation tokens: HMAC-signed, scoped, chain-depth-limited
+mgr = DelegationTokenManager(secret=b"shared-secret")
+token = mgr.create_token(
+    issuer="orchestrator", subject="worker-1",
+    ops_allowed=["read", "write"],
+    binding=TokenBinding("task-1", "contract-1"),
+)
+valid, error = mgr.validate_token(token)  # (True, None)
+
+# Worker can now prove it's authorized for "read"/"write" on "task-1"
+# Token is tamper-evident — any modification invalidates the signature
 ```
 
 ## MCP Servers
