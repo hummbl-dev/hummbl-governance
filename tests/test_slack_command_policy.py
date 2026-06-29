@@ -89,7 +89,8 @@ def test_fixture_valid_risk_class(fixture_name):
 def test_fixture_valid_admission_decision(fixture_name):
     """Every fixture must have a valid admission_decision."""
     data = _load_fixture(fixture_name)
-    assert data["admission_decision"] in VALID_ADMISSION_DECISIONS, f"{fixture_name} has invalid admission_decision: {data['admission_decision']}"
+    decision = data["admission_decision"]
+    assert decision in VALID_ADMISSION_DECISIONS, f"{fixture_name} invalid admission_decision: {decision}"
 
 
 @pytest.mark.parametrize("fixture_name", [
@@ -103,7 +104,8 @@ def test_fixture_valid_admission_decision(fixture_name):
 def test_fixture_valid_output_policy(fixture_name):
     """Every fixture must have a valid output_policy."""
     data = _load_fixture(fixture_name)
-    assert data["output_policy"] in VALID_OUTPUT_POLICIES, f"{fixture_name} has invalid output_policy: {data['output_policy']}"
+    policy = data["output_policy"]
+    assert policy in VALID_OUTPUT_POLICIES, f"{fixture_name} invalid output_policy: {policy}"
 
 
 @pytest.mark.parametrize("fixture_name", [
