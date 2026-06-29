@@ -5,7 +5,6 @@ the policy gates are correctly exercised by each fixture.
 """
 
 import json
-import os
 from pathlib import Path
 
 import pytest
@@ -103,7 +102,8 @@ def test_fixture_valid_risk_class(fixture_name):
 def test_fixture_valid_admission_decision(fixture_name):
     """Every fixture must have a valid admission_decision."""
     data = _load_fixture(fixture_name)
-    assert data["admission_decision"] in VALID_ADMISSION_DECISIONS, f"{fixture_name} has invalid admission_decision: {data['admission_decision']}"
+    decision = data["admission_decision"]
+    assert decision in VALID_ADMISSION_DECISIONS, f"{fixture_name} invalid admission_decision: {decision}"
 
 
 def test_notify_allowlisted_is_admitted():
