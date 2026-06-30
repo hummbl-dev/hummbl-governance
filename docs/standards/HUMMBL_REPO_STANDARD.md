@@ -149,6 +149,7 @@ Prescribed enforcement:
 - `AGENTS.md` must include the repo-local form of this rule.
 - `commit-msg` hooks and CI provenance checks should reject AI authorship trailers and obvious provider/agent attribution in commit messages.
 - Tier 2/Tier 3 IP-sensitive repos should use signed human commits, protected branches, human CODEOWNER approval, and private invention/disclosure notes.
+- AI vendors and agent tools must be classified in `docs/standards/AI_VENDOR_IP_RISK_REGISTER.md` before use on Tier 2/Tier 3 work. Unreviewed vendors default to RED for sensitive work.
 
 ## 10. Naming convention and exceptions
 
