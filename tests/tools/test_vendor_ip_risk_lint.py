@@ -1,17 +1,25 @@
 from tools.vendor_ip_risk_lint import lint_markdown, parse_vendor_rows
 
 
-REGISTER = """# AI Vendor IP Risk Register
-
-## Vendor register
-
-| Vendor | Product / tier | Risk | Output ownership | Training default | Human review / retention | Allowed tiers | Source URLs | Last reviewed | Notes |
-|--------|----------------|------|------------------|------------------|--------------------------|---------------|-------------|---------------|-------|
-| Example | Paid API | YELLOW | customer owns output | not trained by default | bounded | T0,T1; T2/T3 owner approval only | https://example.com/terms | 2026-06-30 | Use paid tier. |
-| BadFree | Free tier | RED | unclear | trains by default | unknown | T0,T1 | REVIEW_REQUIRED | 2026-06-30 | Default RED. |
-
-## Minimum review fields
-"""
+REGISTER = "\n".join(
+    [
+        "# AI Vendor IP Risk Register",
+        "",
+        "## Vendor register",
+        "",
+        "| Vendor | Product / tier | Risk | Output ownership | Training default | "
+        "Human review / retention | Allowed tiers | Source URLs | Last reviewed | Notes |",
+        "|--------|----------------|------|------------------|------------------|"
+        "--------------------------|---------------|-------------|---------------|-------|",
+        "| Example | Paid API | YELLOW | customer owns output | not trained by default | "
+        "bounded | T0,T1; T2/T3 owner approval only | https://example.com/terms | "
+        "2026-06-30 | Use paid tier. |",
+        "| BadFree | Free tier | RED | unclear | trains by default | unknown | T0,T1 | "
+        "REVIEW_REQUIRED | 2026-06-30 | Default RED. |",
+        "",
+        "## Minimum review fields",
+    ]
+)
 
 
 def test_parse_vendor_rows():
