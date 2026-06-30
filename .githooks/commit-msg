@@ -5,6 +5,8 @@
 COMMIT_MSG_FILE="$1"
 MSG=$(head -n 1 "$COMMIT_MSG_FILE")
 
+python3 "$(git rev-parse --show-toplevel)/tools/provenance_lint.py" --check-identity "$COMMIT_MSG_FILE" || exit 1
+
 # Allow merge commits, revert commits, and commit --amend
 if echo "$MSG" | grep -qE "^Merge |^Revert |^fixup! |^squash! "; then
   exit 0
