@@ -33,6 +33,7 @@ python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-
 - Apache 2.0 license
 - Commit format: Conventional Commits
 - Branch naming: `type/agent/short-desc`
+- AI agents may assist with research, review, patch preparation, and operational coordination, but must not be credited in Git commit authorship metadata or commit-message trailers. Do not add `Co-authored-by`, `Generated-by`, `Authored-with`, or equivalent AI/vendor/agent attribution to commits. Agent activity belongs in internal receipts, bus messages, handoffs, or PR notes, not commit credit.
 
 ## CI
 
