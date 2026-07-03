@@ -12,7 +12,7 @@
 
 - **Status**: Active public repository and PyPI package.
 - **Default branch**: `main`.
-- **Current package version**: `1.1.0`.
+- **Current package version**: `1.2.0`.
 - **Release posture**: Runtime primitives, MCP entry points, compliance mappers, and conformance fixtures may continue through reviewed pull requests.
 - **Archive trigger**: Archive only if the governance primitive package is superseded by another declared canonical source of truth and PyPI ownership is updated or retired.
 
@@ -24,6 +24,7 @@
 - `docs/*-mapping.md` records compliance mapping surfaces for SOC2, GDPR, ISO 27001, NIST CSF, NIST AI RMF, and OWASP.
 - `docs/trackers/` records open governance documentation parity, unverified claims, schema freeze, and evidence provenance work.
 - `README.md` is the public package overview and should not overclaim test counts, primitive counts, or framework coverage beyond current code and CI evidence.
+- `docs/TEST_COUNT_AUTHORITY.md` defines the source-of-truth rules for primitive-count and package test-count claims across README, SECURITY, PyPI, and health surfaces.
 
 ## Python Support
 
