@@ -78,32 +78,20 @@ def before_tool_call(context):
     kill_switch_result = ks.check_task_allowed(str(tool_name))
     budget_status = gov.check_budget_status()
     budget_denied = getattr(budget_status, "decision", None) == "DENY"
-    receipt = build_tool_transition_receipt(
-        agent_id=str(agent_id),
-        tool_name=str(tool_name),
-        tool_input=context.tool_input,
-        context={
-            "hook": "before_tool_call",
-            "task_description": getattr(context.task, "description", None),
-        },
-        kill_switch_result=kill_switch_result,
-        budget_status=budget_status,
-        terminal_outcome=(
-            "blocked"
-            if not kill_switch_result["allowed"] or budget_denied
-            else None
-        ),
     )
     receipts.append(receipt)
     return receipt.decision != "HARD_BLOCK"
 
 register_before_tool_call_hook(before_tool_call)
+<<<<<<< HEAD
 try:
     # Run governed CrewAI calls under this hook.
     if not ks.check_task_allowed("research")["allowed"]:
         raise RuntimeError("Kill switch blocked")
 finally:
     unregister_before_tool_call_hook(before_tool_call)
+=======
+>>>>>>> 607e0ce (feat(crewai): add tool transition receipts)
 ```
 
 The receipt binds `agent_id`, `tool_name`, canonical action hash, context hash,

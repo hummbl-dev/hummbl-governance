@@ -38,6 +38,7 @@ def test_before_tool_call_guard_blocks_when_kill_switch_blocks():
     assert guard(context) is False
     assert receipts[-1].decision == "HARD_BLOCK"
     assert receipts[-1].terminal_outcome == "blocked"
+<<<<<<< HEAD
 
 
 def test_before_tool_call_guard_marks_budget_denial_blocked():
@@ -56,3 +57,5 @@ def test_before_tool_call_guard_marks_budget_denial_blocked():
     assert guard(context) is False
     assert receipts[-1].decision == "HARD_BLOCK"
     assert receipts[-1].terminal_outcome == "blocked"
+=======
+>>>>>>> 607e0ce (feat(crewai): add tool transition receipts)
