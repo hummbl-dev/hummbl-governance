@@ -45,8 +45,8 @@ Use the narrowest claim that the evidence supports:
 | `docs-published` | Build, assembly, or explanatory documentation is public. | Editable source completeness or permission to modify, manufacture, or sell. |
 | `source-available-physical-artifact` | Native design files, schematics, firmware, or BOMs are public. | Open hardware license compatibility or reproducible builds. |
 | `candidate-open-hardware` | Scope, license stack, editable sources, BOM, and necessary software are declared. | OSHWA certification, safety validation, or market readiness. |
-| `certified-open-hardware` | Current certification record and matching public docs are identified. | Safety, quality, endorsement, or freedom to use trademarks. |
-| `verified-reproducible-open-artifact` | Independent build or reproduction receipt confirms artifact construction from the declared evidence packet. | Regulatory approval, production quality, or unrestricted commercial use. |
+| `candidate-certified-open-hardware` | Current certification record and matching public docs are identified for namespace review. | Safety, quality, endorsement, or freedom to use trademarks. |
+| `candidate-verified-reproducible-open-artifact` | Independent build or reproduction receipt confirms artifact construction from the declared evidence packet for governance review. | Regulatory approval, production quality, or unrestricted commercial use. |
 
 ## Crosswalk
 
@@ -75,7 +75,8 @@ A minimal open physical artifact evidence packet should include:
   brand assets, and produced artifacts;
 - trademark and endorsement boundary;
 - hazard inventory, misuse notes, required PPE, and regulated-use warnings;
-- build, test, failure, field-use, and reproduction receipts;
+- build, assembly, inspection, calibration, test, failure, field-use, and
+  reproduction receipts;
 - derivative lineage record for substitutions, remixes, forks, repairs, and
   field modifications;
 - validation limits stating what has not been tested or certified.
