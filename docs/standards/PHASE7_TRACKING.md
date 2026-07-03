@@ -3,12 +3,19 @@
 **Source audit:** `docs/standards/AUDIT_2026-06-25.md`
 **Tracking issue:** #124
 **Created:** 2026-06-25
+**Partial refresh:** 2026-07-03 for the authorized-repo subset in #144.
+
+This is a point-in-time tracking file. The 2026-07-03 patch refreshes only the
+live-verified authorized subset called out in #144; broader Phase 7 counts and
+non-authorized repo rows still reflect the 2026-06-25 source audit until a full
+deterministic fleet audit is run.
 
 ## Disposition categories
 
 | Disposition | Meaning |
 |-------------|---------|
 | **scaffold** | Create missing artifacts — repo is active and needs governance stack |
+| **complete** | Live verification found the tracked artifacts present |
 | **defer** | Intentionally deferred with reason |
 | **archive** | Recommend archiving — repo is inactive or experimental |
 | **reclassify** | Change repo class (e.g., from code/library to docs/research) |
@@ -19,12 +26,12 @@
 
 | Repo | Disposition | Missing | Notes |
 |------|-------------|---------|-------|
-| arbiter | scaffold | DOCTRINE.md | Public, active — high priority |
+| arbiter | complete | — | Public, active — root `DOCTRINE.md` live-verified 2026-07-03 for #144 |
 | base120 | scaffold | DOCTRINE.md | Public, active — high priority |
-| founder-mode | scaffold | DOCTRINE.md | Private, active — high priority |
-| hummbl-agent | scaffold | DOCTRINE.md | Public, active |
+| founder-mode | complete | — | Private, active — root `DOCTRINE.md` live-verified 2026-07-03 for #144 |
+| hummbl-agent | complete | — | Public, active — root `DOCTRINE.md` live-verified 2026-07-03 for #144 |
 | hummbl-bibliography | scaffold | DOCTRINE.md | Public, active |
-| hummbl-governance | scaffold | DOCTRINE.md | Public, active — self-compliance |
+| hummbl-governance | complete | — | Public, active — root `DOCTRINE.md` live-verified 2026-07-03 for #144 |
 | lejepa | scaffold | DOCTRINE.md | Private |
 | meeting-archive | scaffold | DOCTRINE.md | Private |
 
@@ -42,7 +49,7 @@
 | hummbl-kernel-factory | scaffold | DOCTRINE.md, CODEOWNERS | Private |
 | hummbl-medical | scaffold | DOCTRINE.md, CODEOWNERS | Private |
 | hummbl-models | scaffold | DOCTRINE.md, CODEOWNERS | Private |
-| hummbl-production | scaffold | CHANGELOG.md, DOCTRINE.md | Private — has CODEOWNERS |
+| hummbl-production | complete | — | Private — root `CHANGELOG.md` and `DOCTRINE.md` live-verified 2026-07-03 for #144; see also `hummbl-production#534` |
 | hummbl-research | scaffold | DOCTRINE.md, CODEOWNERS | Private |
 | hummbl-skills | scaffold | DOCTRINE.md, CODEOWNERS | Private |
 | hummbl-spacetime | scaffold | DOCTRINE.md, CODEOWNERS | Private |
@@ -118,15 +125,16 @@
 
 | Disposition | Count | Work estimate |
 |-------------|-------|---------------|
-| scaffold | 58 | Create missing artifacts |
+| scaffold | 53 | Create missing artifacts; count reflects only the #144 row updates, not a full-fleet recount |
+| complete | 5 | Partial 2026-07-03 live verification for #144 |
 | defer | 6 | Intentionally deferred |
 | archive | 1 | Recommend archiving (swarm-test) |
 | reclassify | 0 | — |
 
 ## Execution plan
 
-1. **Batch 1 (Tier 7a)**: Add DOCTRINE.md to 8 repos — lowest effort, highest score
-2. **Batch 2 (Tier 7b)**: Add DOCTRINE.md + CODEOWNERS to 18 repos
+1. **Batch 1 (Tier 7a)**: Continue only for Tier 7a repos still marked scaffold; do not recreate root `DOCTRINE.md` for rows marked complete
+2. **Batch 2 (Tier 7b)**: Continue only for Tier 7b repos still marked scaffold; `hummbl-production` root `CHANGELOG.md` and `DOCTRINE.md` are complete as of the #144 partial refresh
 3. **Batch 3 (Tier 7c)**: Add CHANGELOG + DOCTRINE + CODEOWNERS to 21 repos (excluding 6 deferred)
 4. **Batch 4 (Tier 7d-7e)**: Add partial/full stack to 6 repos
 5. **Batch 5 (Tier 7f)**: Add full governance stack to 9 empty repos
