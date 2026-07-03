@@ -55,6 +55,63 @@ if ks.check_task_allowed("research")["allowed"]:
 
 Run the full example: `python examples/crewai_integration.py`
 
+### CrewAI per-tool hook with transition receipts
+
+Whole-crew wrapping catches run-level failures. For mid-run retry storms and
+tool-call drift, attach the same primitives to a CrewAI tool hook and emit a
+receipt before the tool is released:
+
+```python
+from hummbl_governance import CostGovernor, KillSwitch, build_tool_transition_receipt
+from crewai.hooks import (
+    register_before_tool_call_hook,
+    unregister_before_tool_call_hook,
+)
+
+ks = KillSwitch()
+gov = CostGovernor("costs.db", soft_cap=5.0, hard_cap=10.0)
+receipts = []
+
+def before_tool_call(context):
+    tool_name = context.tool_name
+    agent_id = getattr(context.agent, "role", None) or "crewai-agent"
+    kill_switch_result = ks.check_task_allowed(str(tool_name))
+    budget_status = gov.check_budget_status()
+    budget_denied = getattr(budget_status, "decision", None) == "DENY"
+    receipt = build_tool_transition_receipt(
+        agent_id=str(agent_id),
+        tool_name=str(tool_name),
+        tool_input=context.tool_input,
+        context={
+            "hook": "before_tool_call",
+            "task_description": getattr(context.task, "description", None),
+        },
+        kill_switch_result=kill_switch_result,
+        budget_status=budget_status,
+        terminal_outcome=(
+            "blocked"
+            if not kill_switch_result["allowed"] or budget_denied
+            else None
+        ),
+    )
+    receipts.append(receipt)
+    return receipt.decision != "HARD_BLOCK"
+
+register_before_tool_call_hook(before_tool_call)
+try:
+    # Run governed CrewAI calls under this hook.
+    if not ks.check_task_allowed("research")["allowed"]:
+        raise RuntimeError("Kill switch blocked")
+finally:
+    unregister_before_tool_call_hook(before_tool_call)
+```
+
+The receipt binds `agent_id`, `tool_name`, canonical action hash, context hash,
+policy version, kill-switch state, budget state, decision, and terminal outcome
+when known. That makes the hook testable: the runtime can later compare the
+authorized action hash to the executed action hash instead of relying on a bare
+allow/block boolean.
+
 ## LangChain
 
 ```python
