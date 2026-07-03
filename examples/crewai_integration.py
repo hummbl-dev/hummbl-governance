@@ -75,6 +75,7 @@ from hummbl_governance import (
             print(f"Error: {e}")
     finally:
         unregister_before_tool_call_hook(hook)
+<<<<<<< HEAD
 
 
 def make_before_tool_call_guard(ks, gov, receipts):
@@ -123,6 +124,8 @@ def _budget_denied(budget_status: Any) -> bool:
     if isinstance(budget_status, dict):
         return budget_status.get("decision") == "DENY"
     return getattr(budget_status, "decision", None) == "DENY"
+=======
+>>>>>>> c8e0c7e (fix(crewai): harden transition receipt review gaps)
 
 
 def make_before_tool_call_guard(ks, gov, receipts):
@@ -130,7 +133,8 @@ def make_before_tool_call_guard(ks, gov, receipts):
 
     The returned function is suitable for register_before_tool_call_hook().
     It records a transition receipt before the tool is released. Return False
-    when CrewAI should block the tool call.
+    when CrewAI should block the tool call. The caller-owned receipts list is
+    for short-lived examples; production agents should rotate or persist it.
     """
 
     def before_tool_call(context: Any):
@@ -144,6 +148,9 @@ def make_before_tool_call_guard(ks, gov, receipts):
             payload = {}
         kill_switch_result = ks.check_task_allowed(str(tool_name))
         budget_status = gov.check_budget_status()
+        terminal_outcome = "blocked" if (
+            not kill_switch_result["allowed"] or _budget_denied(budget_status)
+        ) else None
         receipt = build_tool_transition_receipt(
             agent_id=str(agent_id),
             tool_name=str(tool_name),
@@ -155,12 +162,18 @@ def make_before_tool_call_guard(ks, gov, receipts):
             },
             kill_switch_result=kill_switch_result,
             budget_status=budget_status,
-            terminal_outcome="blocked" if not kill_switch_result["allowed"] else None,
+            terminal_outcome=terminal_outcome,
         )
         receipts.append(receipt)
         return receipt.decision != "HARD_BLOCK"
 
     return before_tool_call
+
+
+def _budget_denied(budget_status: Any) -> bool:
+    if isinstance(budget_status, dict):
+        return budget_status.get("decision") == "DENY"
+    return getattr(budget_status, "decision", None) == "DENY"
 
 
 def run_demo_mode():

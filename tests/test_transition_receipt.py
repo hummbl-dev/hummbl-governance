@@ -22,6 +22,7 @@ def test_context_hash_preserves_falsey_values():
 
 def test_context_hash_distinguishes_absent_from_empty_context():
     absent_receipt = build_tool_transition_receipt(
+=======
         agent_id="researcher",
         tool_name="search_docs",
         tool_input={"query": "x"},
@@ -33,6 +34,47 @@ def test_context_hash_distinguishes_absent_from_empty_context():
         context={},
     )
     assert absent_receipt.context_hash != empty_receipt.context_hash
+
+
+def test_to_dict_does_not_expose_live_mutable_support_basis():
+    receipt = build_tool_transition_receipt(
+>>>>>>> c8e0c7e (fix(crewai): harden transition receipt review gaps)
+        agent_id="researcher",
+        tool_name="search_docs",
+        tool_input={"query": "x"},
+    )
+    empty_receipt = build_tool_transition_receipt(
+        agent_id="researcher",
+        tool_name="search_docs",
+        tool_input={"query": "x"},
+        context={},
+    )
+    assert absent_receipt.context_hash != empty_receipt.context_hash
+
+
+def test_budget_warn_remains_allow_with_support_basis():
+    receipt = build_tool_transition_receipt(
+        agent_id="researcher",
+        tool_name="moderate_llm_tool",
+        tool_input={"prompt": "continue"},
+        budget_status={"decision": "WARN", "rationale": "soft cap exceeded"},
+    )
+
+    assert receipt.decision == "ALLOW"
+    assert receipt.support_basis["budget"]["decision"] == "WARN"
+    assert receipt.support_basis["budget"]["rationale"] == "soft cap exceeded"
+
+
+def test_non_mapping_budget_status_is_preserved_without_decision_crash():
+    receipt = build_tool_transition_receipt(
+        agent_id="researcher",
+        tool_name="custom_budget_tool",
+        tool_input={"prompt": "continue"},
+        budget_status=["WARN", "soft cap exceeded"],
+    )
+
+    assert receipt.decision == "ALLOW"
+    assert receipt.support_basis["budget"]["value"] == ("WARN", "soft cap exceeded")
 
 
 def test_tampering_breaks_verification():
@@ -47,16 +89,6 @@ def test_tampering_breaks_verification():
 
     assert verify_tool_transition_receipt(data, signing_secret=b"secret") is False
 <<<<<<< HEAD
-
-
-def test_signature_verification_fails_with_wrong_secret():
-    receipt = build_tool_transition_receipt(
-        agent_id="researcher",
-        tool_name="search_docs",
-        tool_input={"query": "x"},
-        signing_secret=b"secret",
-    )
-
-    assert verify_tool_transition_receipt(receipt, signing_secret=b"wrong-secret") is False
+<<<<<<< HEAD
 =======
->>>>>>> 607e0ce (feat(crewai): add tool transition receipts)
+>>>>>>> c8e0c7e (fix(crewai): harden transition receipt review gaps)

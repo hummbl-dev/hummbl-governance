@@ -78,6 +78,24 @@ def before_tool_call(context):
     kill_switch_result = ks.check_task_allowed(str(tool_name))
     budget_status = gov.check_budget_status()
     budget_denied = getattr(budget_status, "decision", None) == "DENY"
+<<<<<<< HEAD
+=======
+    receipt = build_tool_transition_receipt(
+        agent_id=str(agent_id),
+        tool_name=str(tool_name),
+        tool_input=context.tool_input,
+        context={
+            "hook": "before_tool_call",
+            "task_description": getattr(context.task, "description", None),
+        },
+        kill_switch_result=kill_switch_result,
+        budget_status=budget_status,
+        terminal_outcome=(
+            "blocked"
+            if not kill_switch_result["allowed"] or budget_denied
+            else None
+        ),
+>>>>>>> c8e0c7e (fix(crewai): harden transition receipt review gaps)
     )
     receipts.append(receipt)
     return receipt.decision != "HARD_BLOCK"
