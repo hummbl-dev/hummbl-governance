@@ -30,15 +30,29 @@ class TestToolCallAuditor:
                 assert result == {"q": "runtime governance"}
 
                 entries = list(log.query_by_intent("intent-1", tuple_type="SYSTEM"))
-                assert len(entries) == 1
-                entry = entries[0]
-                assert entry.tuple_data["event"] == "tool_call"
-                assert entry.tuple_data["tool_name"] == "search"
-                assert entry.tuple_data["outcome"] == "ok"
-                assert entry.tuple_data["status"] == "success"
-                assert entry.tuple_data["error_type"] is None
-                assert entry.tuple_data["capability"] == "tool:search"
-                assert entry.tuple_data["duration_ms"] >= 0
+                assert len(entries) == 2
+                pre = entries[0]
+                post = entries[1]
+                assert pre.tuple_data["event"] == "tool_transition"
+                assert pre.tuple_data["phase"] == "authorization"
+                assert pre.tuple_data["tool_name"] == "search"
+                assert pre.tuple_data["outcome"] == "ok"
+                assert pre.tuple_data["status"] == "authorization_granted"
+                assert pre.tuple_data["decision"] == "allow"
+                assert pre.tuple_data["terminal_outcome"] is None
+                assert pre.tuple_data["action_hash"].startswith("sha256:")
+                assert pre.tuple_data["context_hash"].startswith("sha256:")
+                assert pre.tuple_data["transition_id"] == post.tuple_data["transition_id"]
+
+                assert post.tuple_data["event"] == "tool_call"
+                assert post.tuple_data["phase"] == "execution"
+                assert post.tuple_data["tool_name"] == "search"
+                assert post.tuple_data["outcome"] == "ok"
+                assert post.tuple_data["status"] == "success"
+                assert post.tuple_data["terminal_outcome"] == "executed"
+                assert post.tuple_data["error_type"] is None
+                assert post.tuple_data["capability"] == "tool:search"
+                assert post.tuple_data["duration_ms"] >= 0
             finally:
                 log.close()
 
@@ -68,10 +82,21 @@ class TestToolCallAuditor:
 
                 assert called is False
                 entries = list(log.query_by_intent("intent-1", tuple_type="SYSTEM"))
-                assert len(entries) == 1
-                entry = entries[0]
-                assert entry.tuple_data["outcome"] == "denied"
-                assert entry.tuple_data["status"] == "blocked_by_capability"
+                assert len(entries) == 2
+                pre = entries[0]
+                post = entries[1]
+                assert pre.tuple_data["event"] == "tool_transition"
+                assert pre.tuple_data["outcome"] == "denied"
+                assert pre.tuple_data["status"] == "blocked_by_capability"
+                assert pre.tuple_data["decision"] == "deny"
+                assert pre.tuple_data["terminal_outcome"] == "blocked"
+                assert pre.tuple_data["transition_id"] == post.tuple_data["transition_id"]
+                assert post.tuple_data["event"] == "tool_call"
+                assert post.tuple_data["phase"] == "execution"
+                assert post.tuple_data["outcome"] == "denied"
+                assert post.tuple_data["status"] == "blocked_by_capability"
+                assert post.tuple_data["error_type"] == "CapabilityDenied"
+                assert post.tuple_data["terminal_outcome"] == "blocked"
             finally:
                 log.close()
 
@@ -96,11 +121,18 @@ class TestToolCallAuditor:
                     pass
 
                 entries = list(log.query_by_intent("intent-1", tuple_type="SYSTEM"))
-                assert len(entries) == 1
-                entry = entries[0]
-                assert entry.tuple_data["outcome"] == "error"
-                assert entry.tuple_data["status"] == "failed"
-                assert entry.tuple_data["error_type"] == "ValueError"
+                assert len(entries) == 2
+                pre = entries[0]
+                post = entries[1]
+                assert pre.tuple_data["event"] == "tool_transition"
+                assert pre.tuple_data["outcome"] == "ok"
+                assert pre.tuple_data["status"] == "authorization_granted"
+                assert pre.tuple_data["transition_id"] == post.tuple_data["transition_id"]
+                assert post.tuple_data["event"] == "tool_call"
+                assert post.tuple_data["outcome"] == "error"
+                assert post.tuple_data["status"] == "failed"
+                assert post.tuple_data["error_type"] == "ValueError"
+                assert post.tuple_data["terminal_outcome"] == "failed_after_execution"
             finally:
                 log.close()
 
@@ -141,6 +173,6 @@ class TestToolCallAuditor:
                 assert errors == []
                 assert counter == 80
                 entries = list(log.query_by_intent("intent-1", tuple_type="SYSTEM"))
-                assert len(entries) == 80
+                assert len(entries) == 160
             finally:
                 log.close()
