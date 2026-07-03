@@ -63,7 +63,10 @@ receipt before the tool is released:
 
 ```python
 from hummbl_governance import CostGovernor, KillSwitch, build_tool_transition_receipt
-from crewai.hooks import register_before_tool_call_hook
+from crewai.hooks import (
+    register_before_tool_call_hook,
+    unregister_before_tool_call_hook,
+)
 
 ks = KillSwitch()
 gov = CostGovernor("costs.db", soft_cap=5.0, hard_cap=10.0)
@@ -95,6 +98,12 @@ def before_tool_call(context):
     return receipt.decision != "HARD_BLOCK"
 
 register_before_tool_call_hook(before_tool_call)
+try:
+    # Run governed CrewAI calls under this hook.
+    if not ks.check_task_allowed("research")["allowed"]:
+        raise RuntimeError("Kill switch blocked")
+finally:
+    unregister_before_tool_call_hook(before_tool_call)
 ```
 
 The receipt binds `agent_id`, `tool_name`, canonical action hash, context hash,
