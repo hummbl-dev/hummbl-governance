@@ -58,7 +58,7 @@ Every trace promotion decision must classify these axes:
 | `consent_state` | `explicit`, `implied`, `absent`, `revoked`, `not_applicable` |
 | `privacy_sensitivity` | `low`, `medium`, `high`, `regulated` |
 | `tenant_boundary` | `single_user`, `org`, `cross_org`, `public` |
-| `trace_state` | `raw`, `redacted`, `summarized`, `candidate`, `eval`, `memory`, `adapter_candidate`, `fine_tune_candidate`, `discarded` |
+| `trace_state` | `raw`, `redacted`, `summarized`, `eval`, `memory`, `adapter_candidate`, `fine_tune_candidate`, `discarded` |
 | `replayability` | `deterministic`, `partial`, `non_replayable`, `reset_free` |
 | `deletion_obligation` | `none`, `user_delete`, `tenant_delete`, `legal_hold`, `retention_required` |
 | `update_allowed` | `none`, `memory_only`, `eval_only`, `adapter_candidate`, `fine_tune_candidate`, `shared_update_candidate` |
