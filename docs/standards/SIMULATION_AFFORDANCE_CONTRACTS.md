@@ -35,8 +35,13 @@ The inventory below was read from that commit, not from a moving branch.
 | Scenario replay | `hummbl-governed-quest-sim/src/governance/scenarios/runner.py` | Defines deterministic scenario execution, expected receipt checks, chain verification, and state assertions. |
 | Adapter conformance | `hummbl-governed-quest-sim/src/governance/adapter/conformance.py` | Defines 10 conformance gates for capabilities, dispatch, state observation, receipt forwarding, lifecycle, taxonomy, negative regression, determinism, reset, and teardown. |
 | Tunnel gates | `hummbl-governed-quest-sim/src/governance/adapter/tunnel_scenarios.py` | Defines 12 tunnel-specific gates including permit, role, owner allowlist, toll, denial receipts, transit receipts, and gate order. |
-| Runtime contact and pilots | `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/*` | Implementation evidence for runtime smoke, world manifestation, scenario replay, bounded pilots, scaled pilots, and endurance pilots. |
-| Tests | `hummbl-governed-quest-sim/tests/*` and `fabric-adapter/src/test/java/*` | Deterministic and adapter-specific validation evidence; not itself canonical truth. |
+| Runtime smoke | `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/RuntimeSmokeTest.java` | Implementation evidence for automated runtime contact verification. |
+| Fabric world manifestation | `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/WorldManifestor.java` | Implementation evidence for renderer-only world manifestation. |
+| Runtime replay engine | `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/ScenarioReplayEngine.java` | Implementation evidence for replaying governance scenarios through the Fabric boundary. |
+| Runtime pilot engines | `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/BoundedPilotEngine.java`, `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/ScaledPilotEngine.java`, `hummbl-governed-quest-sim/fabric-adapter/src/main/java/dev/hummbl/gqs/runtime/EndurancePilotEngine.java` | Implementation evidence for bounded, scaled, and endurance pilot execution. |
+| Python adapter tests | `hummbl-governed-quest-sim/tests/test_adapter_contract.py`, `hummbl-governed-quest-sim/tests/test_adapter_conformance.py`, `hummbl-governed-quest-sim/tests/test_fabric_adapter.py` | Adapter-specific validation evidence; not itself canonical truth. |
+| Scenario and determinism tests | `hummbl-governed-quest-sim/tests/test_scenarios.py`, `hummbl-governed-quest-sim/tests/test_tunnel_scenarios.py`, `hummbl-governed-quest-sim/tests/test_determinism_closure.py` | Deterministic replay and tunnel validation evidence; not itself canonical truth. |
+| Runtime and bridge tests | `hummbl-governed-quest-sim/tests/test_p0_runtime_smoke.py`, `hummbl-governed-quest-sim/tests/test_p0_manifestation.py`, `hummbl-governed-quest-sim/tests/test_bridge_contract.py`, `hummbl-governed-quest-sim/fabric-adapter/src/test/java/dev/hummbl/gqs/FabricAdapterContractTest.java` | Runtime-contact, manifestation, bridge, and Java adapter validation evidence. |
 
 ## PR-to-Contract Mapping
 
@@ -140,12 +145,13 @@ Any promoted simulation adapter should pass or explicitly waive these gates:
 ## Transfer Limits
 
 Minecraft/Fabric output is play-generated candidate evidence. It does not
-become canonical governance truth until a human reviewer promotes it with:
+become canonical governance truth until recorded human review and explicit
+governance approval promote it with:
 
 1. implementation evidence reference,
 2. prior-art or transfer-limit analysis,
 3. conformance evidence,
-4. receipt or review record,
+4. recorded human review decision and governance approval record,
 5. explicit statement of what is and is not being promoted.
 
 Prototype paths, scenario wording, gameplay affordances, pilot counts, and
