@@ -120,26 +120,75 @@ class LawEngine:
                 )
 
     def _parse_yamlish(self, text: str) -> dict[str, Any]:
-        """Minimal YAML parser for stdlib-only operation."""
+        """Minimal YAML subset parser for scaling law record files.
+
+        Supports the YAML subset used by SL-*.yaml atlas:
+        - key: value pairs (quoted strings, booleans, nulls)
+        - key: (empty) followed by an indented block list -- e.g.
+          boundary_conditions, related_modules, experiment_receipts
+        - Inline lists: [a, b, c]
+
+        This is a fallback for stdlib-only operation when PyYAML is
+        not available. Merges the original block-list parser with
+        inline-list and scalar-literal support so no atlas fields are
+        dropped (Codex review finding: the two prior parsers were
+        never merged, silently dropping block-list fields).
+        """
         result: dict[str, Any] = {}
         current_key = ""
         current_list: list[str] = []
+
+        def _flush() -> None:
+            if current_key and current_list:
+                result[current_key] = list(current_list)
+
         for line in text.split("\n"):
-            if line.startswith("#") or not line.strip():
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
                 continue
-            # Simple key: value
-            if ": " in line and not line.startswith("-"):
-                if current_key and current_list:
-                    result[current_key] = current_list
-                    current_list = []
-                key, value = line.split(": ", 1)
-                current_key = key.strip()
-                result[current_key] = value.strip().strip('"').strip("'")
-            elif line.strip().startswith("-"):
-                item = line.strip()[1:].strip().strip('"').strip("'")
+
+            # Block list item: "- value" (continuation of current_key)
+            if stripped.startswith("-"):
+                item = stripped[1:].strip().strip(chr(34)).strip("'")
                 current_list.append(item)
-        if current_key and current_list:
-            result[current_key] = current_list
+                continue
+
+            # key: value  OR  key: (empty, block list follows)
+            if ":" in stripped:
+                colon_idx = stripped.index(":")
+                key = stripped[:colon_idx].strip()
+                raw_value = stripped[colon_idx + 1:].strip()
+                if not key:
+                    continue
+
+                # Starting a new key -- flush any pending block list
+                # from the previous key first.
+                _flush()
+                current_list = []
+                current_key = key
+
+                if not raw_value:
+                    # Empty value: either a block list follows on
+                    # subsequent lines, or the key is genuinely empty.
+                    # Default to None; overwritten if items follow.
+                    result[current_key] = None
+                elif raw_value.lower() == "true":
+                    result[current_key] = True
+                elif raw_value.lower() == "false":
+                    result[current_key] = False
+                elif raw_value.lower() in ("null", "~"):
+                    result[current_key] = None
+                elif raw_value.startswith("[") and raw_value.endswith("]"):
+                    result[current_key] = [
+                        v.strip().strip("'").strip(chr(34))
+                        for v in raw_value[1:-1].split(",")
+                        if v.strip()
+                    ]
+                else:
+                    result[current_key] = raw_value.strip(chr(34)).strip("'")
+
+        # Flush the final pending block list
+        _flush()
         return result
 
     def evaluate(self, receipt: dict[str, Any]) -> list[Violation]:
@@ -260,50 +309,7 @@ class LawEngine:
 
         return None
 
-    def _parse_yamlish(self, text: str) -> dict[str, Any] | None:
-        """Minimal YAML subset parser for scaling law record files.
-
-        Supports the subset of YAML used by SL-*.yaml atlas files:
-        top-level key: value pairs, quoted strings, booleans, nulls.
-        Falls back gracefully — returns None if no keys are found.
-
-        This is a fallback for stdlib-only operation when PyYAML
-        is not available.
-        """
-        result: dict[str, Any] = {}
-        for line in text.split("\n"):
-            stripped = line.strip()
-            if not stripped or stripped.startswith("#"):
-                continue
-            if ":" in stripped:
-                colon_idx = stripped.index(":")
-                key = stripped[:colon_idx].strip()
-                value = stripped[colon_idx + 1:].strip()
-                if not key:
-                    continue
-                if value.lower() == "true":
-                    result[key] = True
-                elif value.lower() == "false":
-                    result[key] = False
-                elif value.lower() in ("null", "~"):
-                    result[key] = None
-                else:
-                    # Trim surrounding quotes
-                    if (value.startswith('"') and value.endswith('"')) or \
-                       (value.startswith("'") and value.endswith("'")):
-                        value = value[1:-1]
-                    # Handle inline lists: [a, b, c]
-                    if value.startswith("[") and value.endswith("]"):
-                        result[key] = [
-                            v.strip().strip("'\"")
-                            for v in value[1:-1].split(",")
-                            if v.strip()
-                        ]
-                    else:
-                        result[key] = value
-        return result if result else None
-
-
+    
     def list_laws(self) -> list[ScalingLaw]:
         """List all loaded scaling laws."""
         return list(self.laws.values())

@@ -107,55 +107,61 @@ class IdentityEngine:
         capabilities: list[str] | None = None,
     ) -> AgentIdentity:
         """Register a new agent identity."""
-        if agent_id in self._identities:
-            raise KernelPanic(
-                KernelInvariant.IDENTITY,
-                f"Agent '{agent_id}' already registered",
-                agent_id=agent_id,
-            )
         if trust_tier not in self.TRUST_TIERS:
             raise KernelPanic(
                 KernelInvariant.IDENTITY,
-                f"Invalid trust tier '{trust_tier}'",
+                f"Invalid trust tier \'{trust_tier}\'",
                 agent_id=agent_id,
             )
-
-        identity = AgentIdentity(
-            agent_id=agent_id,
-            trust_tier=trust_tier,
-            capability_vector=capabilities or [],
-            vendor=vendor,
-            model=model,
-        )
         with self._lock:
+            # Duplicate check happens inside the lock so no other thread
+            # can register the same agent_id between the check and the
+            # insert (Codex review: TOCTOU race in register()).
+            if agent_id in self._identities:
+                raise KernelPanic(
+                    KernelInvariant.IDENTITY,
+                    f"Agent \'{agent_id}\' already registered",
+                    agent_id=agent_id,
+                )
+            identity = AgentIdentity(
+                agent_id=agent_id,
+                trust_tier=trust_tier,
+                capability_vector=capabilities or [],
+                vendor=vendor,
+                model=model,
+            )
             self._identities[agent_id] = identity
             self._save_identities()
         return identity
 
     def resolve(self, agent_id: str) -> AgentIdentity | None:
         """Resolve an agent identity from the registry."""
-        return self._identities.get(agent_id)
+        with self._lock:
+            return self._identities.get(agent_id)
 
     def list_identities(self) -> dict[str, AgentIdentity]:
         """Return a copy of all registered identities."""
         return dict(self._identities)
 
     def update_tier(self, agent_id: str, new_tier: str) -> AgentIdentity:
-        """Update an agent's trust tier."""
-        identity = self._identities.get(agent_id)
-        if not identity:
-            raise KernelPanic(
-                KernelInvariant.IDENTITY,
-                f"Agent '{agent_id}' not found",
-                agent_id=agent_id,
-            )
+        """Update an agent\'s trust tier."""
         if new_tier not in self.TRUST_TIERS:
             raise KernelPanic(
                 KernelInvariant.IDENTITY,
-                f"Invalid trust tier '{new_tier}'",
+                f"Invalid trust tier \'{new_tier}\'",
                 agent_id=agent_id,
             )
         with self._lock:
+            # Lookup happens inside the lock so a concurrent register()
+            # or role mutation cannot race between the lookup and the
+            # trust_tier write (Codex review finding).
+            identity = self._identities.get(agent_id)
+            if not identity:
+                raise KernelPanic(
+                    KernelInvariant.IDENTITY,
+                    f"Agent \'{agent_id}\' not found",
+                    agent_id=agent_id,
+                )
             identity.trust_tier = new_tier
             self._save_identities()
         return identity
@@ -165,34 +171,38 @@ class IdentityEngine:
 
         Returns probation token with expiry.
         """
-        identity = self._identities.get(agent_id)
-        if not identity:
-            raise KernelPanic(
-                KernelInvariant.ROLE,
-                f"Agent '{agent_id}' not registered",
-                agent_id=agent_id,
-            )
-        if identity.trust_tier == "REVOKED":
-            raise KernelPanic(
-                KernelInvariant.ROLE,
-                f"Agent '{agent_id}' is REVOKED",
-                agent_id=agent_id,
-            )
-
         from datetime import datetime, timezone, timedelta
-        now = datetime.now(timezone.utc)
-        token = {
-            "agent_id": agent_id,
-            "role_id": role_id,
-            "state": "PROBATION",
-            "claimed_at": now.isoformat(),
-            "expires_at": (now + timedelta(days=7)).isoformat(),
-            "metric_score": 0.0,
-            "receipts_submitted": 0,
-            "receipts_compliant": 0,
-        }
-        key = f"{agent_id}:{role_id}"
+
         with self._lock:
+            # Lookup, validation, and mutation all happen inside the lock
+            # so a concurrent update_tier() to REVOKED cannot race with
+            # this claim (Codex review finding).
+            identity = self._identities.get(agent_id)
+            if not identity:
+                raise KernelPanic(
+                    KernelInvariant.ROLE,
+                    f"Agent '{agent_id}' not registered",
+                    agent_id=agent_id,
+                )
+            if identity.trust_tier == "REVOKED":
+                raise KernelPanic(
+                    KernelInvariant.ROLE,
+                    f"Agent '{agent_id}' is REVOKED",
+                    agent_id=agent_id,
+                )
+
+            now = datetime.now(timezone.utc)
+            token = {
+                "agent_id": agent_id,
+                "role_id": role_id,
+                "state": "PROBATION",
+                "claimed_at": now.isoformat(),
+                "expires_at": (now + timedelta(days=7)).isoformat(),
+                "metric_score": 0.0,
+                "receipts_submitted": 0,
+                "receipts_compliant": 0,
+            }
+            key = f"{agent_id}:{role_id}"
             self._role_claims[key] = token
             self._save_role_claims()
         return token
@@ -200,61 +210,70 @@ class IdentityEngine:
     def confirm_role(self, agent_id: str, role_id: str) -> bool:
         """Confirm a role claim after probation.
 
-        Requires ≥ 80% metric compliance during probation.
+        Requires \u2265 80% metric compliance during probation.
         """
         key = f"{agent_id}:{role_id}"
-        claim = self._role_claims.get(key)
-        if not claim:
-            return False
-        if claim["state"] != "PROBATION":
-            return False
+        with self._lock:
+            # Full read-check-mutate-save path inside one lock acquisition
+            # so no other thread can mutate the claim or identity between
+            # the score check and the active_roles/save writes
+            # (Codex review finding).
+            claim = self._role_claims.get(key)
+            if not claim:
+                return False
+            if claim["state"] != "PROBATION":
+                return False
 
-        total = claim["receipts_submitted"]
-        compliant = claim["receipts_compliant"]
-        if total == 0:
-            return False
+            total = claim["receipts_submitted"]
+            compliant = claim["receipts_compliant"]
+            if total == 0:
+                return False
 
-        score = compliant / total
-        if score >= 0.80:
+            score = compliant / total
+            if score < 0.80:
+                return False
+
             claim["state"] = "CONFIRMED"
             claim["metric_score"] = score
-            with self._lock:
-                self._save_role_claims()
+            self._save_role_claims()
 
-                # Update identity active_roles
-                identity = self._identities.get(agent_id)
+            identity = self._identities.get(agent_id)
             if identity and role_id not in identity.active_roles:
                 identity.active_roles.append(role_id)
                 self._save_identities()
             return True
-        return False
 
     def demote_role(self, agent_id: str, role_id: str, reason: str) -> bool:
         """Demote an agent from a role."""
         key = f"{agent_id}:{role_id}"
-        claim = self._role_claims.get(key)
-        if not claim:
-            return False
-
-        claim["state"] = "UNCLAIMED"
-        claim["demoted_at"] = datetime.now(timezone.utc).isoformat()
-        claim["demotion_reason"] = reason
         with self._lock:
+            # Full read-check-mutate-save path inside one lock acquisition
+            # (Codex review finding: was released after _save_role_claims(),
+            # leaving the active_roles mutation unguarded).
+            claim = self._role_claims.get(key)
+            if not claim:
+                return False
+
+            claim["state"] = "UNCLAIMED"
+            claim["demoted_at"] = datetime.now(timezone.utc).isoformat()
+            claim["demotion_reason"] = reason
             self._save_role_claims()
 
             identity = self._identities.get(agent_id)
-        if identity and role_id in identity.active_roles:
-            identity.active_roles.remove(role_id)
-            self._save_identities()
-        return True
+            if identity and role_id in identity.active_roles:
+                identity.active_roles.remove(role_id)
+                self._save_identities()
+            return True
 
     def list_roles(self, agent_id: str) -> list[dict[str, Any]]:
         """List all role claims for an agent."""
-        return [
-            claim for key, claim in self._role_claims.items()
-            if key.startswith(f"{agent_id}:")
-        ]
+        with self._lock:
+            return [
+                claim for key, claim in self._role_claims.items()
+                if key.startswith(f"{agent_id}:")
+            ]
 
     def list_role_claims(self) -> dict[str, dict[str, Any]]:
         """Return a copy of all role claims."""
-        return dict(self._role_claims)
+        with self._lock:
+            return dict(self._role_claims)
