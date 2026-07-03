@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-1849%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-1937%20collected-blue)]()
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
@@ -71,7 +71,7 @@ No other library provides this combination of kill switch, circuit breaker, cost
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety — evidence you can hand to an auditor or compliance team.
 
-**Production-tested.** Extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 20,000+ tests and 14 CI workflows. The governance layer has 1849 dedicated tests and runs daily in production.
+**Production-tested.** Extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 20,000+ tests and 14 CI workflows. The governance layer has 1937 dedicated package tests collected by `python -m pytest --collect-only -q tests`.
 
 **OWASP Top 10 for Agentic Applications.** Covers all 10 risks in the [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). See the [full mapping below](#owasp-top-10-for-agentic-applications-2026-coverage).
 
@@ -117,7 +117,7 @@ graph TD
 ## Features
 
 - **34 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel
-- **1849 tests** with full coverage across all modules
+- **1937 collected tests** across package modules
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
@@ -150,7 +150,7 @@ provenance:
   build_system: github-actions
   trusted_publishing: true
   dependencies: zero
-  tests: 1849
+  tests: 1937
 ```
 
 Read it at runtime (the file is human-readable YAML; parse with PyYAML if available, or read as text):
@@ -267,7 +267,7 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [112](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Total: 1849 tests across 34 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
+**Total: 1937 collected tests across 34 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 
