@@ -27,8 +27,11 @@ from hummbl_governance import (
     CostGovernor,
     KillSwitch,
     KillSwitchMode,
+    AuditLog,
+    ToolCallAuditor,
     build_tool_transition_receipt,
 )
+from hummbl_governance.capability_fence import CapabilityFence
 from hummbl_governance.circuit_breaker import CircuitBreakerOpen
 
 
@@ -146,11 +149,36 @@ def run_demo_mode():
     ks = KillSwitch()
     cb = CircuitBreaker(failure_threshold=3, recovery_timeout=30.0)
     gov = CostGovernor(":memory:", soft_cap=5.0, hard_cap=10.0)
+    audit = AuditLog(
+        str(Path(tempfile.mkdtemp()) / "audit"),
+        require_signature=False,
+    )
+    tool_audit = ToolCallAuditor(
+        audit_log=audit,
+        intent_id="crewai-demo-intent",
+        task_id="research-task",
+        capability_fence=CapabilityFence(allowed=["tool:search"]),
+    )
 
     # Simulate a successful run
     print("=== Run 1: Normal operation ===")
     result = ks.check_task_allowed("research")
     print(f"  Kill switch: {result['allowed']} ({ks.mode.name})")
+
+    def mock_search(query):
+        return {"query": query, "rows": 3}
+
+    safe_search = tool_audit.wrap("search", mock_search)
+    print(f"  Audited tool call: {safe_search('agent governance audit')}")
+
+    def blocked_tool():
+        raise RuntimeError("This tool must never be reachable")
+
+    try:
+        blocked = tool_audit.wrap("secret", blocked_tool, capability="tool:blocked")
+        blocked()
+    except Exception:
+        print("  Expected block: tool capability denied")
 
     output = cb.call(mock_kickoff)
     gov.record_usage("openai", "gpt-4", 1000, 500, 0.015)
@@ -187,6 +215,10 @@ def run_demo_mode():
 
     # Audit trail
     print("\n=== Audit trail ===")
+    audit_entries = list(audit.query_by_intent("crewai-demo-intent", tuple_type="SYSTEM"))
+    print(f"  Tool-call audit entries: {len(audit_entries)}")
+    if audit_entries:
+        print(f"  Last tool event: {audit_entries[0].tuple_data}")
     print(f"  Kill switch mode: {ks.mode.name}")
     print(f"  Circuit breaker state: {cb.state.name}")
     status = gov.check_budget_status()

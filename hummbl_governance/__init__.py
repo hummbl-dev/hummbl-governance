@@ -53,6 +53,7 @@ from hummbl_governance.transition_receipt import (
 )
 from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
+from hummbl_governance.tool_audit import ToolCallAuditor
 from hummbl_governance.identity import AgentRegistry, TrustTier
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 try:
@@ -182,6 +183,7 @@ __all__ = [
     "DelegationToken",
     "DelegationTokenManager",
     "AuditLog",
+    "ToolCallAuditor",
     "AgentRegistry",
     "TrustTier",
     "SchemaValidator",
