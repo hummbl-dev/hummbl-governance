@@ -69,7 +69,7 @@ audit:
       - ISO-27001
       - ISO-42001
       - EU-AI-Act
-    coverage: full
+    coverage: engineering_mapping
 
 provenance:
   build_system: github-actions
@@ -79,4 +79,4 @@ provenance:
   license: Apache-2.0
   supply_chain_risk: none
   dependencies: zero
-  tests: 1937
+  tests: 1970

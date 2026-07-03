@@ -28,9 +28,9 @@
 
 ## Python Support
 
-- **Supported classifiers** (declared in `pyproject.toml`): Python 3.11, 3.12, 3.13, 3.14.
+- **Supported classifiers** (declared in `pyproject.toml`): Python 3.11, 3.12, 3.13.
 - **CI-tested versions**: Python 3.11, 3.12, 3.13 (GitHub Actions matrix). Gitea CI tests Python 3.13.13 only.
-- **Python 3.14** is classified as supported but not yet exercised in CI; treat as experimental until the CI matrix is expanded.
+- **Python 3.14** is not claimed as supported until the CI matrix includes it.
 
 ## Required Local Validation
 
