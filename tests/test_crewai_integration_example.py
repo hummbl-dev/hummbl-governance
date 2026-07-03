@@ -38,3 +38,21 @@ def test_before_tool_call_guard_blocks_when_kill_switch_blocks():
     assert guard(context) is False
     assert receipts[-1].decision == "HARD_BLOCK"
     assert receipts[-1].terminal_outcome == "blocked"
+
+
+def test_before_tool_call_guard_marks_budget_denial_blocked():
+    gov = CostGovernor(":memory:", soft_cap=1.0, hard_cap=2.0)
+    gov.record_usage("openai", "gpt-4", 100, 50, 3.0)
+    receipts = []
+    guard = make_before_tool_call_guard(KillSwitch(), gov, receipts)
+    context = SimpleNamespace(
+        tool_name="expensive_llm_tool",
+        tool_input={"prompt": "continue"},
+        agent=SimpleNamespace(role="Researcher"),
+        task=None,
+        crew=None,
+    )
+
+    assert guard(context) is False
+    assert receipts[-1].decision == "HARD_BLOCK"
+    assert receipts[-1].terminal_outcome == "blocked"

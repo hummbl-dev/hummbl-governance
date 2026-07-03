@@ -68,7 +68,7 @@ def _json_safe(value: Any) -> Any:
         return _json_safe(value.to_dict())
     if hasattr(value, "__dict__"):
         return _json_safe(vars(value))
-    return repr(value)
+    raise TypeError(f"Unsupported receipt preimage type: {type(value).__name__}")
 
 
 @dataclass(frozen=True, slots=True)
@@ -181,7 +181,7 @@ def build_tool_transition_receipt(
         actor_mode=actor_mode if actor is None else "delegated_principal",
         tool_name=tool_name,
         action_hash=stable_sha256({"tool_name": tool_name, "tool_input": tool_input}),
-        context_hash=stable_sha256({} if context is None else context),
+        context_hash=stable_sha256({"__context_absent__": True} if context is None else context),
         policy_version=policy_version,
         reversibility=reversibility,
         spendability=spendability,
@@ -200,7 +200,11 @@ def verify_tool_transition_receipt(
     receipt: ToolTransitionReceipt | dict[str, Any],
     signing_secret: bytes | None = None,
 ) -> bool:
-    """Verify the decision hash and, when a secret is supplied, the HMAC."""
+    """Verify the decision hash and, when a secret is supplied, the HMAC.
+
+    Without a signing secret this only verifies deterministic public fields; it
+    does not authenticate the receipt signature.
+    """
     data = receipt.to_dict() if isinstance(receipt, ToolTransitionReceipt) else dict(receipt)
     expected_body = dict(data)
     expected_body["decision_hash"] = ""
@@ -223,10 +227,10 @@ def _budget_to_dict(budget_status: Any | None) -> dict[str, Any] | None:
     if budget_status is None:
         return None
     if hasattr(budget_status, "to_dict") and callable(budget_status.to_dict):
-        return budget_status.to_dict()
+        return dict(budget_status.to_dict())
     if isinstance(budget_status, dict):
         return dict(budget_status)
-    return _json_safe(budget_status)
+    return {"value": _json_safe(budget_status)}
 
 
 def _freeze(value: Any) -> Any:

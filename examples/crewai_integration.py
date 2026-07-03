@@ -35,7 +35,7 @@ from hummbl_governance.circuit_breaker import CircuitBreakerOpen
 def run_with_crewai():
     """Real CrewAI integration — requires `pip install crewai`."""
     from crewai import Agent, Crew, Task
-    from crewai.hooks import register_before_tool_call_hook
+    from crewai.hooks import register_before_tool_call_hook, unregister_before_tool_call_hook
 
     # 1. Define your crew as usual
     researcher = Agent(
@@ -59,25 +59,29 @@ def run_with_crewai():
     gov = CostGovernor(str(Path(tempfile.mkdtemp()) / "costs.db"),
                        soft_cap=5.0, hard_cap=10.0)
     receipts = []
-    register_before_tool_call_hook(make_before_tool_call_guard(ks, gov, receipts))
+    hook = make_before_tool_call_guard(ks, gov, receipts)
+    register_before_tool_call_hook(hook)
 
     # 3. Run with governance
-    result = ks.check_task_allowed("research")
-    if not result["allowed"]:
-        print(f"Blocked by kill switch: {ks.mode.name}")
-        return
-
     try:
-        output = cb.call(crew.kickoff)
-        gov.record_usage("openai", "gpt-4", 1000, 500, 0.015)
-        print(f"Result: {output}")
-    except CircuitBreakerOpen:
-        print("Circuit breaker open — too many failures, fast-failing")
-        ks.engage(KillSwitchMode.HALT_NONCRITICAL,
-                  reason="Circuit breaker opened",
-                  triggered_by="circuit_breaker")
-    except Exception as e:
-        print(f"Error: {e}")
+        result = ks.check_task_allowed("research")
+        if not result["allowed"]:
+            print(f"Blocked by kill switch: {ks.mode.name}")
+            return
+
+        try:
+            output = cb.call(crew.kickoff)
+            gov.record_usage("openai", "gpt-4", 1000, 500, 0.015)
+            print(f"Result: {output}")
+        except CircuitBreakerOpen:
+            print("Circuit breaker open — too many failures, fast-failing")
+            ks.engage(KillSwitchMode.HALT_NONCRITICAL,
+                      reason="Circuit breaker opened",
+                      triggered_by="circuit_breaker")
+        except Exception as e:
+            print(f"Error: {e}")
+    finally:
+        unregister_before_tool_call_hook(hook)
 
 
 def make_before_tool_call_guard(ks, gov, receipts):
@@ -85,7 +89,8 @@ def make_before_tool_call_guard(ks, gov, receipts):
 
     The returned function is suitable for register_before_tool_call_hook().
     It records a transition receipt before the tool is released. Return False
-    when CrewAI should block the tool call.
+    when CrewAI should block the tool call. The caller-owned receipts list is
+    for short-lived examples; production agents should rotate or persist it.
     """
 
     def before_tool_call(context: Any):
@@ -99,6 +104,9 @@ def make_before_tool_call_guard(ks, gov, receipts):
             payload = {}
         kill_switch_result = ks.check_task_allowed(str(tool_name))
         budget_status = gov.check_budget_status()
+        terminal_outcome = "blocked" if (
+            not kill_switch_result["allowed"] or _budget_denied(budget_status)
+        ) else None
         receipt = build_tool_transition_receipt(
             agent_id=str(agent_id),
             tool_name=str(tool_name),
@@ -110,12 +118,18 @@ def make_before_tool_call_guard(ks, gov, receipts):
             },
             kill_switch_result=kill_switch_result,
             budget_status=budget_status,
-            terminal_outcome="blocked" if not kill_switch_result["allowed"] else None,
+            terminal_outcome=terminal_outcome,
         )
         receipts.append(receipt)
         return receipt.decision != "HARD_BLOCK"
 
     return before_tool_call
+
+
+def _budget_denied(budget_status: Any) -> bool:
+    if isinstance(budget_status, dict):
+        return budget_status.get("decision") == "DENY"
+    return getattr(budget_status, "decision", None) == "DENY"
 
 
 def run_demo_mode():
