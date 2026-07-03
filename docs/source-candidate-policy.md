@@ -28,8 +28,6 @@ Source-candidate material must be clearly marked as one of:
 - `needs receipt`
 <<<<<<< HEAD
 - `needs-boundary-review`
-=======
->>>>>>> 42215e6 (docs: harden public governance claims and boundary docs)
 
 ## Promotion To Verified Claim
 
