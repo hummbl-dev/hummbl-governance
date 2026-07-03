@@ -29,10 +29,6 @@ Compliance documentation for various frameworks:
 - [ADR Backlog](trackers/ADR-BACKLOG.md) - Pending architecture decisions
 - [Docs-Code Parity Tracker](trackers/DOCS-CODE-PARITY.md) - Documentation coverage
 
-## Standards
-
-- [Trace-to-Update Boundary](standards/TRACE_TO_UPDATE_BOUNDARY.md) - Consent, privacy, replay, and deletion gates for trace reuse
-
 ## Ecosystem
 
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
