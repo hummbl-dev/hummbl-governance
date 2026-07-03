@@ -7,6 +7,7 @@ Welcome to the HUMMBL Governance documentation site.
 - [README](../README.md) - Project overview
 - [API Spec](API_SPEC.md) - API documentation
 - [PRD](PRD.md) - Product requirements
+- [Package Test-Count Authority](TEST_COUNT_AUTHORITY.md) - Primitive and test-count source-of-truth model
 - [ROADMAP](../ROADMAP.md) - Development roadmap
 - [CONTRIBUTING](../CONTRIBUTING.md) - Contribution guidelines
 - [SECURITY](../SECURITY.md) - Security policy
