@@ -29,6 +29,10 @@ Compliance documentation for various frameworks:
 - [ADR Backlog](trackers/ADR-BACKLOG.md) - Pending architecture decisions
 - [Docs-Code Parity Tracker](trackers/DOCS-CODE-PARITY.md) - Documentation coverage
 
+## Standards
+
+- [Human Agency and AI Agency Boundary](standards/HUMAN_AI_AGENCY_BOUNDARY.md) - Human Command and delegated agent agency model
+
 ## Ecosystem
 
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
