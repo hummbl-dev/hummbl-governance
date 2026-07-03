@@ -65,7 +65,7 @@ No other library provides this combination of kill switch, circuit breaker, cost
 
 ## Why hummbl-governance?
 
-**No dependency conflicts.** Uses only Python stdlib at runtime. Installs in under 1 second and avoids transitive runtime dependencies, reducing dependency supply-chain risk for a library that exists to make agents safer. The package itself, build backend, publishing path, CI, and optional/test tooling remain supply-chain surfaces that require normal review.
+**No dependency conflicts.** Uses only Python stdlib at runtime. Installs without runtime dependency resolution overhead and avoids transitive runtime dependencies, reducing dependency supply-chain risk for a library that exists to make agents safer. The package itself, build backend, publishing path, CI, and optional/test tooling remain supply-chain surfaces that require normal review.
 
 **Built for multi-agent systems.** Delegation tokens with HMAC-SHA256 signing and chain-depth limits. Coordination bus with flock-based mutual exclusion. Kill switch with 4 graduated halt modes. Circuit breakers wrapping external adapters. These are primitives that AI orchestration platforms need at runtime.
 
@@ -252,7 +252,7 @@ for f in examples/*.py; do echo "=== $f ==="; python "$f"; done
 
 ## OWASP Top 10 for Agentic Applications (2026) Engineering Mapping
 
-The table below maps hummbl-governance primitives to the [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). This is an engineering evidence map, not a third-party certification or attestation. Every row below links to the primitive and its test suite.
+The table below maps hummbl-governance primitives to the [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). This is an engineering evidence map, not a third-party certification or attestation. Most rows below link to a primitive and its test suite; ASI04 is a supply-chain posture row for the package runtime surface.
 
 | OWASP Risk | Primitive(s) | Tests | How |
 |------------|-------------|-------|-----|
@@ -321,7 +321,7 @@ valid, error = mgr.validate_token(token)
 
 ### Does hummbl-governance work without any third-party packages?
 
-Yes. Every runtime module uses only Python stdlib (3.11+). There are zero entries in the `dependencies` list in `pyproject.toml`. Test dependencies are isolated in `[test]` extras. This means no runtime dependency conflicts, reduced transitive dependency risk, and fast installs.
+Yes. Every runtime module uses only Python stdlib (3.11+). There are zero entries in the `dependencies` list in `pyproject.toml`. Test dependencies are isolated under `project.optional-dependencies.test` in `pyproject.toml`. This means no runtime dependency conflicts, reduced transitive dependency risk, and fast installs.
 
 ### How do I generate compliance evidence for SOC2 or GDPR from my AI system?
 
