@@ -180,6 +180,7 @@ def test_fleet_total_marker_count_is_published():
         "argentina-ai-plan.md",
         "hong-kong-ai-guidelines.md",
         "belgium-ai-strategy.md",
+        "ophthalmic-ai.md",
     ],
 )
 def test_matrix_has_data_rows(matrix_name: str):
@@ -344,6 +345,7 @@ def test_readme_table_parses_all_matrices():
         "argentina-ai-plan.md",
         "hong-kong-ai-guidelines.md",
         "belgium-ai-strategy.md",
+        "ophthalmic-ai.md",
     ],
 )
 def test_readme_counts_match_script_output(matrix_name: str):
