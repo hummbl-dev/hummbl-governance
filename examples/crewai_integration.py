@@ -20,12 +20,14 @@ Usage:
 
 import tempfile
 from pathlib import Path
+from typing import Any
 
 from hummbl_governance import (
     CircuitBreaker,
     CostGovernor,
     KillSwitch,
     KillSwitchMode,
+    build_tool_transition_receipt,
 )
 from hummbl_governance.circuit_breaker import CircuitBreakerOpen
 
@@ -33,6 +35,7 @@ from hummbl_governance.circuit_breaker import CircuitBreakerOpen
 def run_with_crewai():
     """Real CrewAI integration — requires `pip install crewai`."""
     from crewai import Agent, Crew, Task
+    from crewai.hooks import register_before_tool_call_hook
 
     # 1. Define your crew as usual
     researcher = Agent(
@@ -55,6 +58,8 @@ def run_with_crewai():
     cb = CircuitBreaker(failure_threshold=3, recovery_timeout=30.0)
     gov = CostGovernor(str(Path(tempfile.mkdtemp()) / "costs.db"),
                        soft_cap=5.0, hard_cap=10.0)
+    receipts = []
+    register_before_tool_call_hook(make_before_tool_call_guard(ks, gov, receipts))
 
     # 3. Run with governance
     result = ks.check_task_allowed("research")
@@ -73,6 +78,44 @@ def run_with_crewai():
                   triggered_by="circuit_breaker")
     except Exception as e:
         print(f"Error: {e}")
+
+
+def make_before_tool_call_guard(ks, gov, receipts):
+    """Build a CrewAI ToolCallHookContext guard.
+
+    The returned function is suitable for register_before_tool_call_hook().
+    It records a transition receipt before the tool is released. Return False
+    when CrewAI should block the tool call.
+    """
+
+    def before_tool_call(context: Any):
+        tool_name = getattr(context, "tool_name", None) or str(getattr(context, "tool", "unknown_tool"))
+        agent = getattr(context, "agent", None)
+        task = getattr(context, "task", None)
+        crew = getattr(context, "crew", None)
+        agent_id = getattr(agent, "role", None) or getattr(agent, "id", None) or "crewai-agent"
+        payload = getattr(context, "tool_input", None)
+        if payload is None:
+            payload = {}
+        kill_switch_result = ks.check_task_allowed(str(tool_name))
+        budget_status = gov.check_budget_status()
+        receipt = build_tool_transition_receipt(
+            agent_id=str(agent_id),
+            tool_name=str(tool_name),
+            tool_input=payload,
+            context={
+                "agent_role": getattr(agent, "role", None),
+                "task_description": getattr(task, "description", None),
+                "crew_id": getattr(crew, "id", None),
+            },
+            kill_switch_result=kill_switch_result,
+            budget_status=budget_status,
+            terminal_outcome="blocked" if not kill_switch_result["allowed"] else None,
+        )
+        receipts.append(receipt)
+        return receipt.decision != "HARD_BLOCK"
+
+    return before_tool_call
 
 
 def run_demo_mode():
@@ -135,6 +178,23 @@ def run_demo_mode():
     status = gov.check_budget_status()
     print(f"  Cost: ${status.current_spend:.3f} (decision: {status.decision})")
     print(f"  Total failures: {cb.failure_count}, successes: {cb.success_count}")
+
+    # Simulate CrewAI per-tool hook governance without requiring CrewAI.
+    print("\n=== Per-tool transition receipt ===")
+    receipts = []
+    class DemoToolContext:
+        tool_name = "web_search"
+        tool_input = {"query": "CrewAI governance"}
+        agent = None
+        task = None
+        crew = None
+
+    guard = make_before_tool_call_guard(ks, gov, receipts)
+    allowed = guard(DemoToolContext())
+    receipt = receipts[-1]
+    print(f"  Tool allowed: {allowed}")
+    print(f"  Receipt decision: {receipt.decision}")
+    print(f"  Action hash: {receipt.action_hash}")
 
 
 if __name__ == "__main__":

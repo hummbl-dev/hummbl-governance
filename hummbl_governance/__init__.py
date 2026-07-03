@@ -46,6 +46,11 @@ from hummbl_governance.kernel import (
 from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
 from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
 from hummbl_governance.cost_governor import CostGovernor
+from hummbl_governance.transition_receipt import (
+    ToolTransitionReceipt,
+    build_tool_transition_receipt,
+    verify_tool_transition_receipt,
+)
 from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.identity import AgentRegistry, TrustTier
@@ -171,6 +176,9 @@ __all__ = [
     "CircuitBreaker",
     "CircuitBreakerState",
     "CostGovernor",
+    "ToolTransitionReceipt",
+    "build_tool_transition_receipt",
+    "verify_tool_transition_receipt",
     "DelegationToken",
     "DelegationTokenManager",
     "AuditLog",
