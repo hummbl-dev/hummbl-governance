@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-1937%20collected-blue)]()
+[![Tests](https://img.shields.io/badge/tests-1937%20collected-blue)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
