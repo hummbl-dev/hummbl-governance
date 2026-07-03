@@ -29,6 +29,10 @@ Compliance documentation for various frameworks:
 - [ADR Backlog](trackers/ADR-BACKLOG.md) - Pending architecture decisions
 - [Docs-Code Parity Tracker](trackers/DOCS-CODE-PARITY.md) - Documentation coverage
 
+## Standards
+
+- [Simulation-Affordance Contract Canonicalization](standards/SIMULATION_AFFORDANCE_CONTRACTS.md) - Minecraft/Fabric implementation evidence extraction packet
+
 ## Ecosystem
 
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
