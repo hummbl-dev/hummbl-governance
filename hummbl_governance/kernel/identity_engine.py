@@ -23,6 +23,7 @@ and a capability vector. Identity changes require Board ratification.
 from __future__ import annotations
 
 import json
+import threading
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -53,6 +54,7 @@ class IdentityEngine:
 
     def __init__(self, state_dir: Path) -> None:
         self.state_dir = state_dir
+        self._lock = threading.Lock()
         self.registry_file = state_dir / "identity_registry.jsonl"
         self.role_claims_file = state_dir / "role_claims.jsonl"
         self._identities: dict[str, AgentIdentity] = {}
@@ -125,8 +127,9 @@ class IdentityEngine:
             vendor=vendor,
             model=model,
         )
-        self._identities[agent_id] = identity
-        self._save_identities()
+        with self._lock:
+            self._identities[agent_id] = identity
+            self._save_identities()
         return identity
 
     def resolve(self, agent_id: str) -> AgentIdentity | None:
@@ -152,8 +155,9 @@ class IdentityEngine:
                 f"Invalid trust tier '{new_tier}'",
                 agent_id=agent_id,
             )
-        identity.trust_tier = new_tier
-        self._save_identities()
+        with self._lock:
+            identity.trust_tier = new_tier
+            self._save_identities()
         return identity
 
     def claim_role(self, agent_id: str, role_id: str) -> dict[str, Any]:
@@ -188,8 +192,9 @@ class IdentityEngine:
             "receipts_compliant": 0,
         }
         key = f"{agent_id}:{role_id}"
-        self._role_claims[key] = token
-        self._save_role_claims()
+        with self._lock:
+            self._role_claims[key] = token
+            self._save_role_claims()
         return token
 
     def confirm_role(self, agent_id: str, role_id: str) -> bool:
@@ -213,10 +218,11 @@ class IdentityEngine:
         if score >= 0.80:
             claim["state"] = "CONFIRMED"
             claim["metric_score"] = score
-            self._save_role_claims()
+            with self._lock:
+                self._save_role_claims()
 
-            # Update identity active_roles
-            identity = self._identities.get(agent_id)
+                # Update identity active_roles
+                identity = self._identities.get(agent_id)
             if identity and role_id not in identity.active_roles:
                 identity.active_roles.append(role_id)
                 self._save_identities()
@@ -233,9 +239,10 @@ class IdentityEngine:
         claim["state"] = "UNCLAIMED"
         claim["demoted_at"] = datetime.now(timezone.utc).isoformat()
         claim["demotion_reason"] = reason
-        self._save_role_claims()
+        with self._lock:
+            self._save_role_claims()
 
-        identity = self._identities.get(agent_id)
+            identity = self._identities.get(agent_id)
         if identity and role_id in identity.active_roles:
             identity.active_roles.remove(role_id)
             self._save_identities()

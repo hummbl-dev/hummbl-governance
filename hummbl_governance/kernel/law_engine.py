@@ -260,6 +260,50 @@ class LawEngine:
 
         return None
 
+    def _parse_yamlish(self, text: str) -> dict[str, Any] | None:
+        """Minimal YAML subset parser for scaling law record files.
+
+        Supports the subset of YAML used by SL-*.yaml atlas files:
+        top-level key: value pairs, quoted strings, booleans, nulls.
+        Falls back gracefully — returns None if no keys are found.
+
+        This is a fallback for stdlib-only operation when PyYAML
+        is not available.
+        """
+        result: dict[str, Any] = {}
+        for line in text.split("\n"):
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
+                continue
+            if ":" in stripped:
+                colon_idx = stripped.index(":")
+                key = stripped[:colon_idx].strip()
+                value = stripped[colon_idx + 1:].strip()
+                if not key:
+                    continue
+                if value.lower() == "true":
+                    result[key] = True
+                elif value.lower() == "false":
+                    result[key] = False
+                elif value.lower() in ("null", "~"):
+                    result[key] = None
+                else:
+                    # Trim surrounding quotes
+                    if (value.startswith('"') and value.endswith('"')) or \
+                       (value.startswith("'") and value.endswith("'")):
+                        value = value[1:-1]
+                    # Handle inline lists: [a, b, c]
+                    if value.startswith("[") and value.endswith("]"):
+                        result[key] = [
+                            v.strip().strip("'\"")
+                            for v in value[1:-1].split(",")
+                            if v.strip()
+                        ]
+                    else:
+                        result[key] = value
+        return result if result else None
+
+
     def list_laws(self) -> list[ScalingLaw]:
         """List all loaded scaling laws."""
         return list(self.laws.values())
