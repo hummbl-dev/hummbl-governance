@@ -9,14 +9,11 @@ Tests:
 - Attest module (ALLOWLIST, BLOCKLIST, CAPABILITY_FENCE)
 """
 
-import os
-import tempfile
 
 import pytest
 
 from hummbl_governance import (
     Attest,
-    AttestResult,
     ALLOWLIST,
     BLOCKLIST,
     CAPABILITY_FENCE,
