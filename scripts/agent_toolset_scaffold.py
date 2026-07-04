@@ -29,6 +29,25 @@ TOOLSET_FILES: Dict[str, str] = {
 }
 
 
+REPO_MARKERS = (
+    ".git",
+    "hummbl.repo.yaml",
+    "pyproject.toml",
+)
+
+
+def find_repo_root(path: Path) -> Path:
+    """Return the nearest repository root at or above *path*."""
+    current = path.resolve()
+    if current.is_file():
+        current = current.parent
+
+    for candidate in (current, *current.parents):
+        if any((candidate / marker).exists() for marker in REPO_MARKERS):
+            return candidate
+    return current
+
+
 def repo_default_name(repo_path: Path) -> str:
     remote = (repo_path / ".git" / "config")
     if not remote.exists():
@@ -124,11 +143,16 @@ def write_template(repo_root: Path, template_path: Path, force: bool) -> str:
 
 
 def resolve_template_source(repo_root: Path, script_root: Path) -> Path:
+    script_repo_root = find_repo_root(script_root)
     candidates = [
-        repo_root / "founder-mode" / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
         repo_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        repo_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        repo_root / "founder-mode" / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
         repo_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        repo_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        script_repo_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        script_repo_root / "founder-mode" / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        script_repo_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        script_repo_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
         script_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
         script_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
     ]
@@ -149,9 +173,10 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    repo_root = Path(args.repo).resolve()
-    if not repo_root.exists():
-        raise SystemExit(f"repo path not found: {repo_root}")
+    repo_path = Path(args.repo).resolve()
+    if not repo_path.exists():
+        raise SystemExit(f"repo path not found: {repo_path}")
+    repo_root = find_repo_root(repo_path)
 
     status = status_for_repo(repo_root)
     report = {"repo": str(repo_root), "repo_name": repo_default_name(repo_root), "toolset": status}
