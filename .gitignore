@@ -13,4 +13,5 @@ reports/*.html
 reports/*.json
 .coverage
 .kernel/
+_state/
 hummbl_governance/data/registry/*.jsonl
