@@ -14,10 +14,6 @@ import io
 import json
 import sys
 from pathlib import Path
-import os
-import sys
-from pathlib import Path
-from tempfile import TemporaryDirectory
 from unittest import mock
 
 import pytest
@@ -157,9 +153,6 @@ class TestCorsOptIn:
         def _capture_header(name, value=None):
             sent_headers.append((name, value))
 
-        orig_send_header = handler.send_header
-        def _capture_header(name, value=None):
-            sent_headers.append((name, value))
         handler.send_header = _capture_header
         api_server.GovernanceHandler.do_GET(handler)
         cors = [h for h in sent_headers if h[0].lower() == "access-control-allow-origin"]
@@ -177,8 +170,6 @@ class TestCorsOptIn:
         def _capture_header(name, value=None):
             sent_headers.append((name, value))
 
-        def _capture_header(name, value=None):
-            sent_headers.append((name, value))
         handler.send_header = _capture_header
         api_server.GovernanceHandler.do_GET(handler)
         cors = [h for h in sent_headers if h[0].lower() == "access-control-allow-origin"]
