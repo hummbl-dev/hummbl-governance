@@ -127,14 +127,14 @@ class TestBearerAuth:
     def test_wrong_token_rejected(self, monkeypatch):
         monkeypatch.setenv("GOVERNANCE_API_TOKEN", "test-token-abc123")
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
-        handler = _make_handler("GET", "/api/v1/health", headers={"Authorization": "Bearer wrong-token"})
+        handler = _make_handler("GET", "/api/v1/audit", headers={"Authorization": "Bearer wrong-token"})
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 401
 
     def test_missing_authorization_header_rejected(self, monkeypatch):
         monkeypatch.setenv("GOVERNANCE_API_TOKEN", "test-token-abc123")
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
-        handler = _make_handler("GET", "/api/v1/health")
+        handler = _make_handler("GET", "/api/v1/audit")
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 401
 
