@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import tempfile
+import pytest
 
 from hummbl_governance.kernel.model_registry import ModelEntry, ModelRegistry
 
@@ -69,6 +70,27 @@ class TestModelRegistry:
             best = reg.best("val_ppl", higher_is_better=False)
             assert best is not None
             assert best.model_id == "good"
+
+    def test_best_metric_rejects_mixed_types(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            reg = ModelRegistry(registry_path=f"{tmp}/models.jsonl")
+            reg.register(
+                model_id="string-metric",
+                task="t",
+                params_m=1.0,
+                checkpoint_path="/a",
+                metrics={"quality": "high"},
+            )
+            reg.register(
+                model_id="numeric-metric",
+                task="t",
+                params_m=1.0,
+                checkpoint_path="/b",
+                metrics={"quality": 0.92},
+            )
+
+            with pytest.raises(TypeError):
+                reg.best("quality")
 
     def test_get_by_id(self):
         with tempfile.TemporaryDirectory() as tmp:
