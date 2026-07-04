@@ -55,6 +55,14 @@ def main(argv: list[str] | None = None) -> int:
 
     pyproject = tomllib.loads(read_text(root / "pyproject.toml"))
     expected_version = pyproject.get("project", {}).get("version", "")
+    readme = read_text(root / "README.md")
+    security = read_text(root / "SECURITY.md")
+    repo_health = read_text(root / "docs" / "REPO_HEALTH.md")
+    governance = read_text(root / "hummbl_governance" / "governance.yml")
+
+    require(
+        bool(expected_version),
+        "pyproject.toml missing a project.version value",
         failures,
     )
     require(
