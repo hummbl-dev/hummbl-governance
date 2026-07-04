@@ -1,19 +1,3 @@
-# Copyright 2024-2026 HUMMBL, LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# SPDX-License-Identifier: Apache-2.0
-
 """hummbl-governance -- Governance primitives for AI agent orchestration.
 
 Standalone, stdlib-only Python package providing:
@@ -70,6 +54,8 @@ from hummbl_governance.transition_receipt import (
 from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.tool_audit import ToolCallAuditor
+from hummbl_governance.attest import Attest, AttestResult, ALLOWLIST, BLOCKLIST, CAPABILITY_FENCE
+from hummbl_governance.delegation_context import DelegationContext, DelegationContextManager
 from hummbl_governance.identity import AgentRegistry, TrustTier
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 try:
@@ -113,44 +99,6 @@ from hummbl_governance.evolution_lineage import (
     ModificationRecord,
     EvolutionDriftReport,
 )
-from hummbl_governance.attest import Attest, AttestResult, ALLOWLIST, BLOCKLIST, CAPABILITY_FENCE
-from hummbl_governance.delegation_context import DelegationContext, DelegationContextManager
-
-# Convenience aliases — match code examples shown on hummbl.io
-DCT = DelegationTokenManager  # Short alias for DelegationTokenManager
-DCTX = DelegationContext  # Short alias for DelegationContext
-
-
-class _B120Shortcut:
-    """Lazy shortcut for Base120 ReasoningEngine access.
-
-    Usage:
-        from hummbl_governance import b120
-        model = b120.get("P1")
-    """
-
-    def __init__(self) -> None:
-        self._engine: ReasoningEngine | None = None
-
-    def _ensure(self) -> ReasoningEngine:
-        if self._engine is None:
-            self._engine = ReasoningEngine()
-        return self._engine
-
-    def get(self, code: str):
-        """Get a Base120 model by code (e.g. 'P1')."""
-        return self._ensure().get_model(code)
-
-    def prompt(self, code: str, depth: int = 1) -> str:
-        """Generate a system prompt for the given model code."""
-        return self._ensure().generate_system_prompt(code, depth)
-
-    def list(self):
-        """List all available models."""
-        return list(self._ensure().models.values())
-
-
-b120 = _B120Shortcut()
 
 # Canon Registry (P27) — governs promotion from draft to canonical status
 from hummbl_governance.kernel.canon_registry import (
@@ -209,6 +157,43 @@ from hummbl_governance.kernel.doctrine_amendment import (
     validate_amendment_evidence,
     validate_amendment,
 )
+
+# Convenience aliases — match code examples shown on hummbl.io
+DCT = DelegationTokenManager  # Short alias for DelegationTokenManager
+DCTX = DelegationContext  # Short alias for DelegationContext
+
+
+class _B120Shortcut:
+    """Lazy shortcut for Base120 ReasoningEngine access."""
+
+    def __init__(self) -> None:
+        self._engine: ReasoningEngine | None = None
+
+    def _ensure(self) -> ReasoningEngine:
+        if self._engine is None:
+            self._engine = ReasoningEngine()
+        return self._engine
+
+    def get(self, key: str):  # type: ignore[no-untyped-def]
+        return self._ensure().get_model(key)
+
+    def search(self, query: str, **kwargs):  # type: ignore[no-untyped-def]
+        return self._ensure().search(query, **kwargs)
+
+    def __contains__(self, key: object) -> bool:
+        return isinstance(key, str) and key in self._ensure()
+
+    def __iter__(self):
+        return iter(self._ensure())
+
+    def __len__(self) -> int:
+        return len(self._ensure())
+
+    def list(self):  # type: ignore[no-untyped-def]
+        return list(self._ensure().models.keys())
+
+
+b120 = _B120Shortcut()
 
 __all__ = [
     "__version__",
@@ -350,7 +335,7 @@ __all__ = [
     # Delegation Context (v1.2.0)
     "DelegationContext",
     "DelegationContextManager",
-    # Convenience aliases — match code examples on hummbl.io
+    # Convenience aliases
     "DCT",
     "DCTX",
     "b120",
