@@ -26,7 +26,6 @@ Source-candidate material must be clearly marked as one of:
 - `planned`
 - `unverified`
 - `needs receipt`
-<<<<<<< HEAD
 - `needs-boundary-review`
 
 ## Promotion To Verified Claim
