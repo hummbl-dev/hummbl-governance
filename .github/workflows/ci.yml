@@ -91,6 +91,27 @@ jobs:
       - run: pip install ruff
       - run: ruff check .
 
+  release-readiness-gate:
+    name: release readiness gate (PR/docs parity)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build tools
+        run: pip install build
+      - name: Build package
+        run: python -m build --sdist --wheel --outdir dist/release-gate
+      - name: Verify release metadata and built-long-description parity
+        run: |
+          WHEEL_PATH="$(ls dist/release-gate/*.whl | head -n1)"
+          if [ -z "$WHEEL_PATH" ]; then
+            echo "Expected at least one built wheel in dist/release-gate/"
+            exit 1
+          fi
+          python scripts/check_release_metadata.py --wheel "$WHEEL_PATH"
+
   arbiter-governance:
     runs-on: ubuntu-latest
     steps:
@@ -210,6 +231,7 @@ jobs:
       - test
       - install-smoke
       - lint
+      - release-readiness-gate
       - arbiter-governance
       - coverage-matrix-validate
     if: always()
@@ -228,6 +250,7 @@ jobs:
           check_result test "${{ needs.test.result }}"
           check_result install-smoke "${{ needs['install-smoke'].result }}"
           check_result lint "${{ needs.lint.result }}"
+          check_result release-readiness-gate "${{ needs['release-readiness-gate'].result }}"
           check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
           check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
           echo "--- Coverage matrix ratchet status ---"

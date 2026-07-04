@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+"""Helper to onboard the approved founder-mode agent toolset in any repository."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import shutil
+from pathlib import Path
+from typing import Any, Dict
+
+
+TOOLSET_FILES: Dict[str, str] = {
+    "scripts/issue_pr_draft_coverage.py": "Issue/PR draft coverage + promotion pipeline",
+    "scripts/pr_census.py": "PR and branch drift snapshot",
+    "scripts/claim_drift.py": "Claim/lineage drift detection",
+    "scripts/check-dependencies.py": "Dependency drift and pinning checks",
+    "scripts/anvil_git_signing_audit.py": "Git signing / toolchain health",
+    "scripts/audit-github-actions.py": "GitHub Actions health diagnostics",
+    "scripts/financial_pulse.py": "Spend/usage telemetry",
+    "scripts/ops/keepalive_fleet_loop.py": "Fleet keepalive watchdog",
+    "founder_mode/services/health.py": "Runtime health surface",
+    "founder_mode/services/scheduler.py": "Scheduler wiring and state",
+    "founder_mode/bus/bus_writer.py": "Canonical bus write surface",
+    "founder_mode/bus/bus_verifier.py": "Bus integrity checks",
+    "founder_mode/quality/monitor.py": "Quality telemetry producer",
+    "founder_mode/quality/analyzer.py": "Quality signal generator",
+    "founder_mode/state_authority.py": "Authority checks and guardrails",
+}
+
+
+def repo_default_name(repo_path: Path) -> str:
+    remote = (repo_path / ".git" / "config")
+    if not remote.exists():
+        return "<owner>/<repo>"
+    text = remote.read_text(encoding="utf-8", errors="replace")
+    for line in text.splitlines():
+        line = line.strip()
+        if line.startswith("url = ") and "github.com" in line:
+            url = line.split("=", 1)[1].strip().rstrip("/")
+            if url.startswith("git@github.com:"):
+                return url.split(":", 1)[1].replace(".git", "")
+            if "github.com/" in url:
+                return url.split("github.com/", 1)[1].replace(".git", "")
+    return "<owner>/<repo>"
+
+
+def status_for_repo(repo_root: Path) -> Dict[str, Any]:
+    out: Dict[str, Any] = {"present": [], "missing": []}
+    for relpath, reason in TOOLSET_FILES.items():
+        root_match = repo_root / relpath
+        nested_match = repo_root / "founder-mode" / relpath
+        if root_match.exists():
+            out["present"].append({
+                "path": relpath,
+                "why": reason,
+                "resolved_path": str(root_match),
+            })
+        elif nested_match.exists():
+            out["present"].append({
+                "path": relpath,
+                "why": reason,
+                "resolved_path": str(nested_match),
+            })
+        else:
+            out["missing"].append({"path": relpath, "why": reason})
+    out["summary"] = {
+        "present_count": len(out["present"]),
+        "missing_count": len(out["missing"]),
+        "total": len(TOOLSET_FILES),
+    }
+    return out
+
+
+def detect_docs_root(repo_root: Path) -> Path:
+    doc_roots = [
+        repo_root / "founder-mode" / "docs",
+        repo_root / "founder-mode" / "DOCS",
+        repo_root / "docs",
+        repo_root / "DOCS",
+    ]
+    for doc_root in doc_roots:
+        nested = doc_root / "operations"
+        if nested.exists():
+            return nested
+    return (repo_root / "docs" / "operations")
+
+
+def print_table(repo_root: Path, status: Dict[str, Any]) -> str:
+    repo = repo_root
+    lines = [
+        f"# Toolset status for `{repo}`",
+        "",
+        f"- Present: {status['summary']['present_count']}/{status['summary']['total']}",
+        f"- Missing: {status['summary']['missing_count']}",
+        "",
+        "## Present",
+    ]
+    if status["present"]:
+        lines.extend([""] + ["- " + item["path"] for item in status["present"]])
+    else:
+        lines.append("")
+        lines.append("- None")
+
+    lines.extend(["", "## Missing", ""])
+    if status["missing"]:
+        lines.extend(["- " + item["path"] + f" — {item['why']}" for item in status["missing"]])
+    else:
+        lines.append("- None")
+    return "\n".join(lines)
+
+
+def write_template(repo_root: Path, template_path: Path, force: bool) -> str:
+    target = detect_docs_root(repo_root) / "AGENT_TOOLSET_STARTER.md"
+    if target.exists() and not force:
+        return f"skipped: exists: {target}"
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        shutil.copyfile(template_path, target)
+    except shutil.SameFileError:
+        return f"skipped: template source is target: {target}"
+    return f"written: {target}"
+
+
+def resolve_template_source(repo_root: Path, script_root: Path) -> Path:
+    candidates = [
+        repo_root / "founder-mode" / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        repo_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        repo_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        repo_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        script_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+        script_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    raise SystemExit("AGENT_TOOLSET_STARTER.md template not found")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Scaffold/check agent toolset onboarding.")
+    parser.add_argument("--repo", default=".", help="Repository root to evaluate")
+    parser.add_argument("--format", default="table", choices=["table", "json"])
+    parser.add_argument("--copy-template", action="store_true", help="Copy starter doc into repo")
+    parser.add_argument("--force-template", action="store_true", help="Overwrite template if already present")
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    repo_root = Path(args.repo).resolve()
+    if not repo_root.exists():
+        raise SystemExit(f"repo path not found: {repo_root}")
+
+    status = status_for_repo(repo_root)
+    report = {"repo": str(repo_root), "repo_name": repo_default_name(repo_root), "toolset": status}
+
+    if args.copy_template:
+        script_root = Path(__file__).resolve().parent
+        template_source = resolve_template_source(repo_root, script_root)
+        report["template_source"] = str(template_source)
+        report["template_result"] = write_template(repo_root, template_source, args.force_template)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2))
+    else:
+        print(print_table(repo_root, status))
+        if status["missing"]:
+            print("\nNext step for this repo: add missing paths or record approved repo-native replacements.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

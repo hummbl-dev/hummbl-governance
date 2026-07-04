@@ -1,0 +1,51 @@
+name: Agent Toolset Telemetry
+
+on:
+  schedule:
+    - cron: "15 11 * * *"
+  workflow_dispatch:
+
+jobs:
+  inventory:
+    name: Agent toolset inventory
+    runs-on: [self-hosted, Linux, X64, anvil]
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run toolset inventory
+        env:
+          AGENT_TOOLSET_STATE_DIR: "_state/ci/agent-toolset"
+        shell: bash
+        run: |
+          set -eu
+          mkdir -p "$AGENT_TOOLSET_STATE_DIR"
+          python scripts/agent_toolset_scaffold.py --repo . --format json > "$AGENT_TOOLSET_STATE_DIR/toolset.json"
+
+      - name: Write summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Agent Toolset Inventory"
+            echo ""
+            python scripts/agent_toolset_scaffold.py --repo . --format table 2>&1 \
+              || echo "_Scan failed — see prior step._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload telemetry
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-toolset-inventory
+          path: |
+            _state/ci/agent-toolset/toolset.json
+          if-no-files-found: warn
