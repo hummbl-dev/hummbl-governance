@@ -127,7 +127,7 @@ class DelegationContextManager:
         """Create and register a new delegation context."""
         ctx = DelegationContext(
             parent=parent,
-            max_depth=max_depth or self._default_max_depth,
+            max_depth=self._default_max_depth if max_depth is None else max_depth,
         )
         with self._lock:
             self._contexts[ctx.token_id] = ctx
