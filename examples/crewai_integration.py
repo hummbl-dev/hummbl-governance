@@ -29,6 +29,16 @@ from hummbl_governance import (
     KillSwitchMode,
     AuditLog,
     ToolCallAuditor,
+    build_tool_transition_receipt,
+)
+from hummbl_governance.capability_fence import CapabilityFence
+from hummbl_governance.circuit_breaker import CircuitBreakerOpen
+
+
+def run_with_crewai():
+    """Real CrewAI integration — requires `pip install crewai`."""
+    from crewai import Agent, Crew, Task
+    from crewai.hooks import register_before_tool_call_hook, unregister_before_tool_call_hook
 
     # 1. Define your crew as usual
     researcher = Agent(
@@ -75,57 +85,6 @@ from hummbl_governance import (
             print(f"Error: {e}")
     finally:
         unregister_before_tool_call_hook(hook)
-<<<<<<< HEAD
-
-
-def make_before_tool_call_guard(ks, gov, receipts):
-    """Build a CrewAI ToolCallHookContext guard.
-
-    The returned function is suitable for register_before_tool_call_hook().
-    It records a transition receipt before the tool is released. Return False
-    when CrewAI should block the tool call. The caller-owned receipts list is
-    for short-lived examples; production agents should rotate or persist it.
-    """
-
-    def before_tool_call(context: Any):
-        tool_name = getattr(context, "tool_name", None) or str(getattr(context, "tool", "unknown_tool"))
-        agent = getattr(context, "agent", None)
-        task = getattr(context, "task", None)
-        crew = getattr(context, "crew", None)
-        agent_id = getattr(agent, "role", None) or getattr(agent, "id", None) or "crewai-agent"
-        payload = getattr(context, "tool_input", None)
-        if payload is None:
-            payload = {}
-        kill_switch_result = ks.check_task_allowed(str(tool_name))
-        budget_status = gov.check_budget_status()
-        terminal_outcome = "blocked" if (
-            not kill_switch_result["allowed"] or _budget_denied(budget_status)
-        ) else None
-        receipt = build_tool_transition_receipt(
-            agent_id=str(agent_id),
-            tool_name=str(tool_name),
-            tool_input=payload,
-            context={
-                "agent_role": getattr(agent, "role", None),
-                "task_description": getattr(task, "description", None),
-                "crew_id": getattr(crew, "id", None),
-            },
-            kill_switch_result=kill_switch_result,
-            budget_status=budget_status,
-            terminal_outcome=terminal_outcome,
-        )
-        receipts.append(receipt)
-        return receipt.decision != "HARD_BLOCK"
-
-    return before_tool_call
-
-
-def _budget_denied(budget_status: Any) -> bool:
-    if isinstance(budget_status, dict):
-        return budget_status.get("decision") == "DENY"
-    return getattr(budget_status, "decision", None) == "DENY"
-=======
->>>>>>> c8e0c7e (fix(crewai): harden transition receipt review gaps)
 
 
 def make_before_tool_call_guard(ks, gov, receipts):
