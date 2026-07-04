@@ -42,17 +42,6 @@ from hummbl_governance.errors import HummblError
 logger = logging.getLogger(__name__)
 
 
-<<<<<<< HEAD
-=======
-from hummbl_governance._types import (
-    Caveat,
-    DelegationToken,
-    ResourceSelector,
-    TokenBinding,
-)
-
-
->>>>>>> a042e6b (security(wargame-fixes): address P1, P2, P4 residuals from adversarial exercise)
 # Error code shorthands — resolved from the unified HummblError enum.
 E_TOKEN_INVALID = HummblError.TOKEN_INVALID.value
 E_TOKEN_EXPIRED = HummblError.TOKEN_EXPIRED.value

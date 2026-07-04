@@ -32,7 +32,6 @@ class KernelInvariant(enum.Enum):
     ROLE = "K7"
     """Every role is a runtime claim, not a static assignment."""
 
-<<<<<<< HEAD
     DOCTRINE = "K8"
     """Every fleet artifact respects the doctrine invariants D1-D7."""
 
@@ -53,8 +52,6 @@ class KernelInvariant(enum.Enum):
     trigger KernelPanic — they route to warning, quarantine, or operator review
     unless combined with sequence or hash compromise."""
 
-=======
->>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
 
 class KernelPanic(Exception):
     """Raised when a Kernel invariant is violated.

@@ -41,6 +41,19 @@ from hummbl_governance.kernel import (
     ScheduleEngine,
     DoctrineEngine,
     Stage,
+)
+
+from hummbl_governance.kill_switch import KillSwitch, KillSwitchMode
+from hummbl_governance.circuit_breaker import CircuitBreaker, CircuitBreakerState
+from hummbl_governance.cost_governor import CostGovernor
+from hummbl_governance.transition_receipt import (
+    ToolTransitionReceipt,
+    build_tool_transition_receipt,
+    verify_tool_transition_receipt,
+)
+from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
+from hummbl_governance.audit_log import AuditLog
+from hummbl_governance.tool_audit import ToolCallAuditor
 from hummbl_governance.identity import AgentRegistry, TrustTier
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 try:
@@ -157,11 +170,8 @@ __all__ = [
     "EvidenceEngine",
     "AuthorityEngine",
     "ScheduleEngine",
-<<<<<<< HEAD
     "DoctrineEngine",
     "Stage",
-=======
->>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
     "KillSwitch",
     "KillSwitchMode",
     "CircuitBreaker",

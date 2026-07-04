@@ -19,15 +19,10 @@ Usage:
 
 from __future__ import annotations
 
-=======
-import json
-import tempfile
->>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
 from datetime import datetime, timezone
 from pathlib import Path
 
 from hummbl_governance.kernel import Kernel
-<<<<<<< HEAD
 from hummbl_governance.kernel.invariants import KernelPanic
 
 

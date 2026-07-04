@@ -92,6 +92,13 @@ class Kernel:
         self.schedule = ScheduleEngine(self.state_dir)
         self.doctrine = DoctrineEngine(self.state_dir)
 
+        self.booted = False
+        self.boot_receipt_id: str = ""
+
+    @classmethod
+    def boot(cls, state_dir: Path | None = None) -> "Kernel":
+        """Boot the Kernel through its 8-phase sequence.
+
         Returns an initialized and validated Kernel instance.
         Raises KernelPanic if any phase fails.
         """
@@ -307,7 +314,6 @@ class Kernel:
         )
 
         return check
-<<<<<<< HEAD
 
     # ── K9-K11 Enforcement ─────────────────────────────────────
 
@@ -430,5 +436,3 @@ class Kernel:
                 is ungated or missing required fields.
         """
         self.doctrine.assert_invariant_change_gated(amendment)
-=======
->>>>>>> 675d140 (feat: extract Kernel governance OS as v1.1.0)
