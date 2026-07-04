@@ -146,6 +146,8 @@ def _score_to_grade(score):
 
 
 class GovernanceHandler(BaseHTTPRequestHandler):
+    _PUBLIC_GET_ROUTES = {"/api/v1/health", "/api/v1/status"}
+
     def _json_response(self, data, status=200):
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
@@ -272,11 +274,11 @@ class GovernanceHandler(BaseHTTPRequestHandler):
     }
 
     def do_GET(self):
-        if not self._check_auth():
-            return
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
         params = parse_qs(parsed.query)
+        if path not in self._PUBLIC_GET_ROUTES and not self._check_auth():
+            return
 
         handler = self._GET_ROUTES.get(path)
         if handler:

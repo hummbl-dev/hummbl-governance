@@ -73,7 +73,7 @@ class TestFailClosedDefault:
         monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
         monkeypatch.setattr(api_server, "_ks", mock.MagicMock())
-        handler = _make_handler("GET", "/api/v1/status")
+        handler = _make_handler("GET", "/api/v1/audit")
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 401
         body = _read_response(handler)
@@ -87,6 +87,28 @@ class TestFailClosedDefault:
         handler = _make_handler("POST", "/api/v1/kill-switch/engage", body={"mode": "HALT_ALL", "confirm": True})
         api_server.GovernanceHandler.do_POST(handler)
         assert handler._response_code == 401
+
+    def test_health_endpoint_bypasses_auth_for_compatibility(self, monkeypatch):
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
+        monkeypatch.setattr(api_server, "_ks", mock.MagicMock())
+        monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
+        monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
+        handler = _make_handler("GET", "/api/v1/health")
+        api_server.GovernanceHandler.do_GET(handler)
+        assert handler._response_code == 200
+
+    def test_status_endpoint_bypasses_auth_for_compatibility(self, monkeypatch):
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
+        monkeypatch.setattr(api_server, "_ks", mock.MagicMock())
+        monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
+        monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
+        handler = _make_handler("GET", "/api/v1/status")
+        api_server.GovernanceHandler.do_GET(handler)
+        assert handler._response_code == 200
 
 
 class TestBearerAuth:
