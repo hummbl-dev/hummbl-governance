@@ -5,7 +5,7 @@
 **Source**: https://eur-lex.europa.eu/eli/reg/2016/679/oj
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v1.2.0
+**HUMMBL version**: hummbl-governance v0.8.0
 
 ## Boundary disclaimer
 
@@ -107,15 +107,9 @@ HUMMBL is **not** a supervisory authority, not a Data Protection Officer (DPO) s
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-<<<<<<< HEAD
 | Art. 32 | Security of processing — appropriate technical/organisational measures: pseudonymisation, encryption, CIA + resilience, restoration, regular testing | ✅ HMAC-SHA256 signed entries (integrity), encryption-at-rest configurable, append-only (no overwrite = strong integrity), circuit-breaker (resilience), 927 tests = regular testing per Art. 32(1)(d), Bandit/Semgrep + pip-audit blocking (security testing CI). | `hummbl_governance/audit_log.py`, `hummbl_governance/circuit_breaker.py`, `.github/workflows/ci.yml` |
 | Art. 33 | Notification of personal data breach to supervisory authority — within 72 hours | ✅ Breach-detection tuple → 72-hour-notification primitive; clock starts at controller-awareness tuple, alert escalates at hour 60/72. | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | Art. 34 | Communication of personal data breach to the data subject | 🟡 Partial: subject-notification primitive composes per Art. 34(2) content; high-risk determination is controller-org judgment. | `hummbl_governance/coordination_bus.py`, `hummbl_governance/compliance_mapper.py` |
-=======
-| Art. 32 | Security of processing — appropriate technical/organisational measures: pseudonymisation, encryption, CIA + resilience, restoration, regular testing | ✅ HMAC-SHA256 signed entries (integrity), encryption-at-rest configurable, append-only (no overwrite = strong integrity), circuit-breaker (resilience), 1245 tests = regular testing per Art. 32(1)(d), Bandit/Semgrep + pip-audit blocking (security testing CI). | security workflow + signed entries |
-| Art. 33 | Notification of personal data breach to supervisory authority — within 72 hours | ✅ Breach-detection tuple → 72-hour-notification primitive; clock starts at controller-awareness tuple, alert escalates at hour 60/72. | breach-notification SLA |
-| Art. 34 | Communication of personal data breach to the data subject | 🟡 Partial: subject-notification primitive composes per Art. 34(2) content; high-risk determination is controller-org judgment. | subject-notification primitive |
->>>>>>> 015270e (fix: split hummbl-governance api coverage and auth docs updates)
 
 ### Section 3 — Data protection impact assessment + prior consultation (Art. 35–36)
 

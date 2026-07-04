@@ -33,7 +33,6 @@ def _make_handler(
     body: dict | None = None,
     headers: dict | None = None,
 ):
-def _make_handler(method: str = "GET", path: str = "/api/v1/status", body: dict | None = None, headers: dict | None = None):
     """Construct a GovernanceHandler with a fake request (no real socket)."""
     handler = object.__new__(api_server.GovernanceHandler)
     handler.path = path
