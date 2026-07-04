@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+import pytest
+
 import scripts.agent_toolset_scaffold as scaffold
 
 
@@ -55,3 +57,14 @@ def test_resolve_template_source_checks_script_root_docs_casing(tmp_path: Path) 
 
     assert template in scaffold.template_candidates(repo, script_root)
     assert scaffold.resolve_template_source(repo, script_root).samefile(template)
+
+
+def test_resolve_template_source_exits_when_template_missing(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    script_root = tmp_path / "scripts"
+    repo.mkdir()
+    script_root.mkdir()
+
+    assert scaffold.template_candidates(repo, script_root)
+    with pytest.raises(SystemExit, match="AGENT_TOOLSET_STARTER.md template not found"):
+        scaffold.resolve_template_source(repo, script_root)
