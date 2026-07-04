@@ -31,7 +31,6 @@ from typing import Any
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.capability_fence import CapabilityDenied, CapabilityFence
 from hummbl_governance.transition_receipt import stable_sha256
-=======
 
 
 class ToolCallAuditor:
@@ -45,7 +44,6 @@ class ToolCallAuditor:
         capability_fence: CapabilityFence | None = None,
         signature: str | None = None,
         actor_id: str = "tool-auditor",
->>>>>>> 9bb8d12 (feat: add transition-style tool-call audit evidence)
     ) -> None:
         self._audit_log = audit_log
         self._intent_id = intent_id
@@ -53,7 +51,16 @@ class ToolCallAuditor:
         self._capability_fence = capability_fence
         self._signature = signature
         self._actor_id = actor_id
-<<<<<<< HEAD
+
+    def wrap(
+        self,
+        tool_name: str,
+        tool_fn: Callable[..., Any],
+        *,
+        capability: str | None = None,
+        context: Mapping[str, Any] | Callable[..., Mapping[str, Any]] | None = None,
+    ) -> Callable[..., Any]:
+        """Wrap a tool function so each invocation emits transition-style metadata.
 
         Args:
             tool_name: Human-readable tool identifier.
@@ -61,7 +68,6 @@ class ToolCallAuditor:
             capability: Optional capability string. Defaults to "tool:<tool_name>".
             context: Optional context payload or callable that builds context
                 from ``*args`` / ``**kwargs`` for transition hashes.
-=======
 
         Returns:
             Callable with identical invocation signature.
@@ -220,7 +226,6 @@ class ToolCallAuditor:
                     transition_id=transition_id,
                     terminal_outcome="executed",
                     event_payload=terminal_event,
->>>>>>> 9bb8d12 (feat: add transition-style tool-call audit evidence)
                 )
                 return result
 
@@ -266,7 +271,32 @@ class ToolCallAuditor:
             verification_id=None,
             amendment_of=None,
         )
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9bb8d12 (feat: add transition-style tool-call audit evidence)
+
+    @staticmethod
+    def _coerce_context(
+        context: Mapping[str, Any] | Callable[..., Mapping[str, Any]] | None,
+        *,
+        args: tuple[Any, ...],
+        kwargs: dict[str, Any],
+    ) -> Any:
+        """Resolve optional call context to a mapping."""
+        if context is None:
+            return None
+        if isinstance(context, Mapping):
+            return dict(context)
+        try:
+            resolved = context(*args, **kwargs)
+        except TypeError:
+            return {"context_error": "context_builder_signature_error"}
+        if isinstance(resolved, Mapping):
+            return dict(resolved)
+        return {"value": resolved}
+
+    @staticmethod
+    def _hash_payload(payload: Any) -> tuple[str, str | None]:
+        """Hash a payload and return an error string if canonical serialization fails."""
+        try:
+            return stable_sha256(payload), None
+        except (TypeError, ValueError) as exc:
+            fallback = stable_sha256({"__fallback_repr__": repr(payload)})
+            return fallback, f"{type(exc).__name__}: {exc}"
