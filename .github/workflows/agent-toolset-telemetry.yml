@@ -1,0 +1,68 @@
+name: Agent Toolset Telemetry
+
+on:
+  schedule:
+    - cron: "15 11 * * *"
+  workflow_dispatch:
+
+jobs:
+  inventory:
+    name: Agent toolset inventory
+    runs-on: [self-hosted, Linux, X64, anvil]
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run toolset inventory
+        env:
+          AGENT_TOOLSET_STATE_DIR: "_state/ci/agent-toolset"
+        shell: bash
+        run: |
+          set -eu
+          mkdir -p "$AGENT_TOOLSET_STATE_DIR"
+          python scripts/agent_toolset_scaffold.py --repo . --format json > "$AGENT_TOOLSET_STATE_DIR/toolset.json"
+
+      - name: Write summary
+        if: always()
+        shell: bash
+        run: |
+          set -eu
+          echo "## Agent Toolset Inventory" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          python - <<'PY'
+import json
+
+with open("_state/ci/agent-toolset/toolset.json", encoding="utf-8") as fp:
+    data = json.load(fp)
+summary = data["toolset"]["summary"]
+present = summary["present_count"]
+total = summary["total"]
+missing = data["toolset"]["missing"]
+repo = data.get("repo_name", data.get("repo"))
+print(f"- Repo: {repo}")
+print(f"- Present: {present}/{total}")
+if missing:
+    print(f"- Missing files ({len(missing)}):")
+    for item in missing:
+        print(f"  - {item['path']} — {item['why']}")
+else:
+    print("- All tracked toolset files present.")
+print("")
+PY
+
+      - name: Upload telemetry
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-toolset-inventory
+          path: |
+            _state/ci/agent-toolset/toolset.json
+          if-no-files-found: warn
