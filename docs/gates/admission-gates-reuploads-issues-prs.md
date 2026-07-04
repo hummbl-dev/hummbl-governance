@@ -19,6 +19,54 @@ These gates protect three admission surfaces:
 The goal is to prevent stale authority, duplicate work, unsafe public leakage,
 and premature PR promotion while still keeping agent execution fast.
 
+## Opportunity Scan Routing Policy (Read-only Intake)
+
+Opportunity scans are treated as governed proposal intake only. A scan finding
+must follow this fixed path:
+
+1. Read-only intake: collect signal and confidence context without any file
+   mutation.
+2. Duplicate preflight: check `G-NO-DUPLICATE-ISSUE` across open and
+   relevant recently closed issues.
+3. Queue handoff: create or append to founder-mode queue `hummbl-governance#188`.
+4. Queue approval: only issues explicitly approved in `#188` may be converted
+   to new issue proposals.
+5. Proposal only: no direct draft-PR or branch mutation is allowed without
+   explicit queue routing and issue admission completion.
+
+Scan handoff is required as a single packet:
+
+```yaml
+scan_handoff:
+  scan_id: scan-<timestamp>-<slug>
+  source: github | web | adapter | local
+  target_repo: hummbl-dev/<repo>
+  hypotheses:
+    - <hypothesis-1>
+    - <hypothesis-2>
+  confidence_signal:
+    level: low | medium | high
+    basis: <command output | log excerpt | artifact>
+  duplicate_preflight:
+    query_examples:
+      - "repo:hummbl-dev/<repo> is:issue \"<signal>\" in:title,body is:open"
+      - "repo:hummbl-dev/<repo> is:issue \"<signal>\" in:title,body is:closed created:>=YYYY-MM-DD"
+    duplicate_status: no direct overlap found
+  approved_actions:
+    - propose_issue
+    - open_queue_comment_in_188
+  queue_handoff:
+    status: queued
+    queue_issue: hummbl-governance#188
+    review_required_before_mutation: true
+```
+
+Blocks:
+
+- PRs or branch mutation from scan output without explicit queue approval are
+  out of scope and must be rejected before mutation.
+- Public claims are allowed only if a queue-approved receipt path exists.
+
 ## Namespace Audit
 
 Lightweight audit result for this PR: no exact gate-name collisions were found

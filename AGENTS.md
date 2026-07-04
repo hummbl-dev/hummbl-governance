@@ -2,7 +2,7 @@
 
 ## Project
 
-**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.0), 1827 tests, zero third-party runtime dependencies.
+**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.0), current test inventory governed by `docs/TEST_COUNT_AUTHORITY.md`, zero third-party runtime dependencies.
 
 ## Scope
 
@@ -49,4 +49,4 @@ Python path: `C:\gitea\runner\toolcache\Python\3.13.13\x64`
 
 - For Claude Code: see `CLAUDE.md`
 - Published to PyPI: `pip install hummbl-governance`
-- MCP servers expose 34 governance primitives as 57 JSON-RPC tools (v1.2.0)
+- MCP servers expose governance primitives as JSON-RPC tools. Tool-count claims require a current inventory receipt before public promotion.

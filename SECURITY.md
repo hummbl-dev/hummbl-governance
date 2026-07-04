@@ -12,7 +12,7 @@
 
 If you discover a security vulnerability in hummbl-governance, please report it responsibly:
 
-1. **Email:** reuben@hummbl.io
+1. **Email:** security@hummbl.io
 2. **Do NOT** open a public GitHub issue for security vulnerabilities
 3. Include: description of the vulnerability, steps to reproduce, and potential impact
 4. You can expect an initial response within 48 hours
@@ -24,11 +24,10 @@ implemented governance primitives covering safety, cost, identity, compliance,
 reasoning, coordination, physical-AI, execution assurance, and the governance
 Kernel. Full primitive inventory in the project README and `PRIMITIVES.md`.
 
-The package supports Python 3.11 through 3.14 (per `pyproject.toml` classifiers).
-CI-tested on Python 3.11, 3.12, and 3.13 (GitHub Actions matrix); Python 3.14
-is classified but not yet CI-tested. Current package test-count claims are
+The package is CI-tested on Python 3.11, 3.12, and 3.13 (GitHub Actions matrix).
+Python 3.14 support is not claimed until the CI matrix includes it. Current package test-count claims are
 governed by `docs/TEST_COUNT_AUTHORITY.md`; as of 2026-07-03,
-`python -m pytest --collect-only -q tests` collects 1937 tests.
+`python -m pytest --collect-only -q tests` collects 1970 tests.
 
 ## Audit-log signature semantics
 

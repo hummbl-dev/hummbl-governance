@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-1937%20collected-blue)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-1970%20collected-blue)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
@@ -13,7 +13,7 @@ Your AI agent calls an API. The API starts returning errors. Your agent retries,
 
 Every team shipping AI agents hits the same walls: runaway costs, cascading failures, agents doing things they shouldn't, and no audit trail to explain what happened after the fact. The frameworks you're using (LangChain, CrewAI, AutoGPT) give you tools to *build* agents but nothing to *govern* them. You're left writing the same safety code from scratch every time — if you write it at all.
 
-**hummbl-governance** is the missing safety layer. It provides 34 governance primitives — kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, compliance mapping, and more — as a single stdlib-only Python package. No dependencies, no framework lock-in, no supply chain risk. Just the primitives you need to ship AI agents that don't run away.
+**hummbl-governance** is the missing safety layer. It provides 34 governance primitives — kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, compliance mapping, and more — as a single stdlib-only Python package. No runtime dependencies, no framework lock-in, and reduced transitive dependency risk. Just the primitives you need to ship AI agents that don't run away.
 
 ```bash
 pip install hummbl-governance
@@ -65,15 +65,15 @@ No other library provides this combination of kill switch, circuit breaker, cost
 
 ## Why hummbl-governance?
 
-**No dependency conflicts.** Uses only Python stdlib. Installs in under 1 second, never conflicts with your existing packages, and `pip audit` finds nothing because there is nothing to audit. Zero supply chain risk — a critical property for a library that exists to make agents safer, not introduce new attack surface.
+**No dependency conflicts.** Uses only Python stdlib at runtime. Installs without runtime dependency resolution overhead and avoids transitive runtime dependencies, reducing dependency supply-chain risk for a library that exists to make agents safer. The package itself, build backend, publishing path, CI, and optional/test tooling remain supply-chain surfaces that require normal review.
 
-**Built for multi-agent systems.** Delegation tokens with HMAC-SHA256 signing and chain-depth limits. Coordination bus with flock-based mutual exclusion. Kill switch with 4 graduated halt modes. Circuit breakers wrapping external adapters. These are the primitives that AI orchestration platforms actually need — extracted from production, not designed on a whiteboard.
+**Built for multi-agent systems.** Delegation tokens with HMAC-SHA256 signing and chain-depth limits. Coordination bus with flock-based mutual exclusion. Kill switch with 4 graduated halt modes. Circuit breakers wrapping external adapters. These are primitives that AI orchestration platforms need at runtime.
 
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety — evidence you can hand to an auditor or compliance team.
 
-**Production-tested.** Extracted from [founder-mode](https://github.com/hummbl-dev/founder-mode), a multi-runtime AI orchestration platform with 20,000+ tests and 14 CI workflows. The governance layer has 1937 dedicated package tests collected by `python -m pytest --collect-only -q tests`.
+**Evidence-first.** Package metrics, cross-repo extraction notes, production-use statements, and framework mappings are governed by [docs/public-claims.md](docs/public-claims.md). Current package test inventory is verified by `python -m pytest --collect-only -q tests`.
 
-**OWASP Top 10 for Agentic Applications.** Covers all 10 risks in the [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). See the [full mapping below](#owasp-top-10-for-agentic-applications-2026-coverage).
+**OWASP Top 10 for Agentic Applications.** The README includes an engineering mapping to the [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). It is not a third-party certification or attestation. See the [mapping below](#owasp-top-10-for-agentic-applications-2026-engineering-mapping).
 
 ## Quick Start
 
@@ -117,11 +117,11 @@ graph TD
 ## Features
 
 - **34 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel
-- **1937 collected tests** across package modules
+- **1970 collected tests** across package modules, as of the latest local receipt in [docs/public-claims.md](docs/public-claims.md)
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
-- **Python 3.11 - 3.13** CI-tested. 3.14 tracked.
+- **Python 3.11 - 3.13** CI-tested.
 
 ## governance.yml
 
@@ -150,7 +150,7 @@ provenance:
   build_system: github-actions
   trusted_publishing: true
   dependencies: zero
-  tests: 1937
+  tests: 1970
 ```
 
 Read it at runtime (the file is human-readable YAML; parse with PyYAML if available, or read as text):
@@ -250,16 +250,16 @@ Run them all:
 for f in examples/*.py; do echo "=== $f ==="; python "$f"; done
 ```
 
-## OWASP Top 10 for Agentic Applications (2026) Coverage
+## OWASP Top 10 for Agentic Applications (2026) Engineering Mapping
 
-hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). Every row below links to the primitive and its test suite.
+The table below maps hummbl-governance primitives to the [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). This is an engineering evidence map, not a third-party certification or attestation. Most rows below link to a primitive and its test suite; ASI04 is a supply-chain posture row for the package runtime surface.
 
 | OWASP Risk | Primitive(s) | Tests | How |
 |------------|-------------|-------|-----|
 | **ASI01** Agent Goal Hijack | [`KillSwitch`](hummbl_governance/kill_switch.py) | [27](tests/test_kill_switch.py) | 4-mode graduated shutdown (DISENGAGED → EMERGENCY). Survives process restart. Stops hijacked agents mid-execution. |
 | **ASI02** Tool Misuse | [`CapabilityFence`](hummbl_governance/capability_fence.py) | [27](tests/test_capability_fence.py) | Allowlist/blocklist enforcement per tool. Agents cannot invoke tools outside their granted capabilities. |
 | **ASI03** Identity & Privilege Abuse | [`DelegationTokenManager`](hummbl_governance/delegation.py), [`AgentRegistry`](hummbl_governance/identity.py) | [16](tests/test_delegation.py) + [26](tests/test_identity.py) | HMAC-signed scoped tokens with chain-depth limits. Identity registry with trust tiers and alias canonicalization. |
-| **ASI04** Supply Chain | Zero dependencies | — | Stdlib-only. No transitive dependencies to compromise. `pip audit` finds nothing because there is nothing to audit. |
+| **ASI04** Supply Chain | Zero third-party runtime dependencies | — | Stdlib-only runtime surface reduces transitive dependency exposure. Package, build, publishing, CI, and optional/test tooling still require normal supply-chain review. |
 | **ASI05** Unexpected Code Execution | [`OutputValidator`](hummbl_governance/output_validator.py), [`InjectionDetector`](hummbl_governance/output_validator.py) | [49](tests/test_output_validator.py) | Prompt injection detection, blocked-term filtering, and content validation before agent output reaches downstream systems. |
 | **ASI06** Memory & Context Poisoning | [`BusWriter`](hummbl_governance/coordination_bus.py), [`AuditLog`](hummbl_governance/audit_log.py) | [63](tests/test_coordination_bus.py) + [34](tests/test_audit_log.py) | Append-only governance bus with content hashing. Tamper-evident audit log. Poisoned entries are detectable. |
 | **ASI07** Insecure Inter-Agent Comms | [`LamportClock`](hummbl_governance/lamport_clock.py), [`ContractNetManager`](hummbl_governance/contract_net.py) | [20](tests/test_lamport_clock.py) + [19](tests/test_contract_net.py) | Hardened logical clocks for causal ordering. Contract Net protocol for structured multi-agent task allocation with bid verification. |
@@ -267,7 +267,7 @@ hummbl-governance addresses all 10 risks in the [OWASP Top 10 for Agentic Applic
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [112](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Total: 1937 collected tests across 34 primitives + 7 MCP servers. 10/10 OWASP coverage. Zero dependencies.**
+**Current posture:** 1970 collected tests, 34 implemented primitives, 7 MCP server entry points, and zero third-party runtime dependencies. Test-count and coverage claims require current receipts; see [docs/public-claims.md](docs/public-claims.md).
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 
@@ -321,7 +321,7 @@ valid, error = mgr.validate_token(token)
 
 ### Does hummbl-governance work without any third-party packages?
 
-Yes. Every module uses only Python stdlib (3.11+). There are zero entries in the `dependencies` list in `pyproject.toml`. Test dependencies (pytest) are isolated in `[test]` extras. This means no dependency conflicts, no supply chain risk from transitive dependencies, and fast installs.
+Yes. Every runtime module uses only Python stdlib (3.11+). There are zero entries in the `dependencies` list in `pyproject.toml`. Test dependencies are isolated under `project.optional-dependencies.test` in `pyproject.toml`. This means no runtime dependency conflicts, reduced transitive dependency risk, and fast installs.
 
 ### How do I generate compliance evidence for SOC2 or GDPR from my AI system?
 
