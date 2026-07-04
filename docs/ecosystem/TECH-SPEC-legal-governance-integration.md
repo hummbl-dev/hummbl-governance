@@ -297,7 +297,7 @@ from hummbl_governance import DelegationToken   # v1.2.0+ ✅
 ```
 
 **Version pin** in `pyproject.toml` (or `requirements.txt`):
-```
+```text
 hummbl-governance>=1.2.0,<2.0.0
 ```
 

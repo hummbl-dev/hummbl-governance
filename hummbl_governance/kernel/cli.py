@@ -81,6 +81,7 @@ def cmd_health(args: argparse.Namespace) -> int:
     try:
         kernel = Kernel(state_dir=Path(args.state_dir))
         health = kernel.health()
+        identities = kernel.identity.list_identities()
 
         # Add engine-specific details
         health["receipts_total"] = sum(
@@ -89,7 +90,7 @@ def cmd_health(args: argparse.Namespace) -> int:
         ) if kernel.receipt.receipts_dir.exists() else 0
 
         health["laws"] = [law.law_id for law in kernel.law.list_laws()]
-        health["identities"] = list(kernel.identity._identities.keys())
+        health["identities"] = list(identities.keys())
         health["schedules"] = [
             {"role_id": s.role_id, "cadence": s.cadence, "last_run": s.last_run}
             for s in kernel.schedule.list_schedules()
@@ -151,14 +152,16 @@ def cmd_roles(args: argparse.Namespace) -> int:
     """List all registered roles and their claimants."""
     try:
         kernel = Kernel(state_dir=Path(args.state_dir))
+        role_claims = kernel.identity.list_role_claims()
+        identities = kernel.identity.list_identities()
         print("Active roles:")
-        for agent_id, identity in kernel.identity._identities.items():
+        for agent_id, identity in identities.items():
             if identity.active_roles:
                 print(f"  {agent_id}: {', '.join(identity.active_roles)}")
 
         print("\nAll role claims:")
         seen_roles: dict[str, list[str]] = {}
-        for key, claim in kernel.identity._role_claims.items():
+        for key, claim in role_claims.items():
             role_id = claim["role_id"]
             if role_id not in seen_roles:
                 seen_roles[role_id] = []

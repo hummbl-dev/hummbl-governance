@@ -133,6 +133,10 @@ class IdentityEngine:
         """Resolve an agent identity from the registry."""
         return self._identities.get(agent_id)
 
+    def list_identities(self) -> dict[str, AgentIdentity]:
+        """Return a copy of all registered identities."""
+        return dict(self._identities)
+
     def update_tier(self, agent_id: str, new_tier: str) -> AgentIdentity:
         """Update an agent's trust tier."""
         identity = self._identities.get(agent_id)
@@ -243,3 +247,7 @@ class IdentityEngine:
             claim for key, claim in self._role_claims.items()
             if key.startswith(f"{agent_id}:")
         ]
+
+    def list_role_claims(self) -> dict[str, dict[str, Any]]:
+        """Return a copy of all role claims."""
+        return dict(self._role_claims)

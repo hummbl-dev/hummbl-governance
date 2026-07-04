@@ -8,7 +8,7 @@ Stdlib-only. No third-party dependencies.
 Example:
     from hummbl_governance.attest import Attest, ALLOWLIST
 
-    attest = Atvest()
+    attest = Attest()
     result = attest.verify(
         server="hummbl-mcp-server",
         policy=ALLOWLIST,
@@ -129,30 +129,43 @@ class Attest:
             json.dumps(policy_data, sort_keys=True).encode()
         ).hexdigest()
 
-        if policy == ALLOWLIST:
-            allowed = set(allowed_tools or [])
-            declared_set = set(declared)
+        def _check_allowed_scope(
+            allowed: set[str],
+            *,
+            empty_reason: str,
+            violation_prefix: str,
+        ) -> AttestResult | None:
             if not allowed:
                 return AttestResult(
                     ok=False,
                     server=server,
                     policy=policy,
-                    reason="ALLOWLIST policy requires allowed_tools",
+                    reason=empty_reason,
                     timestamp=ts,
                     nonce=n,
                     hash=policy_hash,
                 )
-            violations = declared_set - allowed
+            violations = set(declared) - allowed
             if violations:
                 return AttestResult(
                     ok=False,
                     server=server,
                     policy=policy,
-                    reason=f"Tools not in allowlist: {sorted(violations)}",
+                    reason=f"{violation_prefix}: {sorted(violations)}",
                     timestamp=ts,
                     nonce=n,
                     hash=policy_hash,
                 )
+            return None
+
+        if policy == ALLOWLIST:
+            result = _check_allowed_scope(
+                set(allowed_tools or []),
+                empty_reason="ALLOWLIST policy requires allowed_tools",
+                violation_prefix="Tools not in allowlist",
+            )
+            if result is not None:
+                return result
             return AttestResult(
                 ok=True,
                 server=server,
@@ -186,29 +199,13 @@ class Attest:
             )
 
         elif policy == CAPABILITY_FENCE:
-            allowed = set(allowed_tools or [])
-            declared_set = set(declared)
-            if not allowed:
-                return AttestResult(
-                    ok=False,
-                    server=server,
-                    policy=policy,
-                    reason="CAPABILITY_FENCE policy requires allowed_tools",
-                    timestamp=ts,
-                    nonce=n,
-                    hash=policy_hash,
-                )
-            violations = declared_set - allowed
-            if violations:
-                return AttestResult(
-                    ok=False,
-                    server=server,
-                    policy=policy,
-                    reason=f"Tools outside capability fence: {sorted(violations)}",
-                    timestamp=ts,
-                    nonce=n,
-                    hash=policy_hash,
-                )
+            result = _check_allowed_scope(
+                set(allowed_tools or []),
+                empty_reason="CAPABILITY_FENCE policy requires allowed_tools",
+                violation_prefix="Tools outside capability fence",
+            )
+            if result is not None:
+                return result
             return AttestResult(
                 ok=True,
                 server=server,

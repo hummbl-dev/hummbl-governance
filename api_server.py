@@ -178,7 +178,10 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             return True
         auth_header = self.headers.get("Authorization", "")
         expected = f"Bearer {token}"
-        if not hmac.compare_digest(auth_header, expected):
+        if not hmac.compare_digest(
+            auth_header.encode("utf-8"),
+            expected.encode("utf-8"),
+        ):
             self._json_response({"error": "Unauthorized"}, 401)
             return False
         return True

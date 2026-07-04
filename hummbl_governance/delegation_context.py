@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
+import threading
+import uuid
 from typing import Any
 
 __all__ = [
@@ -47,11 +49,13 @@ class DelegationContext:
     max_depth: int = 3
     depth: int = 0
     token_id: str = ""
+    operations: list[str] = field(default_factory=list)
+    resources: list[str] = field(default_factory=list)
     created_at: str = field(default_factory=lambda: time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
 
     def __post_init__(self) -> None:
         if not self.token_id:
-            self.token_id = f"dctx-{id(self)}"
+            self.token_id = f"dctx-{uuid.uuid4()}"
 
     def delegate(
         self,
@@ -79,6 +83,8 @@ class DelegationContext:
             parent=self.token_id,
             max_depth=self.max_depth,
             depth=new_depth,
+            operations=list(operations) if operations is not None else list(self.operations),
+            resources=list(resources) if resources is not None else list(self.resources),
         )
 
     def depth_exceeded(self, context: "DelegationContext") -> bool:
@@ -95,6 +101,8 @@ class DelegationContext:
             "max_depth": self.max_depth,
             "depth": self.depth,
             "token_id": self.token_id,
+            "operations": self.operations,
+            "resources": self.resources,
             "created_at": self.created_at,
         }
 
@@ -109,6 +117,7 @@ class DelegationContextManager:
     def __init__(self, default_max_depth: int = 3) -> None:
         self._contexts: dict[str, DelegationContext] = {}
         self._default_max_depth = default_max_depth
+        self._lock = threading.Lock()
 
     def create_context(
         self,
@@ -120,17 +129,20 @@ class DelegationContextManager:
             parent=parent,
             max_depth=max_depth or self._default_max_depth,
         )
-        self._contexts[ctx.token_id] = ctx
+        with self._lock:
+            self._contexts[ctx.token_id] = ctx
         return ctx
 
     def get_context(self, token_id: str) -> DelegationContext | None:
-        return self._contexts.get(token_id)
+        with self._lock:
+            return self._contexts.get(token_id)
 
     def delegate(self, token_id: str) -> DelegationContext:
         """Delegate from an existing context."""
-        ctx = self._contexts.get(token_id)
-        if ctx is None:
-            raise KeyError(f"Unknown context: {token_id}")
-        child = ctx.delegate()
-        self._contexts[child.token_id] = child
+        with self._lock:
+            ctx = self._contexts.get(token_id)
+            if ctx is None:
+                raise KeyError(f"Unknown context: {token_id}")
+            child = ctx.delegate()
+            self._contexts[child.token_id] = child
         return child

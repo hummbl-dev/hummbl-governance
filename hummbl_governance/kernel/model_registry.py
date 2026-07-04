@@ -42,7 +42,7 @@ from __future__ import annotations
 
 import json
 import os
-import shutil
+import tempfile
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -90,7 +90,20 @@ class ModelRegistry:
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
         seed = package_seed_registry_path()
         if using_default_path and not self.registry_path.exists() and seed.exists():
-            shutil.copyfile(seed, self.registry_path)
+            tmp_fd, tmp_name = tempfile.mkstemp(
+                dir=self.registry_path.parent, suffix=".tmp"
+            )
+            try:
+                with os.fdopen(tmp_fd, "wb") as tmp_f:
+                    tmp_f.write(seed.read_bytes())
+                os.replace(tmp_name, self.registry_path)
+            except FileExistsError:
+                if Path(tmp_name).exists():
+                    os.unlink(tmp_name)
+            except OSError:
+                if Path(tmp_name).exists():
+                    os.unlink(tmp_name)
+                raise
 
     def register(self, **kwargs: Any) -> ModelEntry:
         """Register a new model. Returns the entry."""
@@ -150,12 +163,29 @@ class ModelRegistry:
         entries = self.list_models()
         if not entries:
             return None
-        valid = [e for e in entries if metrics_key in e.metrics]
+        compatible: list[tuple[ModelEntry, int | float | str]] = []
+        for e in entries:
+            if metrics_key not in e.metrics:
+                continue
+            metric = e.metrics[metrics_key]
+            if isinstance(metric, (int, float)):
+                compatible.append((e, float(metric)))
+            elif isinstance(metric, str):
+                compatible.append((e, metric))
+        if not compatible:
+            return None
+
+        types = {type(value) for _, value in compatible}
+        if len(types) > 1:
+            raise TypeError(f"Incompatible metric types for '{metrics_key}': {sorted({t.__name__ for t in types})}")
+
+        valid = compatible
         if not valid:
             return None
-        return max(valid, key=lambda e: e.metrics[metrics_key]) if higher_is_better else min(
-            valid, key=lambda e: e.metrics[metrics_key]
+        best = (
+            max(valid, key=lambda e: e[1]) if higher_is_better else min(valid, key=lambda e: e[1])
         )
+        return best[0]
 
     def get(self, model_id: str) -> ModelEntry | None:
         """Get the latest model by ID."""

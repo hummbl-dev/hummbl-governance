@@ -24,6 +24,8 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
+import threading
+
 __version__ = "1.2.0"
 
 # Kernel — Governance operating system (v1.2.0)
@@ -168,10 +170,13 @@ class _B120Shortcut:
 
     def __init__(self) -> None:
         self._engine: ReasoningEngine | None = None
+        self._lock = threading.Lock()
 
     def _ensure(self) -> ReasoningEngine:
         if self._engine is None:
-            self._engine = ReasoningEngine()
+            with self._lock:
+                if self._engine is None:
+                    self._engine = ReasoningEngine()
         return self._engine
 
     def get(self, key: str):  # type: ignore[no-untyped-def]
