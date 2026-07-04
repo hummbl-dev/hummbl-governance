@@ -12,7 +12,7 @@ from zipfile import ZipFile
 
 EXPECTED_VERSION = "1.2.0"
 EXPECTED_PRIMITIVES = "34"
-EXPECTED_TESTS = "1937"
+EXPECTED_TESTS = "1970"
 
 STALE_PATTERNS = {
     "old_current_version": r"Current package version\*\*: `1\.1\.0`",
