@@ -99,16 +99,13 @@ class TestFailClosedDefault:
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 200
 
-    def test_status_endpoint_bypasses_auth_for_compatibility(self, monkeypatch):
+    def test_status_endpoint_requires_auth(self, monkeypatch):
         monkeypatch.delenv("GOVERNANCE_API_TOKEN", raising=False)
         monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
-        monkeypatch.setattr(api_server, "_ks", mock.MagicMock())
-        monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
-        monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
         handler = _make_handler("GET", "/api/v1/status")
         api_server.GovernanceHandler.do_GET(handler)
-        assert handler._response_code == 200
+        assert handler._response_code == 401
 
 
 class TestBearerAuth:
@@ -120,7 +117,7 @@ class TestBearerAuth:
         monkeypatch.setattr(api_server, "_ks", mock.MagicMock(engaged=False, mode=mock.MagicMock(name="DISENGAGED")))
         monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
         monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
-        handler = _make_handler("GET", "/api/v1/health", headers={"Authorization": "Bearer test-token-abc123"})
+        handler = _make_handler("GET", "/api/v1/status", headers={"Authorization": "Bearer test-token-abc123"})
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 200
 
@@ -154,7 +151,7 @@ class TestAllowNoAuthBypass:
         monkeypatch.setattr(api_server, "_ks", mock.MagicMock(engaged=False, mode=mock.MagicMock(name="DISENGAGED")))
         monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
         monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
-        handler = _make_handler("GET", "/api/v1/health")
+        handler = _make_handler("GET", "/api/v1/status")
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 200
 

@@ -4,7 +4,11 @@ from __future__ import annotations
 import tempfile
 import pytest
 
-from hummbl_governance.kernel.model_registry import ModelEntry, ModelRegistry
+from hummbl_governance.kernel.model_registry import (
+    ModelEntry,
+    ModelRegistry,
+    default_registry_path,
+)
 
 
 class TestModelRegistry:
@@ -14,6 +18,20 @@ class TestModelRegistry:
         reg = ModelRegistry()
 
         assert reg.registry_path == tmp_path / "model_registry" / "models.jsonl"
+
+    def test_default_registry_uses_user_state_when_unconfigured(self, monkeypatch, tmp_path):
+        monkeypatch.delenv("HUMMBL_MODEL_REGISTRY_PATH", raising=False)
+        monkeypatch.delenv("HUMMBL_KERNEL_STATE_DIR", raising=False)
+        monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path))
+        monkeypatch.chdir(tmp_path)
+
+        reg = ModelRegistry()
+
+        assert reg.registry_path == default_registry_path()
+        assert reg.registry_path == (
+            tmp_path / "hummbl-governance" / "model_registry" / "models.jsonl"
+        )
+        assert not str(reg.registry_path).startswith(".kernel")
 
     def test_register_and_list(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -146,7 +146,7 @@ def _score_to_grade(score):
 
 
 class GovernanceHandler(BaseHTTPRequestHandler):
-    _PUBLIC_GET_ROUTES = {"/api/v1/health", "/api/v1/status"}
+    _PUBLIC_GET_ROUTES = {"/api/v1/health"}
 
     def _json_response(self, data, status=200):
         self.send_response(status)

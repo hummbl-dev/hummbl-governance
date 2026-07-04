@@ -81,11 +81,8 @@ class ModelRegistry:
     def __init__(self, registry_path: str | None = None) -> None:
         using_default_path = registry_path is None
         if registry_path is None:
-            registry_path = os.environ.get("HUMMBL_MODEL_REGISTRY_PATH")
-        if registry_path is None:
             # Runtime model registry state must not append into package source.
-            state_dir = Path(os.environ.get("HUMMBL_KERNEL_STATE_DIR", ".kernel"))
-            registry_path = str(state_dir / "model_registry" / "models.jsonl")
+            registry_path = str(default_registry_path())
         self.registry_path = Path(registry_path)
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
         seed = package_seed_registry_path()
@@ -232,8 +229,12 @@ def default_registry_path() -> Path:
     if configured:
         return Path(configured).expanduser()
 
+    state_dir = os.environ.get("HUMMBL_KERNEL_STATE_DIR")
+    if state_dir:
+        return Path(state_dir).expanduser() / "model_registry" / "models.jsonl"
+
     state_root = os.environ.get("XDG_STATE_HOME") or os.environ.get("LOCALAPPDATA")
     if state_root:
-        return Path(state_root) / "hummbl-governance" / "model_registry" / "models.jsonl"
+        return Path(state_root).expanduser() / "hummbl-governance" / "model_registry" / "models.jsonl"
 
     return Path.home() / ".local" / "state" / "hummbl-governance" / "model_registry" / "models.jsonl"
