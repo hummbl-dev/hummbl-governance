@@ -250,6 +250,7 @@ jobs:
           check_result test "${{ needs.test.result }}"
           check_result install-smoke "${{ needs['install-smoke'].result }}"
           check_result lint "${{ needs.lint.result }}"
+          check_result release-readiness-gate "${{ needs['release-readiness-gate'].result }}"
           check_result arbiter-governance "${{ needs['arbiter-governance'].result }}"
           check_result coverage-matrix-validate "${{ needs['coverage-matrix-validate'].result }}"
           echo "--- Coverage matrix ratchet status ---"

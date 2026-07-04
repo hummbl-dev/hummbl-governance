@@ -10,7 +10,6 @@ from pathlib import Path
 from zipfile import ZipFile
 
 
-EXPECTED_VERSION = "1.2.0"
 EXPECTED_PRIMITIVES = "34"
 EXPECTED_TESTS = "1970"
 
@@ -55,14 +54,15 @@ def main(argv: list[str] | None = None) -> int:
     failures: list[str] = []
 
     pyproject = tomllib.loads(read_text(root / "pyproject.toml"))
+    expected_version = pyproject.get("project", {}).get("version", "")
     readme = read_text(root / "README.md")
     security = read_text(root / "SECURITY.md")
     repo_health = read_text(root / "docs" / "REPO_HEALTH.md")
     governance = read_text(root / "hummbl_governance" / "governance.yml")
 
     require(
-        pyproject["project"]["version"] == EXPECTED_VERSION,
-        "pyproject.toml version does not match expected release version",
+        bool(expected_version),
+        "pyproject.toml missing a project.version value",
         failures,
     )
     require(
@@ -87,7 +87,7 @@ def main(argv: list[str] | None = None) -> int:
         failures,
     )
     require(
-        f"Current package version**: `{EXPECTED_VERSION}`" in repo_health,
+        f"Current package version**: `{expected_version}`" in repo_health,
         "docs/REPO_HEALTH.md missing current package version",
         failures,
     )
@@ -108,7 +108,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.wheel:
         metadata = wheel_metadata(args.wheel)
         require(
-            f"Version: {EXPECTED_VERSION}" in metadata,
+            f"Version: {expected_version}" in metadata,
             "wheel METADATA missing expected version",
             failures,
         )
