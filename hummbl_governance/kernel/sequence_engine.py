@@ -24,6 +24,7 @@ With sequence_id: reconstructability = 100%.
 from __future__ import annotations
 
 import json
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +36,7 @@ class SequenceEngine:
     def __init__(self, state_dir: Path) -> None:
         self.state_dir = state_dir
         self.counters_file = state_dir / "sequence_counters.json"
+        self._lock = threading.Lock()
         self.counters: dict[str, int] = {}
         self._load_counters()
 
@@ -57,10 +59,11 @@ class SequenceEngine:
 
         Monotonic increment per agent. Persists across restarts.
         """
-        current = self.counters.get(agent_id, 0)
-        next_id = current + 1
-        self.counters[agent_id] = next_id
-        self._save_counters()
+        with self._lock:
+            current = self.counters.get(agent_id, 0)
+            next_id = current + 1
+            self.counters[agent_id] = next_id
+            self._save_counters()
         return next_id
 
     def current(self, agent_id: str) -> int:

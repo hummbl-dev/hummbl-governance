@@ -47,6 +47,25 @@ class Violation:
     severity: str  # "low", "medium", "high", "critical"
 
 
+
+
+def _luhn_checksum(card_number: str) -> bool:
+    """Validate a credit card number using the Luhn algorithm (ISO/IEC 7812).
+
+    Doubles every second digit from the right, subtracts 9 from values > 9,
+    and checks that the total sum is divisible by 10.
+    Returns False for numbers outside 13-19 digit range.
+    """
+    digits = [int(d) for d in card_number if d.isdigit()]
+    if len(digits) < 13 or len(digits) > 19:
+        return False
+    for i in range(len(digits) - 2, -1, -2):
+        digits[i] *= 2
+        if digits[i] > 9:
+            digits[i] -= 9
+    return sum(digits) % 10 == 0
+
+
 class PIIDetector:
     """Detects personally identifiable information patterns in text.
 
@@ -70,7 +89,7 @@ class PIIDetector:
             ),
             (
                 "credit_card",
-                re.compile(r"\b\d{4}[\s-]\d{4}[\s-]\d{4}[\s-]\d{4}\b"),
+                re.compile(r"\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b"),
                 "high",
             ),
         ]
@@ -80,6 +99,11 @@ class PIIDetector:
         violations: list[Violation] = []
         for label, pattern, severity in self._patterns:
             for match in pattern.finditer(text):
+                # Apply Luhn checksum to credit card matches to reduce false positives
+                if label == "credit_card":
+                    card_num = match.group().replace(" ", "").replace("-", "")
+                    if not _luhn_checksum(card_num):
+                        continue
                 violations.append(
                     Violation(
                         rule="PII",

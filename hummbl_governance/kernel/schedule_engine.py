@@ -22,10 +22,11 @@ Registers loops, tracks health, escalates if loops miss runs.
 from __future__ import annotations
 
 import json
+import threading
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 
 @dataclass
@@ -48,6 +49,7 @@ class ScheduleEngine:
     def __init__(self, state_dir: Path) -> None:
         self.state_dir = state_dir
         self.schedules_file = state_dir / "loop_schedules.jsonl"
+        self._lock = threading.Lock()
         self.health_file = state_dir / "loop_health.json"
         self._schedules: dict[str, LoopSchedule] = {}
         self._load()
@@ -70,7 +72,6 @@ class ScheduleEngine:
         self,
         role_id: str,
         cadence: str,
-        loop_fn: Callable | None = None,
     ) -> str:
         """Register a loop for a role.
 
@@ -83,8 +84,9 @@ class ScheduleEngine:
             role_id=role_id,
             cadence=cadence,
         )
-        self._schedules[schedule_id] = schedule
-        self._save()
+        with self._lock:
+            self._schedules[schedule_id] = schedule
+            self._save()
         return schedule_id
 
     def record_run(self, schedule_id: str, success: bool) -> LoopSchedule:
@@ -93,16 +95,17 @@ class ScheduleEngine:
         if not schedule:
             raise ValueError(f"Schedule {schedule_id} not found")
 
-        schedule.last_run = datetime.now(timezone.utc).isoformat()
-        schedule.last_success = success
-        schedule.total_runs += 1
-        if success:
-            schedule.consecutive_misses = 0
-            schedule.total_success += 1
-        else:
-            schedule.consecutive_misses += 1
+        with self._lock:
+            schedule.last_run = datetime.now(timezone.utc).isoformat()
+            schedule.last_success = success
+            schedule.total_runs += 1
+            if success:
+                schedule.consecutive_misses = 0
+                schedule.total_success += 1
+            else:
+                schedule.consecutive_misses += 1
 
-        self._save()
+            self._save()
         return schedule
 
     def check_health(self, schedule_id: str) -> dict[str, Any]:

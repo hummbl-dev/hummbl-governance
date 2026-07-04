@@ -275,7 +275,13 @@ class AgentRegistry:
                 or sender in self._services
             ):
                 return True
-        return self.canonicalize(sender) != sender
+        canonical = self.canonicalize(sender)
+        # canonicalize returns None for unknown senders — guard against
+        # the fallthrough where None != sender evaluates to True.
+        if canonical is None:
+            return False
+        return canonical != sender
+
 
     def is_deprecated(self, sender: str) -> bool:
         """Check if a sender is a known deprecated/junk identity."""
