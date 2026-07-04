@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Coordination Bus -- Append-only TSV message bus with HMAC signing and policy levels.
 
 Provides a thread-safe, flock-based message bus for multi-agent coordination.
@@ -284,6 +300,59 @@ class BusWriter:
                 if _HAS_FCNTL:
                     fcntl.flock(fd, fcntl.LOCK_UN)
                 os.close(fd)
+
+    def append(
+        self,
+        agent: str,
+        action: str,
+        resource: str,
+        *,
+        to_id: str = "all",
+    ) -> None:
+        """Convenience alias for post() with agent/action/resource signature.
+
+        Matches the code examples shown on hummbl.io. Posts a LOG-type
+        message encoding the agent, action, and resource as a structured
+        log entry.
+
+        Args:
+            agent: Agent performing the action (maps to from_id).
+            action: Action performed (e.g. "read", "summarize").
+            resource: Resource accessed (e.g. "docs/report.md").
+            to_id: Recipient (default "all").
+        """
+        self.post(
+            from_id=agent,
+            to_id=to_id,
+            msg_type="LOG",
+            message=f"{action}:{resource}",
+        )
+
+    def write(
+        self,
+        actor: str,
+        action: str,
+        scope: str,
+        *,
+        to_id: str = "all",
+    ) -> None:
+        """Convenience alias for post() with actor/action/scope signature.
+
+        Matches the code examples shown on hummbl.io. Posts a LOG-type
+        message encoding the actor, action, and scope.
+
+        Args:
+            actor: Agent performing the action (maps to from_id).
+            action: Action performed.
+            scope: Scope of the action.
+            to_id: Recipient (default "all").
+        """
+        self.post(
+            from_id=actor,
+            to_id=to_id,
+            msg_type="LOG",
+            message=f"{action}:{scope}",
+        )
 
     def read_all(self) -> list[dict[str, str]]:
         """Read all messages from the bus.

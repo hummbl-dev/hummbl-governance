@@ -43,9 +43,10 @@ pip install -e ".[test]"
 ```
 
 **Verification**:
+
 ```bash
 python -m pytest tests/ -v --tb=short -q
-# Expected: 1032 passed
+# Expected: 1245 passed
 ```
 
 ---
@@ -306,5 +307,5 @@ export HUMMBL_KERNEL_STATE_DIR=/path/to/kernel/state
 ## 8. Ledger Tag
 
 ```
-kernel_integration_guide: v1.2.0 | analyst: devin | date: 2026-06-25 | verified: huxley | tests_passed: 1288 | engines: 8 | invariants: 8 | use_cases: mission-mode, nexus, apex | cli_commands: 6
+kernel_integration_guide: v1.2.0 | analyst: devin | date: 2026-06-25 | verified: huxley | tests_passed: 1245 | engines: 8 | invariants: 8 | use_cases: mission-mode, nexus, apex | cli_commands: 6
 ```

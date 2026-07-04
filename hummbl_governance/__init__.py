@@ -24,6 +24,8 @@ All modules use only Python stdlib. Zero third-party runtime dependencies.
 Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 """
 
+import threading
+
 __version__ = "1.2.0"
 
 # Kernel — Governance operating system (v1.2.0)
@@ -54,6 +56,8 @@ from hummbl_governance.transition_receipt import (
 from hummbl_governance.delegation import DelegationToken, DelegationTokenManager
 from hummbl_governance.audit_log import AuditLog
 from hummbl_governance.tool_audit import ToolCallAuditor
+from hummbl_governance.attest import Attest, AttestResult, ALLOWLIST, BLOCKLIST, CAPABILITY_FENCE
+from hummbl_governance.delegation_context import DelegationContext, DelegationContextManager
 from hummbl_governance.identity import AgentRegistry, TrustTier
 from hummbl_governance.schema_validator import SchemaValidator, ValidationError
 try:
@@ -155,6 +159,46 @@ from hummbl_governance.kernel.doctrine_amendment import (
     validate_amendment_evidence,
     validate_amendment,
 )
+
+# Convenience aliases — match code examples shown on hummbl.io
+DCT = DelegationTokenManager  # Short alias for DelegationTokenManager
+DCTX = DelegationContext  # Short alias for DelegationContext
+
+
+class _B120Shortcut:
+    """Lazy shortcut for Base120 ReasoningEngine access."""
+
+    def __init__(self) -> None:
+        self._engine: ReasoningEngine | None = None
+        self._lock = threading.Lock()
+
+    def _ensure(self) -> ReasoningEngine:
+        if self._engine is None:
+            with self._lock:
+                if self._engine is None:
+                    self._engine = ReasoningEngine()
+        return self._engine
+
+    def get(self, key: str):  # type: ignore[no-untyped-def]
+        return self._ensure().get_model(key)
+
+    def search(self, query: str, **kwargs):  # type: ignore[no-untyped-def]
+        return self._ensure().search(query, **kwargs)
+
+    def __contains__(self, key: object) -> bool:
+        return isinstance(key, str) and key in self._ensure()
+
+    def __iter__(self):
+        return iter(self._ensure())
+
+    def __len__(self) -> int:
+        return len(self._ensure())
+
+    def list(self):  # type: ignore[no-untyped-def]
+        return list(self._ensure().models.keys())
+
+
+b120 = _B120Shortcut()
 
 __all__ = [
     "__version__",
@@ -287,4 +331,17 @@ __all__ = [
     "validate_amendment_operator_approval",
     "validate_amendment_evidence",
     "validate_amendment",
+    # Attestation (v1.2.0)
+    "Attest",
+    "AttestResult",
+    "ALLOWLIST",
+    "BLOCKLIST",
+    "CAPABILITY_FENCE",
+    # Delegation Context (v1.2.0)
+    "DelegationContext",
+    "DelegationContextManager",
+    # Convenience aliases
+    "DCT",
+    "DCTX",
+    "b120",
 ]
