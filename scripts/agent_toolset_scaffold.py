@@ -142,21 +142,30 @@ def write_template(repo_root: Path, template_path: Path, force: bool) -> str:
     return f"written: {target}"
 
 
-def resolve_template_source(repo_root: Path, script_root: Path) -> Path:
+def template_candidates(repo_root: Path, script_root: Path) -> list[Path]:
+    """Return starter-doc template candidates in repo-native order."""
     script_repo_root = find_repo_root(script_root)
-    candidates = [
-        repo_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        repo_root / "founder-mode" / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        repo_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        repo_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        script_repo_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        script_repo_root / "founder-mode" / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        script_repo_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        script_repo_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        script_root / "founder-mode" / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
-        script_root / "docs" / "operations" / "AGENT_TOOLSET_STARTER.md",
+    bases = [
+        repo_root / "founder-mode",
+        repo_root,
+        script_repo_root / "founder-mode",
+        script_repo_root,
+        script_root / "founder-mode",
+        script_root,
     ]
-    for candidate in candidates:
+    candidates: list[Path] = []
+    seen: set[Path] = set()
+    for base in bases:
+        for docs_dir in ("docs", "DOCS"):
+            candidate = base / docs_dir / "operations" / "AGENT_TOOLSET_STARTER.md"
+            if candidate not in seen:
+                candidates.append(candidate)
+                seen.add(candidate)
+    return candidates
+
+
+def resolve_template_source(repo_root: Path, script_root: Path) -> Path:
+    for candidate in template_candidates(repo_root, script_root):
         if candidate.exists():
             return candidate
     raise SystemExit("AGENT_TOOLSET_STARTER.md template not found")

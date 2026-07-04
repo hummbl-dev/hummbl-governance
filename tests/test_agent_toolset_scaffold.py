@@ -41,4 +41,17 @@ def test_resolve_template_source_falls_back_to_script_repo_root(tmp_path: Path) 
     (source_repo / ".git").mkdir()
     template.write_text("# starter\n", encoding="utf-8")
 
-    assert scaffold.resolve_template_source(target_repo, script_root) == template
+    assert scaffold.resolve_template_source(target_repo, script_root).samefile(template)
+
+
+def test_resolve_template_source_checks_script_root_docs_casing(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    script_root = tmp_path / "external_scripts"
+    template = script_root / "DOCS" / "operations" / "AGENT_TOOLSET_STARTER.md"
+    repo.mkdir()
+    script_root.mkdir()
+    template.parent.mkdir(parents=True)
+    template.write_text("# starter\n", encoding="utf-8")
+
+    assert template in scaffold.template_candidates(repo, script_root)
+    assert scaffold.resolve_template_source(repo, script_root).samefile(template)
