@@ -309,7 +309,7 @@ def test_sandbox_protocol_initialize(tmp_path):
     ], tmp_path)
     assert any(r.get("id") == 1 and "result" in r for r in responses)
     r = next(r for r in responses if r.get("id") == 1)
-    assert r["result"]["serverInfo"]["name"] == "agent-sandbox"
+    assert r["result"]["serverInfo"]["name"] == "hummbl-sandbox"
 
 
 def test_sandbox_protocol_tools_list(tmp_path):

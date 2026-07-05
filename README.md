@@ -401,12 +401,12 @@ hummbl-governance ships three [Model Context Protocol](https://modelcontextproto
 
 **5 tools:** `nist_map_controls`, `soc2_assess`, `iso_crosswalk`, `stride_analysis`, `compliance_evidence_export`
 
-### agent-sandbox
+### hummbl-sandbox
 
 ```json
 {
   "mcpServers": {
-    "agent-sandbox": {
+    "hummbl-sandbox": {
       "command": "python",
       "args": ["/path/to/hummbl-governance/mcp_sandbox.py"],
       "env": {
@@ -416,6 +416,10 @@ hummbl-governance ships three [Model Context Protocol](https://modelcontextproto
   }
 }
 ```
+
+This server is part of `hummbl-governance` and is launched through the
+`hummbl-sandbox-mcp` entry point. It is not related to the third-party npm
+package named `agent-sandbox`.
 
 **5 tools:** `sandbox_create`, `sandbox_check`, `sandbox_validate_output`, `sandbox_status`, `sandbox_destroy`
 
