@@ -57,7 +57,7 @@ except ImportError:
 
 from hummbl_governance import AuditLog
 
-SERVER_NAME = "agent-sandbox"
+SERVER_NAME = "hummbl-sandbox"
 SERVER_VERSION = "0.1.0"
 PROTOCOL_VERSION = "2024-11-05"
 
