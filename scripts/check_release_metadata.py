@@ -11,13 +11,15 @@ from zipfile import ZipFile
 
 
 EXPECTED_PRIMITIVES = "34"
-EXPECTED_TESTS = "1970"
+EXPECTED_TESTS = "2027"
 
 STALE_PATTERNS = {
     "old_current_version": r"Current package version\*\*: `1\.1\.0`",
     "old_primitive_claim": r"\b26 governance primitives\b",
     "old_test_1032": r"\b1032 (?:passing )?tests\b",
     "old_test_1244": r"\b1244 tests\b",
+    "old_test_1970": r"\b1970 (?:collected )?tests\b",
+    "old_governance_yml_tests_1970": r"\btests:\s*1970\b",
     "old_governance_yml_tests": r"\btests:\s*1849\b",
 }
 
