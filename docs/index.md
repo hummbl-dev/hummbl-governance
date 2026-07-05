@@ -38,6 +38,11 @@ Compliance documentation for various frameworks:
 
 - [Gitea Runners Operations](runbooks/gitea-runners-operations.md) - CI/CD operations
 
+## Operations
+
+- [Agent Toolset Starter](operations/AGENT_TOOLSET_STARTER.md) - Agent-owned telemetry rollout baseline
+- [Draft PR Promotion Queue](operations/DRAFT_PR_PROMOTION_QUEUE.md) - Issue-to-draft PR promotion policy and queue template
+
 ---
 
 Learn more at [hummbl.io](https://hummbl.io).
