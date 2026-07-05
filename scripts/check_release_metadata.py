@@ -11,13 +11,15 @@ from zipfile import ZipFile
 
 
 EXPECTED_PRIMITIVES = "34"
-EXPECTED_TESTS = "1970"
+EXPECTED_TESTS = "2027"
 
 STALE_PATTERNS = {
     "old_current_version": r"Current package version\*\*: `1\.1\.0`",
     "old_primitive_claim": r"\b26 governance primitives\b",
     "old_test_1032": r"\b1032 (?:passing )?tests\b",
     "old_test_1244": r"\b1244 tests\b",
+    "old_test_1970": r"\b1970 (?:collected )?tests\b",
+    "old_governance_yml_tests_1970": r"\btests:\s*1970\b",
     "old_governance_yml_tests": r"\btests:\s*1849\b",
 }
 
@@ -39,8 +41,16 @@ def require(condition: bool, message: str, failures: list[str]) -> None:
         failures.append(message)
 
 
-def check_no_stale_patterns(name: str, text: str, failures: list[str]) -> None:
+def check_no_stale_patterns(
+    name: str,
+    text: str,
+    failures: list[str],
+    *,
+    labels: set[str] | None = None,
+) -> None:
     for label, pattern in STALE_PATTERNS.items():
+        if labels is not None and label not in labels:
+            continue
         if re.search(pattern, text):
             failures.append(f"{name}: stale metadata pattern present: {label}")
 
@@ -58,6 +68,8 @@ def main(argv: list[str] | None = None) -> int:
     readme = read_text(root / "README.md")
     security = read_text(root / "SECURITY.md")
     repo_health = read_text(root / "docs" / "REPO_HEALTH.md")
+    test_count_authority = read_text(root / "docs" / "TEST_COUNT_AUTHORITY.md")
+    public_claims = read_text(root / "docs" / "public-claims.md")
     governance = read_text(root / "hummbl_governance" / "governance.yml")
 
     require(
@@ -92,18 +104,31 @@ def main(argv: list[str] | None = None) -> int:
         failures,
     )
     require(
+        f"{EXPECTED_TESTS} tests collected" in test_count_authority,
+        "docs/TEST_COUNT_AUTHORITY.md missing expected package test collection count",
+        failures,
+    )
+    require(
         f"tests: {EXPECTED_TESTS}" in governance,
         "hummbl_governance/governance.yml missing expected test count",
         failures,
     )
 
-    for name, text in {
+    current_surface_texts = {
         "README.md": readme,
         "SECURITY.md": security,
         "docs/REPO_HEALTH.md": repo_health,
+        "docs/public-claims.md": public_claims,
         "hummbl_governance/governance.yml": governance,
-    }.items():
+    }
+    for name, text in current_surface_texts.items():
         check_no_stale_patterns(name, text, failures)
+    check_no_stale_patterns(
+        "docs/TEST_COUNT_AUTHORITY.md",
+        test_count_authority,
+        failures,
+        labels={"old_test_1970"},
+    )
 
     if args.wheel:
         metadata = wheel_metadata(args.wheel)
