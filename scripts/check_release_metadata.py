@@ -69,6 +69,7 @@ def main(argv: list[str] | None = None) -> int:
     security = read_text(root / "SECURITY.md")
     repo_health = read_text(root / "docs" / "REPO_HEALTH.md")
     test_count_authority = read_text(root / "docs" / "TEST_COUNT_AUTHORITY.md")
+    public_claims = read_text(root / "docs" / "public-claims.md")
     governance = read_text(root / "hummbl_governance" / "governance.yml")
 
     require(
@@ -117,6 +118,7 @@ def main(argv: list[str] | None = None) -> int:
         "README.md": readme,
         "SECURITY.md": security,
         "docs/REPO_HEALTH.md": repo_health,
+        "docs/public-claims.md": public_claims,
         "hummbl_governance/governance.yml": governance,
     }
     for name, text in current_surface_texts.items():
