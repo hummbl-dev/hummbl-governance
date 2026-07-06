@@ -38,6 +38,7 @@ Compliance documentation for various frameworks:
 
 - [awesome-python Resubmission Gate](distribution/awesome-python-resubmission.md) - Public adoption evidence required before resubmission
 - [Public Mentions Ledger](distribution/public-mentions-ledger.md) - Qualified ecosystem insertion and conversion tracking
+- [CrewAI Runtime Release-Control Crosswalk](distribution/crosswalks/crewai-runtime-release-control.md) - Exploratory mapping from CrewAI issue #6025 to HUMMBL governance primitives
 
 ## Runbooks
 
