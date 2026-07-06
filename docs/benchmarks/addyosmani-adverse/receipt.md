@@ -5,7 +5,7 @@
 - **Date**: 2026-07-05
 - **Agent**: claude-code (Claude Fable 5, model id `claude-fable-5`)
 - **Operator**: Reuben Bowlby (handoff-directed; async execution)
-- **Target repo**: `hummbl-dev/hummbl-governance` (relocated from home-repo working tree per operator decision 2026-07-05; original audit staging was `C:\Users\Owner` on `feat/devin/research-launcher`, uncommitted)
+- **Target repo**: `hummbl-dev/hummbl-governance` (relocated from home-repo working tree per operator decision 2026-07-05; original audit staging was a local Windows worktree on a feature branch (redacted), uncommitted)
 - **Target branch**: `docs/claude/adverse-benchmark` (based on `github/main` @ `df9b7de`)
 - **External repo inspected**: https://github.com/addyosmani/adverse
 - **External repo commit**: `4b9eb7b764a9d55ea08dff4f1c960926e0691f2a` (2026-06-20, package version 0.2.1) — shallow clone, read-only, at scratchpad temp path
@@ -77,7 +77,7 @@ Failing tests (all in tests/collect.test.mjs):
 Failure classification:
 - environment/worktree assumption (tests create fixtures under os.tmpdir() and
   assume that path is NOT inside a git worktree; on Anvil, %TEMP% resolves under
-  C:\Users\Owner, which is itself a git repository, so collect.mjs's isGitRepo()
+  the operator home directory (redacted), which is itself a git repository, so collect.mjs's isGitRepo()
   returns true for the fixture dirs and collection switches to git ls-files
   semantics)
 - not source-behavior failure

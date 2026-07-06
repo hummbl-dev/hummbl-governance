@@ -48,7 +48,8 @@ reviewing itself with three hats).
 5. **Prototype the receipt envelope** (Gap 3): a small wrapper that runs
    `adverse review --json-out`, then wraps the untouched JSON with repo / branch /
    commit / diff-base / command / agent-model-provider / timestamp / source-cap /
-   findings-hash fields and posts a bus RECEIPT. Wrap, don't fork.
+   findings-hash / human-decision / CI-outcome / fix-PR-link fields (the full Gap 3
+   required set) and posts a bus RECEIPT. Wrap, don't fork.
 6. **Prototype the L4 decorrelation loop**: N runs across N providers from the
    verified Anvil mesh (devin, codex, `claude --bare -p`, pi, aider, ollama) + a
    cross-run finding differ. This is the highest-leverage extension adverse doesn't
