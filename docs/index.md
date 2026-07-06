@@ -34,6 +34,11 @@ Compliance documentation for various frameworks:
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
 - [Memory System Registry](MEMORY_SYSTEM_REGISTRY.md) - Proposed cross-system memory namespace registry
 
+## Distribution
+
+- [awesome-python Resubmission Gate](distribution/awesome-python-resubmission.md) - Public adoption evidence required before resubmission
+- [Public Mentions Ledger](distribution/public-mentions-ledger.md) - Qualified ecosystem insertion and conversion tracking
+
 ## Runbooks
 
 - [Gitea Runners Operations](runbooks/gitea-runners-operations.md) - CI/CD operations
