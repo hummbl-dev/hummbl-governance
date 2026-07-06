@@ -104,8 +104,23 @@ def main(argv: list[str] | None = None) -> int:
         failures,
     )
     require(
+        f"Package version is `{expected_version}`" in public_claims,
+        "docs/public-claims.md missing current package version",
+        failures,
+    )
+    require(
         f"{EXPECTED_TESTS} tests collected" in test_count_authority,
         "docs/TEST_COUNT_AUTHORITY.md missing expected package test collection count",
+        failures,
+    )
+    require(
+        f"version: {expected_version}" in governance,
+        "hummbl_governance/governance.yml missing expected package version",
+        failures,
+    )
+    require(
+        f"version: {expected_version}" in readme,
+        "README governance.yml example missing expected package version",
         failures,
     )
     require(

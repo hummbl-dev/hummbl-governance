@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import hummbl_governance
 from hummbl_governance.corpus_adapter import CorpusAdapter
 from hummbl_governance.kernel import ReceiptEngine
 
@@ -52,7 +53,7 @@ class TestCorpusAdapter:
         import json
         entry = json.loads(lines[0])
         assert entry["kernel_output"]["kernel_name"] == "hummbl-governance"
-        assert entry["kernel_output"]["kernel_version"] == "1.2.0"
+        assert entry["kernel_output"]["kernel_version"] == hummbl_governance.__version__
         assert entry["kernel_output"]["receipt_ref"] == receipt.receipt_id
 
     def test_flush_queue_no_ingestor(self, tmp_path: Path) -> None:
