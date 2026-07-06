@@ -14,6 +14,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+import tomllib
+from pathlib import Path
+
 import hummbl_governance
 
 def test_init_exports_all_present():
@@ -23,7 +26,12 @@ def test_init_exports_all_present():
 
 def test_version_canonical():
     """Verify version matches current release."""
-    assert hummbl_governance.__version__ == "1.2.0"
+    pyproject = tomllib.loads(
+        (Path(__file__).resolve().parents[1] / "pyproject.toml").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert hummbl_governance.__version__ == pyproject["project"]["version"]
 
 def test_new_primitives_exported():
     """Verify v0.4.0, v0.5.0, and v0.6.0 primitives are exported."""
@@ -35,7 +43,7 @@ def test_new_primitives_exported():
 
 
 def test_kernel_primitives_exported():
-    """Verify v1.2.0 Kernel primitives are exported."""
+    """Verify Kernel primitives are exported."""
     assert "Kernel" in hummbl_governance.__all__
     assert "KernelInvariant" in hummbl_governance.__all__
     assert "KernelPanic" in hummbl_governance.__all__

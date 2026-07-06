@@ -2,7 +2,7 @@
 
 Status: public claim ledger
 Last updated: 2026-07-05
-Current package metadata: `pyproject.toml` version `1.2.0`
+Current package metadata: `pyproject.toml` version `1.2.1`
 
 This ledger keeps public claims evidence-backed. A claim should be promoted
 only when its status is `verified` or when it is explicitly framed as planned,
@@ -12,7 +12,7 @@ draft, pending, or source-candidate.
 
 | Claim                                                                   | Status           | Receipt                                                                                                                                                                                            | Promotion rule                                                                  |
 | ----------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| Package version is `1.2.0`                                              | verified         | `pyproject.toml` declares `version = "1.2.0"`                                                                                                                                                      | May be stated as package metadata.                                              |
+| Package version is `1.2.1`                                              | verified         | `pyproject.toml` declares `version = "1.2.1"`                                                                                                                                                      | May be stated as package metadata.                                              |
 | Runtime dependencies are zero                                           | verified         | `pyproject.toml` has `dependencies = []`                                                                                                                                                           | May be stated as zero third-party runtime dependencies.                         |
 | CI tests Python 3.11, 3.12, and 3.13                                    | verified         | `.github/workflows/ci.yml` matrix includes 3.11, 3.12, 3.13                                                                                                                                        | May be stated as CI-tested on 3.11-3.13.                                        |
 | Python 3.14 is supported                                                | not verified     | CI matrix and `pyproject.toml` classifiers do not include 3.14 at this audit                                                                                                                       | Do not claim support until CI includes 3.14 and passes.                         |
@@ -56,11 +56,11 @@ claims are not mixed across boundaries.
 
 | Surface                   | Version | Tests                | Primitives | Scope                                                                         |
 | ------------------------- | ------- | -------------------- | ---------- | ----------------------------------------------------------------------------- |
-| `pyproject.toml` (source) | 1.2.0   | —                    | 34         | Package metadata — source of truth for version                                |
-| README.md (repo)          | 1.2.0   | 2027 collected       | 34         | Repo docs — current and verified                                              |
-| ROADMAP.md (repo)         | 1.2.0   | 2027 collected       | 34         | Repo docs — updated 2026-07-05                                                |
-| GitHub repo description   | 1.2.0   | 2,027                | 34         | Repo metadata — updated 2026-07-05                                            |
-| PyPI long description     | 1.2.0   | 1032 passing (stale) | not stated | **STALE** — rendered from last `twine upload`; needs patch-release to sync    |
+| `pyproject.toml` (source) | 1.2.1   | —                    | 34         | Package metadata — source of truth for version                                |
+| README.md (repo)          | 1.2.1   | 2027 collected       | 34         | Repo docs — current and verified                                              |
+| ROADMAP.md (repo)         | 1.2.1   | 2027 collected       | 34         | Repo docs — updated 2026-07-06                                                |
+| GitHub repo description   | 1.2.x   | 2,027                | 34         | Repo metadata — updated 2026-07-05                                            |
+| PyPI long description     | 1.2.0   | 1032 passing (stale) | not stated | **STALE** — rendered from previous upload; `1.2.1` is the correction path     |
 | hummbl.io homepage        | —       | 15,600+ aggregate    | 7 marketed | Website — ecosystem aggregate tests; 7 is the marketed subset on /primitives/ |
 
 **Key distinction:** The package has 34 implemented primitives. The hummbl.io

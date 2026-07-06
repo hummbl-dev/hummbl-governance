@@ -4,13 +4,14 @@ This document outlines the strategic direction and technical evolution of the **
 
 ---
 
-## Current Status: v1.2.0 (Governance Kernel + API Stability)
+## Current Status: v1.2.1 (PyPI Metadata Alignment)
 
 **Focus:** 34 governance primitives, 7 MCP servers, API stability guarantee, zero runtime dependencies.
 
 - ✅ **v1.0.0** — API stability guarantee for all primitives. Sphinx docs, 25 usage examples, benchmark suite.
 - ✅ **v1.1.0** — Governance Kernel (26th primitive): signed receipts, identity registry, role claims, sequence enforcement, evidence grading, authority scoping, schedule tracking, scaling-law evaluation. 12 runtime modules, 136 tests.
-- ✅ **v1.2.0** — Contestability (P31), DoctrineAmendment (P38), API server auth + CORS, repo naming exception policy, scientific grounding coordination matrix, Python 3.14 classifiers. 1032 → 1244 tests (+212).
+- ✅ **v1.2.0** — Contestability (P31), DoctrineAmendment (P38), API server auth + CORS, repo naming exception policy, and scientific grounding coordination matrix.
+- ✅ **v1.2.1** — PyPI metadata patch release aligning the built long description with 34 implemented primitives, 2027 collected tests, and Python 3.11-3.13 support.
 - ✅ **34 governance primitives** across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, error taxonomy, and governance kernel (K1-K11 invariants, D1-D7 doctrine invariants).
 - ✅ **7 MCP servers** exposing all primitives as JSON-RPC tools (57 tools total).
 - ✅ **2027 collected tests** — all passing. 4 CLI entry points.

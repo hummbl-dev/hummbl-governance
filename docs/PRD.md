@@ -2,7 +2,7 @@
 
 **Version:** 0.1.0
 **Date:** 2026-03-23
-**Status:** SUPERSEDED — see README.md for current v1.2.0 scope (26 primitives, 1245 tests)
+**Status:** SUPERSEDED — see README.md for current v1.2.1 scope (34 implemented primitives, 2027 collected tests)
 **Audience:** Anthropic partner reviewers, enterprise developers evaluating the library
 
 ---

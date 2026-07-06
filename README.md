@@ -131,7 +131,7 @@ Every HUMMBL package ships a `governance.yml` file declaring its governance post
 # hummbl_governance/governance.yml (shipped in the wheel)
 package:
   name: hummbl-governance
-  version: 1.2.0
+  version: 1.2.1
   license: Apache-2.0
 
 safety:
