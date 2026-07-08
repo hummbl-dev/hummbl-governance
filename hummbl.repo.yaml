@@ -9,7 +9,7 @@ repo:
 
 purpose:
   type: "library"
-  summary: "AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.1.0), 1168 tests, zero third-party runtime dependencies. Ships 7 MCP servers exposing all primitives as JSON-RPC tools."
+  summary: "AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.0), 2027 tests, zero third-party runtime dependencies. Ships 7 MCP servers exposing all primitives as JSON-RPC tools."
   source_of_record: "git"
 
 authority:
