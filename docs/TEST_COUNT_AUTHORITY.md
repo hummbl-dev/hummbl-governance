@@ -17,12 +17,12 @@ site, security, and health surfaces should describe the values.
 
 | Metric | Canonical authority | Verification command or source | Current observed value |
 |---|---|---|---|
-| Package version | `pyproject.toml` `[project].version` | inspect `pyproject.toml` | `1.2.1` |
+| Package version | `pyproject.toml` `[project].version` | inspect `pyproject.toml` | `1.2.2` |
 | Implemented package primitives | `PRIMITIVES.md` implemented inventory | count "Existing primitives" plus "Implemented expansion primitives"; exclude proposed/candidate primitives | `34` implemented primitives |
 | Core historical primitives | `PRIMITIVES.md` "Existing primitives (P1-P26)" | use only when explicitly describing core or historical scope | `26` existing primitives |
 | Package-level dedicated test collection | `pytest` collection on the release candidate working tree | `python -m pytest --collect-only -q tests` | `2027 tests collected` on 2026-07-05 from working tree based on `7224a0d2` |
 | Built package long description | built wheel/sdist metadata | build the release artifact and inspect `dist/*` metadata before publish | release-gated, not editable after upload |
-| Published PyPI rendered description | PyPI project/version page | public PyPI JSON/page for the uploaded artifact | `1.2.0` renders older `26` / `1032` language; `1.2.1` is the patch-release correction path |
+| Published PyPI rendered description | PyPI project/version page | public PyPI JSON/page for the uploaded artifact | `1.2.0` renders older `26` / `1032` language; `1.2.2` is the patch-release correction path |
 | Wider HUMMBL or founder-mode platform tests | owning platform repository and release-state manifest | verify in that repository, not this package | do not reuse as package count |
 
 ## Scope Rules

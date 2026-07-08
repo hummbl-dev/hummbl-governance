@@ -1,7 +1,7 @@
 """hummbl-governance -- Governance primitives for AI agent orchestration.
 
 Standalone, stdlib-only Python package providing:
-- Kernel: Governance operating system — receipts, identity, roles, laws, evidence, doctrine (v1.2.1)
+- Kernel: Governance operating system — receipts, identity, roles, laws, evidence, doctrine (v1.2.2)
 - KillSwitch: Emergency halt system with graduated response (4 modes)
 - CircuitBreaker: Automatic failure detection and recovery (3 states)
 - CostGovernor: Budget tracking with soft/hard caps and ALLOW/WARN/DENY decisions
@@ -26,9 +26,9 @@ Copyright 2026 HUMMBL, LLC. Licensed under Apache 2.0.
 
 import threading
 
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 
-# Kernel — Governance operating system (v1.2.1)
+# Kernel — Governance operating system (v1.2.2)
 from hummbl_governance.kernel import (
     Kernel,
     KernelInvariant,
@@ -202,7 +202,7 @@ b120 = _B120Shortcut()
 
 __all__ = [
     "__version__",
-    # Kernel — Governance operating system (v1.2.1)
+    # Kernel — Governance operating system (v1.2.2)
     "Kernel",
     "KernelInvariant",
     "KernelPanic",
@@ -331,13 +331,13 @@ __all__ = [
     "validate_amendment_operator_approval",
     "validate_amendment_evidence",
     "validate_amendment",
-    # Attestation (v1.2.1)
+    # Attestation (v1.2.2)
     "Attest",
     "AttestResult",
     "ALLOWLIST",
     "BLOCKLIST",
     "CAPABILITY_FENCE",
-    # Delegation Context (v1.2.1)
+    # Delegation Context (v1.2.2)
     "DelegationContext",
     "DelegationContextManager",
     # Convenience aliases

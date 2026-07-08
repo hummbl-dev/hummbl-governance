@@ -1,6 +1,6 @@
 # HUMMBL Governance Primitives — Complete Reference
 
-**Version:** v1.2.1
+**Version:** v1.2.2
 **Existing primitives:** 26 (P1-P26)
 **Implemented expansion primitives:** 8 (P27-P31, P34, P36, P38) — schemas, modules, and tests
 **Proposed primitives:** 6 (P32-P33, P35, P37, P39-P40) — not yet started

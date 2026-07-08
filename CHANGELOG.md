@@ -15,6 +15,18 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **`hummbl-repo-manifest.schema.json`** (`schemas/`) — JSON Schema Draft 2020-12 for the machine-readable `hummbl.repo.yaml` registry atom. Enforces provider neutrality (`model_provider_neutral: const true`) and KRINEIA operator surface (`append`/`project`/`cut` only).
 - **ADR-003** (`docs/adr/ADR-003-hummbl-repo-standard.md`) — decision record for the standard, including the live 91-repo audit findings (0% `KRINEIA.md`, 0% `hummbl.repo.yaml`, 1% `CONSTITUTION.md` coverage) and the split-home choice (canonical in `hummbl-governance`, templates mirrored in `.github`).
 
+## [1.2.2] — 2026-07-08
+
+### Fixed
+
+- Prepared package metadata and release surfaces for a fresh patch publication with a new package identity (`1.2.2`) so the stale `1.2.0`/`1.2.1` PyPI text can be replaced.
+
+### Changed
+
+- `__version__` bumped to `1.2.2` in package metadata and runtime package headers.
+- `hummbl_governance/governance.yml`, kernel spec/version, and public claim surfaces aligned to `1.2.2`.
+- `.github/workflows/publish.yml` keeps `skip-existing: true` for production PyPI publish retries.
+
 ## [1.2.1] — 2026-07-06
 
 ### Fixed
