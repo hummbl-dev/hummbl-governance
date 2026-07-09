@@ -16,7 +16,7 @@ try:  # pragma: no cover - optional dependency path
     from autogen import AssistantAgent, UserProxyAgent
 
     _HAS_AUTOGEN = True
-except ModuleNotFoundError:  # pragma: no cover
+except ImportError:  # pragma: no cover
     AssistantAgent = None  # type: ignore[assignment]
     UserProxyAgent = None  # type: ignore[assignment]
     _HAS_AUTOGEN = False

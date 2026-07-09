@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Dict
 
 from hummbl_governance import CircuitBreaker, CostGovernor, KillSwitch
+from hummbl_governance.circuit_breaker import CircuitBreakerOpen
 
 
 Decision = Dict[str, Any]
@@ -47,6 +48,8 @@ def guarded_tool_dispatch(
 
     try:
         result = breaker.call(_invoke)
+    except CircuitBreakerOpen:
+        return {"status": "blocked", "reason": "circuit breaker open"}
     except Exception as exc:
         return {"status": "error", "reason": str(exc)}
 

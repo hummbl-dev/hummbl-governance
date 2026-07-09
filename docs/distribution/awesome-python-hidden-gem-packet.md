@@ -46,8 +46,8 @@ For another resubmission, either:
 
 | Receipt | Link | Public surface | Why it matters | Status |
 | --- | --- | --- | --- | --- |
-| CrewAI framework discussion (#6025) | https://github.com/crewAIInc/crewAI/issues/6025 | Framework conversation + technical thread | Demonstrates a real runtime safety problem in an open framework and HUMMBL's concrete follow-up artifacts | converted (ledger row exists, no maintainer adoption)
-| Package metadata mirror (`szabgab/pydigger-data`) | https://github.com/szabgab/pydigger-data/blob/main/data/pypi/hu/hummbl-governance.json | Independent package index consumer | Indicates third-party package metadata capture, not an endorsement | open/weak external visibility
+| CrewAI framework discussion (#6025) | https://github.com/crewAIInc/crewAI/issues/6025 | Framework conversation + technical thread | Demonstrates a real runtime safety problem in an open framework and HUMMBL's concrete follow-up artifacts | converted (ledger row exists, no maintainer adoption) |
+| Package metadata mirror (`szabgab/pydigger-data`) | https://github.com/szabgab/pydigger-data/blob/main/data/pypi/hu/hummbl-governance.json | Independent package index consumer | Indicates third-party package metadata capture, not an endorsement | open/weak external visibility |
 | Piwheels package listing | https://www.piwheels.org/project/hummbl-governance | Distribution mirror | Demonstrates public package indexing in secondary ecosystem mirror | supporting evidence only |
 
 ## Why this is a Hidden Gem candidate

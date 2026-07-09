@@ -23,7 +23,7 @@ try:  # pragma: no cover - optional integration dependency
     from openai import OpenAI
 
     _HAS_OPENAI = True
-except ModuleNotFoundError:  # pragma: no cover - optional path
+except ImportError:  # pragma: no cover - optional path
     OpenAI = None  # type: ignore[assignment]
     _HAS_OPENAI = False
 

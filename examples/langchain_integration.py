@@ -23,7 +23,7 @@ try:  # pragma: no cover - optional dependency path
     from langchain_openai import ChatOpenAI
 
     _HAS_LANGCHAIN = True
-except ModuleNotFoundError:  # pragma: no cover
+except ImportError:  # pragma: no cover
     ChatOpenAI = None  # type: ignore[assignment]
     _HAS_LANGCHAIN = False
 
