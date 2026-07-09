@@ -21,6 +21,19 @@ if result["allowed"]:
 
 That's it. Three primitives, three lines. No framework modification required.
 
+## Runnable examples
+
+Use these files for public, runnable patterns that mirror the snippets below:
+
+- `python examples/crewai_integration.py`
+- `python examples/openai_api_integration.py`
+- `python examples/langchain_integration.py`
+- `python examples/autogen_integration.py`
+- `python examples/mcp_integration.py`
+
+All examples include local fallback modes when the optional framework package
+is not installed.
+
 ## CrewAI
 
 CrewAI gives you tools to build crews. hummbl-governance gives you tools to govern them.
@@ -54,6 +67,9 @@ if ks.check_task_allowed("research")["allowed"]:
 - [CrewAI #5888](https://github.com/crewAIInc/crewAI/issues/5888) — Governance middleware hook for tool call authorization
 
 Run the full example: `python examples/crewai_integration.py`
+
+This file provides an optional-framework-safe CrewAI wrapper and a per-tool receipt
+path for hook-based mediation.
 
 ### CrewAI per-tool hook with transition receipts
 
@@ -114,6 +130,8 @@ allow/block boolean.
 
 ## LangChain
 
+Executable version: `python examples/langchain_integration.py`
+
 ```python
 from langchain.agents import AgentExecutor
 from hummbl_governance import KillSwitch, CircuitBreaker, CostGovernor
@@ -137,6 +155,8 @@ def governed_invoke(input_text):
 
 ## AutoGen (Microsoft)
 
+Executable version: `python examples/autogen_integration.py`
+
 ```python
 from autogen import AssistantAgent, UserProxyAgent
 from hummbl_governance import KillSwitch, CircuitBreaker, CostGovernor
@@ -159,6 +179,8 @@ if ks.check_task_allowed("autogen_chat")["allowed"]:
 
 ## Raw OpenAI API
 
+Executable version: `python examples/openai_api_integration.py`
+
 ```python
 import openai
 from hummbl_governance import CircuitBreaker, CostGovernor
@@ -179,6 +201,31 @@ def governed_completion(prompt, model="gpt-4"):
                      cost=0.015)
     return response
 ```
+
+## MCP
+
+Executable version: `python examples/mcp_integration.py`
+
+Model Context Protocol tool calls benefit from the same policy shape as agent
+framework calls:
+
+```python
+from hummbl_governance import KillSwitch, CircuitBreaker, CostGovernor
+
+def guarded_tool(method, params, tool):
+    if not KillSwitch().check_task_allowed(f"mcp:{method}")["allowed"]:
+        return {"status": "blocked"}
+
+    breaker = CircuitBreaker(failure_threshold=2, recovery_timeout=8.0)
+    governor = CostGovernor(":memory:", soft_cap=1.0, hard_cap=2.0)
+
+    result = breaker.call(tool, params)
+    governor.record_usage("mcp", method, len(method), len(str(result)), 0.0002)
+    return {"status": "ok", "result": result}
+```
+
+See `examples/mcp_integration.py` for a runnable mock tool catalog with unknown
+method and happy-path handling.
 
 ## What You Get
 

@@ -1,7 +1,7 @@
 # awesome-python Resubmission Gate
 
 Status: distribution gate
-Last updated: 2026-07-06
+Last updated: 2026-07-08
 
 This document records the awesome-python rejection of `hummbl-governance` as
 an external adoption signal and defines the evidence required before any
@@ -15,9 +15,9 @@ resubmission.
 - Closed: 2026-06-04
 - Rejection reason: "GitHub stars: 0 star (minimum 100 required, or strong
   justification for Hidden Gem)."
-- Current public repo signal checked 2026-07-06:
+- Current public repo signal checked 2026-07-08:
   https://github.com/hummbl-dev/hummbl-governance shows 0 stars, 1 fork,
-  4 releases, latest release `v1.2.0`, and package claims of 34 primitives and
+  latest release `v1.2.2`, and package claims of 34 primitives and
   2,027 tests.
 
 ## Interpretation
@@ -56,11 +56,17 @@ The Hidden Gem packet must include all of the following:
 
 ## Work Tracker
 
-- [ ] Add public examples for raw OpenAI, LangChain, CrewAI, AutoGen, and MCP.
-- [ ] Maintain the public mentions ledger as a source of qualified ecosystem
+- [x] Add public examples for raw OpenAI, LangChain, CrewAI, AutoGen, and MCP.
+  - `examples/openai_api_integration.py`
+  - `examples/langchain_integration.py`
+  - `examples/autogen_integration.py`
+  - `examples/mcp_integration.py`
+  - `docs/integrations/README.md`
+- [x] Maintain the public mentions ledger as a source of qualified ecosystem
   insertion receipts.
 - [ ] Collect 3 to 5 external adoption, usage, or endorsement receipts.
-- [ ] Create a Hidden Gem packet with the resubmission narrative and evidence.
+- [x] Create `docs/distribution/awesome-python-hidden-gem-packet.md` with the
+  resubmission narrative and evidence.
 - [ ] Add a distribution section to the README once receipts exist.
 - [ ] Verify repo public surface before resubmission: stars, forks, latest
   release, topics, README, Issues, Discussions, Security policy, and project
@@ -91,7 +97,8 @@ Receipt: https://github.com/vinta/awesome-python/pull/3180
 
 - [ ] Add public examples for raw OpenAI, LangChain, CrewAI, AutoGen, and MCP.
 - [ ] Collect 3 to 5 public external usage or endorsement receipts.
-- [ ] Create `docs/distribution/awesome-python-resubmission.md`.
+- [x] Create `docs/distribution/awesome-python-resubmission.md`.
+- [x] Add public examples for OpenAI, LangChain, CrewAI, AutoGen, and MCP.
 - [ ] Build a Hidden Gem packet explaining the niche, real-world usage,
       maturity, and differentiated value.
 - [ ] Do not resubmit until the repo reaches 100 stars or the Hidden Gem packet
