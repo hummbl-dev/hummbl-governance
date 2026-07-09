@@ -1,7 +1,7 @@
 # Public Claims
 
 Status: public claim ledger
-Last updated: 2026-07-08
+Last updated: 2026-07-09
 Current package metadata: `pyproject.toml` version `1.2.2`
 
 This ledger keeps public claims evidence-backed. A claim should be promoted
@@ -60,7 +60,7 @@ claims are not mixed across boundaries.
 | README.md (repo)          | 1.2.2   | 2027 collected       | 34         | Repo docs — current and verified                                              |
 | ROADMAP.md (repo)         | 1.2.2   | 2027 collected       | 34         | Repo docs — updated 2026-07-06                                                |
 | GitHub repo description   | 1.2.x   | 2,027                | 34         | Repo metadata — updated 2026-07-05                                            |
-| PyPI long description     | 1.2.0   | 1032 passing (stale) | not stated | **STALE** — rendered from previous upload; `1.2.2` is the correction path     |
+| PyPI long description     | 1.2.2   | 2027 collected (verified) | 34         | Published on PyPI for `hummbl-governance 1.2.2`                            |
 | hummbl.io homepage        | —       | 15,600+ aggregate    | 7 marketed | Website — ecosystem aggregate tests; 7 is the marketed subset on /primitives/ |
 
 **Key distinction:** The package has 34 implemented primitives. The hummbl.io

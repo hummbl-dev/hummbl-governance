@@ -1,7 +1,7 @@
 # Package Test-Count Authority Model
 
 Status: draft authority model for issue #166.
-Last verified: 2026-07-05.
+Last verified: 2026-07-09.
 
 ## Purpose
 
@@ -20,9 +20,9 @@ site, security, and health surfaces should describe the values.
 | Package version | `pyproject.toml` `[project].version` | inspect `pyproject.toml` | `1.2.2` |
 | Implemented package primitives | `PRIMITIVES.md` implemented inventory | count "Existing primitives" plus "Implemented expansion primitives"; exclude proposed/candidate primitives | `34` implemented primitives |
 | Core historical primitives | `PRIMITIVES.md` "Existing primitives (P1-P26)" | use only when explicitly describing core or historical scope | `26` existing primitives |
-| Package-level dedicated test collection | `pytest` collection on the release candidate working tree | `python -m pytest --collect-only -q tests` | `2027 tests collected` on 2026-07-05 from working tree based on `7224a0d2` |
+| Package-level dedicated test collection | `pytest` collection on the release candidate working tree | `python -m pytest --collect-only -q tests` | `2027 tests collected` on 2026-07-09 from working tree based on `88783671` |
 | Built package long description | built wheel/sdist metadata | build the release artifact and inspect `dist/*` metadata before publish | release-gated, not editable after upload |
-| Published PyPI rendered description | PyPI project/version page | public PyPI JSON/page for the uploaded artifact | `1.2.0` renders older `26` / `1032` language; `1.2.2` is the patch-release correction path |
+| Published PyPI rendered description | PyPI project/version page | public PyPI JSON/page for the uploaded artifact | `1.2.2` renders `34` implementation primitives and `2027` collected tests |
 | Wider HUMMBL or founder-mode platform tests | owning platform repository and release-state manifest | verify in that repository, not this package | do not reuse as package count |
 
 ## Scope Rules
@@ -100,16 +100,16 @@ Commands and sources used for this draft:
 
 ```text
 git rev-parse HEAD
-# 7224a0d2f0fcd16a6eaab2e363aebbb652842af5
+# 88783671e842db1f470ba338b49939147d4718f9
 
 git status --short --branch
-# fix/devin/v1.2.0-metadata-alignment with uncommitted authority-doc updates
+# main
 
 python -m pytest --collect-only -q tests
-# 2027 tests collected in 0.95s
+# 2027 tests collected in 1.06s
 
-PyPI JSON for hummbl-governance 1.2.0
-# description contains 26 governance primitives and 1032 tests
+PyPI JSON for hummbl-governance 1.2.2
+# description contains 34 governance primitives and 2027 tests
 
 PRIMITIVES.md
 # 26 existing primitives plus 8 implemented expansion primitives
