@@ -6,7 +6,7 @@
 **Frameworks mapped**: EU AI Act Annex III, FDA SaMD, NIST AI RMF 1.0, ISO/IEC 42001:2023, HIPAA/ONC HTI-1
 **Last reviewed**: 2026-07-03
 **Reviewer**: copilot (hummbl-governance issue #185)
-**HUMMBL version**: hummbl-governance v1.2.0
+**HUMMBL version**: hummbl-governance v1.2.2
 
 ## Boundary disclaimer
 

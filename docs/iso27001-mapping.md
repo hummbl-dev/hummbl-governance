@@ -1,4 +1,4 @@
-# ISO 27001 Annex A Mapping — hummbl-governance v1.2.0
+# ISO 27001 Annex A Mapping — hummbl-governance v1.2.2
 
 **Reference:** ISO/IEC 27001:2022, Annex A
 **Generated:** 2026-05-14

@@ -24,7 +24,7 @@ GitHub is the mirror.
 | Repo | GitHub | Gitea | Description | Lang | Runtime Deps |
 |------|--------|-------|-------------|------|--------------|
 | `founder-mode` | `hummbl-dev/founder-mode` | `HUMMBL/founder-mode` | Governed multi-agent AI OS, 138 modules, 14k+ tests | Python | stdlib-only; test: pytest, pytest-cov, pytest-asyncio, numpy, jsonschema |
-| `hummbl-governance` | `hummbl-dev/hummbl-governance` | `HUMMBL/hummbl-governance` | PyPI v1.2.0, 26 governance primitives, 7 MCP servers | Python | stdlib-only; test: pytest, pytest-cov, build, ruff |
+| `hummbl-governance` | `hummbl-dev/hummbl-governance` | `HUMMBL/hummbl-governance` | PyPI v1.2.2, 34 governance primitives, 7 MCP servers | Python | stdlib-only; test: pytest, pytest-cov, build, ruff |
 | `hummbl-production` | `hummbl-dev/hummbl-production` | `reubenbowlby/hummbl-production` | Cloudflare Workers/Pages stack for hummbl.io | TS/JS | hono, wrangler, vitest; dashboard: next 15, react 18, recharts, tailwind |
 | `arbiter` | `hummbl-dev/arbiter` | `HUMMBL/arbiter` | Agent-aware code quality scoring A-F | Python | stdlib-only |
 | `fleet-standard` | `hummbl-dev/fleet-standard` | `HUMMBL/fleet-standard` | Fleet standard definitions | - | - |
@@ -92,7 +92,7 @@ PyPI packages, open-source frameworks, showcase demos, papers.
 
 | Repo | Description | Lang | Promotable angle |
 |------|-------------|------|------------------|
-| `hummbl-governance` | v1.2.0 on PyPI, 26 primitives, 7 MCP servers, zero deps | Python | **Flagship** -- `pip install hummbl-governance` |
+| `hummbl-governance` | v1.2.2 on PyPI, 34 primitives, 7 MCP servers, zero deps | Python | **Flagship** -- `pip install hummbl-governance` |
 | `base120` | v2.0.0, deterministic governance substrate for system design | Python | Cognitive framework reference impl |
 | `hummbl-agent` | TypeScript agent orchestration runtime -- kernel, router, adapters | TypeScript | Multi-agent coordination with Base120 |
 | `hummbl-bibliography` | Provenance corpus, BibTeX citations, position papers | JSON/MD | Research credibility |

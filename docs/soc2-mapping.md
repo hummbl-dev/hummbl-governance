@@ -1,4 +1,4 @@
-# SOC 2 Mapping — hummbl-governance v1.2.0
+# SOC 2 Mapping — hummbl-governance v1.2.2
 
 **Reference:** AICPA Trust Service Criteria (TSC 2017)
 **Generated:** 2026-05-14
