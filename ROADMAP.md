@@ -4,7 +4,7 @@ This document outlines the strategic direction and technical evolution of the **
 
 ---
 
-## Current Status: v1.2.1 (PyPI Metadata Alignment)
+## Current Status: v1.2.2 (Metadata Alignment & Public Claims Refresh)
 
 **Focus:** 34 governance primitives, 7 MCP servers, API stability guarantee, zero runtime dependencies.
 
@@ -12,6 +12,7 @@ This document outlines the strategic direction and technical evolution of the **
 - ✅ **v1.1.0** — Governance Kernel (26th primitive): signed receipts, identity registry, role claims, sequence enforcement, evidence grading, authority scoping, schedule tracking, scaling-law evaluation. 12 runtime modules, 136 tests.
 - ✅ **v1.2.0** — Contestability (P31), DoctrineAmendment (P38), API server auth + CORS, repo naming exception policy, and scientific grounding coordination matrix.
 - ✅ **v1.2.1** — PyPI metadata patch release aligning the built long description with 34 implemented primitives, 2027 collected tests, and Python 3.11-3.13 support.
+- ✅ **v1.2.2** — Metadata parity release: aligned all docs, compliance mappings, coverage matrices, and public claim surfaces to v1.2.2.
 - ✅ **34 governance primitives** across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, error taxonomy, and governance kernel (K1-K11 invariants, D1-D7 doctrine invariants).
 - ✅ **7 MCP servers** exposing all primitives as JSON-RPC tools (57 tools total).
 - ✅ **2027 collected tests** — all passing. 4 CLI entry points.

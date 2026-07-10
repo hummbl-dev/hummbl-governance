@@ -1,6 +1,6 @@
 # Kernel Integration Guide — mission-mode & nexus / nexus-apex
 
-**Version**: 1.2.0
+**Version**: 1.2.2
 **Date**: 2026-06-25
 **Analyst**: devin
 **Status**: Current — validated on macOS (Huxley)
@@ -9,7 +9,7 @@
 
 ## 1. What is the Kernel?
 
-The Kernel is the **26th governance primitive** in hummbl-governance (v1.2.0). It is not a role — it is the **operating system of the fleet**.
+The Kernel is the **26th governance primitive** in hummbl-governance (v1.2.2). It is not a role — it is the **operating system of the fleet**.
 
 Eight invariants (K1–K8) and eight engines guarantee:
 - Every agent action is observable
@@ -35,7 +35,7 @@ Eight invariants (K1–K8) and eight engines guarantee:
 
 ```bash
 # From PyPI
-pip install hummbl-governance>=1.2.0
+pip install hummbl-governance>=1.2.2
 
 # From source
 cd PROJECTS/hummbl-governance
@@ -307,5 +307,5 @@ export HUMMBL_KERNEL_STATE_DIR=/path/to/kernel/state
 ## 8. Ledger Tag
 
 ```
-kernel_integration_guide: v1.2.0 | analyst: devin | date: 2026-06-25 | verified: huxley | tests_passed: 1245 | engines: 8 | invariants: 8 | use_cases: mission-mode, nexus, apex | cli_commands: 6
+kernel_integration_guide: v1.2.2 | analyst: devin | date: 2026-06-25 | verified: huxley | tests_passed: 2027 | engines: 8 | invariants: 8 | use_cases: mission-mode, nexus, apex | cli_commands: 6
 ```

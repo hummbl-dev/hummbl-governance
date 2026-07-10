@@ -5,7 +5,7 @@
 **Source**: https://leg.colorado.gov/bills/sb24-205
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v1.2.0
+**HUMMBL version**: hummbl-governance v1.2.2
 
 ## Boundary disclaimer
 
