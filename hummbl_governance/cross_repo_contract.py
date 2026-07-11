@@ -62,9 +62,18 @@ def _parse_timestamp(value: str | None, path: str, errors: list[str]) -> datetim
         return None
 
 
-def _version_supported(version: str, supported: list[str]) -> bool:
-    major, minor, patch = version.split(".")
+def _contract_version_supported(version: str, supported: list[str]) -> bool:
+    major, minor, _patch = version.split(".")
     return version in supported or f"{major}.{minor}.x" in supported
+
+
+def _payload_version_supported(version: str, supported: list[str]) -> bool:
+    for declaration in supported:
+        if declaration == version:
+            return True
+        if declaration.endswith("*") and version.startswith(declaration[:-1]):
+            return True
+    return False
 
 
 def _iter_contract_refs(contract: dict[str, Any]) -> list[tuple[str, str]]:
@@ -110,7 +119,7 @@ def validate_contract_document(contract: dict[str, Any]) -> list[str]:
         errors.append("semantic: producer.repo must not also be a consumer repo")
     if len(consumer_repos) != len(set(consumer_repos)):
         errors.append("semantic: consumer repo declarations must be unique")
-    if not _version_supported(
+    if not _contract_version_supported(
         contract["contract_version"],
         contract["compatibility"]["supported_contract_versions"],
     ):
@@ -205,13 +214,13 @@ def validate_compatibility_manifest(
     for index, decision in enumerate(decisions):
         path = f"consumer_decisions[{index}]"
         if decision["decision"] in {"accepted", "conditional"}:
-            if not _version_supported(
+            if not _contract_version_supported(
                 contract_version, decision["supported_contract_versions"]
             ):
                 errors.append(
                     f"semantic: {path} does not support the declared contract_version"
                 )
-            if not _version_supported(
+            if not _payload_version_supported(
                 payload_version, decision["supported_payload_versions"]
             ):
                 errors.append(
@@ -225,15 +234,13 @@ def validate_compatibility_manifest(
     if contract is None:
         return errors
 
-    if manifest["manifest_status"] == "effective" and contract["contract_status"] != "active":
-        errors.append(
-            "semantic: effective manifest requires an active contract"
-        )
-
     contract_errors = validate_contract_document(contract)
     errors.extend(f"contract: {error}" for error in contract_errors)
     if contract_errors:
         return errors
+
+    if manifest["manifest_status"] == "effective" and contract["contract_status"] != "active":
+        errors.append("semantic: effective manifest requires an active contract")
 
     declared = manifest["contract"]
     if declared["contract_id"] != contract["contract_id"]:
