@@ -54,6 +54,7 @@ The cross-repo contract must be an **additive envelope** around domain-owned pay
 ## Proposed ownership model
 
 ### `hummbl-governance`
+
 - cross-repo contract standard
 - shared schema definitions
 - compatibility and migration rules
@@ -61,29 +62,36 @@ The cross-repo contract must be an **additive envelope** around domain-owned pay
 - assurance and adoption boundaries
 
 ### `hummbl-dev/hummbl-dev`
+
 - organization-level contract registry/index
 - worked cross-repo integration graphs
 - program-level issue routing
 - topology and adoption receipts
 
 ### Domain payload owners
+
 Each repository owns its payload schema and release cadence. The shared contract references it by immutable or versioned URI.
 
 ## Repository connection topology (5 tiers)
 
 ### Tier 1 — core contract spine
+
 `hummbl-bibliography`, `research-source-packets`, `hummbl-research`, `claim-evidence-ledger`, `hummbl-papers`, `hummbl-governance`, `hummbl-dev/hummbl-dev`
 
 ### Tier 2 — assurance and provenance overlays
+
 `ai-source-verification`, `execution-receipts`, `hummbl-tuples`, `general-claim-validator`, `hummbl-toolkit` (evidence-gate), `arbiter`, `protocol-as-code`, `knowledge-as-code`
 
 ### Tier 3 — semantic and scholarly consumers
+
 `hummbl-theory`, `hummbl-doctrine`, `base120`, `baseN`
 
 ### Tier 4 — experiment, benchmark, and runtime producers/consumers
+
 `autoresearch-pipeline`, `model-routing-as-code`, `hummbl-agent`, `agent-runtime-governance`, `hummbl-production`, `mcp-server`
 
 ### Tier 5 — domain pilots and conditional consumers
+
 `hummbl-medical`, `corpus`, peptide-science work, future regulated/health/historical/product repos
 
 ## Candidate cross-repo contract envelope
