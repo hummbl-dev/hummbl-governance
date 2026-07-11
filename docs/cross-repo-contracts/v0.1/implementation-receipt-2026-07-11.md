@@ -40,7 +40,7 @@ python -m hummbl_governance.cross_repo_contract \
 exit: 1
 result: INVALID
 expected findings:
-- both fixture consumers do not support payload version 1.0.0
+- both fixture consumers do not support payload version v1.0
 ```
 
 ## Claim boundaries
