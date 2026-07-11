@@ -100,6 +100,13 @@ def _iter_contract_refs(contract: dict[str, Any]) -> list[tuple[str, str]]:
         (f"compatibility.migration_refs[{index}]", value)
         for index, value in enumerate(contract["compatibility"]["migration_refs"])
     )
+    refs.extend(
+        (f"lifecycle.supersedes[{index}]", value)
+        for index, value in enumerate(contract["lifecycle"]["supersedes"])
+    )
+    replacement = contract["lifecycle"]["replacement_contract_ref"]
+    if replacement is not None:
+        refs.append(("lifecycle.replacement_contract_ref", replacement))
     return refs
 
 
@@ -231,7 +238,12 @@ def validate_compatibility_manifest(
                 errors.append(
                     f"semantic: {path} does not support the declared contract_version"
                 )
-            if not _payload_version_supported(
+            if "*" in decision["supported_payload_versions"]:
+                errors.append(
+                    f"semantic: {path} contains bare payload wildcard '*'; use an exact "
+                    "value or a non-empty trailing-prefix wildcard"
+                )
+            elif not _payload_version_supported(
                 payload_version, decision["supported_payload_versions"]
             ):
                 errors.append(
