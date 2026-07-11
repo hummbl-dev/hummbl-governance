@@ -31,16 +31,22 @@ def test_valid_wave1_contract_and_manifest() -> None:
 
 
 def test_public_private_reference_leak_is_rejected() -> None:
-    errors = validate_contract_document(
-        _load("adversarial-public-private-leak.json")
-    )
+    errors = validate_contract_document(_load("adversarial-public-private-leak.json"))
     assert any("leaks private reference" in error for error in errors)
 
 
 def test_execution_receipt_cannot_satisfy_external_corroboration() -> None:
-    errors = validate_contract_document(
-        _load("adversarial-receipt-as-verification.json")
-    )
+    errors = validate_contract_document(_load("adversarial-receipt-as-verification.json"))
+    assert any("requires a verification or attestation" in error for error in errors)
+
+
+def test_claim_posture_requires_evidence_reference() -> None:
+    errors = validate_contract_document(_load("adversarial-claim-without-evidence.json"))
+    assert any("requires an evidence reference" in error for error in errors)
+
+
+def test_promotion_receipt_cannot_establish_external_corroboration() -> None:
+    errors = validate_contract_document(_load("adversarial-promotion-as-truth.json"))
     assert any("requires a verification or attestation" in error for error in errors)
 
 
