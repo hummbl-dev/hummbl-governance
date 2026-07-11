@@ -52,7 +52,9 @@
     ],
     "adversarial_fixtures": [
       "repo://tests/fixtures/cross_repo_contract/adversarial-public-private-leak.json",
-      "repo://tests/fixtures/cross_repo_contract/adversarial-receipt-as-verification.json"
+      "repo://tests/fixtures/cross_repo_contract/adversarial-receipt-as-verification.json",
+      "repo://tests/fixtures/cross_repo_contract/adversarial-claim-without-evidence.json",
+      "repo://tests/fixtures/cross_repo_contract/adversarial-promotion-as-truth.json"
     ],
     "offline_core_required": true
   },
