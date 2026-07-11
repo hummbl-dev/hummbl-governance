@@ -54,7 +54,7 @@
         },
         "payload_version": {
           "type": "string",
-          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          "minLength": 1
         }
       }
     },
@@ -115,7 +115,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^(?:[0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+\\.x)$"
+              "minLength": 1
             }
           },
           "conditions": {
