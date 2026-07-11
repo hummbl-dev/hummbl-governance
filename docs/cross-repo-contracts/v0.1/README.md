@@ -30,16 +30,26 @@ This slice adds two machine-readable envelopes:
    - conditions, reasons, and decision receipts;
    - explicit manifest maturity.
 
+A separate `cross_repo_shared_refs_v0.1.schema.json` records candidate reusable definitions. The runtime schemas currently inline equivalent shapes because the existing stdlib validator does not resolve `$ref`; reference resolution remains a separate implementation gate.
+
 The envelope is additive. Domain repositories retain ownership of their payload schemas and release cadence.
 
 ## Files
 
 ```text
+docs/cross-repo-contracts/v0.1/
+  README.md
+  existing-schema-crosswalk.md
+  identifier-uri-policy.md
+  migration-deprecation-protocol.md
+  implementation-receipt-2026-07-11.md
+
 hummbl_governance/
   cross_repo_contract.py
   data/
     cross_repo_contract_v0.1.schema.json
     cross_repo_compatibility_manifest_v0.1.schema.json
+    cross_repo_shared_refs_v0.1.schema.json
 
 tests/
   test_cross_repo_contract.py
@@ -49,6 +59,8 @@ tests/
     invalid-unsupported-payload-manifest.json
     adversarial-public-private-leak.json
     adversarial-receipt-as-verification.json
+    adversarial-claim-without-evidence.json
+    adversarial-promotion-as-truth.json
 ```
 
 ## Validation
@@ -73,6 +85,8 @@ Expected result: `INVALID` because the declared payload version is unsupported.
 python -m pytest -q tests/test_cross_repo_contract.py
 ```
 
+The focused suite currently contains 14 cases. Current-head GitHub CI remains the authoritative branch validation path.
+
 ## Reference policy
 
 For candidate v0.1:
@@ -84,9 +98,13 @@ For candidate v0.1:
 - `private://`, `github-private://`, `secret://`, and paths containing `/private/` are rejected from public contract and manifest surfaces.
 - The validator does not fetch or independently prove that a remote reference exists. Resolution and hash verification remain future or consuming-system responsibilities.
 
+See `identifier-uri-policy.md` for the complete candidate policy.
+
 ## Compatibility policy
 
 Candidate v0.1 uses SemVer for the envelope contract itself, supporting exact versions such as `0.1.0` and patch wildcards such as `0.1.x`. Payload versions remain domain-owned opaque strings such as `v0.1` or `execution-receipts/v0.1`; consumers may declare an exact value or a trailing-prefix wildcard such as `v0.*`.
+
+Bare `*` is prohibited because it declares no compatibility boundary.
 
 A passing compatibility manifest means only that declared producer and consumer versions align under the candidate rules. It does not prove:
 
@@ -110,7 +128,11 @@ execution_receipt
 promotion_receipt
 ```
 
-The same reference cannot be presented as multiple assurance kinds. An execution receipt cannot satisfy an `externally_corroborated` claim posture.
+The same reference cannot be presented as multiple assurance kinds.
+
+- `evidence_linked` and `externally_corroborated` claim postures require an evidence reference.
+- `externally_corroborated` additionally requires a verification or attestation reference.
+- Execution and promotion receipts cannot satisfy those requirements.
 
 ## Wave 1 fixture posture
 
@@ -123,6 +145,7 @@ The Wave 1 files are **fixtures**, not records of actual consumer acceptance.
 - No automatic CI enforcement is authorized.
 - No remote URI dereferencing or hash checking occurs.
 - The schema intentionally uses the subset supported by the stdlib `SchemaValidator`.
+- The shared definition library is not yet runtime-resolved through `$ref`.
 - General contract-version ranges are deferred; exact contract versions and patch wildcards are supported. Payload versions preserve domain grammar and support exact or trailing-prefix wildcard declarations.
 - A valid envelope does not make its payload valid.
 - A valid receipt does not become evidence or independent verification.
