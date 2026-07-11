@@ -114,6 +114,23 @@ def test_bare_payload_wildcard_is_rejected() -> None:
     assert any("bare payload wildcard" in error for error in errors)
 
 
+def test_manifest_bare_payload_wildcard_is_explicitly_rejected() -> None:
+    contract = _load("valid-wave1-contract.json")
+    manifest = _load("valid-wave1-manifest.json")
+    manifest["consumer_decisions"][0]["supported_payload_versions"] = ["*"]
+    errors = validate_compatibility_manifest(manifest, contract)
+    assert any("contains bare payload wildcard" in error for error in errors)
+
+
+def test_public_contract_checks_private_lifecycle_references() -> None:
+    contract = _load("valid-wave1-contract.json")
+    contract["lifecycle"]["supersedes"] = ["private://contracts/old"]
+    contract["lifecycle"]["replacement_contract_ref"] = "secret://contracts/new"
+    errors = validate_contract_document(contract)
+    assert any("lifecycle.supersedes[0]" in error for error in errors)
+    assert any("lifecycle.replacement_contract_ref" in error for error in errors)
+
+
 def test_malformed_contract_is_reported_before_effective_manifest_check() -> None:
     manifest = _load("valid-wave1-manifest.json")
     manifest["manifest_status"] = "effective"
