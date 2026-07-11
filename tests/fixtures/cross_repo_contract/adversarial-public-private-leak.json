@@ -29,7 +29,7 @@
       "0.1.x"
     ],
     "supported_payload_versions": [
-      "0.1.x"
+      "v0.1"
     ],
     "breaking_change_policy": "new_major_and_migration",
     "migration_refs": []
