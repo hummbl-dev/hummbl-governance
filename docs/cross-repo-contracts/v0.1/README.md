@@ -85,7 +85,7 @@ Expected result: `INVALID` because the declared payload version is unsupported.
 python -m pytest -q tests/test_cross_repo_contract.py
 ```
 
-The focused suite currently contains 14 cases. Current-head GitHub CI remains the authoritative branch validation path.
+The focused suite currently contains 16 cases. Current-head GitHub CI remains the authoritative branch validation path.
 
 ## Reference policy
 
@@ -96,6 +96,7 @@ For candidate v0.1:
 - Immutable commit refs are preferred for effective contracts. Version tags are acceptable when governed by the producing repository.
 - `repo://` is reserved for repository-local fixtures and test assets.
 - `private://`, `github-private://`, `secret://`, and paths containing `/private/` are rejected from public contract and manifest surfaces.
+- Public/private checks include producer, interface, validation, receipt, assurance, migration, supersession, and replacement references.
 - The validator does not fetch or independently prove that a remote reference exists. Resolution and hash verification remain future or consuming-system responsibilities.
 
 See `identifier-uri-policy.md` for the complete candidate policy.
@@ -104,7 +105,7 @@ See `identifier-uri-policy.md` for the complete candidate policy.
 
 Candidate v0.1 uses SemVer for the envelope contract itself, supporting exact versions such as `0.1.0` and patch wildcards such as `0.1.x`. Payload versions remain domain-owned opaque strings such as `v0.1` or `execution-receipts/v0.1`; consumers may declare an exact value or a trailing-prefix wildcard such as `v0.*`.
 
-Bare `*` is prohibited because it declares no compatibility boundary.
+Bare `*` is prohibited in both contract and consumer compatibility declarations because it declares no compatibility boundary.
 
 A passing compatibility manifest means only that declared producer and consumer versions align under the candidate rules. It does not prove:
 
