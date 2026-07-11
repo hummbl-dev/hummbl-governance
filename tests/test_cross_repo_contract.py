@@ -99,3 +99,17 @@ def test_schema_rejects_unknown_top_level_property() -> None:
     contract["automatic_authority"] = True
     errors = validate_contract_document(contract)
     assert any("unexpected property" in error for error in errors)
+
+
+def test_bare_payload_wildcard_is_rejected() -> None:
+    contract = _load("valid-wave1-contract.json")
+    contract["compatibility"]["supported_payload_versions"] = ["*"]
+    errors = validate_contract_document(contract)
+    assert any("bare payload wildcard" in error for error in errors)
+
+
+def test_malformed_contract_is_reported_before_effective_manifest_check() -> None:
+    manifest = _load("valid-wave1-manifest.json")
+    manifest["manifest_status"] = "effective"
+    errors = validate_compatibility_manifest(manifest, {})
+    assert any(error.startswith("contract: schema:") for error in errors)
