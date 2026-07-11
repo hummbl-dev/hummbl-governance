@@ -71,7 +71,7 @@ def _payload_version_supported(version: str, supported: list[str]) -> bool:
     for declaration in supported:
         if declaration == version:
             return True
-        if declaration.endswith("*") and version.startswith(declaration[:-1]):
+        if declaration != "*" and declaration.endswith("*") and version.startswith(declaration[:-1]):
             return True
     return False
 
@@ -125,6 +125,11 @@ def validate_contract_document(contract: dict[str, Any]) -> list[str]:
     ):
         errors.append(
             "semantic: contract_version is not included in supported_contract_versions"
+        )
+    if "*" in contract["compatibility"]["supported_payload_versions"]:
+        errors.append(
+            "semantic: bare payload wildcard '*' is not allowed; use an exact value "
+            "or a non-empty trailing-prefix wildcard"
         )
 
     try:
