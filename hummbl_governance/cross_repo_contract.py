@@ -177,9 +177,15 @@ def validate_contract_document(contract: dict[str, Any]) -> list[str]:
                 f"{ref!r} is presented as multiple kinds: {sorted(kinds)}"
             )
 
+    assurance_kinds = {item["kind"] for item in assurance_refs}
+    if postures["claim_posture"] in {"evidence_linked", "externally_corroborated"}:
+        if "evidence" not in assurance_kinds:
+            errors.append(
+                "semantic: evidence_linked or externally_corroborated claim posture "
+                "requires an evidence reference"
+            )
     if postures["claim_posture"] == "externally_corroborated":
-        kinds = {item["kind"] for item in assurance_refs}
-        if not kinds.intersection({"verification", "attestation"}):
+        if not assurance_kinds.intersection({"verification", "attestation"}):
             errors.append(
                 "semantic: externally_corroborated claim posture requires a "
                 "verification or attestation reference"
