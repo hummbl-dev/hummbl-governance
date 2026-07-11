@@ -7,7 +7,7 @@
     "contract_id": "crc:hummbl-dev:research-source-packet",
     "contract_version": "0.1.0",
     "payload_schema_uri": "https://github.com/hummbl-dev/research-source-packets/blob/main/schemas/research-source-packets-v0.1.json",
-    "payload_version": "0.1.0"
+    "payload_version": "v0.1"
   },
   "producer": {
     "repo": "hummbl-dev/research-source-packets",
@@ -21,7 +21,7 @@
         "0.1.x"
       ],
       "supported_payload_versions": [
-        "0.1.x"
+        "v0.1"
       ],
       "conditions": [],
       "reason": null,
@@ -34,7 +34,7 @@
         "0.1.x"
       ],
       "supported_payload_versions": [
-        "0.1.x"
+        "v0.1"
       ],
       "conditions": [
         "Claim ingestion must preserve source-packet provenance and evidence grade."
