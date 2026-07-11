@@ -86,7 +86,7 @@ For candidate v0.1:
 
 ## Compatibility policy
 
-Candidate v0.1 supports exact semantic versions such as `0.1.0` and bounded patch wildcards such as `0.1.x`.
+Candidate v0.1 uses SemVer for the envelope contract itself, supporting exact versions such as `0.1.0` and patch wildcards such as `0.1.x`. Payload versions remain domain-owned opaque strings such as `v0.1` or `execution-receipts/v0.1`; consumers may declare an exact value or a trailing-prefix wildcard such as `v0.*`.
 
 A passing compatibility manifest means only that declared producer and consumer versions align under the candidate rules. It does not prove:
 
@@ -123,7 +123,7 @@ The Wave 1 files are **fixtures**, not records of actual consumer acceptance.
 - No automatic CI enforcement is authorized.
 - No remote URI dereferencing or hash checking occurs.
 - The schema intentionally uses the subset supported by the stdlib `SchemaValidator`.
-- General semantic-version ranges are deferred; exact versions and patch wildcards are supported.
+- General contract-version ranges are deferred; exact contract versions and patch wildcards are supported. Payload versions preserve domain grammar and support exact or trailing-prefix wildcard declarations.
 - A valid envelope does not make its payload valid.
 - A valid receipt does not become evidence or independent verification.
 - The fixture covers one candidate research-source-packet edge, not the full research/evidence chain.
