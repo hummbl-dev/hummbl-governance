@@ -16,7 +16,6 @@ Uses only Python stdlib.
 
 import json
 import sys
-from pathlib import Path
 
 
 REQUIRED_FIELDS = [
