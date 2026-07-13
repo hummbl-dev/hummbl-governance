@@ -2,9 +2,9 @@
 
 ## Project
 
-**hummbl-governance** — Governance primitives for AI agent orchestration. v1.1.0, tests (verify with: `pytest --collect-only -q | tail -1`), zero third-party runtime dependencies.
+**hummbl-governance** — Governance primitives for AI agent orchestration. v1.2.2, tests (verify with: `pytest --collect-only -q | tail -1`), zero third-party runtime dependencies.
 
-Standalone Python package extracted from founder-mode. Provides governance primitives (verify with: `python -c 'import hummbl_governance; print(len([x for x in dir(hummbl_governance) if not x.startswith("_")]))'`) across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel. Ships MCP servers (verify with: `find . -name 'mcp_*.py' | wc -l`) exposing all primitives as JSON-RPC tools.
+Standalone Python package extracted from founder-mode. Provides 34 governance primitives (verify with: `python -c 'import hummbl_governance; print(len([x for x in dir(hummbl_governance) if not x.startswith("_")]))'`) across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel (K1-K11 invariants, D1-D7 doctrine invariants). Ships 7 MCP servers (verify with: `find . -name 'mcp_*.py' | wc -l`) exposing all primitives as JSON-RPC tools.
 
 ## Commands
 
@@ -14,11 +14,12 @@ pip install -e ".[test]"
 python -m pytest tests/ -v --cov=hummbl_governance --cov-fail-under=80
 ```
 
-## Primitives (26)
+## Primitives (34)
 
 | Category | Modules |
 |---|---|
-| Governance Kernel | `kernel` — receipts, identity, roles, laws, evidence, sequence, authority, schedule |
+| Governance Kernel | `kernel` — receipts, identity, roles, laws, evidence, sequence, authority, schedule, doctrine (K1-K11, D1-D7) |
+| Kernel Primitives | `canon_registry`, `rollback` (K9), `recovery_verifier` (K10), `receipt_integrity_monitor` (K11), `contestability` (D6), `doctrine_amendment` (D7), `authority_sweeper` (P34), `trust_adjuster` (P36) |
 | Safety | `kill_switch`, `circuit_breaker`, `output_validator`, `capability_fence` |
 | Cost & Budget | `cost_governor` |
 | Identity & Auth | `identity`, `delegation` |
@@ -42,7 +43,7 @@ Entry points via `hummbl-*-mcp` CLI commands or direct `python -m`:
 | `mcp_sandbox.py` | 5 | CapabilityFence, OutputValidator sandbox |
 | `mcp_identity.py` | 10 | AgentRegistry, DelegationTokenManager, LamportClock |
 | `mcp_agent_monitor.py` | 11 | BehaviorMonitor, ConvergenceDetector, GovernanceLifecycle, EvolutionLineage |
-| `mcp_reasoning.py` | — | ReasoningEngine, SchemaValidator, ContractNetManager |
+| `mcp_reasoning.py` | 10 | ReasoningEngine, SchemaValidator, ContractNetManager |
 | `mcp_physical.py` | 6 | KinematicGovernor, pHRISafetyMonitor |
 
 ## CI

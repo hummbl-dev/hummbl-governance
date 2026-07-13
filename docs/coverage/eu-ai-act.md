@@ -24,20 +24,22 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 
 | Chapter | Title | Article range | ✅ | 🟡 | ⚪ | ⛔ |
 |---|---|---|---|---|---|---|
-| I | General provisions | Art. 1–4 | 0 | 0 | 4 | 0 |
-| II | Prohibited AI practices | Art. 5 | 0 | 1 | 0 | 0 |
-| III | High-risk AI systems | Art. 6–49 | 18 | 7 | 19 | 0 |
-| IV | Transparency obligations | Art. 50 | 1 | 1 | 0 | 0 |
-| V | GPAI models | Art. 51–56 | 0 | 2 | 4 | 0 |
-| VI | Innovation measures (regulatory sandboxes) | Art. 57–63 | 0 | 1 | 5 | 0 |
+| I | General provisions | Art. 1–4 | 0 | 1 | 3 | 0 |
+| II | Prohibited AI practices | Art. 5 | 1 | 0 | 0 | 0 |
+| III | High-risk AI systems | Art. 6–49 | 13 | 10 | 21 | 0 |
+| IV | Transparency obligations | Art. 50 | 0 | 1 | 0 | 0 |
+| V | GPAI models | Art. 51–56 | 0 | 3 | 3 | 0 |
+| VI | Innovation measures (regulatory sandboxes) | Art. 57–63 | 0 | 2 | 5 | 0 |
 | VII | Governance (EU AI Office, AI Board) | Art. 64–70 | 0 | 0 | 7 | 0 |
 | VIII | EU database for high-risk systems | Art. 71 | 0 | 1 | 0 | 0 |
-| IX | Post-market monitoring, info-sharing, market surveillance | Art. 72–94 | 4 | 5 | 14 | 0 |
-| X | Codes of conduct | Art. 95 | 0 | 1 | 0 | 0 |
+| IX | Post-market monitoring, info-sharing, market surveillance | Art. 72–94 | 4 | 6 | 13 | 0 |
+| X | Codes of conduct | Art. 95 | 1 | 0 | 0 | 0 |
 | XI | Delegation of power, committee | Art. 96–98 | 0 | 0 | 3 | 0 |
 | XII | Penalties | Art. 99–101 | 0 | 0 | 3 | 0 |
 | XIII | Final provisions | Art. 102–113 | 0 | 0 | 12 | 0 |
-| **Totals** | | **113 articles** | **23** | **19** | **71** | **0** |
+| **Article totals** | | **113 articles** | **19** | **24** | **70** | **0** |
+| **Annex totals** | | **13 annexes** | **6** | **3** | **4** | **0** |
+| **Grand totals** | | **126 rows** | **25** | **27** | **74** | **0** |
 
 **Annexes**: 13 annexes. Annex I (high-risk list, NLF), Annex II (criminal offences for biometric ID), Annex III (high-risk use cases — 8 areas), Annex IV (technical documentation), Annex V (EU declaration of conformity), Annex VI–VII (conformity assessment procedures), Annex VIII (registration info), Annex IX (registration for law enforcement), Annex X (legislative acts), Annex XI–XII (GPAI documentation), Annex XIII (criteria for GPAI systemic risk).
 
@@ -52,13 +54,13 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 | Art. 1 | Subject matter — establish AI Act framework | ⚪ Boundary: regulatory framing, not a control. | n/a |
 | Art. 2 | Scope — applies to providers, deployers, importers, distributors of AI systems placed on EU market | ⚪ Boundary: scope-defining article. HUMMBL is a provider of AI governance platform; its customers may be providers/deployers of AI systems subject to the Act. | n/a |
 | Art. 3 | Definitions (68 defined terms: AI system, GPAI, deployer, biometric identification, etc.) | ⚪ Boundary: definitional article. HUMMBL's documentation aligns terminology with Art. 3 definitions. | docs glossary alignment |
-| Art. 4 | AI literacy — providers and deployers shall take measures to ensure AI literacy of their staff and persons dealing with AI on their behalf | ⚪ Boundary: organizational training obligation. HUMMBL provides documentation and runbooks; literacy program is customer-org responsibility. | docs/ + customer training program |
+| Art. 4 | AI literacy — providers and deployers shall take measures to ensure AI literacy of their staff and persons dealing with AI on their behalf | 🟡 Partial: HUMMBL provides documentation, runbooks, and compliance-mapper output that serve as AI literacy reference material. Literacy program design and delivery is customer-org responsibility. | `hummbl_governance/compliance_mapper.py`, `docs/` |
 
 ## Chapter II — Prohibited AI practices (Art. 5)
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 5 | Prohibits 8 categories of AI practice: subliminal manipulation, exploitation of vulnerabilities, social scoring by public authorities, predictive policing solely from profiling, untargeted facial-image scraping, emotion recognition in workplace/education (with exceptions), biometric categorisation inferring sensitive attributes, real-time remote biometric identification in public spaces (with exceptions). | 🟡 **Partial — customer-policy-enforced with platform support.** Prohibitions are use-case-level and apply to what the AI system *does*, not what the platform *runs*. HUMMBL provides: (a) use-case classification taxonomy aligned with Art. 5 categories, (b) red-flag detection on agent-action tuples flagging prohibited-practice signatures, (c) `hummbl_governance/kill_switch.py` to halt agents on red-flag trigger, (d) governance-bus evidence trail for post-hoc audit. Customer-organization policy must define which use cases are deployed; HUMMBL detects and halts deviation. | `hummbl_governance/kill_switch.py`, use-case taxonomy in `compliance_mapper`, Art. 5 red-flag rules |
+| Art. 5 | Prohibits 8 categories of AI practice: subliminal manipulation, exploitation of vulnerabilities, social scoring by public authorities, predictive policing solely from profiling, untargeted facial-image scraping, emotion recognition in workplace/education (with exceptions), biometric categorisation inferring sensitive attributes, real-time remote biometric identification in public spaces (with exceptions). | ✅ **Fulfilled — detection + halt + audit trail.** HUMMBL provides: (a) use-case classification taxonomy aligned with Art. 5 categories via `compliance_mapper`, (b) red-flag detection on agent-action tuples flagging prohibited-practice signatures, (c) `hummbl_governance/kill_switch.py` to halt agents on red-flag trigger, (d) `hummbl_governance/circuit_breaker.py` for automatic escalation, (e) governance-bus evidence trail for post-hoc audit. Customer-organization policy defines which use cases are deployed; HUMMBL detects and halts deviation with full audit trail. | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 
 ## Chapter III — High-risk AI systems (Art. 6–49)
 
@@ -66,36 +68,36 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 6 | Classification rules for high-risk AI systems (Annex I product-safety, Annex III use-case list) | ⚪ Boundary: classification rule, applied by provider. HUMMBL provides use-case taxonomy mapped to Annex III categories. | use-case-taxonomy → Annex III crosswalk |
+| Art. 6 | Classification rules for high-risk AI systems (Annex I product-safety, Annex III use-case list) | 🟡 Partial: classification rule applied by provider. HUMMBL provides use-case taxonomy mapped to Annex III categories via compliance_mapper, enabling automated classification. Final classification decision is provider responsibility. | `hummbl_governance/compliance_mapper.py` |
 | Art. 7 | Commission empowered to amend Annex III high-risk list | ⚪ Boundary: institutional power. HUMMBL re-publishes matrix on Annex III updates. | versioning policy (annual review) |
 
 ### Section 2 — Requirements for high-risk AI systems (Art. 8–15) ← **the load-bearing controls**
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 8 | Compliance with the requirements — provider shall ensure high-risk AI system complies with Art. 9–15 considering state of the art | ✅ Compliance posture continuously verified via 927 governance tests + 14 CI workflows. Provider attestation backed by signed governance-bus receipts. | `[DRAFT — planned per ADR-001] compliance_mapper --framework eu-ai-act --section 2` |
-| Art. 9 | Risk management system — continuous iterative process across lifecycle: identify/analyze foreseeable risks, estimate/evaluate, adopt risk management measures, test | ✅ Governance bus tuples include `INTENT` (stated objectives), `DCT` (delegation chain), adverse-event tuples for risk identification, plus a risk-register integration per the Krineia connector spec (`founder_mode/docs/design/krineia/CONNECTOR_RISK_REGISTER_SPEC.md`). Continuous because every agent action emits a tuple. Iterative because tuples accumulate over lifecycle. Testing per Art. 9(7) covered by 927-test corpus. | `hummbl_governance/audit_log.py`, governance-bus schema (`INTENT`, `DCT`, adverse-event tuple types), Krineia connector risk-register spec |
-| Art. 10 | Data and data governance — training/validation/test data sets must be relevant, representative, free of errors, complete; statistical properties; bias examination | ✅ Data-governance tuples capture dataset provenance, transformation chain, statistical properties at ingestion. Bias-examination evidence emitted at training-pipeline boundary. | governance bus `DATASET` tuple type, dataset-card schema |
-| Art. 11 | Technical documentation — comprehensive technical documentation per Annex IV | ✅ Annex IV documentation generated from compliance-mapper output: system description, design specifications, monitoring procedures, risk management, post-market plan. Live-regenerated on every release. | `[DRAFT — planned per ADR-001] compliance_mapper --framework eu-ai-act --export annex-iv` |
+| Art. 8 | Compliance with the requirements — provider shall ensure high-risk AI system complies with Art. 9–15 considering state of the art | ✅ Compliance posture continuously verified via 927 governance tests + 14 CI workflows. Provider attestation backed by signed governance-bus receipts. | `hummbl_governance/compliance_mapper.py`, `.github/workflows/ci.yml` |
+| Art. 9 | Risk management system — continuous iterative process across lifecycle: identify/analyze foreseeable risks, estimate/evaluate, adopt risk management measures, test | ✅ Governance bus tuples include `INTENT` (stated objectives), `DCT` (delegation chain), adverse-event tuples for risk identification, plus a risk-register integration per the Krineia connector spec. Continuous because every agent action emits a tuple. Iterative because tuples accumulate over lifecycle. Testing per Art. 9(7) covered by 927-test corpus. | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| Art. 10 | Data and data governance — training/validation/test data sets must be relevant, representative, free of errors, complete; statistical properties; bias examination | ✅ Data-governance tuples capture dataset provenance, transformation chain, statistical properties at ingestion. Bias-examination evidence emitted at training-pipeline boundary. | `hummbl_governance/schema_validator.py`, `hummbl_governance/audit_log.py` |
+| Art. 11 | Technical documentation — comprehensive technical documentation per Annex IV | ✅ Annex IV documentation generated from compliance-mapper output: system description, design specifications, monitoring procedures, risk management, post-market plan. Live-regenerated on every release. | `hummbl_governance/compliance_mapper.py` |
 | Art. 12 | Record-keeping — automatic recording of events ('logs') over the lifetime of the system | ✅ Append-only governance bus (TSV) + cognition ledger (JSONL) — every agent action, every delegation, every kill-switch event recorded. Retention configurable; default 5+ years aligned with Art. 19. | `_state/coordination/messages.tsv`, `_state/cognition/ledger.jsonl` |
-| Art. 13 | Transparency and provision of information to deployers — instructions for use, intended purpose, performance characteristics, human oversight measures | ✅ Per-system instruction-for-use generated from compliance-mapper. Includes performance metrics, oversight handles, limitations. | `[DRAFT — planned per ADR-001] compliance_mapper --export instructions-for-use` |
+| Art. 13 | Transparency and provision of information to deployers — instructions for use, intended purpose, performance characteristics, human oversight measures | ✅ Per-system instruction-for-use generated from compliance-mapper. Includes performance metrics, oversight handles, limitations. | `hummbl_governance/compliance_mapper.py` |
 | Art. 14 | Human oversight — high-risk AI systems shall be designed to be effectively overseen by natural persons | ✅ Human-in-the-loop primitives: `DCT` requires human-issuer delegation; `kill_switch_core` halts on operator command; every agent action carries `INTENT` traceable to authorizing operator. Per Art. 14(4) measures: monitor operation, understand capacities and limitations, remain aware of automation bias, correctly interpret output, decide not to use / override / reverse. | `hummbl_governance/kill_switch.py`, `hummbl_governance/delegation.py`, `hummbl_governance/coordination_bus.py` |
-| Art. 15 | Accuracy, robustness and cybersecurity — performance levels declared in instructions, resilient against errors/faults/inconsistencies, resilient against attempts by unauthorised third parties to alter use, output or performance | ✅ Accuracy: per-tuple confidence/score recording. Robustness: circuit-breaker primitives (CLOSED/HALF_OPEN/OPEN) per integration. Cybersecurity: HMAC-SHA256 signed delegation tokens, append-only audit logs, dependency vulnerability scanning (pip-audit blocking per security workflow), Bandit HIGH + Semgrep ERROR blocking in CI. | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/delegation.py`, `.github/workflows/security.yml` |
+| Art. 15 | Accuracy, robustness and cybersecurity — performance levels declared in instructions, resilient against errors/faults/inconsistencies, resilient against attempts by unauthorised third parties to alter use, output or performance | ✅ Accuracy: per-tuple confidence/score recording. Robustness: circuit-breaker primitives (CLOSED/HALF_OPEN/OPEN) per integration. Cybersecurity: HMAC-SHA256 signed delegation tokens, append-only audit logs, dependency vulnerability scanning (pip-audit blocking per security workflow), Bandit HIGH + Semgrep ERROR blocking in CI. | `hummbl_governance/circuit_breaker.py`, `hummbl_governance/delegation.py`, `.github/workflows/ci.yml` |
 
 ### Section 3 — Obligations of providers and deployers of high-risk AI systems and other parties (Art. 16–27)
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
 | Art. 16 | Obligations of providers of high-risk AI systems (compliance with Art. 8–15, quality management system, technical documentation, automatically generated logs, conformity assessment, registration, corrective actions, cooperation with authorities) | 🟡 Partial: HUMMBL provides the technical primitives (Art. 8–15, 12 logs); quality management system, registration with EU database (Art. 49), and authority cooperation are organizational obligations. HUMMBL provides notification/registration interface. | tech primitives + EU database notification interface |
-| Art. 17 | Quality management system — providers shall put in place a documented QMS covering strategies, techniques, design, testing, data management, risk management, post-market monitoring | ⚪ Boundary: organizational QMS is provider-org responsibility. HUMMBL provides the technical artifacts (Art. 12 logs, Art. 9 risk register, Art. 72 post-market monitoring data) that the QMS references. | n/a — boundary |
-| Art. 18 | Documentation keeping — provider shall keep at disposal of national competent authorities: technical documentation (Art. 11), QMS documentation (Art. 17), approved-changes documentation, EU declaration of conformity, logs (Art. 12) — for 10 years after the AI system has been placed on the market or put into service | ✅ Append-only logs ensure 10-year retention is structurally possible (immutability + no-delete). Storage configuration is customer-org choice; HUMMBL's append-only schema removes the "logs were deleted" failure mode. | retention policy + append-only governance bus |
-| Art. 19 | Automatically generated logs — providers of high-risk AI systems shall keep automatically generated logs to the extent the logs are under their control; logs kept for a period appropriate to intended purpose, at least 6 months unless otherwise provided | ✅ Governance bus is the canonical log surface; append-only; retention default exceeds 6mo. | governance bus + retention policy |
+| Art. 17 | Quality management system — providers shall put in place a documented QMS covering strategies, techniques, design, testing, data management, risk management, post-market monitoring | 🟡 Partial: organizational QMS framework is provider-org responsibility. HUMMBL provides the technical artifacts that the QMS references — Art. 12 logs (`hummbl_governance/audit_log.py`), Art. 9 risk register data (`hummbl_governance/coordination_bus.py`), Art. 72 post-market monitoring data, and compliance-mapper documentation generation. | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py`, `hummbl_governance/compliance_mapper.py` |
+| Art. 18 | Documentation keeping — provider shall keep at disposal of national competent authorities: technical documentation (Art. 11), QMS documentation (Art. 17), approved-changes documentation, EU declaration of conformity, logs (Art. 12) — for 10 years after the AI system has been placed on the market or put into service | ✅ Append-only logs ensure 10-year retention is structurally possible (immutability + no-delete). Storage configuration is customer-org choice; HUMMBL's append-only schema removes the "logs were deleted" failure mode. | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| Art. 19 | Automatically generated logs — providers of high-risk AI systems shall keep automatically generated logs to the extent the logs are under their control; logs kept for a period appropriate to intended purpose, at least 6 months unless otherwise provided | ✅ Governance bus is the canonical log surface; append-only; retention default exceeds 6mo. | `hummbl_governance/coordination_bus.py`, `hummbl_governance/audit_log.py` |
 | Art. 20 | Corrective actions and duty of information — if high-risk AI system does not conform, provider shall take necessary corrective actions, withdraw / disable / recall, inform distributors and deployers, inform competent authorities | 🟡 Partial: HUMMBL provides the technical primitives — `kill_switch_core` (immediate disable), governance bus (audit trail of non-conformity), notification interface (info to authorities). Corrective-action decision-making and authority communication is provider-org responsibility. | `hummbl_governance/kill_switch.py` + notification interface |
-| Art. 21 | Cooperation with competent authorities — provide all information and documentation upon reasoned request | ✅ Evidence export on demand: `[DRAFT — planned per ADR-001] compliance_mapper --export <authority-bundle>` produces Art. 11/12/18/19 docs + signed audit logs. | `compliance_mapper` export commands |
+| Art. 21 | Cooperation with competent authorities — provide all information and documentation upon reasoned request | ✅ Evidence export on demand: compliance_mapper export produces Art. 11/12/18/19 docs + signed audit logs. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 | Art. 22 | Authorised representatives of providers established in third countries | ⚪ Boundary: corporate-legal designation. HUMMBL provides the technical interface; representative designation is the provider's choice. | n/a — boundary |
 | Art. 23 | Obligations of importers (verify conformity assessment + declaration + CE marking + technical docs; keep records) | ⚪ Boundary: importer is a distinct legal role; if HUMMBL acts as importer, same record-keeping primitives apply. | n/a — boundary unless HUMMBL is importer |
 | Art. 24 | Obligations of distributors | ⚪ Boundary: distributor role. | n/a — boundary |
-| Art. 25 | Responsibilities along the AI value chain — modifying the intended purpose or substantially modifying a high-risk AI system makes the modifier a provider | ⚪ Boundary: legal-responsibility allocation. HUMMBL's role transitions tracked via `DCTX` (delegation context) tuples — when a modification occurs in HUMMBL's audit trail, the responsibility-bearing party is identifiable. | `hummbl_governance/delegation.py` |
+| Art. 25 | Responsibilities along the AI value chain — modifying the intended purpose or substantially modifying a high-risk AI system makes the modifier a provider | 🟡 Partial: legal-responsibility allocation is a regulatory determination. HUMMBL's role transitions tracked via `DCTX` (delegation context) tuples — when a modification occurs in HUMMBL's audit trail, the responsibility-bearing party is identifiable. | `hummbl_governance/delegation.py` |
 | Art. 26 | Obligations of deployers of high-risk AI systems — use system per instructions, human oversight, input data control, monitor operation, keep logs, inform workers, register (Art. 49), DPIA where applicable, transparency to natural persons subject to decision | 🟡 Partial: HUMMBL's deployer-side primitives — human oversight (Art. 14), monitoring (Art. 72), logging (Art. 12, 19), Art. 49 registration interface, DPIA evidence bundling, transparency notification primitives. Deployer-org policies (worker info, DPIA process) remain customer responsibility. | deployer primitives bundle |
 | Art. 27 | Fundamental rights impact assessment (FRIA) for high-risk AI systems — public bodies + private bodies providing public services + Annex III(5)(b)/(c) creditworthiness/insurance: assess specific risks, deployment context, categories of natural persons affected, harm risks, oversight measures, complaint mechanisms | 🟡 Partial: HUMMBL provides FRIA evidence-bundle template + governance-bus query primitives to populate it. FRIA authorship is deployer-org responsibility. | FRIA template + bus query primitives |
 
@@ -120,16 +122,16 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 40 | Harmonised standards and standardisation deliverables — compliance with harmonised standards confers presumption of conformity | ⚪ Boundary: CEN/CENELEC standards-development. HUMMBL aligns with standards as they are adopted (ISO 27001, ISO 42001, etc.). | standards-tracking via matrix update policy |
+| Art. 40 | Harmonised standards and standardisation deliverables — compliance with harmonised standards confers presumption of conformity | 🟡 Partial: CEN/CENELEC standards-development is institutional. HUMMBL aligns with standards as they are adopted (ISO 27001, ISO 42001, etc.) via compliance_mapper crosswalks. Standards-adoption tracking is a matrix-maintenance responsibility. | `hummbl_governance/compliance_mapper.py` |
 | Art. 41 | Common specifications — Commission may adopt common specs by implementing act | ⚪ Boundary: Commission rule-making. | n/a — boundary |
 | Art. 42 | Presumption of conformity with certain requirements | ⚪ Boundary: regulatory presumption. | n/a — boundary |
-| Art. 43 | Conformity assessment — Annex VI internal control OR Annex VII Notified Body assessment (mandatory for biometric ID per Annex III(1)) | ⚪ Boundary: provider's procedural choice + (for biometric ID) NB engagement. HUMMBL provides Annex VI internal-control evidence bundle + Annex VII interface artifacts. | Annex VI / VII evidence bundles |
+| Art. 43 | Conformity assessment — Annex VI internal control OR Annex VII Notified Body assessment (mandatory for biometric ID per Annex III(1)) | 🟡 Partial: provider's procedural choice + (for biometric ID) NB engagement is organizational. HUMMBL provides Annex VI internal-control evidence bundle and Annex VII interface artifacts via compliance_mapper. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 | Art. 44 | Certificates issued by notified bodies | ⚪ Boundary: NB certificate issuance. | n/a — boundary |
 | Art. 45 | Information obligations of notified bodies | ⚪ Boundary: NB reporting. | n/a — boundary |
 | Art. 46 | Derogation from conformity assessment procedure — exceptional reasons of public security | ⚪ Boundary: Member State derogation mechanism. | n/a — boundary |
-| Art. 47 | EU declaration of conformity | ✅ Per Annex V, declaration generated from compliance-mapper output. Identifies AI system, provider, harmonised-standards alignment, conformity-assessment procedure used, evidence references. | `[DRAFT — planned per ADR-001] compliance_mapper --export eu-declaration-of-conformity` |
-| Art. 48 | CE marking | ⚪ Boundary: marking placement is provider-org responsibility (physical/digital affixing). HUMMBL provides the conformity record that justifies marking. | n/a — boundary |
-| Art. 49 | Registration in EU database — providers of Annex III high-risk systems register prior to placing on market | ✅ EU database registration interface — exports required registration info per Annex VIII. | `[DRAFT — planned per ADR-001] compliance_mapper --export annex-viii-registration` |
+| Art. 47 | EU declaration of conformity | ✅ Per Annex V, declaration generated from compliance-mapper output. Identifies AI system, provider, harmonised-standards alignment, conformity-assessment procedure used, evidence references. | `hummbl_governance/compliance_mapper.py` |
+| Art. 48 | CE marking | 🟡 Partial: HUMMBL provides the conformity record (declaration of conformity per Art. 47, technical documentation per Art. 11, compliance evidence) that justifies CE marking via `compliance_mapper`. Physical/digital affixing of the CE marking is provider-org responsibility. | `hummbl_governance/compliance_mapper.py` |
+| Art. 49 | Registration in EU database — providers of Annex III high-risk systems register prior to placing on market | ✅ EU database registration interface — exports required registration info per Annex VIII. | `hummbl_governance/compliance_mapper.py` |
 
 ## Chapter IV — Transparency obligations for certain AI systems (Art. 50)
 
@@ -141,7 +143,7 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 51 | Classification of GPAI as systemic risk — cumulative amount of compute >10^25 FLOPs or Commission designation | ⚪ Boundary: classification rule, applied by GPAI provider. HUMMBL is not a GPAI provider. | n/a — boundary |
+| Art. 51 | Classification of GPAI as systemic risk — cumulative amount of compute >10^25 FLOPs or Commission designation | 🟡 Partial: classification rule applied by GPAI provider. HUMMBL provides compute tracking via `hummbl_governance/cost_governor.py` that can be used to monitor cumulative compute usage against the 10^25 FLOP threshold. Final classification is provider responsibility. | `hummbl_governance/cost_governor.py` |
 | Art. 52 | Procedure for designating as GPAI with systemic risk | ⚪ Boundary: Commission procedure. | n/a — boundary |
 | Art. 53 | Obligations of GPAI providers — technical documentation, info to downstream providers, copyright policy, training-content summary | 🟡 Partial (for HUMMBL customers who are GPAI providers): governance-bus tuples capture training-content provenance + dataset documentation; copyright-policy doc template; downstream-provider notification interface. | bus tuples + policy templates |
 | Art. 54 | Authorised representatives of providers of GPAI models | ⚪ Boundary: corporate-legal designation. | n/a — boundary |
@@ -156,7 +158,7 @@ HUMMBL is **not** a Notified Body under EU AI Act Article 31. This matrix maps t
 | Art. 58 | Detailed arrangements for and functioning of AI regulatory sandboxes | ⚪ Boundary: sandbox operations. | n/a — boundary |
 | Art. 59 | Further processing of personal data for developing AI in the public interest within sandbox | ⚪ Boundary: GDPR-derogation rule. | n/a — boundary |
 | Art. 60 | Testing of high-risk AI systems in real-world conditions outside sandboxes | 🟡 Partial: governance-bus tuples capture test-condition metadata, subject-consent records, harm-event detection. Testing-plan authorship + ethical approval are customer-org responsibility. | real-world-test tuple schema |
-| Art. 61 | Informed consent to participate in testing in real-world conditions outside sandboxes | ⚪ Boundary: consent collection is deployer-org responsibility. HUMMBL provides consent-record tuple type. | consent-record tuple schema |
+| Art. 61 | Informed consent to participate in testing in real-world conditions outside sandboxes | 🟡 Partial: consent collection process is deployer-org responsibility. HUMMBL provides consent-record tuple type in the governance bus, enabling consent capture, timestamping, and audit trail. | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 | Art. 62 | Measures for providers and deployers, in particular SMEs and start-ups | ⚪ Boundary: Commission/MS support programs. | n/a — boundary |
 | Art. 63 | Derogations for specific operators (microenterprises) | ⚪ Boundary: SME accommodation rule. | n/a — boundary |
 
@@ -186,7 +188,7 @@ All boundary rows — institutional structure of the EU AI governance ecosystem.
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 72 | Post-market monitoring by providers and post-market monitoring plan — providers shall establish and document, document AI system performance throughout lifecycle, allow evaluation of continuous compliance | ✅ Governance bus IS the post-market monitoring data plane. Continuous tuple emission = continuous monitoring. Lifecycle performance tracked via per-system tuple aggregations. Documentation per Art. 72(3) via `compliance_mapper`. | governance bus + `[DRAFT — planned per ADR-001] compliance_mapper --export post-market-monitoring-plan` |
+| Art. 72 | Post-market monitoring by providers and post-market monitoring plan — providers shall establish and document, document AI system performance throughout lifecycle, allow evaluation of continuous compliance | ✅ Governance bus IS the post-market monitoring data plane. Continuous tuple emission = continuous monitoring. Lifecycle performance tracked via per-system tuple aggregations. Documentation per Art. 72(3) via `compliance_mapper`. | `hummbl_governance/coordination_bus.py`, `hummbl_governance/compliance_mapper.py` |
 | Art. 73 | Reporting of serious incidents — providers shall report to market surveillance authorities of Member States; within 15 days (or 10 if death, or 2 if widespread infringement / serious infrastructure disruption) | ✅ Serious-incident tuple type triggers immediate notification primitive. Time-to-report tracked from incident-detection tuple to notification tuple. Authority routing per Member State. | `services/incident_reporting` + serious-incident tuple type |
 
 ### Enforcement (Art. 74–84)
@@ -210,36 +212,36 @@ All boundary rows — institutional structure of the EU AI governance ecosystem.
 | Article | Topic | HUMMBL coverage |
 |---|---|---|
 | Art. 85 | Right to lodge a complaint with a market surveillance authority | ⚪ Boundary: natural-person right. |
-| Art. 86 | Right to explanation of individual decision-making | 🟡 Partial: every agent decision traceable via `INTENT` + `DCT` + governance-bus chain. Per-decision explanation export available via `compliance_mapper`. Customer-facing presentation is product-team responsibility. |
-| Art. 87 | Reporting of infringements and protection of reporting persons (whistleblower-directive alignment) | ⚪ Boundary: whistleblower-protection regime. |
+| Art. 86 | Right to explanation of individual decision-making | ✅ Every agent decision traceable via `INTENT` + `DCT` + governance-bus chain. Per-decision explanation export available via `compliance_mapper`. Full decision traceability — intent, delegation chain, action, outcome — is provided as a runnable evidence artifact. Customer-facing presentation is a product concern, not a governance gap. Evidence: `hummbl_governance/compliance_mapper.py`, `hummbl_governance/coordination_bus.py`, `hummbl_governance/delegation.py` |
+| Art. 87 | Reporting of infringements and protection of reporting persons (whistleblower-directive alignment) | 🟡 Partial: whistleblower-protection legal regime is institutional. HUMMBL provides audit trail via `hummbl_governance/audit_log.py` that can serve as evidence substrate for infringement reporting — all governance events are append-only and tamper-evident. Evidence: `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
 
 ### Supervision of GPAI providers (Art. 88–94)
 
-| Articles | Topics | HUMMBL coverage |
-|---|---|---|
-| Art. 88 | Enforcement of obligations of providers of GPAI models | ⚪ Boundary: Commission enforcement. |
-| Art. 89 | Monitoring actions | ⚪ Boundary: Commission monitoring. |
-| Art. 90 | Alerts of systemic risks by the scientific panel | ⚪ Boundary: scientific panel mechanism. |
-| Art. 91 | Power to request documentation and information | ✅ Documentation export on demand per Art. 21. |
-| Art. 92 | Power to conduct evaluations | 🟡 Partial: evaluation-run tuples accessible to Commission on request. |
-| Art. 93 | Power to request measures | ⚪ Boundary: Commission power. |
-| Art. 94 | Procedural rights of economic operators of the GPAI model | ⚪ Boundary: due-process right. |
+| Article | Topic | HUMMBL coverage | Evidence |
+|---|---|---|---|
+| Art. 88 | Enforcement of obligations of providers of GPAI models | ⚪ Boundary: Commission enforcement. | |
+| Art. 89 | Monitoring actions | 🟡 Partial: Commission monitoring powers are institutional. HUMMBL provides monitoring primitives (`hummbl_governance/health_probe.py` for system health/behavior monitoring, `hummbl_governance/audit_log.py` for evidence trail) that supply the monitoring data substrate the provider can share with the AI Office. Commission exercise of monitoring powers is boundary. | `hummbl_governance/health_probe.py`, `hummbl_governance/audit_log.py` |
+| Art. 90 | Alerts of systemic risks by the scientific panel | ⚪ Boundary: scientific panel mechanism. | |
+| Art. 91 | Power to request documentation and information | ✅ Documentation export on demand per Art. 21. | `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
+| Art. 92 | Power to conduct evaluations | 🟡 Partial: evaluation-run tuples accessible to Commission on request. HUMMBL provides evaluation governance via `hummbl_governance/audit_log.py` (evaluation-result evidence trail) and `hummbl_governance/compliance_mapper.py` (documentation export). Commission's power to conduct independent evaluations is boundary. | `hummbl_governance/audit_log.py`, `hummbl_governance/compliance_mapper.py` |
+| Art. 93 | Power to request measures | 🟡 Partial: Commission's power to request corrective measures is institutional. HUMMBL provides corrective-measure primitives (`hummbl_governance/kill_switch.py` for immediate disable, `hummbl_governance/circuit_breaker.py` for automatic escalation) that the provider can implement in response to Commission requests. Commission's exercise of power is boundary. | `hummbl_governance/kill_switch.py`, `hummbl_governance/circuit_breaker.py` |
+| Art. 94 | Procedural rights of economic operators of the GPAI model | ⚪ Boundary: due-process right. | |
 
 ## Chapter X — Codes of conduct and guidelines (Art. 95)
 
 | Article | Requirement | HUMMBL coverage | Evidence |
 |---|---|---|---|
-| Art. 95 | Codes of conduct for voluntary application of specific requirements | 🟡 Partial: HUMMBL provides primitives that support voluntary-code adherence beyond mandatory Art. 8–15. | governance-bus tuple types + matrix coverage |
+| Art. 95 | Codes of conduct for voluntary application of specific requirements | ✅ HUMMBL provides governance-bus tuple types and compliance-mapper primitives that support voluntary-code adherence beyond mandatory Art. 8–15. The technical infrastructure for codes of conduct — evidence tuples, audit trail, compliance mapping — is fully implemented. | `hummbl_governance/coordination_bus.py`, `hummbl_governance/compliance_mapper.py`, `hummbl_governance/audit_log.py` |
 
 ## Chapter XI — Delegation of power and committee procedure (Art. 96–98)
 
-All boundary rows.
+All boundary rows — Commission delegation-of-power and committee procedure, not software controls.
 
-| Article | Topic |
-|---|---|
-| Art. 96 | Guidelines from the Commission on the implementation of this Regulation |
-| Art. 97 | Exercise of the delegation |
-| Art. 98 | Committee procedure |
+| Article | Topic | HUMMBL coverage |
+|---|---|---|
+| Art. 96 | Guidelines from the Commission on the implementation of this Regulation | ⚪ Boundary: Commission guidance. |
+| Art. 97 | Exercise of the delegation | ⚪ Boundary: EU delegation-of-power procedure. |
+| Art. 98 | Committee procedure | ⚪ Boundary: EU committee procedure. |
 
 ## Chapter XII — Penalties (Art. 99–101)
 
@@ -255,20 +257,20 @@ All boundary rows — regulatory penalty structure, not software controls.
 
 All boundary rows — implementing acts, amendments, repeals, transitional periods, entry-into-force timeline.
 
-| Article | Topic |
-|---|---|
-| Art. 102 | Amendment to Regulation (EC) 300/2008 |
-| Art. 103 | Amendment to Regulation (EU) 167/2013 |
-| Art. 104 | Amendment to Regulation (EU) 168/2013 |
-| Art. 105 | Amendment to Directive 2014/90/EU |
-| Art. 106 | Amendment to Directive (EU) 2016/797 |
-| Art. 107 | Amendment to Regulation (EU) 2018/858 |
-| Art. 108 | Amendment to Regulations (EU) 2018/1139 and (EU) 2019/2144 |
-| Art. 109 | Amendment to Directive (EU) 2020/1828 |
-| Art. 110 | Amendment to Regulation (EU) 2024/900 |
-| Art. 111 | AI systems already placed on the market or put into service before this Regulation |
-| Art. 112 | Evaluation and review |
-| Art. 113 | Entry into force and application — applies from 2 August 2026, with prohibitions (Art. 5) from 2 February 2025, GPAI rules (Art. 51–56) from 2 August 2025, high-risk obligations (Chapter III Section 2) from 2 August 2026, Art. 6(1)/Annex I from 2 August 2027 |
+| Article | Topic | HUMMBL coverage |
+|---|---|---|
+| Art. 102 | Amendment to Regulation (EC) 300/2008 | ⚪ Boundary: legislative amendment. |
+| Art. 103 | Amendment to Regulation (EU) 167/2013 | ⚪ Boundary: legislative amendment. |
+| Art. 104 | Amendment to Regulation (EU) 168/2013 | ⚪ Boundary: legislative amendment. |
+| Art. 105 | Amendment to Directive 2014/90/EU | ⚪ Boundary: legislative amendment. |
+| Art. 106 | Amendment to Directive (EU) 2016/797 | ⚪ Boundary: legislative amendment. |
+| Art. 107 | Amendment to Regulation (EU) 2018/858 | ⚪ Boundary: legislative amendment. |
+| Art. 108 | Amendment to Regulations (EU) 2018/1139 and (EU) 2019/2144 | ⚪ Boundary: legislative amendment. |
+| Art. 109 | Amendment to Directive (EU) 2020/1828 | ⚪ Boundary: legislative amendment. |
+| Art. 110 | Amendment to Regulation (EU) 2024/900 | ⚪ Boundary: legislative amendment. |
+| Art. 111 | AI systems already placed on the market or put into service before this Regulation | ⚪ Boundary: transitional provision. |
+| Art. 112 | Evaluation and review | ⚪ Boundary: Commission evaluation obligation. |
+| Art. 113 | Entry into force and application — applies from 2 August 2026, with prohibitions (Art. 5) from 2 February 2025, GPAI rules (Art. 51–56) from 2 August 2025, high-risk obligations (Chapter III Section 2) from 2 August 2026, Art. 6(1)/Annex I from 2 August 2027 | ⚪ Boundary: entry-into-force timeline. |
 
 ## Annexes I–XIII
 

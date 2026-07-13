@@ -17,7 +17,7 @@ experimental notebooks. This plan covers the next two quarters of ecosystem work
 
 | Tier | Repos | Status |
 |------|-------|--------|
-| **SHIPPED** | hummbl-governance 0.8.0 | PyPI live, 1031 tests |
+| **SHIPPED** | hummbl-governance 1.2.2 | PyPI live, 2027 tests |
 | **READY TO EXTRACT** | hummbl-crucible, hummbl-bus | Source extracted, tests empty |
 | **SPEC COMPLETE** | krineia (Krineia receipt chain), hummbl-contracts, hummbl-tuples | Schemas done, impl missing |
 | **SCAFFOLD** | hummbl-caes, hummbl-compliance, hummbl-mtsmu, hummbl-gaas, hummbl-rsi | README only |
@@ -79,7 +79,7 @@ hummbl-contracts (no deps)
        ↓
 krineia (no deps — plain JSONL + hashlib)  ← Krineia receipt chain impl
        ↓
-hummbl-governance (no deps — 0.8.0, PyPI)
+hummbl-governance (no deps — 1.2.2, PyPI)
        ↓
 hummbl-bus (optional dep: hummbl-governance for identity registry)
        ↓
@@ -327,7 +327,7 @@ A repo is considered **shipped** when:
 
 | Repo | Has src? | Has tests? | PyPI? | ADR? | PRD? |
 |------|----------|------------|-------|------|------|
-| hummbl-governance | ✅ | ✅ 1031 | ✅ 0.8.0 | — | — |
+| hummbl-governance | ✅ | ✅ 2027 | ✅ 1.2.2 | — | — |
 | hummbl-crucible | ✅ | ❌ | ❌ | ❌ | 📋 this plan |
 | hummbl-bus | ✅ | ❌ | ❌ | ❌ | 📋 this plan |
 | krineia (Krineia receipt chain) | spec only | — | ❌ | ❌ | 📋 this plan |

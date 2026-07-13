@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Compliance Mapper -- Map governance traces to common security and AI controls.
 
 This module parses append-only governance bus JSONL files and extracts
@@ -670,6 +686,128 @@ class ComplianceMapper:
 
         return report
 
+    def generate_iso42001_report(self, days: int = 30) -> ComplianceReport:
+        """Generate an ISO/IEC 42001:2023 compliance report from governance traces.
+
+        Maps governance entries to Annex A reference controls (A.2–A.10).
+        These are the control objectives most directly addressable by code-level
+        governance primitives for AI agent orchestration.
+
+        Controls with no runtime evidence are initialised empty; they are
+        satisfied by organizational process documentation outside the library
+        (AIMS leadership, policy authorship, HR, etc.).
+
+        Reference: ISO/IEC 42001:2023, Annex A (~38 controls across 9
+        control objectives).
+        """
+        now = datetime.now(timezone.utc)
+
+        report = ComplianceReport(
+            generated_at=now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            framework="ISO42001",
+        )
+
+        report.controls["A.2"] = []   # Policies related to AI
+        report.controls["A.3"] = []   # Internal organization
+        report.controls["A.4"] = []   # Resources for AI systems
+        report.controls["A.5"] = []   # Assessing impacts of AI systems
+        report.controls["A.6"] = []   # AI system life cycle
+        report.controls["A.7"] = []   # Data for AI systems
+        report.controls["A.8"] = []   # Information for interested parties
+        report.controls["A.9"] = []   # Use of AI systems
+        report.controls["A.10"] = []  # Third-party + customer relationships
+
+        files = self._collect_files(days)
+        entries = self._read_entries(files)
+
+        for entry in entries:
+            evidence = self._base_evidence(entry)
+            tuple_type = entry.get("tuple_type")
+            tuple_data = entry.get("tuple_data", {})
+
+            # A.2: Policies related to AI — INTENT tuples prove stated AI objectives
+            if tuple_type == "INTENT":
+                pol_evidence = evidence.copy()
+                pol_evidence.update({
+                    "agent": tuple_data.get("agent"),
+                    "objective": tuple_data.get("objective"),
+                })
+                report.controls["A.2"].append(pol_evidence)
+
+            # A.3: Internal organization — DCTX delegation chains show AI roles + responsibilities
+            if tuple_type == "DCTX":
+                org_evidence = evidence.copy()
+                org_evidence.update({
+                    "delegator": tuple_data.get("delegator"),
+                    "delegatee": tuple_data.get("delegatee"),
+                    "event": tuple_data.get("event"),
+                })
+                report.controls["A.3"].append(org_evidence)
+
+            # A.4: Resources for AI systems — DCT resource selectors + ATTEST evidence
+            if tuple_type in ("DCT", "ATTEST"):
+                res_evidence = evidence.copy()
+                res_evidence.update({
+                    "resources": tuple_data.get("resource_selectors") or tuple_data.get("resources"),
+                    "tuple_type": tuple_type,
+                })
+                report.controls["A.4"].append(res_evidence)
+
+            # A.5: Assessing impacts — ATTEST tuples document impact assessments
+            if tuple_type == "ATTEST":
+                impact_evidence = evidence.copy()
+                impact_evidence.update({
+                    "subject": tuple_data.get("subject"),
+                    "claim": tuple_data.get("claim"),
+                })
+                report.controls["A.5"].append(impact_evidence)
+
+            # A.6: AI system life cycle — CONTRACT tuples trace lifecycle stages
+            if tuple_type == "CONTRACT":
+                lc_evidence = evidence.copy()
+                lc_evidence.update({
+                    "issuer": tuple_data.get("issuer"),
+                    "subject": tuple_data.get("subject"),
+                    "ops": tuple_data.get("ops_allowed") or tuple_data.get("operations"),
+                })
+                report.controls["A.6"].append(lc_evidence)
+
+            # A.7: Data for AI systems — DCT with resource selectors shows data governance
+            if tuple_type == "DCT":
+                data_evidence = evidence.copy()
+                data_evidence.update({
+                    "resources": tuple_data.get("resource_selectors"),
+                    "ops_allowed": tuple_data.get("ops_allowed"),
+                })
+                report.controls["A.7"].append(data_evidence)
+
+            # A.8: Information for interested parties — signed entries prove documented info
+            if entry.get("signature"):
+                info_evidence = evidence.copy()
+                info_evidence["tuple_type"] = tuple_type
+                report.controls["A.8"].append(info_evidence)
+
+            # A.9: Use of AI systems — DCT ops_allowed shows use-policy enforcement
+            if tuple_type == "DCT":
+                use_evidence = evidence.copy()
+                use_evidence.update({
+                    "issuer": tuple_data.get("issuer"),
+                    "subject": tuple_data.get("subject"),
+                    "ops_allowed": tuple_data.get("ops_allowed"),
+                })
+                report.controls["A.9"].append(use_evidence)
+
+            # A.10: Third-party + customer relationships — DCTX delegation to external parties
+            if tuple_type == "DCTX":
+                tp_evidence = evidence.copy()
+                tp_evidence.update({
+                    "delegator": tuple_data.get("delegator"),
+                    "delegatee": tuple_data.get("delegatee"),
+                })
+                report.controls["A.10"].append(tp_evidence)
+
+        return report
+
     def generate_nist_csf_report(self, days: int = 30) -> ComplianceReport:
         """Generate a NIST Cybersecurity Framework 2.0 compliance report.
 
@@ -775,7 +913,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--framework",
-        choices=["soc2", "gdpr", "owasp", "nist-rmf", "eu-ai-act", "iso27001", "nist-csf"],
+        choices=["soc2", "gdpr", "owasp", "nist-rmf", "eu-ai-act", "iso27001", "iso42001", "nist-csf"],
         default="soc2",
         help="Compliance framework",
     )
@@ -816,6 +954,8 @@ def main(argv: list[str] | None = None) -> int:
         report = mapper.generate_eu_ai_act_report(days=args.days)
     elif args.framework == "iso27001":
         report = mapper.generate_iso27001_report(days=args.days)
+    elif args.framework == "iso42001":
+        report = mapper.generate_iso42001_report(days=args.days)
     elif args.framework == "nist-csf":
         report = mapper.generate_nist_csf_report(days=args.days)
     else:

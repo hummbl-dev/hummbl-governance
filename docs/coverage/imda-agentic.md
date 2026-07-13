@@ -12,26 +12,26 @@ The Singapore Model AI Governance Framework is **voluntary** guidance. No certif
 
 ## Structure — Model AI Governance Framework (4 key areas)
 
-| Area | Key questions | Coverage |
-|---|---|---|
-| Internal governance structures + measures | Who is accountable? Roles + responsibilities? Risk management? Monitoring? | 🟡 Partial: DCT/DCTX captures roles; org structure is task |
-| Determining the level of human involvement | Risk-based human oversight, from human-in-the-loop to human-out-of-the-loop | ✅ INTENT + DCT + kill_switch primitives (cross-ref EU AI Act Art. 14) |
-| Operations management | Data preparation, model selection, training, validation, deployment, monitoring | ✅ Lifecycle tuple chain (cross-ref ISO 42001 A.6) |
-| Stakeholder interaction + communication | Transparency, explainability, communication | 🟡 Partial: transparency + explainability primitives; org communication is task |
+| Area | Key questions | Coverage | Evidence |
+|---|---|---|---|
+| Internal governance structures + measures | Who is accountable? Roles + responsibilities? Risk management? Monitoring? | 🟡 Partial: DCT/DCTX captures roles; org structure is task | |
+| Determining the level of human involvement | Risk-based human oversight, from human-in-the-loop to human-out-of-the-loop | ✅ INTENT + DCT + kill_switch primitives (cross-ref EU AI Act Art. 14) | `hummbl_governance/delegation.py`, `hummbl_governance/kill_switch.py` |
+| Operations management | Data preparation, model selection, training, validation, deployment, monitoring | ✅ Lifecycle tuple chain (cross-ref ISO 42001 A.6) | `hummbl_governance/lifecycle.py`, `hummbl_governance/audit_log.py` |
+| Stakeholder interaction + communication | Transparency, explainability, communication | 🟡 Partial: transparency + explainability primitives; org communication is task | |
 
 ## Structure — Generative AI Framework (9 dimensions)
 
-| Dimension | Coverage | Notes |
+| Dimension | Coverage | Evidence |
 |---|---|---|
-| 1. Accountability | 🟡 Partial | DCTX delegation chain = accountability allocation; org policy completes |
-| 2. Data | ✅ | Dataset tuples + provenance chain + quality primitives (cross-ref ISO 42001 A.7) |
-| 3. Trusted Development + Deployment | ✅ | Lifecycle tuple + V&V + deployment tuples + signed audit trail |
-| 4. Incident Reporting | ✅ | Incident tuple + notification SLA + escalation (cross-ref EU AI Act Art. 73) |
-| 5. Testing + Assurance | ✅ | 927 governance tests + redteam tuples + safety-eval primitives |
-| 6. Security | ✅ | HMAC-SHA256 delegation tokens + Bandit/Semgrep + pip-audit blocking |
-| 7. Content Provenance | 🟡 | Content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra) per `founder_mode/docs/research/2026-05-01_adr-001-admission-c2pa-stack.md`; implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today. |
-| 8. Safety + Alignment | 🟡 Partial | Alignment-eval tuples + RLHF-evidence primitives; alignment-evaluation methodology is research |
-| 9. AI for Public Good | ⚪ Boundary | Civic-impact framing is org strategy |
+| 1. Accountability | 🟡 Partial: DCTX delegation chain = accountability allocation; org policy completes | |
+| 2. Data | ✅ Dataset tuples + provenance chain + quality primitives (cross-ref ISO 42001 A.7) | `hummbl_governance/audit_log.py`, `hummbl_governance/schema_validator.py` |
+| 3. Trusted Development + Deployment | ✅ Lifecycle tuple + V&V + deployment tuples + signed audit trail | `hummbl_governance/lifecycle.py`, `hummbl_governance/audit_log.py` |
+| 4. Incident Reporting | ✅ Incident tuple + notification SLA + escalation (cross-ref EU AI Act Art. 73) | `hummbl_governance/audit_log.py`, `hummbl_governance/coordination_bus.py` |
+| 5. Testing + Assurance | ✅ 927 governance tests + redteam tuples + safety-eval primitives | `.github/workflows/ci.yml`, `hummbl_governance/audit_log.py` |
+| 6. Security | ✅ HMAC-SHA256 delegation tokens + Bandit/Semgrep + pip-audit blocking | `hummbl_governance/delegation.py`, `.github/workflows/ci.yml` |
+| 7. Content Provenance | 🟡 Content-provenance tuples shipped. C2PA integration admitted as Tier-2 dependency (`[c2pa-mcp]` pyproject extra); implementation per ADR-GOV-001 spec is planned, not yet shipped. Customer integrates via the extra today. | |
+| 8. Safety + Alignment | 🟡 Partial: Alignment-eval tuples + RLHF-evidence primitives; alignment-evaluation methodology is research | |
+| 9. AI for Public Good | ⚪ Boundary: Civic-impact framing is org strategy | |
 
 ## Summary
 

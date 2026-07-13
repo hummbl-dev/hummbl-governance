@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 Statistical Framework for Benchmark Evaluation
 
@@ -94,21 +110,21 @@ def bootstrap_ci(
         # Percentile bootstrap (simple, robust)
         boot_means = []
         for _ in range(n_bootstrap):
-            sample = random.choices(values, k=n)
+            sample = random.choices(values, k=n)  # nosec B311 — statistical sampling, not cryptographic
             boot_means.append(sum(sample) / n)
-        
+
         alpha = 1 - confidence_level
         lower = sorted(boot_means)[int(n_bootstrap * alpha / 2)]
         upper = sorted(boot_means)[int(n_bootstrap * (1 - alpha / 2))]
-        
+
     elif method == CIMethod.BCA:
         # Bias-corrected and accelerated bootstrap
         # More accurate for small samples or skewed distributions
         boot_means = []
         for _ in range(n_bootstrap):
-            sample = random.choices(values, k=n)
+            sample = random.choices(values, k=n)  # nosec B311 — statistical sampling, not cryptographic
             boot_means.append(sum(sample) / n)
-        
+
         # Calculate bias correction (z0)
         prop_less = sum(1 for bm in boot_means if bm < point_estimate) / n_bootstrap
         z0 = _norm_ppf(prop_less)
@@ -224,7 +240,7 @@ def bootstrap_test(
     
     extreme_count = 0
     for _ in range(n_bootstrap):
-        shuffled = random.sample(pooled, len(pooled))
+        shuffled = random.sample(pooled, len(pooled))  # nosec B311 — permutation test, not cryptographic
         sample_a = shuffled[:n_a]
         sample_b = shuffled[n_a:]
         boot_diff = sum(sample_a) / len(sample_a) - sum(sample_b) / len(sample_b)

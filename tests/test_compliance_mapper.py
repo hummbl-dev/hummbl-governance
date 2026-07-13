@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Tests for hummbl_governance.compliance_mapper."""
 
 from __future__ import annotations
@@ -908,6 +924,83 @@ class TestComplianceMapperISO27001:
         report = mapper.generate_iso27001_report(days=30)
         parsed = json.loads(report.to_json())
         assert parsed["framework"] == "ISO27001"
+        assert len(parsed["controls"]["A.9"]) == 1
+
+
+# ---------------------------------------------------------------------------
+# TestComplianceMapperISO42001
+# ---------------------------------------------------------------------------
+
+
+class TestComplianceMapperISO42001:
+    def test_iso42001_all_controls_initialized(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert report.framework == "ISO42001"
+        assert set(report.controls.keys()) == {
+            "A.2", "A.3", "A.4", "A.5", "A.6",
+            "A.7", "A.8", "A.9", "A.10",
+        }
+
+    def test_iso42001_intent_maps_to_a2(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_intent_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert len(report.controls["A.2"]) == 1
+        assert report.controls["A.2"][0]["objective"] == "generate briefing"
+
+    def test_iso42001_dctx_maps_to_a3_and_a10(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dctx_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert len(report.controls["A.3"]) == 1
+        assert report.controls["A.3"][0]["delegator"] == "agent-1"
+        assert len(report.controls["A.10"]) == 1
+
+    def test_iso42001_dct_maps_to_a4_a7_a9(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert len(report.controls["A.4"]) == 1
+        assert len(report.controls["A.7"]) == 1
+        assert len(report.controls["A.9"]) == 1
+        assert report.controls["A.9"][0]["ops_allowed"] == ["read"]
+
+    def test_iso42001_attest_maps_to_a4_and_a5(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_attest_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert len(report.controls["A.4"]) == 1
+        assert len(report.controls["A.5"]) == 1
+
+    def test_iso42001_contract_maps_to_a6(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_contract_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert len(report.controls["A.6"]) == 1
+
+    def test_iso42001_signed_maps_to_a8(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        assert len(report.controls["A.8"]) >= 1
+
+    def test_iso42001_cli(self, tmp_path):
+        rc = main(["--framework", "iso42001", "--dir", str(tmp_path)])
+        assert rc == 0
+
+    def test_iso42001_empty_dir(self, tmp_path):
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        for ctrl in report.controls.values():
+            assert ctrl == []
+
+    def test_iso42001_report_to_json_roundtrip(self, tmp_path):
+        _write_governance_file(tmp_path, _today_str(), [_dct_entry()])
+        mapper = ComplianceMapper(governance_dir=tmp_path)
+        report = mapper.generate_iso42001_report(days=30)
+        parsed = json.loads(report.to_json())
+        assert parsed["framework"] == "ISO42001"
         assert len(parsed["controls"]["A.9"]) == 1
 
 

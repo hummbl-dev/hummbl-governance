@@ -1,4 +1,4 @@
-# NIST CSF 2.0 Mapping — hummbl-governance v0.8.0
+# NIST CSF 2.0 Mapping — hummbl-governance v1.2.2
 
 **Reference:** NIST Cybersecurity Framework 2.0 (2024)
 **Generated:** 2026-05-14

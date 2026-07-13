@@ -1,6 +1,6 @@
 # OWASP Agentic Top 10 Compliance Mapping
 
-> **Package**: `hummbl-governance` v0.1.0
+> **Package**: `hummbl-governance` v1.2.2
 > **Standard**: OWASP Top 10 for Agentic Applications (December 2025)
 > **Date**: 2026-03-23
 > **Audience**: Enterprise compliance reviewers, security-conscious developers

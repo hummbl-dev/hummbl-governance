@@ -2,11 +2,11 @@
 
 ## Project
 
-**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.1.0), tests (verify with: `pytest --collect-only -q | tail -1`), zero third-party runtime dependencies.
+**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.2), current test inventory (verify with: `pytest --collect-only -q | tail -1`) governed by `docs/TEST_COUNT_AUTHORITY.md`, zero third-party runtime dependencies.
 
 ## Scope
 
-- In scope: Governance primitives (Kernel [receipts, identity, roles, laws, evidence], kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, reasoning engine, execution assurance, physical-AI safety), MCP servers, JSON schema validation, compliance assessments (NIST, ISO, SOC 2, EU AI Act)
+- In scope: Governance primitives (Kernel [receipts, identity, roles, laws, evidence, sequence, authority, schedule, doctrine] with K1-K11 invariants and D1-D7 doctrine invariants; rollback, recovery verifier, receipt integrity monitor, contestability, doctrine amendment, canon registry, authority sweeper, trust adjuster), kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, reasoning engine, execution assurance, physical-AI safety), MCP servers, JSON schema validation, compliance assessments (NIST, ISO, SOC 2, EU AI Act)
 - Out of scope: Consumer app features, bus protocol changes, agent orchestration logic
 
 ## Setup
@@ -33,6 +33,7 @@ python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-
 - Apache 2.0 license
 - Commit format: Conventional Commits
 - Branch naming: `type/agent/short-desc`
+- AI agents may assist with research, review, patch preparation, and operational coordination, but must not be credited in Git commit authorship metadata or commit-message trailers. Do not add `Co-authored-by`, `Generated-by`, `Authored-with`, or equivalent AI/vendor/agent attribution to commits. Agent activity belongs in internal receipts, bus messages, handoffs, or PR notes, not commit credit.
 
 ## CI
 
@@ -48,4 +49,4 @@ Python path: `C:\gitea\runner\toolcache\Python\3.13.13\x64`
 
 - For Claude Code: see `CLAUDE.md`
 - Published to PyPI: `pip install hummbl-governance`
-- MCP servers expose 15 governance primitives as 32 JSON-RPC tools (v1.1.0)
+- MCP servers expose governance primitives as JSON-RPC tools. Tool-count claims require a current inventory receipt before public promotion.

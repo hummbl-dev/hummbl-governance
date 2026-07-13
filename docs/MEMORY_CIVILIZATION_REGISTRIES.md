@@ -255,6 +255,7 @@ This registry family aligns with the existing right-of-way doctrine (`founder-mo
 
 - **Memory City doctrine:** `founder-mode/docs/architecture/memory-city/doctrine/README.md`
 - **Right-of-way doctrine:** `founder-mode/docs/architecture/memory-city/doctrine/right-of-way.md`
+- **Memory System Registry (proposed):** `hummbl-governance/docs/MEMORY_SYSTEM_REGISTRY.md`
 - **IssueOps controller:** founder-mode#978
 - **Review surface:** founder-mode#981
 - **Test-First Drill-Down protocol:** hummbl-governance#80

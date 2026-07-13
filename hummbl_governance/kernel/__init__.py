@@ -1,11 +1,29 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """HUMMBL Governance Kernel — Minimal substrate for AI fleet governance.
 
 The Kernel is not a role. It is the operating system of the fleet — the shared
 substrate that guarantees every agent action is observable, every observation is
 checkable, and every check is against empirical law.
 
-Eight invariants (K1-K8) and eight engines provide the foundation for AI officer
-roles, compliance enforcement, and scaling-law governance.
+Eleven invariants (K1-K11) and their engines provide the foundation for AI officer
+roles, compliance enforcement, and scaling-law governance. K1-K8 are enforced on
+every receipt path; K9-K11 are enum-defined, schema-backed, and exposed through
+Kernel validation methods (mandatory at call sites that invoke them).
 
 All engines are stdlib-only. No vendor-specific APIs, models, or runtimes.
 
@@ -33,8 +51,8 @@ __dissect__
 
 from __future__ import annotations
 
-__version__ = "1.2.0"
-__spec_version__ = "1.2.0"
+__version__ = "1.2.2"
+__spec_version__ = "1.2.2"
 
 from .kernel import Kernel
 from .invariants import KernelInvariant, KernelPanic

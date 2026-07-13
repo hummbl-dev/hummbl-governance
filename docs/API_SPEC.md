@@ -1,6 +1,6 @@
 # API Reference: hummbl-governance
 
-**Version:** 0.1.0
+**Version:** 1.2.2
 **Package:** `hummbl_governance`
 **Python:** 3.11+
 **Dependencies:** None (stdlib only)
@@ -15,7 +15,7 @@ pip install -e ".[test]"  # local development
 
 ```python
 import hummbl_governance
-print(hummbl_governance.__version__)  # "0.1.0"
+print(hummbl_governance.__version__)  # "1.2.2"
 ```
 
 ---

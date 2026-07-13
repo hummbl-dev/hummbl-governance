@@ -73,7 +73,7 @@ class TestFailClosedDefault:
         monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
         monkeypatch.setattr(api_server, "_ks", mock.MagicMock())
-        handler = _make_handler("GET", "/api/v1/status")
+        handler = _make_handler("GET", "/api/v1/audit")
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 401
         body = _read_response(handler)
@@ -88,6 +88,25 @@ class TestFailClosedDefault:
         api_server.GovernanceHandler.do_POST(handler)
         assert handler._response_code == 401
 
+    def test_health_endpoint_bypasses_auth_for_compatibility(self, monkeypatch):
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
+        monkeypatch.setattr(api_server, "_ks", mock.MagicMock())
+        monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
+        monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
+        handler = _make_handler("GET", "/api/v1/health")
+        api_server.GovernanceHandler.do_GET(handler)
+        assert handler._response_code == 200
+
+    def test_status_endpoint_requires_auth(self, monkeypatch):
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_TOKEN_FILE", raising=False)
+        monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
+        handler = _make_handler("GET", "/api/v1/status")
+        api_server.GovernanceHandler.do_GET(handler)
+        assert handler._response_code == 401
+
 
 class TestBearerAuth:
     """Bearer token auth with constant-time comparison."""
@@ -98,21 +117,21 @@ class TestBearerAuth:
         monkeypatch.setattr(api_server, "_ks", mock.MagicMock(engaged=False, mode=mock.MagicMock(name="DISENGAGED")))
         monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
         monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
-        handler = _make_handler("GET", "/api/v1/health", headers={"Authorization": "Bearer test-token-abc123"})
+        handler = _make_handler("GET", "/api/v1/status", headers={"Authorization": "Bearer test-token-abc123"})
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 200
 
     def test_wrong_token_rejected(self, monkeypatch):
         monkeypatch.setenv("GOVERNANCE_API_TOKEN", "test-token-abc123")
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
-        handler = _make_handler("GET", "/api/v1/health", headers={"Authorization": "Bearer wrong-token"})
+        handler = _make_handler("GET", "/api/v1/audit", headers={"Authorization": "Bearer wrong-token"})
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 401
 
     def test_missing_authorization_header_rejected(self, monkeypatch):
         monkeypatch.setenv("GOVERNANCE_API_TOKEN", "test-token-abc123")
         monkeypatch.delenv("GOVERNANCE_API_ALLOW_NO_AUTH", raising=False)
-        handler = _make_handler("GET", "/api/v1/health")
+        handler = _make_handler("GET", "/api/v1/audit")
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 401
 
@@ -132,7 +151,7 @@ class TestAllowNoAuthBypass:
         monkeypatch.setattr(api_server, "_ks", mock.MagicMock(engaged=False, mode=mock.MagicMock(name="DISENGAGED")))
         monkeypatch.setattr(api_server, "_cg", mock.MagicMock())
         monkeypatch.setattr(api_server, "_cb", mock.MagicMock())
-        handler = _make_handler("GET", "/api/v1/health")
+        handler = _make_handler("GET", "/api/v1/status")
         api_server.GovernanceHandler.do_GET(handler)
         assert handler._response_code == 200
 

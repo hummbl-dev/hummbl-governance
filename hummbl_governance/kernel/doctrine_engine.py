@@ -1,4 +1,4 @@
-"""Doctrine Engine — D1-D5 invariant enforcement.
+"""Doctrine Engine — D1-D7 invariant enforcement.
 
 The Kernel is an epistemic gatekeeper. DoctrineEngine enforces hard
 boundaries between speculation and action across the fleet promotion graph.
@@ -27,7 +27,7 @@ class Stage(Enum):
 
 
 class DoctrineInvariant(Enum):
-    """The five doctrine invariants."""
+    """The seven doctrine invariants."""
 
     ZERO_TRUST = "D1"
     """Playground is zero-trust: no playground artifact influences fleet state
@@ -45,6 +45,16 @@ class DoctrineInvariant(Enum):
     NO_AUTO_PROMOTION = "D5"
     """No stage promotes itself. Every gate requires operator approval."""
 
+    CONTESTABILITY = "D6"
+    """Affected parties can flag AI decisions for human review. A decision that
+    cannot be contested lacks human oversight. Requires evidence or justification
+    for the contest, not just a bare flag."""
+
+    DOCTRINE_AMENDMENT = "D7"
+    """Changes to invariants themselves are governed. No invariant or doctrine
+    amendment may take effect without operator approval and a recorded receipt.
+    Ungated amendments are blocked at the promotion gate."""
+
 
 @dataclass
 class ValidationResult:
@@ -57,14 +67,16 @@ class ValidationResult:
 
 
 class DoctrineEngine:
-    """Engine for enforcing doctrine invariants D1-D5.
+    """Engine for enforcing doctrine invariants D1-D7.
 
     The DoctrineEngine validates:
-    - Stage isolation (playground cannot write to fleet)
-    - Seed candidate integrity (must have falsifier)
-    - Authority neutrality (no inherited credibility)
-    - Divergence containment (novelty quarantined)
-    - Promotion gates (operator approval required)
+    - Stage isolation (playground cannot write to fleet) — D1
+    - Seed candidate integrity (must have falsifier) — D2
+    - Authority neutrality (no inherited credibility) — D3
+    - Divergence containment (novelty quarantined) — D4
+    - Promotion gates (operator approval required) — D5
+    - Contestability (open contests block promotion) — D6
+    - Doctrine amendment (invariant changes require gated approval) — D7
     """
 
     def __init__(self, state_dir: Path) -> None:
@@ -132,7 +144,7 @@ class DoctrineEngine:
         # Check for fleet writes
         fleet_writes = [
             p for p in write_paths
-            if not p.startswith("playground/") and not p.startswith("/tmp/")
+            if not p.startswith("playground/") and not p.startswith("/tmp/")  # nosec B108 — path prefix check, not a hardcoded temp dir
         ]
         if fleet_writes:
             return ValidationResult(
@@ -317,12 +329,25 @@ class DoctrineEngine:
         from_stage: Stage | str,
         to_stage: Stage | str,
         operator_receipt: dict[str, Any] | None = None,
+        open_contests: list[dict[str, Any]] | None = None,
     ) -> ValidationResult:
         """Validate a stage promotion.
 
         Requires:
-        1. Valid forward edge in promotion graph
-        2. Operator-authorized PROMOTE receipt
+        1. Valid forward edge in promotion graph (D5)
+        2. Operator-authorized PROMOTE receipt (D5)
+        3. No open (unresolved) contests on the artifact (D6)
+
+        Args:
+            from_stage: Current stage.
+            to_stage: Target stage.
+            operator_receipt: Operator-authorized promotion receipt.
+            open_contests: Optional list of open contest records. If any
+                contest has status 'flagged' or 'under_review', the
+                promotion is blocked (D6 CONTESTABILITY).
+
+        Returns:
+            ValidationResult indicating whether the promotion is valid.
         """
         from_s = from_stage if isinstance(from_stage, Stage) else Stage(from_stage)
         to_s = to_stage if isinstance(to_stage, Stage) else Stage(to_stage)
@@ -360,7 +385,132 @@ class DoctrineEngine:
                 detail="Operator receipt lacks signature",
             )
 
+        # D6: Check for open contests blocking promotion
+        if open_contests:
+            blocking_statuses = {"flagged", "under_review"}
+            blocking_contests = [
+                c for c in open_contests
+                if isinstance(c, dict)
+                and c.get("contest_status", "") in blocking_statuses
+            ]
+            if blocking_contests:
+                contest_ids = [c.get("contest_id", "?") for c in blocking_contests]
+                return ValidationResult(
+                    valid=False,
+                    invariant=DoctrineInvariant.CONTESTABILITY,
+                    detail=(
+                        f"Promotion blocked by {len(blocking_contests)} open "
+                        f"contest(s): {contest_ids}. D6 CONTESTABILITY "
+                        f"requires all contests to be resolved before "
+                        f"promotion."
+                    ),
+                )
+
         return ValidationResult(valid=True)
+
+    # ── D7: Doctrine Amendment Is Gated ───────────────────────────
+
+    def validate_invariant_change(
+        self,
+        amendment_record: dict[str, Any] | None = None,
+    ) -> ValidationResult:
+        """Validate that an invariant change is properly gated (D7).
+
+        D7 (DOCTRINE_AMENDMENT): no invariant or doctrine amendment may
+        take effect without operator approval and a recorded receipt.
+        Ungated amendments are blocked.
+
+        Args:
+            amendment_record: A doctrine amendment record conforming to
+                the doctrine_amendment schema. Must have
+                authority.operator_approval=True, a non-empty
+                approver_id, and at least one evidence reference.
+
+        Returns:
+            ValidationResult indicating whether the amendment is gated.
+        """
+        if not amendment_record:
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail=(
+                    "D7 DOCTRINE_AMENDMENT violated: invariant change "
+                    "attempted without an amendment record. Ungated "
+                    "amendments are blocked."
+                ),
+            )
+
+        authority = amendment_record.get("authority", {})
+        if not isinstance(authority, dict):
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail="Amendment record authority gate missing or invalid",
+            )
+
+        if not authority.get("operator_approval", False):
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail=(
+                    "D7 DOCTRINE_AMENDMENT violated: "
+                    "authority.operator_approval must be True. "
+                    "Ungated amendments are blocked."
+                ),
+            )
+
+        approver_id = authority.get("approver_id", "")
+        if not isinstance(approver_id, str) or not approver_id.strip():
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail="Amendment record approver_id must be non-empty",
+            )
+
+        evidence = amendment_record.get("evidence", {})
+        if not isinstance(evidence, dict):
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail="Amendment record evidence gate missing or invalid",
+            )
+
+        evidence_refs = evidence.get("evidence_refs", [])
+        if not isinstance(evidence_refs, list) or len(evidence_refs) == 0:
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail=(
+                    "D7 DOCTRINE_AMENDMENT violated: evidence.evidence_refs "
+                    "must have at least one entry"
+                ),
+            )
+
+        receipt = amendment_record.get("receipt", {})
+        if not isinstance(receipt, dict) or not receipt.get("receipt_hash"):
+            return ValidationResult(
+                valid=False,
+                invariant=DoctrineInvariant.DOCTRINE_AMENDMENT,
+                detail=(
+                    "D7 DOCTRINE_AMENDMENT violated: amendment requires a "
+                    "recorded receipt with receipt_hash"
+                ),
+            )
+
+        return ValidationResult(valid=True)
+
+    def assert_invariant_change_gated(
+        self,
+        amendment_record: dict[str, Any] | None = None,
+    ) -> None:
+        """Hard gate: raise KernelPanic if invariant change is ungated (D7)."""
+        result = self.validate_invariant_change(amendment_record)
+        if not result.valid:
+            raise KernelPanic(
+                KernelInvariant.DOCTRINE,
+                f"D7 DOCTRINE_AMENDMENT violated: {result.detail}",
+                severity="CRITICAL",
+            )
 
     def promote(
         self,
@@ -368,12 +518,23 @@ class DoctrineEngine:
         to_stage: Stage | str,
         artifact: dict[str, Any],
         operator_receipt: dict[str, Any] | None = None,
+        open_contests: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         """Execute a promotion after validation.
 
         Returns the artifact with promotion metadata, or raises KernelPanic.
+
+        If the artifact is an invariant amendment (has 'amendment_type' field),
+        also enforces D7 (DOCTRINE_AMENDMENT) via assert_invariant_change_gated().
         """
-        self.assert_promotion_valid(from_stage, to_stage, operator_receipt)
+        self.assert_promotion_valid(
+            from_stage, to_stage, operator_receipt, open_contests
+        )
+
+        # D7 gate: if this artifact is an invariant amendment, enforce the
+        # doctrine amendment gate (operator approval + evidence + receipt).
+        if isinstance(artifact, dict) and artifact.get("amendment_type"):
+            self.assert_invariant_change_gated(artifact)
 
         artifact["promotion"] = {
             "from": from_stage.value if isinstance(from_stage, Stage) else str(from_stage),
@@ -394,13 +555,21 @@ class DoctrineEngine:
         from_stage: Stage | str,
         to_stage: Stage | str,
         operator_receipt: dict[str, Any] | None = None,
+        open_contests: list[dict[str, Any]] | None = None,
     ) -> None:
         """Hard gate: raise KernelPanic if promotion is invalid."""
-        result = self.validate_promotion(from_stage, to_stage, operator_receipt)
+        result = self.validate_promotion(
+            from_stage, to_stage, operator_receipt, open_contests
+        )
         if not result.valid:
+            inv_label = (
+                f"{result.invariant.value} {result.invariant.name}"
+                if result.invariant
+                else "D5 NO_AUTO_PROMOTION"
+            )
             raise KernelPanic(
                 KernelInvariant.RECEIPT,
-                f"D5 NO_AUTO_PROMOTION violated: {result.detail}",
+                f"{inv_label} violated: {result.detail}",
                 severity="CRITICAL",
             )
 

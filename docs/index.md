@@ -7,6 +7,7 @@ Welcome to the HUMMBL Governance documentation site.
 - [README](../README.md) - Project overview
 - [API Spec](API_SPEC.md) - API documentation
 - [PRD](PRD.md) - Product requirements
+- [Package Test-Count Authority](TEST_COUNT_AUTHORITY.md) - Primitive and test-count source-of-truth model
 - [ROADMAP](../ROADMAP.md) - Development roadmap
 - [CONTRIBUTING](../CONTRIBUTING.md) - Contribution guidelines
 - [SECURITY](../SECURITY.md) - Security policy
@@ -31,10 +32,23 @@ Compliance documentation for various frameworks:
 ## Ecosystem
 
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
+- [Memory System Registry](MEMORY_SYSTEM_REGISTRY.md) - Proposed cross-system memory namespace registry
+
+## Distribution
+
+- [awesome-python Resubmission Gate](distribution/awesome-python-resubmission.md) - Public adoption evidence required before resubmission
+- [awesome-python Hidden Gem Packet](distribution/awesome-python-hidden-gem-packet.md) - Pre-100-star submission evidence draft
+- [Public Mentions Ledger](distribution/public-mentions-ledger.md) - Qualified ecosystem insertion and conversion tracking
+- [CrewAI Runtime Release-Control Crosswalk](distribution/crosswalks/crewai-runtime-release-control.md) - Exploratory mapping from CrewAI issue #6025 to HUMMBL governance primitives
 
 ## Runbooks
 
 - [Gitea Runners Operations](runbooks/gitea-runners-operations.md) - CI/CD operations
+
+## Operations
+
+- [Agent Toolset Starter](operations/AGENT_TOOLSET_STARTER.md) - Agent-owned telemetry rollout baseline
+- [Draft PR Promotion Queue](operations/DRAFT_PR_PROMOTION_QUEUE.md) - Issue-to-draft PR promotion policy and queue template
 
 ---
 

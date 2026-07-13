@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hummbl-governance"
-version = "1.2.0"
+version = "1.2.2"
 description = "Governance primitives for AI agent orchestration: kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, schema validation, coordination bus, compliance mapper, and health probes."
 readme = "README.md"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.11"
 authors = [
     {name = "Reuben Bowlby", email = "reuben@hummbl.io"},
@@ -16,12 +17,10 @@ authors = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: System :: Systems Administration",
 ]
@@ -65,7 +64,7 @@ py-modules = [
 ]
 
 [tool.setuptools.package-data]
-hummbl_governance = ["data/*.json", "data/atlas/*.yaml"]
+hummbl_governance = ["data/*.json", "data/registry/models.jsonl", "data/atlas/*.yaml", "governance.yml"]
 
 [tool.vulture]
 exclude = [".venv", "demo", "src"]
@@ -80,3 +79,7 @@ select = ["E", "F"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "hummbl_governance/kernel/test_*"]
+skips = ["B101"]  # assert_used — legitimate in test code inside package

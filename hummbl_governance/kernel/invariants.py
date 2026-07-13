@@ -1,4 +1,4 @@
-"""Kernel invariants (K1-K7) and panic handling.
+"""Kernel invariants (K1-K11) and panic handling.
 
 Invariants are unbreakable rules. Violating any invariant is a Kernel panic.
 """
@@ -9,7 +9,7 @@ import enum
 
 
 class KernelInvariant(enum.Enum):
-    """The seven unbreakable Kernel invariants."""
+    """The eleven unbreakable Kernel invariants."""
 
     RECEIPT = "K1"
     """Every action that affects shared state produces a structured, signed receipt."""
@@ -33,7 +33,24 @@ class KernelInvariant(enum.Enum):
     """Every role is a runtime claim, not a static assignment."""
 
     DOCTRINE = "K8"
-    """Every fleet artifact respects the doctrine invariants D1-D5."""
+    """Every fleet artifact respects the doctrine invariants D1-D7."""
+
+    REVERSIBILITY = "K9"
+    """Every governed durable-state mutation or irreversible external side effect
+    declares a rollback path or is explicitly marked irreversible with a recorded
+    risk acceptance. Scoped: applies to governed durable-state mutations and
+    irreversible external side effects only."""
+
+    RECOVERY = "K10"
+    """Re-engagement after halt, quarantine, or open breaker requires root-cause
+    verification, evidence collection, and operator approval. Scoped: applies to
+    re-engagement after halt/quarantine/open breaker only."""
+
+    INTEGRITY = "K11"
+    """Receipt sequences are complete and unbroken. Sequence gaps and hash-chain
+    breaks trigger KernelPanic. Timestamp-only anomalies do NOT automatically
+    trigger KernelPanic — they route to warning, quarantine, or operator review
+    unless combined with sequence or hash compromise."""
 
 
 class KernelPanic(Exception):

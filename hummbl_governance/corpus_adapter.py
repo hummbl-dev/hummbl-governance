@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Corpus adapter — bridge hummbl-governance receipts to unified-frameworks.
 
 Usage::
@@ -9,7 +25,7 @@ Usage::
     adapter = CorpusAdapter(corpus_dir=Path("./corpus"))
 
     receipt = engine.create(agent_id="devin", action_type="BUS_POST")
-    adapter.ingest_receipt(receipt, kernel_version="1.2.0")
+    adapter.ingest_receipt(receipt)  # kernel_version defaults to hummbl_governance.__version__
 
 Best-effort: if unified-frameworks is not installed, receipts are queued
 locally for later ingestion.
@@ -24,6 +40,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from hummbl_governance import __version__ as _KERNEL_VERSION
+
 logger = logging.getLogger(__name__)
 
 # Lazy import of unified-frameworks corpus ingest (best-effort)
@@ -35,7 +53,7 @@ except ImportError:
     _HAS_CORPUS = False
 
 
-def _receipt_to_kernel_output(receipt: Any, kernel_version: str = "1.2.0") -> dict[str, Any]:
+def _receipt_to_kernel_output(receipt: Any, kernel_version: str = _KERNEL_VERSION) -> dict[str, Any]:
     """Transform a hummbl-governance Receipt into a kernel_output envelope."""
     return {
         "kernel_name": "hummbl-governance",
@@ -78,7 +96,7 @@ class CorpusAdapter:
         if _HAS_CORPUS and corpus_dir is not None:
             self._ingestor = CorpusIngestor(corpus_dir=corpus_dir)
 
-    def ingest_receipt(self, receipt: Any, kernel_version: str = "1.2.0") -> str | None:
+    def ingest_receipt(self, receipt: Any, kernel_version: str = _KERNEL_VERSION) -> str | None:
         """Submit a receipt to the corpus.
 
         Args:

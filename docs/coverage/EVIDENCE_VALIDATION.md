@@ -9,12 +9,12 @@ For each Fulfilled row in every coverage matrix, the validator extracts backtick
 
 Per [ADR-001](./../adr/ADR-001-coverage-matrix-not-self-grade.md), Fulfilled rows are public claim support ONLY when their Evidence column points to a validated runnable command or resolvable artifact. Rows without resolved evidence remain DRAFT until hardened.
 
-## Aggregate (as of 2026-05-14)
+## Aggregate (as of 2026-06-26)
 
-- **198 Fulfilled rows** across 12 matrices
-- **5 rows validated** (2.5%) — refs fully resolve
-- **193 rows fail validation** — hardening gap
-- **191 rows carry NO evidence references** at all (subset of failing)
+- **1496 Fulfilled rows** across 94 matrices
+- **1496 rows validated** (100.0%) — refs fully resolve
+- **0 rows fail validation** — hardening gap
+- **0 rows carry NO evidence references** at all (subset of failing)
 
 Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this report quantifies the residual hardening work.
 
@@ -22,19 +22,101 @@ Status: matrices remain DRAFT SCAFFOLDS per `docs/coverage/README.md`; this repo
 
 | Matrix | Fulfilled | Validated | Coverage | No Refs |
 |---|---:|---:|---:|---:|
-| [`colorado-ai-act.md`](./colorado-ai-act.md) | 16 | 0 | 0.0% | 16 |
-| [`eu-ai-act.md`](./eu-ai-act.md) | 16 | 3 | 18.8% | 11 |
-| [`g7-ai-code.md`](./g7-ai-code.md) | 6 | 0 | 0.0% | 6 |
-| [`gdpr.md`](./gdpr.md) | 20 | 2 | 10.0% | 18 |
-| [`imda-agentic.md`](./imda-agentic.md) | 7 | 0 | 0.0% | 7 |
-| [`iso-27001.md`](./iso-27001.md) | 35 | 0 | 0.0% | 35 |
-| [`iso-42001.md`](./iso-42001.md) | 2 | 0 | 0.0% | 2 |
-| [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 35 | 0 | 0.0% | 35 |
-| [`nist-csf.md`](./nist-csf.md) | 46 | 0 | 0.0% | 46 |
-| [`nyc-ll144.md`](./nyc-ll144.md) | 6 | 0 | 0.0% | 6 |
-| [`owasp-llm.md`](./owasp-llm.md) | 8 | 0 | 0.0% | 8 |
-| [`soc2.md`](./soc2.md) | 1 | 0 | 0.0% | 1 |
-| **TOTAL** | **198** | **5** | **2.5%** | **191** |
+| [`african-union-ai-strategy.md`](./african-union-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
+| [`argentina-ai-plan.md`](./argentina-ai-plan.md) | 9 | 9 | 100.0% | 0 |
+| [`arizona-hb2394.md`](./arizona-hb2394.md) | 14 | 14 | 100.0% | 0 |
+| [`asean-ai-governance-guide.md`](./asean-ai-governance-guide.md) | 17 | 17 | 100.0% | 0 |
+| [`australia-ai-ethics.md`](./australia-ai-ethics.md) | 29 | 29 | 100.0% | 0 |
+| [`azerbaijan-ai-strategy.md`](./azerbaijan-ai-strategy.md) | 11 | 11 | 100.0% | 0 |
+| [`belgium-ai-strategy.md`](./belgium-ai-strategy.md) | 10 | 10 | 100.0% | 0 |
+| [`brazil-pl2338.md`](./brazil-pl2338.md) | 23 | 23 | 100.0% | 0 |
+| [`california-ab-2013.md`](./california-ab-2013.md) | 13 | 13 | 100.0% | 0 |
+| [`california-sb-53.md`](./california-sb-53.md) | 17 | 17 | 100.0% | 0 |
+| [`california-sb-942.md`](./california-sb-942.md) | 6 | 6 | 100.0% | 0 |
+| [`canada-aida.md`](./canada-aida.md) | 13 | 13 | 100.0% | 0 |
+| [`ccpa-cpra.md`](./ccpa-cpra.md) | 44 | 44 | 100.0% | 0 |
+| [`chile-ai-bill.md`](./chile-ai-bill.md) | 22 | 22 | 100.0% | 0 |
+| [`china-algorithm-recommendation.md`](./china-algorithm-recommendation.md) | 18 | 18 | 100.0% | 0 |
+| [`china-deep-synthesis.md`](./china-deep-synthesis.md) | 24 | 24 | 100.0% | 0 |
+| [`china-genai-measures.md`](./china-genai-measures.md) | 35 | 35 | 100.0% | 0 |
+| [`colorado-ai-act.md`](./colorado-ai-act.md) | 16 | 16 | 100.0% | 0 |
+| [`connecticut-sb2-sb5.md`](./connecticut-sb2-sb5.md) | 20 | 20 | 100.0% | 0 |
+| [`council-of-europe-ai-convention.md`](./council-of-europe-ai-convention.md) | 11 | 11 | 100.0% | 0 |
+| [`denmark-ai-act.md`](./denmark-ai-act.md) | 2 | 2 | 100.0% | 0 |
+| [`egypt-ai-strategy.md`](./egypt-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
+| [`el-salvador-ai-promotion-law.md`](./el-salvador-ai-promotion-law.md) | 14 | 14 | 100.0% | 0 |
+| [`estonia-ai-strategy.md`](./estonia-ai-strategy.md) | 10 | 10 | 100.0% | 0 |
+| [`eu-ai-act.md`](./eu-ai-act.md) | 19 | 19 | 100.0% | 0 |
+| [`finland-ai-strategy.md`](./finland-ai-strategy.md) | 9 | 9 | 100.0% | 0 |
+| [`g7-ai-code.md`](./g7-ai-code.md) | 5 | 5 | 100.0% | 0 |
+| [`gdpr.md`](./gdpr.md) | 21 | 21 | 100.0% | 0 |
+| [`germany-mission-ki.md`](./germany-mission-ki.md) | 23 | 23 | 100.0% | 0 |
+| [`hong-kong-ai-guidelines.md`](./hong-kong-ai-guidelines.md) | 13 | 13 | 100.0% | 0 |
+| [`ieee-3119.md`](./ieee-3119.md) | 23 | 23 | 100.0% | 0 |
+| [`ieee-7001.md`](./ieee-7001.md) | 19 | 19 | 100.0% | 0 |
+| [`illinois-hb3773.md`](./illinois-hb3773.md) | 12 | 12 | 100.0% | 0 |
+| [`imda-agentic.md`](./imda-agentic.md) | 7 | 7 | 100.0% | 0 |
+| [`india-ai-governance-guidelines.md`](./india-ai-governance-guidelines.md) | 18 | 18 | 100.0% | 0 |
+| [`india-dpdp.md`](./india-dpdp.md) | 16 | 16 | 100.0% | 0 |
+| [`iowa-sf2417.md`](./iowa-sf2417.md) | 11 | 11 | 100.0% | 0 |
+| [`ireland-eu-ai-designation.md`](./ireland-eu-ai-designation.md) | 2 | 2 | 100.0% | 0 |
+| [`iso-27001.md`](./iso-27001.md) | 35 | 35 | 100.0% | 0 |
+| [`iso-42001.md`](./iso-42001.md) | 25 | 25 | 100.0% | 0 |
+| [`iso-iec-22989.md`](./iso-iec-22989.md) | 23 | 23 | 100.0% | 0 |
+| [`iso-iec-23053.md`](./iso-iec-23053.md) | 8 | 8 | 100.0% | 0 |
+| [`iso-iec-23894.md`](./iso-iec-23894.md) | 19 | 19 | 100.0% | 0 |
+| [`iso-iec-38507.md`](./iso-iec-38507.md) | 18 | 18 | 100.0% | 0 |
+| [`iso-iec-42005.md`](./iso-iec-42005.md) | 21 | 21 | 100.0% | 0 |
+| [`iso-iec-5338.md`](./iso-iec-5338.md) | 15 | 15 | 100.0% | 0 |
+| [`iso-iec-5339.md`](./iso-iec-5339.md) | 19 | 19 | 100.0% | 0 |
+| [`israel-ai-program.md`](./israel-ai-program.md) | 16 | 16 | 100.0% | 0 |
+| [`italy-law-132-2025.md`](./italy-law-132-2025.md) | 27 | 27 | 100.0% | 0 |
+| [`japan-ai-act.md`](./japan-ai-act.md) | 5 | 5 | 100.0% | 0 |
+| [`kazakhstan-ai-law.md`](./kazakhstan-ai-law.md) | 25 | 25 | 100.0% | 0 |
+| [`kentucky-krs42731.md`](./kentucky-krs42731.md) | 21 | 21 | 100.0% | 0 |
+| [`latvia-ai-centre-law.md`](./latvia-ai-centre-law.md) | 14 | 14 | 100.0% | 0 |
+| [`lithuania-ai-act.md`](./lithuania-ai-act.md) | 12 | 12 | 100.0% | 0 |
+| [`maine-ai-chatbot.md`](./maine-ai-chatbot.md) | 13 | 13 | 100.0% | 0 |
+| [`malaysia-aige-guidelines.md`](./malaysia-aige-guidelines.md) | 26 | 26 | 100.0% | 0 |
+| [`malta-ai-regulations.md`](./malta-ai-regulations.md) | 11 | 11 | 100.0% | 0 |
+| [`maryland-sb818.md`](./maryland-sb818.md) | 15 | 15 | 100.0% | 0 |
+| [`mexico-chapultepec-principles.md`](./mexico-chapultepec-principles.md) | 16 | 16 | 100.0% | 0 |
+| [`netherlands-genai-vision.md`](./netherlands-genai-vision.md) | 20 | 20 | 100.0% | 0 |
+| [`new-hampshire-ch5d.md`](./new-hampshire-ch5d.md) | 9 | 9 | 100.0% | 0 |
+| [`new-zealand-ai-strategy.md`](./new-zealand-ai-strategy.md) | 17 | 17 | 100.0% | 0 |
+| [`nigeria-ai-strategy.md`](./nigeria-ai-strategy.md) | 17 | 17 | 100.0% | 0 |
+| [`nist-ai-rmf.md`](./nist-ai-rmf.md) | 38 | 38 | 100.0% | 0 |
+| [`nist-csf.md`](./nist-csf.md) | 56 | 56 | 100.0% | 0 |
+| [`north-carolina-eo24.md`](./north-carolina-eo24.md) | 14 | 14 | 100.0% | 0 |
+| [`norway-ai-strategy.md`](./norway-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
+| [`nyc-ll144.md`](./nyc-ll144.md) | 6 | 6 | 100.0% | 0 |
+| [`oecd-ai-principles.md`](./oecd-ai-principles.md) | 15 | 15 | 100.0% | 0 |
+| [`owasp-agentic.md`](./owasp-agentic.md) | 6 | 6 | 100.0% | 0 |
+| [`owasp-llm.md`](./owasp-llm.md) | 8 | 8 | 100.0% | 0 |
+| [`peru-law-31814.md`](./peru-law-31814.md) | 22 | 22 | 100.0% | 0 |
+| [`rwanda-ai-policy.md`](./rwanda-ai-policy.md) | 7 | 7 | 100.0% | 0 |
+| [`saudi-arabia-ai-strategy.md`](./saudi-arabia-ai-strategy.md) | 6 | 6 | 100.0% | 0 |
+| [`sf-ai-inventory-ordinance.md`](./sf-ai-inventory-ordinance.md) | 8 | 8 | 100.0% | 0 |
+| [`singapore-ai-verify.md`](./singapore-ai-verify.md) | 14 | 14 | 100.0% | 0 |
+| [`singapore-model-ai-governance.md`](./singapore-model-ai-governance.md) | 28 | 28 | 100.0% | 0 |
+| [`slovenia-ai-act.md`](./slovenia-ai-act.md) | 9 | 9 | 100.0% | 0 |
+| [`soc2.md`](./soc2.md) | 33 | 33 | 100.0% | 0 |
+| [`south-africa-ai-policy.md`](./south-africa-ai-policy.md) | 10 | 10 | 100.0% | 0 |
+| [`south-korea-ai-basic-act.md`](./south-korea-ai-basic-act.md) | 13 | 13 | 100.0% | 0 |
+| [`spain-ai-strategy.md`](./spain-ai-strategy.md) | 7 | 7 | 100.0% | 0 |
+| [`stride.md`](./stride.md) | 6 | 6 | 100.0% | 0 |
+| [`sweden-ai-strategy.md`](./sweden-ai-strategy.md) | 12 | 12 | 100.0% | 0 |
+| [`switzerland-ai-strategy.md`](./switzerland-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
+| [`taiwan-ai-fundamental-act.md`](./taiwan-ai-fundamental-act.md) | 20 | 20 | 100.0% | 0 |
+| [`texas-traiga.md`](./texas-traiga.md) | 13 | 13 | 100.0% | 0 |
+| [`thailand-ai-strategy.md`](./thailand-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
+| [`uae-ai-strategy.md`](./uae-ai-strategy.md) | 8 | 8 | 100.0% | 0 |
+| [`uk-ai-regulation-framework.md`](./uk-ai-regulation-framework.md) | 19 | 19 | 100.0% | 0 |
+| [`unesco-ai-ethics.md`](./unesco-ai-ethics.md) | 24 | 24 | 100.0% | 0 |
+| [`utah-ai-policy-act.md`](./utah-ai-policy-act.md) | 4 | 4 | 100.0% | 0 |
+| [`vermont-act101.md`](./vermont-act101.md) | 5 | 5 | 100.0% | 0 |
+| [`virginia-hb714.md`](./virginia-hb714.md) | 14 | 14 | 100.0% | 0 |
+| **TOTAL** | **1496** | **1496** | **100.0%** | **0** |
 
 ## How to harden a row
 
@@ -53,236 +135,6 @@ python scripts/build_evidence_validation_report.py
 ```
 
 ## Failing rows by matrix
-
-### colorado-ai-act.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 24 | Duty of reasonable care to avoid algorithmic discr | fail | no evidence references found in row |
-| 25 | Provide deployers with statement disclosing intend | fail | no evidence references found in row |
-| 26 | Disclose to deployers known/foreseeable algorithmi | fail | no evidence references found in row |
-| 27 | Make available documentation needed to complete im | fail | no evidence references found in row |
-| 29 | Disclose to attorney general + known deployers wit | fail | no evidence references found in row |
-| 35 | Duty of reasonable care to avoid algorithmic discr | fail | no evidence references found in row |
-| 36 | Implement risk-management policy + program — itera | fail | no evidence references found in row |
-| 37 | Complete impact assessment annually + within 90 da | fail | no evidence references found in row |
-| 38 | Specific impact-assessment contents — purpose, int | fail | no evidence references found in row |
-| 39 | Notify consumer of high-risk AI system use before/ | fail | no evidence references found in row |
-| 40 | Provide consumer with statement disclosing — purpo | fail | no evidence references found in row |
-| 41 | Provide opportunity to correct incorrect personal  | fail | no evidence references found in row |
-| 42 | Provide opportunity to appeal adverse consequentia | fail | no evidence references found in row |
-| 44 | Disclose to attorney general within 90 days of dis | fail | no evidence references found in row |
-| 50 | AI system interacting with consumer shall disclose | fail | no evidence references found in row |
-| 56 | Affirmative defense for developers + deployers usi | fail | no evidence references found in row |
-
-### eu-ai-act.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 76 | Art. 8 | fail | no evidence references found in row |
-| 77 | Art. 9 | fail | 1 of 2 refs unresolved |
-| 78 | Art. 10 | fail | no evidence references found in row |
-| 79 | Art. 11 | fail | no evidence references found in row |
-| 81 | Art. 13 | fail | no evidence references found in row |
-| 83 | Art. 15 | fail | 1 of 3 refs unresolved |
-| 91 | Art. 18 | fail | no evidence references found in row |
-| 92 | Art. 19 | fail | no evidence references found in row |
-| 94 | Art. 21 | fail | no evidence references found in row |
-| 130 | Art. 47 | fail | no evidence references found in row |
-| 132 | Art. 49 | fail | no evidence references found in row |
-| 189 | Art. 72 | fail | no evidence references found in row |
-| 223 | Art. 91 | fail | no evidence references found in row |
-
-### g7-ai-code.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 21 | 1 | fail | no evidence references found in row |
-| 22 | 2 | fail | no evidence references found in row |
-| 23 | 3 | fail | no evidence references found in row |
-| 25 | 5 | fail | no evidence references found in row |
-| 26 | 6 | fail | no evidence references found in row |
-| 31 | 11 | fail | no evidence references found in row |
-
-### gdpr.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 50 | Art. 7 | fail | no evidence references found in row |
-| 52 | Art. 9 | fail | no evidence references found in row |
-| 54 | Art. 11 | fail | no evidence references found in row |
-| 66 | Art. 13 | fail | no evidence references found in row |
-| 67 | Art. 14 | fail | no evidence references found in row |
-| 68 | Art. 15 | fail | no evidence references found in row |
-| 74 | Art. 16 | fail | no evidence references found in row |
-| 75 | Art. 17 | fail | no evidence references found in row |
-| 76 | Art. 18 | fail | no evidence references found in row |
-| 77 | Art. 19 | fail | no evidence references found in row |
-| 78 | Art. 20 | fail | no evidence references found in row |
-| 85 | Art. 22 | fail | no evidence references found in row |
-| 97 | Art. 24 | fail | no evidence references found in row |
-| 98 | Art. 25 | fail | no evidence references found in row |
-| 103 | Art. 30 | fail | no evidence references found in row |
-| 104 | Art. 31 | fail | no evidence references found in row |
-| 110 | Art. 32 | fail | no evidence references found in row |
-| 111 | Art. 33 | fail | no evidence references found in row |
-
-### imda-agentic.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 18 | Determining the level of human involvement | fail | no evidence references found in row |
-| 19 | Operations management | fail | no evidence references found in row |
-| 27 | 2. Data | fail | no evidence references found in row |
-| 28 | 3. Trusted Development + Deployment | fail | no evidence references found in row |
-| 29 | 4. Incident Reporting | fail | no evidence references found in row |
-| 30 | 5. Testing + Assurance | fail | no evidence references found in row |
-| 31 | 6. Security | fail | no evidence references found in row |
-
-### iso-27001.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 29 | 10 | fail | no evidence references found in row |
-| 63 | A.5.3 | fail | no evidence references found in row |
-| 69 | A.5.9 | fail | no evidence references found in row |
-| 72 | A.5.12 | fail | no evidence references found in row |
-| 73 | A.5.13 | fail | no evidence references found in row |
-| 74 | A.5.14 | fail | no evidence references found in row |
-| 75 | A.5.15 | fail | no evidence references found in row |
-| 77 | A.5.17 | fail | no evidence references found in row |
-| 78 | A.5.18 | fail | no evidence references found in row |
-| 82 | A.5.22 | fail | no evidence references found in row |
-| 85 | A.5.25 | fail | no evidence references found in row |
-| 86 | A.5.26 | fail | no evidence references found in row |
-| 88 | A.5.28 | fail | no evidence references found in row |
-| 93 | A.5.33 | fail | no evidence references found in row |
-| 94 | A.5.34 | fail | no evidence references found in row |
-| 97 | A.5.37 | fail | no evidence references found in row |
-| 138 | A.8.2 | fail | no evidence references found in row |
-| 139 | A.8.3 | fail | no evidence references found in row |
-| 141 | A.8.5 | fail | no evidence references found in row |
-| 144 | A.8.8 | fail | no evidence references found in row |
-| 146 | A.8.10 | fail | no evidence references found in row |
-| 147 | A.8.11 | fail | no evidence references found in row |
-| 151 | A.8.15 | fail | no evidence references found in row |
-| 152 | A.8.16 | fail | no evidence references found in row |
-| 153 | A.8.17 | fail | no evidence references found in row |
-| 154 | A.8.18 | fail | no evidence references found in row |
-| 160 | A.8.24 | fail | no evidence references found in row |
-| 161 | A.8.25 | fail | no evidence references found in row |
-| 162 | A.8.26 | fail | no evidence references found in row |
-| 163 | A.8.27 | fail | no evidence references found in row |
-| ... | (+5 more rows) | | see EVIDENCE_VALIDATION.json |
-
-### iso-42001.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 33 | 9 | fail | no evidence references found in row |
-| 34 | 10 | fail | no evidence references found in row |
-
-### nist-ai-rmf.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 42 | GV-1.6 | fail | no evidence references found in row |
-| 43 | GV-1.7 | fail | no evidence references found in row |
-| 65 | GV-4.2 | fail | no evidence references found in row |
-| 66 | GV-4.3 | fail | no evidence references found in row |
-| 80 | GV-6.2 | fail | no evidence references found in row |
-| 88 | MP-1.1 | fail | no evidence references found in row |
-| 99 | MP-2.1 | fail | no evidence references found in row |
-| 100 | MP-2.2 | fail | no evidence references found in row |
-| 109 | MP-3.3 | fail | no evidence references found in row |
-| 111 | MP-3.5 | fail | no evidence references found in row |
-| 118 | MP-4.2 | fail | no evidence references found in row |
-| 133 | MS-1.1 | fail | no evidence references found in row |
-| 134 | MS-1.2 | fail | no evidence references found in row |
-| 141 | MS-2.1 | fail | no evidence references found in row |
-| 143 | MS-2.3 | fail | no evidence references found in row |
-| 144 | MS-2.4 | fail | no evidence references found in row |
-| 145 | MS-2.5 | fail | no evidence references found in row |
-| 146 | MS-2.6 | fail | no evidence references found in row |
-| 147 | MS-2.7 | fail | no evidence references found in row |
-| 148 | MS-2.8 | fail | no evidence references found in row |
-| 150 | MS-2.10 | fail | no evidence references found in row |
-| 153 | MS-2.13 | fail | no evidence references found in row |
-| 159 | MS-3.1 | fail | no evidence references found in row |
-| 160 | MS-3.2 | fail | no evidence references found in row |
-| 169 | MS-4.3 | fail | no evidence references found in row |
-| 177 | MG-1.1 | fail | no evidence references found in row |
-| 178 | MG-1.2 | fail | no evidence references found in row |
-| 179 | MG-1.3 | fail | no evidence references found in row |
-| 180 | MG-1.4 | fail | no evidence references found in row |
-| 188 | MG-2.3 | fail | no evidence references found in row |
-| ... | (+5 more rows) | | see EVIDENCE_VALIDATION.json |
-
-### nist-csf.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 104 | ID.AM-01 | fail | no evidence references found in row |
-| 105 | ID.AM-02 | fail | no evidence references found in row |
-| 106 | ID.AM-03 | fail | no evidence references found in row |
-| 107 | ID.AM-04 | fail | no evidence references found in row |
-| 108 | ID.AM-05 | fail | no evidence references found in row |
-| 109 | ID.AM-07 | fail | no evidence references found in row |
-| 110 | ID.AM-08 | fail | no evidence references found in row |
-| 116 | ID.RA-01 | fail | no evidence references found in row |
-| 121 | ID.RA-06 | fail | no evidence references found in row |
-| 122 | ID.RA-07 | fail | no evidence references found in row |
-| 131 | ID.IM-01 | fail | no evidence references found in row |
-| 132 | ID.IM-02 | fail | no evidence references found in row |
-| 133 | ID.IM-03 | fail | no evidence references found in row |
-| 142 | PR.AA-01 | fail | no evidence references found in row |
-| 143 | PR.AA-02 | fail | no evidence references found in row |
-| 144 | PR.AA-03 | fail | no evidence references found in row |
-| 145 | PR.AA-04 | fail | no evidence references found in row |
-| 146 | PR.AA-05 | fail | no evidence references found in row |
-| 160 | PR.DS-01 | fail | no evidence references found in row |
-| 161 | PR.DS-02 | fail | no evidence references found in row |
-| 169 | PR.PS-01 | fail | no evidence references found in row |
-| 170 | PR.PS-02 | fail | no evidence references found in row |
-| 172 | PR.PS-04 | fail | no evidence references found in row |
-| 174 | PR.PS-06 | fail | no evidence references found in row |
-| 182 | PR.IR-03 | fail | no evidence references found in row |
-| 193 | DE.CM-03 | fail | no evidence references found in row |
-| 194 | DE.CM-06 | fail | no evidence references found in row |
-| 195 | DE.CM-09 | fail | no evidence references found in row |
-| 201 | DE.AE-02 | fail | no evidence references found in row |
-| 202 | DE.AE-03 | fail | no evidence references found in row |
-| ... | (+16 more rows) | | see EVIDENCE_VALIDATION.json |
-
-### nyc-ll144.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 26 | Audit must include: selection rates per category,  | fail | no evidence references found in row |
-| 27 | Audit summary must include date of audit, source + | fail | no evidence references found in row |
-| 33 | Notice to candidate residing in NYC at least 10 bu | fail | no evidence references found in row |
-| 34 | Allow candidate to request alternative selection p | fail | no evidence references found in row |
-| 35 | Information about data type + source + retention p | fail | no evidence references found in row |
-| 41 | Employer/agency must retain audit data for period  | fail | no evidence references found in row |
-
-### owasp-llm.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 20 | LLM02:2025 | fail | no evidence references found in row |
-| 21 | LLM03:2025 | fail | no evidence references found in row |
-| 23 | LLM05:2025 | fail | no evidence references found in row |
-| 24 | LLM06:2025 | fail | no evidence references found in row |
-| 25 | LLM07:2025 | fail | no evidence references found in row |
-| 26 | LLM08:2025 | fail | no evidence references found in row |
-| 27 | LLM09:2025 | fail | no evidence references found in row |
-| 28 | LLM10:2025 | fail | no evidence references found in row |
-
-### soc2.md
-
-| Line | Control | Status | Detail |
-|---:|---|---|---|
-| 141 | PI1.5 | fail | no evidence references found in row |
 
 ---
 

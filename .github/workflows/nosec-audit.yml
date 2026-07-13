@@ -1,0 +1,46 @@
+name: nosec-audit
+
+on:
+  schedule:
+    # Quarterly: first day of Jan, Apr, Jul, Oct at 09:00 UTC
+    - cron: "0 9 1 1,4,7,10 *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  nosec-audit:
+    name: nosec suppression audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[test]"
+      - name: Scan nosec suppressions
+        run: |
+          python scripts/nosec_audit.py \
+            --package hummbl_governance \
+            --registry docs/nosec-registry.json \
+            --strict
+      - name: Upload registry artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: nosec-registry
+          path: docs/nosec-registry.json
+          retention-days: 90
+      - name: Create issue if unjustified nosec found
+        if: failure()
+        uses: actions/github-script@v9
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'security: unjustified nosec suppressions detected by quarterly audit',
+              labels: ['security', 'type:governance'],
+              body: 'The quarterly nosec audit found suppressions without justifications. See the nosec-audit workflow run for details.\n\nRun: ' + context.serverUrl + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId
+            })

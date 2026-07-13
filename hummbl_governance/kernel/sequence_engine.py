@@ -1,3 +1,19 @@
+# Copyright 2024-2026 HUMMBL, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Sequence Engine — K4 invariant enforcement.
 
 Every receipt has a sequence_id for total ordering within its agent context.
@@ -8,6 +24,7 @@ With sequence_id: reconstructability = 100%.
 from __future__ import annotations
 
 import json
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -19,6 +36,7 @@ class SequenceEngine:
     def __init__(self, state_dir: Path) -> None:
         self.state_dir = state_dir
         self.counters_file = state_dir / "sequence_counters.json"
+        self._lock = threading.Lock()
         self.counters: dict[str, int] = {}
         self._load_counters()
 
@@ -41,10 +59,11 @@ class SequenceEngine:
 
         Monotonic increment per agent. Persists across restarts.
         """
-        current = self.counters.get(agent_id, 0)
-        next_id = current + 1
-        self.counters[agent_id] = next_id
-        self._save_counters()
+        with self._lock:
+            current = self.counters.get(agent_id, 0)
+            next_id = current + 1
+            self.counters[agent_id] = next_id
+            self._save_counters()
         return next_id
 
     def current(self, agent_id: str) -> int:

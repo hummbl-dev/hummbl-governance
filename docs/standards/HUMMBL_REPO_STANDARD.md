@@ -128,7 +128,67 @@ A chain can pass hash validation and still fail KRINEIA if the surrounding syste
 
 Root governance (`CONSTITUTION.md`, `AGENTS.md`, `KRINEIA.md`, `DOCTRINE.md`, `hummbl.repo.yaml`) must be model/provider/vendor neutral. No root governance file may depend on or name a specific provider (Claude, Codex, Devin, Gemini, Cursor, OpenAI, Anthropic, Cognition, Copilot, etc.) as a precondition of authority. Provider-specific guidance lives in adapter docs under `docs/` or `.hummbl/`, never in root governance.
 
-## 9. RepoLM / RepoBit (forward reference)
+## 9. Human authorship and AI assistance provenance
+
+AI systems may assist with research, drafting, review, patch preparation, and operational coordination. They must not be credited as commit authors or co-authors in HUMMBL repositories.
+
+Git history is the human-authored project record. Agent activity belongs in internal bus, ledger, handoff, or receipt systems; it must not create durable ownership fingerprints in commit metadata.
+
+Required rule for every active repo:
+
+- Commit `author` and `committer` identities must be human/operator identities or approved human-controlled service identities.
+- Commit messages must not include AI-related authorship trailers such as `Co-authored-by`, `Generated-by`, `Authored-with`, or equivalent vendor/agent attribution.
+- Commit messages must not credit model providers, agent products, or agent instances as authors, co-authors, implementers, or generators.
+- Agents may be referenced in internal operational receipts, PR bodies, handoffs, or review notes when useful for traceability, but not in Git authorship metadata.
+- Product-IP, patent-sensitive, or regulated repositories must maintain human-authored conception/decision notes before external publication, pilots, releases, or patent-relevant disclosure.
+
+Rationale: current U.S. patent and copyright posture centers natural-person inventorship and human authorship. Vendor terms may address output ownership as between vendor and customer, but they do not remove inventorship, authorship, trade-secret, third-party infringement, or diligence ambiguity. HUMMBL therefore separates operational AI assistance from legal/engineering provenance.
+
+Prescribed enforcement:
+
+- `AGENTS.md` must include the repo-local form of this rule.
+- `commit-msg` hooks and CI provenance checks should reject AI authorship trailers and obvious provider/agent attribution in commit messages.
+- Tier 2/Tier 3 IP-sensitive repos should use signed human commits, protected branches, human CODEOWNER approval, and private invention/disclosure notes.
+- AI vendors and agent tools must be classified in `docs/standards/AI_VENDOR_IP_RISK_REGISTER.md` before use on Tier 2/Tier 3 work. Unreviewed vendors default to RED for sensitive work.
+
+## 10. Naming convention and exceptions
+
+Default rule: HUMBL repositories must use the `hummbl-` prefix unless they are explicit exceptions.
+
+Allowed non-prefixed exceptions are constrained to these classes:
+
+- `authored_artifact` — authored artifacts and public concepts whose repo is itself the object
+- `protocol` — protocol/reference objects and standards
+- `reference_archive` — historical, imported, or archive/reference repos
+- `research_object` — bounded research artifacts where the repo name is the governed object
+
+Exception records must be declared in `hummbl.repo.yaml` under `repo.naming`:
+
+```yaml
+repo:
+  naming:
+    hummbl_prefix_exception: true
+    exception_class: authored_artifact | protocol | reference_archive | research_object
+    exception_reason: "<short rationale>"
+    approved_by: "Reuben Bowlby"
+    approved_at: "YYYY-MM-DD"
+    owning_standard: "HUMMBL Repo Standard"
+    allowed_scope: "<explicitly allowed scope>"
+    forbidden_scope: "<explicitly forbidden scope>"
+    rename_or_archive_trigger: "<condition that removes the exception>"
+```
+
+Current approved non-`hummbl-` repo exceptions:
+
+| Repo | Class | Approved by | Approved on |
+|------|-------|-------------|-------------|
+| `whether-book` | `research_object` | Reuben Bowlby | 2026-06-25 |
+| `base120` | `protocol` | Reuben Bowlby | 2026-06-24 |
+| `idp-spec` | `protocol` | Reuben Bowlby | 2026-06-24 |
+
+Agents must not create additional non-prefixed repositories without an operator-approved `repo.naming` exception block.
+
+## 11. RepoLM / RepoBit (forward reference)
 
 A repo may declare a tiny local language/grammar/interpreter under `.hummbl/repo-lm/`. RepoLM interprets; validators and authority admit. Authority stack:
 
@@ -138,10 +198,10 @@ Git + receipts -> CONSTITUTION.md -> KRINEIA.md -> AGENTS.md -> schemas/tests ->
 
 RepoLM/RepoBit must never be sovereign. See `docs/standards/REPOLM.md` (to be drafted).
 
-## 10. Validation
+## 12. Validation
 
 Each repo's `scripts/validate.*` is its deterministic admission gate. The standard does not mandate a specific language; it mandates that a deterministic, reproducible validator exists and is named in `hummbl.repo.yaml.validation.command`. Required before merge for spec/governance repos and before release for all.
 
-## 11. Amendment
+## 13. Amendment
 
 Changes to this standard require: a PR to `hummbl-dev/hummbl-governance`, an ADR under `docs/adr/`, a KRINEIA receipt, and human approval (Reuben Bowlby). Breaking changes bump the standard version (SemVer) and trigger a fleet re-audit.
