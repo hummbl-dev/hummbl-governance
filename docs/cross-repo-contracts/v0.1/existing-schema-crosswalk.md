@@ -1,6 +1,6 @@
 # Existing Schema Crosswalk — Cross-Repo Contract v0.1
 
-Status: **candidate inventory — descriptive, not canonical**  
+Status: **candidate inventory — descriptive, not canonical**
 Inspected: 2026-07-11
 
 This crosswalk records actual differences among current HUMMBL public schemas. It supports the additive-envelope decision in `hummbl-governance#234`: shared contracts must map domain concepts without renaming or replacing domain-owned fields.
