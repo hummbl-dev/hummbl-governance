@@ -63,7 +63,7 @@ jobs:
                 const previous = checks.get(run.name);
                 if (
                   !previous ||
-                  new Date(run.completed_at || 0) > new Date(previous.completed_at || 0)
+                  run.id > previous.id
                 ) {
                   checks.set(run.name, run);
                 }
