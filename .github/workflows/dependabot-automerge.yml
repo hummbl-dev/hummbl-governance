@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Evaluate and squash-merge eligible PRs
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const DEPENDABOT_LOGIN = "dependabot[bot]";
@@ -134,6 +134,22 @@ jobs:
               });
               if (humanChangesRequested) {
                 throw new Error("A human reviewer requested changes.");
+              }
+
+              const authorLogin = pr.user?.login?.toLowerCase() || "";
+              const currentHeadApproved = reviews.some((review) => {
+                const reviewerLogin = review.user?.login?.toLowerCase() || "";
+                return (
+                  reviewerLogin &&
+                  reviewerLogin !== authorLogin &&
+                  review.state === "APPROVED" &&
+                  review.commit_id === pr.head.sha
+                );
+              });
+              if (!currentHeadApproved) {
+                throw new Error(
+                  "A non-author approval for the current head is required."
+                );
               }
             };
 
