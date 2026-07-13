@@ -2,7 +2,7 @@
 
 ## Project
 
-**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.2), current test inventory (verify with: `pytest --collect-only -q | tail -1`) governed by `docs/TEST_COUNT_AUTHORITY.md`, zero third-party runtime dependencies.
+**hummbl-governance** — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.2), current test inventory (verify with: `python -m pytest --collect-only -q tests`) governed by `docs/TEST_COUNT_AUTHORITY.md`, zero third-party runtime dependencies.
 
 ## Scope
 
