@@ -16,7 +16,7 @@ fleet planning, dependency management, and initialization.
 ## Surface 1: Private GitHub + Gitea (mirrored)
 
 Private repos mirrored to the self-hosted Gitea instance at
-`anvil.tail0ff7b3.ts.net/HUMMBL/`. Gitea is the canonical host for CI;
+the internal `HUMMBL` Gitea organization. Gitea is the canonical host for CI;
 GitHub is the mirror.
 
 ### Active, private, with Gitea mirror

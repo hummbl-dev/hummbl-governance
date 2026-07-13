@@ -34,7 +34,7 @@ Runners use a hierarchical label schema for job routing:
 ### Check Runner Status
 
 #### Via Gitea Web UI
-1. Navigate to `https://anvil.tail0ff7b3.ts.net`
+1. Navigate to the operator-configured internal Gitea URL.
 2. Go to `Actions` → `Runners`
 3. View runner status, labels, and last activity
 

@@ -176,7 +176,7 @@ All 90 repos in `hummbl-dev` org. Candidates flagged with `[CANDIDATE]`.
 
 ## 6. Gitea HUMMBL Org — Known Repos
 
-Gitea org `HUMMBL` on `anvil.tail0ff7b3.ts.net` hosts solo/internal repos.
+The internal Gitea org `HUMMBL` hosts solo/internal repos.
 
 | Repo | Status | hummbl-governance? | Action |
 |------|--------|-------------------|--------|

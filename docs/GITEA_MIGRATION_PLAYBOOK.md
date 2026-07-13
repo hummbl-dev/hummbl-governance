@@ -17,7 +17,7 @@ This playbook documents the pattern for migrating HUMMBL repos from GitHub Actio
 
 ```bash
 # Add Gitea remote (source of truth)
-git remote add gitea https://anvil.tail0ff7b3.ts.net/HUMMBL/<repo>.git
+git remote add gitea https://gitea.internal.example/HUMMBL/<repo>.git
 
 # Add GitHub remote (marketing/distribution)
 git remote add github git@github.com:hummbl-dev/<repo>.git
@@ -134,7 +134,7 @@ echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Sync complete: $GITEA_SHA → GitHub"
 ### 7. Verify Gitea Actions
 
 1. Push to Gitea main branch
-2. Check Gitea Actions tab: https://anvil.tail0ff7b3.ts.net/HUMMBL/<repo>/actions
+2. Check the internal Gitea Actions tab: https://gitea.internal.example/HUMMBL/<repo>/actions
 3. Verify workflow runs on self-hosted runner
 4. Check that all jobs pass
 
