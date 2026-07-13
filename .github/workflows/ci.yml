@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -22,7 +22,7 @@ jobs:
 
   install-smoke:
     name: install-smoke (py${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -82,7 +82,7 @@ jobs:
         run: python scripts/smoke_installed_wheel.py
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -93,7 +93,7 @@ jobs:
 
   release-readiness-gate:
     name: release readiness gate (PR/docs parity)
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -113,7 +113,7 @@ jobs:
           python scripts/check_release_metadata.py --wheel "$WHEEL_PATH"
 
   arbiter-governance:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -152,7 +152,7 @@ jobs:
 
   coverage-matrix-validate:
     name: coverage-matrix-validate
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     # Ratchet gate promoted 2026-06-26: validated_pct reached 100.0% (1404/1404).
     # Per ADR-007, continue-on-error flipped to false once promotion threshold
     # (50%) was crossed. Ratchet baseline = 1404 validated rows.
@@ -226,7 +226,7 @@ jobs:
           fi
 
   ci:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     needs:
       - test
       - install-smoke

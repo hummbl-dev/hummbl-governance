@@ -13,7 +13,7 @@ on:
 
 jobs:
   adr-format-check:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

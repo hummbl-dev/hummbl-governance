@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     steps:
       - uses: actions/checkout@v4
 
@@ -42,7 +42,7 @@ jobs:
 
   publish-testpypi:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     environment: testpypi
     steps:
       - uses: actions/download-artifact@v8
@@ -59,7 +59,7 @@ jobs:
 
   validate-testpypi:
     needs: publish-testpypi
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     steps:
       - uses: actions/setup-python@v5
         with:
@@ -79,7 +79,7 @@ jobs:
 
   publish:
     needs: validate-testpypi
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wsl, hummbl-governance]
     if: github.event_name == 'release'
     environment: pypi
     steps:
