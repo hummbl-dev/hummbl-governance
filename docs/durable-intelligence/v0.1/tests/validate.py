@@ -56,10 +56,6 @@ def _check_mutation_truthfulness(receipt: dict) -> list[str]:
     """Actions claiming artifact creation must have matching mutations_made."""
     errors = []
     mutations = receipt.get("mutations_made", [])
-    created_artifacts = {
-        (m.get("artifact_type"), m.get("identifier"))
-        for m in mutations if m.get("created") is True
-    }
     for action in receipt.get("actions_attempted", []):
         action_text = action.get("action", "").lower()
         result = action.get("result", "")
