@@ -1,4 +1,4 @@
-# GDPR Evidence Mapping — hummbl-governance v1.2.0
+# GDPR Evidence Mapping — hummbl-governance v1.2.2
 
 **Reference:** Regulation (EU) 2016/679 (General Data Protection Regulation)
 **Generated:** 2026-05-14

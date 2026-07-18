@@ -154,7 +154,7 @@ prevents `user_query` from appearing — closing ML-BLOCK-001 at the schema laye
 `case_facts`, `client_name`, or any other content field will FAIL validation. This enforces
 content-free receipts at the schema layer without requiring runtime logic.
 
-hummbl-governance v1.2.0 implements `additionalProperties` from Draft 2020-12.
+hummbl-governance v1.2.2 implements `additionalProperties` from Draft 2020-12.
 **Note on `hummbl-governance` SchemaValidator support**: The `SchemaValidator` in
 `hummbl-governance` should be verified against `tests/test_schema_validator.py` before relying on this.
 
@@ -319,7 +319,7 @@ def test_legal_receipt_additional_properties_false():
     assert errors  # forbidden_field rejected by additionalProperties: false
 ```
 
-Confirm this test passes against v1.2.0 before wiring hummbl-legal.
+Confirm this test passes against v1.2.2 before wiring hummbl-legal.
 
 ---
 
@@ -342,7 +342,7 @@ Confirm this test passes against v1.2.0 before wiring hummbl-legal.
 
 | Risk | Mitigation |
 |------|-----------|
-| SchemaValidator `additionalProperties` not implemented in v1.2.0 | Verify with test before wiring; patch governance if needed |
+| SchemaValidator `additionalProperties` not implemented in v1.2.2 | Verify with test before wiring; patch governance if needed |
 | AuditLog path conflicts with founder-mode bus | hummbl-legal uses its own `_state/legal-audit.jsonl` path |
 | Scenario test fixtures contain accidental real data | All fixtures in `tests/fixtures/synthetic/` — CI scan for real names/addresses |
 | ML-BLOCK-004 (bar compliance) blocks CONTROLLED_PILOT | This spec targets SYNTHETIC_ONLY — bar compliance is a separate work stream |

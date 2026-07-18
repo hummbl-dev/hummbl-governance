@@ -8,7 +8,7 @@
 
 ## 1. Identity
 
-`hummbl-dev/hummbl-governance` — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.1), 34 implemented primitives, zero third-party runtime dependencies. Ships 7 MCP servers exposing all primitives as JSON-RPC tools. Test count governed by `docs/TEST_COUNT_AUTHORITY.md`; verify with `python -m pytest --collect-only -q tests`.
+`hummbl-dev/hummbl-governance` — AI governance frameworks, maturity models, and control catalogs. PyPI-published Python library (v1.2.2), 34 implemented primitives, zero third-party runtime dependencies. Ships 7 MCP servers exposing all primitives as JSON-RPC tools. Test count governed by `docs/TEST_COUNT_AUTHORITY.md`; verify with `python -m pytest --collect-only -q tests`.
 
 - **Class:** library
 - **Visibility:** public

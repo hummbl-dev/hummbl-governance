@@ -2,9 +2,9 @@
 
 ## Project
 
-**hummbl-governance** — Governance primitives for AI agent orchestration. v1.2.1, 2027 collected tests, zero third-party runtime dependencies.
+**hummbl-governance** — Governance primitives for AI agent orchestration. v1.2.2, tests (verify with: `python -m pytest --collect-only -q tests`), zero third-party runtime dependencies.
 
-Standalone Python package extracted from founder-mode. Provides 34 governance primitives across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel (K1-K11 invariants, D1-D7 doctrine invariants). Ships 7 MCP servers exposing all primitives as JSON-RPC tools.
+Standalone Python package extracted from founder-mode. Provides the implemented governance primitives inventoried in `PRIMITIVES.md` (verify with: `python -c "import pathlib,re; t=pathlib.Path('PRIMITIVES.md').read_text(); a=t.split('## Existing primitives',1)[1].split('## Expansion primitives',1)[0]; b=t.split('### Implemented',1)[1].split('### Not yet started',1)[0]; print(sum(len(re.findall(r'^\\| P\\d+ \\|', s, re.M)) for s in (a,b)))"`) across safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel (K1-K11 invariants, D1-D7 doctrine invariants). Ships the MCP server entry points declared by `[project.scripts]` in `pyproject.toml` (verify with: `python -c "import pathlib,tomllib; p=tomllib.loads(pathlib.Path('pyproject.toml').read_text()); print(len([n for n in p['project']['scripts'] if n.endswith('-mcp')]))"`) as JSON-RPC tools.
 
 ## Commands
 

@@ -34,6 +34,13 @@ Compliance documentation for various frameworks:
 - [Ecosystem Plan](ecosystem/PLAN.md) - Integration with other HUMMBL components
 - [Memory System Registry](MEMORY_SYSTEM_REGISTRY.md) - Proposed cross-system memory namespace registry
 
+## Distribution
+
+- [awesome-python Resubmission Gate](distribution/awesome-python-resubmission.md) - Public adoption evidence required before resubmission
+- [awesome-python Hidden Gem Packet](distribution/awesome-python-hidden-gem-packet.md) - Pre-100-star submission evidence draft
+- [Public Mentions Ledger](distribution/public-mentions-ledger.md) - Qualified ecosystem insertion and conversion tracking
+- [CrewAI Runtime Release-Control Crosswalk](distribution/crosswalks/crewai-runtime-release-control.md) - Exploratory mapping from CrewAI issue #6025 to HUMMBL governance primitives
+
 ## Runbooks
 
 - [Gitea Runners Operations](runbooks/gitea-runners-operations.md) - CI/CD operations

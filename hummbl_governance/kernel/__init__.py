@@ -51,8 +51,8 @@ __dissect__
 
 from __future__ import annotations
 
-__version__ = "1.2.1"
-__spec_version__ = "1.2.1"
+__version__ = "1.2.2"
+__spec_version__ = "1.2.2"
 
 from .kernel import Kernel
 from .invariants import KernelInvariant, KernelPanic

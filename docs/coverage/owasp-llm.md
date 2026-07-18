@@ -4,7 +4,7 @@
 **Source**: https://genai.owasp.org/
 **Last reviewed**: 2026-05-14
 **Reviewer**: claude-code (huxley) per [ADR-001](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-**HUMMBL version**: hummbl-governance v1.2.0
+**HUMMBL version**: hummbl-governance v1.2.2
 
 ## Boundary disclaimer
 
@@ -159,6 +159,6 @@ This matrix is internal starter material. It must not be used as public evidence
 ## Cross-references
 
 - ADR: [`docs/adr/ADR-001-coverage-matrix-not-self-grade.md`](../adr/ADR-001-coverage-matrix-not-self-grade.md)
-- Existing OWASP doc: `docs/OWASP_MAPPING.md` (covers LLM Top 10 with hummbl-governance v1.2.0 — 1245 tests)
+- Existing OWASP doc: `docs/OWASP_MAPPING.md` (covers LLM Top 10 with hummbl-governance v1.2.2 — 2027 collected tests)
 - Supply-chain overlap with ISO 27001 A.5.21, NIST CSF GV.SC — see [`iso-27001.md`](./iso-27001.md), [`nist-csf.md`](./nist-csf.md)
 - Privacy overlap with GDPR Art. 5/32 — see [`gdpr.md`](./gdpr.md)

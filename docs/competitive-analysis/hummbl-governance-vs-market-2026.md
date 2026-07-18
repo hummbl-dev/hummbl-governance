@@ -5,7 +5,7 @@
 
 **Audit date**: 2026-06-25
 
-**Audited version**: hummbl-governance 1.2.0
+**Audited version**: hummbl-governance 1.2.2
 
 **Confidence legend**:
 - **[VERIFIED]** — Confirmed by direct repository/file inspection or authoritative public source
@@ -28,7 +28,7 @@
 
 | Attribute | Value | Evidence |
 |-----------|-------|----------|
-| Version | 1.2.0 | [VERIFIED] `pyproject.toml` line: `version = "1.2.0"` |
+| Version | 1.2.2 | [VERIFIED] `pyproject.toml` line: `version = "1.2.2"` |
 | Python support | >=3.11 | [VERIFIED] `pyproject.toml`: `requires-python = ">=3.11"` |
 | License | Apache 2.0 | [VERIFIED] `LICENSE` file header + `pyproject.toml`: `license = {text = "Apache-2.0"}` + classifiers include `"License :: OSI Approved :: Apache Software License"` |
 | Runtime dependencies | Zero (stdlib only) | [VERIFIED] `pyproject.toml`: `dependencies = []`. Full import scan of all production modules (`hummbl_governance/*.py` + `hummbl_governance/kernel/*.py`) shows only stdlib imports: `argparse, collections, contextlib, copy, dataclasses, datetime, enum, functools, hashlib, hmac, json, logging, math, os, pathlib, random, re, secrets, shutil, sqlite3, string, sys, tempfile, threading, time, uuid, gzip`. No third-party imports found. |
@@ -421,7 +421,7 @@ Source: https://arthur.ai/
 
 ### hummbl-governance Audit
 - **Source**: Local checkout at `/Users/others/PROJECTS/hummbl-governance`
-- **Version audited**: 1.2.0 (from `pyproject.toml`)
+- **Version audited**: 1.2.2 (from `pyproject.toml`)
 - **Methods**: `pytest --collect-only`, `grep`, `ls`, direct file reads of `pyproject.toml`, `__init__.py`, `invariants.py`, `compliance_mapper.py`, all `mcp_*.py` files, all `hummbl_governance/*.py` modules
 - **Scope**: All production modules, all test files, all MCP servers, all compliance coverage docs, kernel directory
 

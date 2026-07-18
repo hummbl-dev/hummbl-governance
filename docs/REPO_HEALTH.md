@@ -12,7 +12,7 @@
 
 - **Status**: Active public repository and PyPI package.
 - **Default branch**: `main`.
-- **Current package version**: `1.2.1`.
+- **Current package version**: `1.2.2`.
 - **Release posture**: Runtime primitives, MCP entry points, compliance mappers, and conformance fixtures may continue through reviewed pull requests.
 - **Archive trigger**: Archive only if the governance primitive package is superseded by another declared canonical source of truth and PyPI ownership is updated or retired.
 
