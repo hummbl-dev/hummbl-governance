@@ -1,7 +1,7 @@
 # Public Mentions Ledger
 
 Status: distribution evidence ledger
-Last updated: 2026-07-08
+Last updated: 2026-07-18
 
 This ledger tracks qualified public ecosystem insertions for
 `hummbl-governance`. It is not a volume counter. A mention only belongs here
@@ -45,6 +45,7 @@ raw mention count.
 
 | Date | Surface | Topic | Claim inserted | Link | Status | Conversion | Follow-up |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-07-18 | `systempromptio/awesome-ai-agent-governance` issue #20 / Open-Source Governance Toolkits | Policy-compatible directory submission | `hummbl-governance` was added following an author-disclosed submission | https://github.com/systempromptio/awesome-ai-agent-governance/issues/20 | converted, maintainer-engaged | Directory listing verified at `713d18e`; curator reported repository/PyPI verification and gave a positive assessment. Recognition only: not adoption, production use, or certification. | No follow-up; credit only issue #258's 10-to-25 directory-submission task |
 | 2026-07-08 | Third-party index mirror metadata (`pydigger-data`) | Independent package metadata indexing | `hummbl-governance` appears in upstream package metadata repository used by third-party tooling | https://github.com/szabgab/pydigger-data/blob/main/data/pypi/hu/hummbl-governance.json | open | weak public indexing, no explicit endorsement | Add an auditable citation snapshot for the metadata snapshot timestamp before resubmission |
 | 2026-07-08 | Secondary distribution mirror (`piwheels`) | Distribution visibility outside PyPI | `hummbl-governance` is listed in a public wheel mirror, expanding discoverability footprint | https://www.piwheels.org/project/hummbl-governance | open | weak public indexing, no explicit endorsement | Keep screenshot/link-check in resubmission evidence set |
 | 2026-06-28 to 2026-07-04 | CrewAI issue #6025 | Runtime release-control mediation before agent/tool execution | `generation != release authority`; `fixture expected verdict != implementation conformance result` | https://github.com/crewAIInc/crewAI/issues/6025 | open, watch | External technical thread active; 54 comments, 10 unique commenters, 0 maintainer/member/collaborator comments as of 2026-07-06. HUMMBL comments introduced run-level wrappers, CrewAI `ToolCallHookContext` receipt mediation, and a conformance-result shape. External commenters published or pointed to SHACKLE fixtures and a CrewAI/SHACKLE/SAR composition example. No maintainer response, star/fork attribution, issue adoption, or PR conversion verified yet. | 2026-07-12 |
