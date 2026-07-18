@@ -8,6 +8,7 @@ import json
 import shutil
 from pathlib import Path
 from typing import Any, Dict
+from urllib.parse import urlparse
 
 
 TOOLSET_FILES: Dict[str, str] = {
@@ -55,12 +56,20 @@ def repo_default_name(repo_path: Path) -> str:
     text = remote.read_text(encoding="utf-8", errors="replace")
     for line in text.splitlines():
         line = line.strip()
-        if line.startswith("url = ") and "github.com" in line:
-            url = line.split("=", 1)[1].strip().rstrip("/")
-            if url.startswith("git@github.com:"):
-                return url.split(":", 1)[1].replace(".git", "")
-            if "github.com/" in url:
-                return url.split("github.com/", 1)[1].replace(".git", "")
+        if not line.startswith("url = "):
+            continue
+        url = line.split("=", 1)[1].strip().rstrip("/")
+        if url.startswith("git@github.com:"):
+            repo_name = url.removeprefix("git@github.com:")
+        else:
+            parsed = urlparse(url)
+            if parsed.hostname != "github.com":
+                continue
+            repo_name = parsed.path.lstrip("/")
+        if repo_name.endswith(".git"):
+            repo_name = repo_name[:-4]
+        if len(repo_name.split("/")) == 2 and all(repo_name.split("/")):
+            return repo_name
     return "<owner>/<repo>"
 
 
