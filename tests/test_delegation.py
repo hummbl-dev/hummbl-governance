@@ -226,6 +226,81 @@ class TestLeastPrivilege:
         )
         assert allowed is False
 
+    def test_forged_token_cannot_pass_least_privilege_check(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="orch",
+            subject="worker",
+            ops_allowed=["read"],
+            binding=TokenBinding("t1", "c1"),
+        )
+        forged = DelegationToken(
+            token_id=token.token_id,
+            issuer=token.issuer,
+            subject=token.subject,
+            ops_allowed=("shell:execute",),
+            binding=token.binding,
+            signature=token.signature,
+        )
+
+        allowed, error = mgr.check_least_privilege(forged, "shell:execute")
+
+        assert allowed is False
+        assert error == E_TOKEN_INVALID
+
+    def test_dynamic_requested_operation_cannot_masquerade_as_allowed(self):
+        class Masquerade(str):
+            def __hash__(self):
+                return hash("read")
+
+            def __eq__(self, other):
+                return other == "read"
+
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="orch",
+            subject="worker",
+            ops_allowed=["read"],
+            binding=TokenBinding("t1", "c1"),
+        )
+
+        allowed, error = mgr.check_least_privilege(
+            token,
+            Masquerade("shell:execute"),
+        )
+
+        assert allowed is False
+        assert error == E_DCT_VIOLATION
+
+
+def test_dynamic_expected_binding_values_fail_closed():
+    class EqualToEverything(str):
+        def __eq__(self, other):
+            return True
+
+        def __ne__(self, other):
+            return False
+
+    mgr = DelegationTokenManager(secret=b"test-secret")
+    token = mgr.create_token(
+        issuer="other-issuer",
+        subject="other-subject",
+        ops_allowed=["read"],
+        binding=TokenBinding("other-task", "other-contract"),
+    )
+    dynamic = EqualToEverything("trusted")
+
+    valid, error = mgr.validate_token(
+        token,
+        expected_issuer=dynamic,
+        expected_subject=dynamic,
+        expected_task_id=dynamic,
+        expected_contract_id=dynamic,
+    )
+
+    assert valid is False
+    assert error == E_BINDING_MISMATCH
+
 
 class TestTokenSerialization:
     """Test token round-trip serialization."""
