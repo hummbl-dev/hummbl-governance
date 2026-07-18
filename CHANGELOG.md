@@ -15,6 +15,20 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **`hummbl-repo-manifest.schema.json`** (`schemas/`) — JSON Schema Draft 2020-12 for the machine-readable `hummbl.repo.yaml` registry atom. Enforces provider neutrality (`model_provider_neutral: const true`) and KRINEIA operator surface (`append`/`project`/`cut` only).
 - **ADR-003** (`docs/adr/ADR-003-hummbl-repo-standard.md`) — decision record for the standard, including the live 91-repo audit findings (0% `KRINEIA.md`, 0% `hummbl.repo.yaml`, 1% `CONSTITUTION.md` coverage) and the split-home choice (canonical in `hummbl-governance`, templates mirrored in `.github`).
 
+### Security
+
+- **BREAKING**: `CapabilityFence.from_delegation_token()` now cryptographically
+  verifies delegation tokens instead of trusting `ops_allowed` at face value.
+  Previously, a tampered/forged token was silently accepted, and a token with
+  an empty `ops_allowed` granted allow-all instead of deny-all. Both were
+  live in `1.2.2`. Callers must now pass `token_manager`, `expected_issuer`,
+  `expected_subject`, `expected_task_id`, and `expected_contract_id`; the
+  method raises `ValueError`/`TypeError` on invalid or unauthenticated
+  tokens.
+- Fixed a second, separate unauthenticated-token path in
+  `DelegationTokenManager.check_least_privilege()` that had the same root
+  cause (checked `ops_allowed` without calling signature verification first).
+
 ## [1.2.2] — 2026-07-08
 
 ### Fixed
