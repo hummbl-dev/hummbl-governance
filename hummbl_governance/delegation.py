@@ -42,6 +42,7 @@ import hashlib
 import hmac
 import json
 import logging
+import math
 import os
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -112,12 +113,26 @@ class DelegationTokenManager:
         Returns:
             Signed DelegationToken.
         """
+        if type(issuer) is not str or not issuer:
+            raise TypeError("issuer must be a non-empty exact string")
+        if type(subject) is not str or not subject:
+            raise TypeError("subject must be a non-empty exact string")
+        if type(ops_allowed) is not list or not all(
+            type(operation) is str and operation for operation in ops_allowed
+        ):
+            raise TypeError("ops_allowed must be a list of non-empty exact strings")
+        if type(binding) is not TokenBinding:
+            raise TypeError("binding must be an exact TokenBinding")
+        if resource_selectors is not None and type(resource_selectors) is not list:
+            raise TypeError("resource_selectors must be a list or None")
+        if caveats is not None and type(caveats) is not list:
+            raise TypeError("caveats must be a list or None")
         expiry = None
         if expiry_minutes is not None:
             expiry_dt = datetime.now(timezone.utc) + timedelta(minutes=expiry_minutes)
             expiry = expiry_dt.isoformat().replace("+00:00", "Z")
 
-        token = DelegationToken(
+        token = _normalized_token_snapshot(DelegationToken(
             token_id=str(uuid.uuid4()),
             issuer=issuer,
             subject=subject,
@@ -127,7 +142,7 @@ class DelegationTokenManager:
             expiry=expiry,
             binding=binding,
             signature="",
-        )
+        ))
 
         sig = _compute_signature(token.to_dict(), self._secret)
 
@@ -191,19 +206,72 @@ class DelegationTokenManager:
         expected_task_id: str | None = None,
         expected_contract_id: str | None = None,
         expected_subject: str | None = None,
+        expected_issuer: str | None = None,
     ) -> tuple[bool, str | None]:
         """Validate a delegation token.
 
         Returns:
             Tuple of (is_valid, error_code).
         """
-        if not token.verify_signature(self._secret):
-            return False, E_TOKEN_INVALID
-        if token.is_expired():
-            return False, E_TOKEN_EXPIRED
-        if expected_task_id or expected_contract_id or expected_subject:
-            return self._validate_binding(token, expected_task_id, expected_contract_id, expected_subject)
-        return True, None
+        snapshot, error = self.authenticate_token(
+            token,
+            expected_task_id=expected_task_id,
+            expected_contract_id=expected_contract_id,
+            expected_subject=expected_subject,
+            expected_issuer=expected_issuer,
+        )
+        return snapshot is not None, error
+
+    def authenticate_token(
+        self,
+        token: DelegationToken,
+        expected_task_id: str | None = None,
+        expected_contract_id: str | None = None,
+        expected_subject: str | None = None,
+        expected_issuer: str | None = None,
+    ) -> tuple[DelegationToken | None, str | None]:
+        """Return a verified, detached token snapshot or fail closed.
+
+        Normalization rejects container subclasses and non-JSON values before
+        signature verification. Callers must enforce the returned snapshot,
+        not the caller-owned token, to avoid verification/use races.
+        """
+        expected_values = (
+            expected_task_id,
+            expected_contract_id,
+            expected_subject,
+            expected_issuer,
+        )
+        if any(
+            value is not None and (type(value) is not str or not value)
+            for value in expected_values
+        ):
+            return None, E_BINDING_MISMATCH
+        try:
+            snapshot = _normalized_token_snapshot(token)
+            if not snapshot.verify_signature(self._secret):
+                return None, E_TOKEN_INVALID
+            if snapshot.is_expired():
+                return None, E_TOKEN_EXPIRED
+            if expected_issuer is not None and snapshot.issuer != expected_issuer:
+                return None, E_BINDING_MISMATCH
+            if (
+                expected_task_id is not None
+                or expected_contract_id is not None
+                or expected_subject is not None
+            ):
+                valid, error = self._validate_binding(
+                    snapshot,
+                    expected_task_id,
+                    expected_contract_id,
+                    expected_subject,
+                )
+                if not valid:
+                    return None, error
+        except Exception:
+            logger.warning("Delegation token authentication failed closed", exc_info=True)
+            return None, E_TOKEN_INVALID
+        return snapshot, None
 
     @staticmethod
     def _validate_binding(
@@ -213,9 +281,17 @@ class DelegationTokenManager:
         expected_subject: str | None,
     ) -> tuple[bool, str | None]:
         """Validate token binding against expected values."""
-        task_id = expected_task_id or (token.binding.task_id if token.binding else "")
-        contract_id = expected_contract_id or (token.binding.contract_id if token.binding else "")
-        subject = expected_subject or token.subject
+        task_id = (
+            expected_task_id
+            if expected_task_id is not None
+            else (token.binding.task_id if token.binding else "")
+        )
+        contract_id = (
+            expected_contract_id
+            if expected_contract_id is not None
+            else (token.binding.contract_id if token.binding else "")
+        )
+        subject = expected_subject if expected_subject is not None else token.subject
         if not token.validate_binding(task_id, contract_id, subject):
             return False, E_BINDING_MISMATCH
         return True, None
@@ -232,7 +308,18 @@ class DelegationTokenManager:
         Returns:
             Tuple of (is_allowed, error_code).
         """
-        if requested_op not in token.ops_allowed:
+        if type(requested_op) is not str or not requested_op:
+            return False, E_DCT_VIOLATION
+        for tools in (allowed_tools, denied_tools):
+            if tools is not None and (
+                type(tools) is not list
+                or not all(type(tool) is str and tool for tool in tools)
+            ):
+                return False, E_DCT_VIOLATION
+        snapshot, error = self.authenticate_token(token)
+        if snapshot is None:
+            return False, error
+        if requested_op not in snapshot.ops_allowed:
             return False, E_DCT_VIOLATION
         if allowed_tools is not None and requested_op not in allowed_tools:
             return False, E_DCT_VIOLATION
@@ -245,3 +332,90 @@ def _compute_signature(data: dict[str, Any], secret: bytes) -> str:
     """Compute HMAC-SHA256 signature for token data."""
     canonical = json.dumps(data, sort_keys=True, separators=(",", ":"))
     return hmac.new(secret, canonical.encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def _normalized_token_snapshot(token: DelegationToken) -> DelegationToken:
+    """Copy a token into exact built-in types before it crosses the trust boundary."""
+    if type(token) is not DelegationToken:
+        raise TypeError("token must be an exact DelegationToken")
+    for name in ("token_id", "issuer", "subject", "signature"):
+        if type(getattr(token, name)) is not str:
+            raise TypeError(f"{name} must be a string")
+    if token.expiry is not None and type(token.expiry) is not str:
+        raise TypeError("expiry must be a string or None")
+    if type(token.ops_allowed) is not tuple or not all(
+        type(operation) is str for operation in token.ops_allowed
+    ):
+        raise TypeError("ops_allowed must be a tuple of strings")
+    if type(token.resource_selectors) is not tuple:
+        raise TypeError("resource_selectors must be a tuple")
+    if type(token.caveats) is not tuple:
+        raise TypeError("caveats must be a tuple")
+
+    binding = token.binding
+    if binding is not None:
+        if type(binding) is not TokenBinding:
+            raise TypeError("binding must be an exact TokenBinding")
+        if type(binding.task_id) is not str or type(binding.contract_id) is not str:
+            raise TypeError("binding values must be strings")
+        binding = TokenBinding(binding.task_id, binding.contract_id)
+
+    selectors: list[ResourceSelector] = []
+    for selector in token.resource_selectors:
+        if type(selector) is not ResourceSelector:
+            raise TypeError("resource selector must be an exact ResourceSelector")
+        if type(selector.resource_type) is not str or type(selector.resource_id) is not str:
+            raise TypeError("resource selector identifiers must be strings")
+        constraints = _copy_plain_json(selector.constraints, "resource selector constraints")
+        if type(constraints) is not dict:
+            raise TypeError("resource selector constraints must be a dictionary")
+        selectors.append(
+            ResourceSelector(
+                resource_type=selector.resource_type,
+                resource_id=selector.resource_id,
+                constraints=constraints,
+            )
+        )
+
+    caveats: list[Caveat] = []
+    for caveat in token.caveats:
+        if type(caveat) is not Caveat:
+            raise TypeError("caveat must be an exact Caveat")
+        if type(caveat.caveat_id) is not str or type(caveat.type) is not str:
+            raise TypeError("caveat identifiers must be strings")
+        parameters = _copy_plain_json(caveat.parameters, "caveat parameters")
+        if type(parameters) is not dict:
+            raise TypeError("caveat parameters must be a dictionary")
+        caveats.append(Caveat(caveat.caveat_id, caveat.type, parameters))
+
+    return DelegationToken(
+        token_id=token.token_id,
+        issuer=token.issuer,
+        subject=token.subject,
+        resource_selectors=tuple(selectors),
+        ops_allowed=tuple(token.ops_allowed),
+        caveats=tuple(caveats),
+        expiry=token.expiry,
+        binding=binding,
+        signature=token.signature,
+    )
+
+
+def _copy_plain_json(value: Any, path: str) -> Any:
+    """Return a detached exact-type JSON value, rejecting dynamic subclasses."""
+    if value is None or type(value) in {str, bool, int}:
+        return value
+    if type(value) is float:
+        if not math.isfinite(value):
+            raise ValueError(f"{path} contains a non-finite float")
+        return value
+    if type(value) is list:
+        return [_copy_plain_json(item, f"{path}[]") for item in value]
+    if type(value) is dict:
+        copied: dict[str, Any] = {}
+        for key, item in value.items():
+            if type(key) is not str:
+                raise TypeError(f"{path} contains a non-string key")
+            copied[key] = _copy_plain_json(item, f"{path}.{key}")
+        return copied
+    raise TypeError(f"{path} contains unsupported type {type(value).__name__}")

@@ -17,13 +17,21 @@
 """Tests for hummbl_governance.capability_fence."""
 
 import threading
+from dataclasses import replace
+
+import pytest
 
 from hummbl_governance.capability_fence import (
     CapabilityAuditEntry,
     CapabilityDenied,
     CapabilityFence,
 )
-from hummbl_governance.delegation import DelegationTokenManager, TokenBinding
+from hummbl_governance.delegation import (
+    Caveat,
+    DelegationTokenManager,
+    ResourceSelector,
+    TokenBinding,
+)
 
 
 class TestCapabilityDenied:
@@ -95,6 +103,21 @@ class TestCapabilityFenceAllowDeny:
             assert False
         except CapabilityDenied:
             pass
+
+    def test_dynamic_capability_strings_are_rejected(self):
+        class Masquerade(str):
+            def __hash__(self):
+                return hash("api:read")
+
+            def __eq__(self, other):
+                return other == "api:read"
+
+        fence = CapabilityFence(allowed=["api:read"])
+
+        with pytest.raises(TypeError, match="exact string"):
+            fence.check(Masquerade("shell:execute"))
+        with pytest.raises(TypeError, match="allowed"):
+            CapabilityFence(allowed=[Masquerade("shell:execute")])
         try:
             fence.check("c:d")
             assert False
@@ -169,7 +192,14 @@ class TestCapabilityFenceFromToken:
             ops_allowed=["api:read", "bus:write"],
             binding=TokenBinding(task_id="t1", contract_id="c1"),
         )
-        fence = CapabilityFence.from_delegation_token(token)
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="orchestrator",
+            expected_subject="worker",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+        )
         assert fence.check("api:read") is True
         assert fence.check("bus:write") is True
         try:
@@ -186,7 +216,15 @@ class TestCapabilityFenceFromToken:
             ops_allowed=["api:read", "bus:write"],
             binding=TokenBinding(task_id="t1", contract_id="c1"),
         )
-        fence = CapabilityFence.from_delegation_token(token, denied=["bus:write"])
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="orchestrator",
+            expected_subject="worker",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+            denied=["bus:write"],
+        )
         try:
             fence.check("bus:write")
             assert False
@@ -201,9 +239,397 @@ class TestCapabilityFenceFromToken:
             binding=TokenBinding(task_id="t1", contract_id="c1"),
         )
         log: list[CapabilityAuditEntry] = []
-        fence = CapabilityFence.from_delegation_token(token, audit_log=log)
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+            audit_log=log,
+        )
         fence.check("api:read")
         assert len(log) == 1
+
+    def test_zero_grant_token_is_deny_all(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=[],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+        )
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+        )
+
+        with pytest.raises(CapabilityDenied, match="not in allowed set"):
+            fence.check("shell:execute")
+
+    def test_forged_token_is_rejected_before_construction(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["api:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+        )
+        forged = replace(token, ops_allowed=("shell:execute",))
+
+        with pytest.raises(ValueError, match="HG_E_TOKEN_INVALID"):
+            CapabilityFence.from_delegation_token(
+                forged,
+                mgr,
+                expected_issuer="o",
+                expected_subject="w",
+                expected_task_id="t1",
+                expected_contract_id="c1",
+            )
+
+    def test_expired_token_is_rejected_before_construction(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["api:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            expiry_minutes=-1,
+        )
+
+        with pytest.raises(ValueError, match="HG_E_TOKEN_EXPIRED"):
+            CapabilityFence.from_delegation_token(
+                token,
+                mgr,
+                expected_issuer="o",
+                expected_subject="w",
+                expected_task_id="t1",
+                expected_contract_id="c1",
+            )
+
+    @pytest.mark.parametrize(
+        ("expected_issuer", "expected_subject", "expected_task", "expected_contract"),
+        [
+            ("wrong", "w", "t1", "c1"),
+            ("o", "wrong", "t1", "c1"),
+            ("o", "w", "wrong", "c1"),
+            ("o", "w", "t1", "wrong"),
+        ],
+    )
+    def test_expected_identity_and_binding_are_mandatory(
+        self,
+        expected_issuer,
+        expected_subject,
+        expected_task,
+        expected_contract,
+    ):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["api:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+        )
+
+        with pytest.raises(ValueError, match="HG_E_BINDING_MISMATCH"):
+            CapabilityFence.from_delegation_token(
+                token,
+                mgr,
+                expected_issuer=expected_issuer,
+                expected_subject=expected_subject,
+                expected_task_id=expected_task,
+                expected_contract_id=expected_contract,
+            )
+
+    def test_empty_expected_identity_is_rejected(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["api:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+        )
+
+        with pytest.raises(ValueError, match="expected_subject"):
+            CapabilityFence.from_delegation_token(
+                token,
+                mgr,
+                expected_issuer="o",
+                expected_subject="",
+                expected_task_id="t1",
+                expected_contract_id="c1",
+            )
+
+    def test_dynamic_expected_binding_strings_are_rejected(self):
+        class EqualToEverything(str):
+            def __eq__(self, other):
+                return True
+
+            def __ne__(self, other):
+                return False
+
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="other-issuer",
+            subject="other-subject",
+            ops_allowed=["api:read"],
+            binding=TokenBinding(task_id="other-task", contract_id="other-contract"),
+        )
+        dynamic = EqualToEverything("trusted")
+
+        with pytest.raises(ValueError, match="non-empty strings"):
+            CapabilityFence.from_delegation_token(
+                token,
+                mgr,
+                expected_issuer=dynamic,
+                expected_subject=dynamic,
+                expected_task_id=dynamic,
+                expected_contract_id=dynamic,
+            )
+
+    def test_resource_selectors_and_constraints_are_enforced(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["database:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            resource_selectors=[
+                ResourceSelector(
+                    resource_type="database",
+                    resource_id="prod-*",
+                    constraints={"tenant": "t1"},
+                )
+            ],
+        )
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+        )
+
+        assert fence.check(
+            "database:read",
+            resource_type="database",
+            resource_id="prod-users",
+            context={"tenant": "t1"},
+        )
+        with pytest.raises(CapabilityDenied, match="outside token scope"):
+            fence.check(
+                "database:read",
+                resource_type="database",
+                resource_id="dev-users",
+                context={"tenant": "t1"},
+            )
+        with pytest.raises(CapabilityDenied, match="outside token scope"):
+            fence.check(
+                "database:read",
+                resource_type="database",
+                resource_id="prod-users",
+                context={"tenant": "other"},
+            )
+        with pytest.raises(CapabilityDenied, match="resource_type and resource_id"):
+            fence.check("database:read")
+
+    def test_caveats_require_and_use_a_fail_closed_validator(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["shell:execute"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            caveats=[Caveat("approval", "APPROVAL_REQUIRED", {})],
+        )
+        expected = {
+            "expected_issuer": "o",
+            "expected_subject": "w",
+            "expected_task_id": "t1",
+            "expected_contract_id": "c1",
+        }
+
+        with pytest.raises(ValueError, match="require a caveat_validator"):
+            CapabilityFence.from_delegation_token(token, mgr, **expected)
+
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            caveat_validator=lambda caveat, context: (
+                caveat.type == "APPROVAL_REQUIRED" and context.get("approved") is True
+            ),
+            **expected,
+        )
+        with pytest.raises(CapabilityDenied, match="not satisfied"):
+            fence.check("shell:execute", context={"approved": False})
+        assert fence.check("shell:execute", context={"approved": True})
+
+        non_boolean_fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            caveat_validator=lambda caveat, context: "approved",
+            **expected,
+        )
+        with pytest.raises(CapabilityDenied, match="not satisfied"):
+            non_boolean_fence.check("shell:execute")
+
+    def test_caveat_validator_exception_denies(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["shell:execute"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            caveats=[Caveat("approval", "APPROVAL_REQUIRED", {})],
+        )
+
+        def broken_validator(caveat, context):
+            raise RuntimeError("validator unavailable")
+
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+            caveat_validator=broken_validator,
+        )
+        with pytest.raises(CapabilityDenied, match="evaluation failed"):
+            fence.check("shell:execute")
+
+    def test_fence_enforces_verified_snapshot_after_external_mutation(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        constraints = {"tenant": "t1"}
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["database:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            resource_selectors=[
+                ResourceSelector("database", "prod-*", constraints=constraints)
+            ],
+        )
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+        )
+        constraints["tenant"] = "attacker"
+
+        with pytest.raises(CapabilityDenied, match="outside token scope"):
+            fence.check(
+                "database:read",
+                resource_type="database",
+                resource_id="prod-users",
+                context={"tenant": "attacker"},
+            )
+        assert fence.check(
+            "database:read",
+            resource_type="database",
+            resource_id="prod-users",
+            context={"tenant": "t1"},
+        )
+
+    def test_constraint_comparison_rejects_custom_equality(self):
+        class AlwaysEqual:
+            def __eq__(self, other):
+                return True
+
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["database:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            resource_selectors=[
+                ResourceSelector(
+                    resource_type="database",
+                    resource_id="prod-*",
+                    constraints={"tenant": "trusted"},
+                )
+            ],
+        )
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+        )
+
+        with pytest.raises(CapabilityDenied, match="outside token scope"):
+            fence.check(
+                "database:read",
+                resource_type="database",
+                resource_id="prod-users",
+                context={"tenant": AlwaysEqual()},
+            )
+
+    def test_dynamic_signed_constraint_container_is_rejected(self):
+        class Shifty(dict):
+            pass
+
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        with pytest.raises(TypeError, match="unsupported type Shifty"):
+            mgr.create_token(
+                issuer="o",
+                subject="w",
+                ops_allowed=["database:read"],
+                binding=TokenBinding(task_id="t1", contract_id="c1"),
+                resource_selectors=[
+                    ResourceSelector(
+                        resource_type="database",
+                        resource_id="prod-*",
+                        constraints=Shifty(tenant="trusted"),
+                    )
+                ],
+            )
+
+    def test_nested_constraint_snapshot_is_detached_and_type_strict(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        constraints = {"policy": {"version": 1, "enabled": True}}
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["database:read"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            resource_selectors=[
+                ResourceSelector("database", "prod-*", constraints=constraints)
+            ],
+        )
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+        )
+        constraints["policy"]["version"] = 2
+
+        assert fence.check(
+            "database:read",
+            resource_type="database",
+            resource_id="prod-users",
+            context={"policy": {"version": 1, "enabled": True}},
+        )
+        with pytest.raises(CapabilityDenied, match="outside token scope"):
+            fence.check(
+                "database:read",
+                resource_type="database",
+                resource_id="prod-users",
+                context={"policy": {"version": True, "enabled": True}},
+            )
 
 
 class TestAuditLogging:
