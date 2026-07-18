@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import threading
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
@@ -179,22 +180,22 @@ class CapabilityFence:
         ):
             if value is not None and (type(value) is not str or not value):
                 raise TypeError(f"{name} must be a non-empty exact string or None")
+        decision, reason = self._resolve(
+            capability,
+            resource_type=resource_type,
+            resource_id=resource_id,
+            context=context,
+        )
         with self._lock:
-            decision, reason = self._resolve(
-                capability,
-                resource_type=resource_type,
-                resource_id=resource_id,
-                context=context,
-            )
             self._audit(capability, decision, reason)
-            if decision == "deny":
-                raise CapabilityDenied(
-                    capability,
-                    self._allowed,
-                    self._denied,
-                    reason=reason,
-                )
-            return True
+        if decision == "deny":
+            raise CapabilityDenied(
+                capability,
+                self._allowed,
+                self._denied,
+                reason=reason,
+            )
+        return True
 
     def guard(self, fn: Callable[..., Any], capability: str, *args: Any, **kwargs: Any) -> Any:
         """Wrap a function call with a capability check.
@@ -333,9 +334,14 @@ class CapabilityFence:
         ):
             return "deny", f"{capability!r} is not in allowed set"
 
-        if context is not None and not isinstance(context, Mapping):
-            return "deny", "context must be a mapping"
-        runtime_context = {} if context is None else context
+        try:
+            runtime_context = (
+                {} if context is None else _validated_runtime_json(context)
+            )
+        except (TypeError, ValueError) as exc:
+            return "deny", f"context must contain only safe JSON values: {exc}"
+        if type(runtime_context) is not dict:
+            return "deny", "context must be a plain mapping"
         resource_selectors = (
             authenticated_token.resource_selectors if authenticated_token else ()
         )
@@ -444,8 +450,12 @@ def _plain_json_equal(expected: Any, actual: Any) -> bool:
 
 
 def _validated_runtime_json(value: Any) -> Any:
-    """Reject dynamic containers and equality hooks in runtime constraint values."""
-    if value is None or type(value) in {str, bool, int, float}:
+    """Snapshot exact built-in JSON values without preserving dynamic behavior."""
+    if value is None or type(value) in {str, bool, int}:
+        return value
+    if type(value) is float:
+        if not math.isfinite(value):
+            raise ValueError("runtime context numbers must be finite")
         return value
     if type(value) is list:
         return [_validated_runtime_json(item) for item in value]
@@ -453,7 +463,7 @@ def _validated_runtime_json(value: Any) -> Any:
         validated: dict[str, Any] = {}
         for key, item in value.items():
             if type(key) is not str:
-                raise TypeError("constraint context keys must be strings")
+                raise TypeError("runtime context keys must be strings")
             validated[key] = _validated_runtime_json(item)
         return validated
-    raise TypeError(f"unsupported constraint context type: {type(value).__name__}")
+    raise TypeError(f"unsupported runtime context type: {type(value).__name__}")

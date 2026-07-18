@@ -50,16 +50,16 @@ class DelegationContext:
             raise ValueError("max_depth must be a non-negative integer")
         if type(self.depth) is not int or self.depth < 0 or self.depth > self.max_depth:
             raise ValueError("depth must be between zero and max_depth")
-        object.__setattr__(
-            self,
-            "operations",
-            _normalized_scope(self.operations, "operations"),
-        )
-        object.__setattr__(
-            self,
-            "resources",
-            _normalized_scope(self.resources, "resources"),
-        )
+        operations = _normalized_scope(self.operations, "operations")
+        resources = _normalized_scope(self.resources, "resources")
+        if operations or resources:
+            raise TypeError(
+                "Scoped contexts must be created with "
+                "DelegationContextManager.create_trusted_context() or "
+                "create_context_from_token()"
+            )
+        object.__setattr__(self, "operations", operations)
+        object.__setattr__(self, "resources", resources)
         if not self.token_id:
             object.__setattr__(self, "token_id", f"dctx-{uuid.uuid4()}")
 
@@ -69,9 +69,9 @@ class DelegationContext:
         resources: Sequence[str] | None = None,
     ) -> DelegationContext:
         """Create a child whose scope is no broader than this context."""
-        if self.authority_token_id is not None:
+        if self.authority_token_id is not None or self.operations or self.resources:
             raise PermissionError(
-                "Token-backed contexts must delegate through "
+                "Scoped contexts must delegate through "
                 "DelegationContextManager.delegate()"
             )
         return _delegate_context(self, operations, resources)
@@ -107,6 +107,10 @@ class DelegationContextManager:
             str,
             tuple[DelegationToken, DelegationTokenManager],
         ] = {}
+        self._trusted_scopes: dict[
+            str,
+            tuple[tuple[str, ...], tuple[str, ...]],
+        ] = {}
         self._default_max_depth = default_max_depth
         self._lock = threading.Lock()
 
@@ -134,13 +138,17 @@ class DelegationContextManager:
         """Create an explicit application-trusted administrative root."""
         if isinstance(parent, DelegationToken):
             raise TypeError("Delegation tokens require create_context_from_token()")
+        trusted_operations = _normalized_scope(operations, "operations")
+        trusted_resources = _normalized_scope(resources, "resources")
         ctx = DelegationContext(
             parent=parent,
             max_depth=self._default_max_depth if max_depth is None else max_depth,
-            operations=_normalized_scope(operations, "operations"),
-            resources=_normalized_scope(resources, "resources"),
         )
-        self._register(ctx)
+        _bind_scope(ctx, trusted_operations, trusted_resources)
+        self._register(
+            ctx,
+            trusted_scope=(trusted_operations, trusted_resources),
+        )
         return ctx
 
     def create_context_from_token(
@@ -199,9 +207,8 @@ class DelegationContextManager:
         ctx = DelegationContext(
             parent=snapshot.token_id,
             max_depth=self._default_max_depth if max_depth is None else max_depth,
-            operations=child_operations,
-            resources=child_resources,
         )
+        _bind_scope(ctx, child_operations, child_resources)
         _bind_authority_marker(ctx, snapshot.token_id)
         self._register(ctx, authority=(snapshot, token_manager))
         return ctx
@@ -211,11 +218,16 @@ class DelegationContextManager:
         ctx: DelegationContext,
         *,
         authority: tuple[DelegationToken, DelegationTokenManager] | None = None,
+        trusted_scope: tuple[tuple[str, ...], tuple[str, ...]] | None = None,
     ) -> None:
+        if authority is not None and trusted_scope is not None:
+            raise ValueError("Context cannot have token and trusted-root provenance")
         with self._lock:
             self._contexts[ctx.token_id] = ctx
             if authority is not None:
                 self._authorities[ctx.token_id] = authority
+            if trusted_scope is not None:
+                self._trusted_scopes[ctx.token_id] = trusted_scope
 
     def get_context(self, token_id: str) -> DelegationContext | None:
         with self._lock:
@@ -233,6 +245,7 @@ class DelegationContextManager:
             if ctx is None:
                 raise KeyError(f"Unknown context: {token_id}")
             authority = self._authorities.get(token_id)
+            trusted_scope = self._trusted_scopes.get(token_id)
             if ctx.authority_token_id is not None:
                 if authority is None:
                     raise PermissionError(
@@ -241,12 +254,23 @@ class DelegationContextManager:
                 snapshot = _authenticate_context_authority(ctx, *authority)
             elif authority is not None:
                 raise PermissionError("Context authority registry is inconsistent")
+            elif trusted_scope is not None:
+                if trusted_scope != (ctx.operations, ctx.resources):
+                    raise PermissionError("Trusted context scope registry is inconsistent")
+                snapshot = None
+            elif ctx.operations or ctx.resources:
+                raise PermissionError("Scoped context provenance is unavailable")
             else:
                 snapshot = None
             child = _delegate_context(ctx, operations, resources)
             if snapshot is not None:
                 _bind_authority_marker(child, snapshot.token_id)
                 self._authorities[child.token_id] = (snapshot, authority[1])
+            elif trusted_scope is not None:
+                self._trusted_scopes[child.token_id] = (
+                    child.operations,
+                    child.resources,
+                )
             self._contexts[child.token_id] = child
         return child
 
@@ -337,13 +361,13 @@ def _delegate_context(
     )
     _require_operation_subset(context.operations, child_operations)
     _require_resource_subset(context.resources, child_resources)
-    return DelegationContext(
+    child = DelegationContext(
         parent=context.token_id,
         max_depth=context.max_depth,
         depth=new_depth,
-        operations=child_operations,
-        resources=child_resources,
     )
+    _bind_scope(child, child_operations, child_resources)
+    return child
 
 
 def _authenticate_context_authority(
@@ -379,3 +403,23 @@ def _bind_authority_marker(context: DelegationContext, token_id: str) -> None:
     if type(token_id) is not str or not token_id:
         raise TypeError("authority token ID must be a non-empty exact string")
     object.__setattr__(context, "authority_token_id", token_id)
+
+
+def _bind_scope(
+    context: DelegationContext,
+    operations: Sequence[str],
+    resources: Sequence[str],
+) -> None:
+    """Bind manager-validated scope to a newly created unscoped context."""
+    if context.operations or context.resources:
+        raise PermissionError("Delegation context scope is already bound")
+    object.__setattr__(
+        context,
+        "operations",
+        _normalized_scope(operations, "operations"),
+    )
+    object.__setattr__(
+        context,
+        "resources",
+        _normalized_scope(resources, "resources"),
+    )

@@ -20,61 +20,78 @@ from hummbl_governance.delegation_context import (
 
 
 def test_child_can_only_narrow_operations_and_resources():
-    parent = DelegationContext(
+    manager = DelegationContextManager()
+    parent = manager.create_trusted_context(
         parent="root-token",
         operations=["read", "write"],
         resources=["docs/*"],
     )
 
-    child = parent.delegate(operations=["read"], resources=["docs/public/*"])
+    child = manager.delegate(
+        parent.token_id,
+        operations=["read"],
+        resources=["docs/public/*"],
+    )
 
     assert child.operations == ("read",)
     assert child.resources == ("docs/public/*",)
 
 
 def test_child_cannot_add_operation():
-    parent = DelegationContext(
+    manager = DelegationContextManager()
+    parent = manager.create_trusted_context(
         parent="root-token",
         operations=["read"],
         resources=["docs/*"],
     )
 
     with pytest.raises(PermissionError, match="HG_E_CAPABILITY_ESCALATION"):
-        parent.delegate(operations=["read", "shell:execute"])
+        manager.delegate(parent.token_id, operations=["read", "shell:execute"])
 
 
 def test_child_cannot_expand_resource_scope():
-    parent = DelegationContext(
+    manager = DelegationContextManager()
+    parent = manager.create_trusted_context(
         parent="root-token",
         operations=["read"],
         resources=["docs/*"],
     )
 
     with pytest.raises(PermissionError, match="HG_E_CAPABILITY_ESCALATION"):
-        parent.delegate(resources=["*"])
+        manager.delegate(parent.token_id, resources=["*"])
 
 
 def test_child_resource_scope_rejects_parent_traversal():
-    parent = DelegationContext(
+    manager = DelegationContextManager()
+    parent = manager.create_trusted_context(
         parent="root-token",
         operations=["read"],
         resources=["docs/*"],
     )
 
     with pytest.raises(PermissionError, match="HG_E_CAPABILITY_ESCALATION"):
-        parent.delegate(resources=["docs/../secrets/*"])
+        manager.delegate(parent.token_id, resources=["docs/../secrets/*"])
 
 
 def test_grandchild_cannot_regain_scope_dropped_by_child():
-    parent = DelegationContext(
+    manager = DelegationContextManager()
+    parent = manager.create_trusted_context(
         parent="root-token",
         operations=["read", "write"],
         resources=["docs/*"],
     )
-    child = parent.delegate(operations=["read"], resources=["docs/public/*"])
+    child = manager.delegate(
+        parent.token_id,
+        operations=["read"],
+        resources=["docs/public/*"],
+    )
 
     with pytest.raises(PermissionError, match="HG_E_CAPABILITY_ESCALATION"):
-        child.delegate(operations=["write"], resources=["docs/*"])
+        manager.delegate(
+            child.token_id,
+            operations=["write"],
+            resources=["docs/*"],
+        )
 
 
 def test_zero_grant_context_cannot_delegate_capabilities():
@@ -104,12 +121,17 @@ def test_manager_applies_requested_child_scope():
 
 
 def test_context_scope_and_depth_are_immutable_and_serialization_is_defensive():
-    parent = DelegationContext(
+    manager = DelegationContextManager()
+    parent = manager.create_trusted_context(
         parent="trusted-admin",
         operations=["read", "write"],
         resources=["docs/*"],
     )
-    child = parent.delegate(operations=["read"], resources=["docs/public/*"])
+    child = manager.delegate(
+        parent.token_id,
+        operations=["read"],
+        resources=["docs/public/*"],
+    )
 
     with pytest.raises(FrozenInstanceError):
         child.max_depth = 100
@@ -234,13 +256,36 @@ def test_token_authority_marker_cannot_be_forged_through_constructor():
             authority_token_id="restricted-token-id",
         )
 
-    raw = DelegationContext(
-        parent="restricted-token-id",
-        operations=["shell:execute"],
-        resources=["*"],
-    )
+    with pytest.raises(TypeError, match="Scoped contexts must be created"):
+        DelegationContext(
+            parent="untrusted",
+            operations=["admin:*"],
+            resources=["*"],
+        )
+
+    raw = DelegationContext(parent="untrusted")
     assert raw.authority_token_id is None
+    assert raw.operations == ()
+    assert raw.resources == ()
     assert raw.to_dict()["authority_token_id"] is None
+    with pytest.raises(PermissionError, match="HG_E_CAPABILITY_ESCALATION"):
+        raw.delegate(operations=["admin:*"], resources=["*"])
+
+
+def test_trusted_scope_delegation_requires_manager_held_provenance():
+    manager = DelegationContextManager()
+    root = manager.create_trusted_context(
+        parent="trusted-root",
+        operations=["read"],
+        resources=["docs/*"],
+    )
+
+    with pytest.raises(PermissionError, match="must delegate through"):
+        root.delegate()
+
+    object.__setattr__(root, "operations", ("admin:*",))
+    with pytest.raises(PermissionError, match="scope registry is inconsistent"):
+        manager.delegate(root.token_id)
 
 
 def test_token_backed_context_reauthenticates_expiry_on_every_delegation(

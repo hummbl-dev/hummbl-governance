@@ -503,6 +503,96 @@ class TestCapabilityFenceFromToken:
         with pytest.raises(CapabilityDenied, match="evaluation failed"):
             fence.check("shell:execute")
 
+    def test_caveat_context_rejects_dynamic_equality_and_snapshots_plain_values(self):
+        class EqualToGranted:
+            def __eq__(self, other):
+                return other == "granted"
+
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["shell:execute"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            caveats=[Caveat("approval", "APPROVAL_REQUIRED", {})],
+        )
+        seen_contexts = []
+
+        def approval_validator(caveat, context):
+            seen_contexts.append(context)
+            return context["approval"] == "granted"
+
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+            caveat_validator=approval_validator,
+        )
+
+        with pytest.raises(CapabilityDenied, match="safe JSON values"):
+            fence.check(
+                "shell:execute",
+                context={"approval": EqualToGranted()},
+            )
+        assert seen_contexts == []
+
+        plain_context = {"approval": "granted", "evidence": ["reviewed"]}
+        assert fence.check("shell:execute", context=plain_context)
+        assert seen_contexts == [plain_context]
+        assert seen_contexts[0] is not plain_context
+        assert seen_contexts[0]["evidence"] is not plain_context["evidence"]
+
+    def test_reentrant_caveat_validator_does_not_deadlock_audit_lock(self):
+        mgr = DelegationTokenManager(secret=b"test-secret")
+        token = mgr.create_token(
+            issuer="o",
+            subject="w",
+            ops_allowed=["shell:execute"],
+            binding=TokenBinding(task_id="t1", contract_id="c1"),
+            caveats=[Caveat("approval", "APPROVAL_REQUIRED", {})],
+        )
+        audit_log = []
+        state = {"reentered": False}
+        fence: CapabilityFence
+
+        def reentrant_validator(caveat, context):
+            if not state["reentered"]:
+                state["reentered"] = True
+                assert fence.check(
+                    "shell:execute",
+                    context={"approval": "granted"},
+                )
+            return context["approval"] == "granted"
+
+        fence = CapabilityFence.from_delegation_token(
+            token,
+            mgr,
+            expected_issuer="o",
+            expected_subject="w",
+            expected_task_id="t1",
+            expected_contract_id="c1",
+            caveat_validator=reentrant_validator,
+            audit_log=audit_log,
+        )
+        result = {}
+
+        def run_check():
+            result["allowed"] = fence.check(
+                "shell:execute",
+                context={"approval": "granted"},
+            )
+
+        thread = threading.Thread(target=run_check, daemon=True)
+        thread.start()
+        thread.join(1.0)
+
+        assert not thread.is_alive()
+        assert result == {"allowed": True}
+        assert [entry.decision for entry in audit_log] == ["allow", "allow"]
+
     def test_fence_enforces_verified_snapshot_after_external_mutation(self):
         mgr = DelegationTokenManager(secret=b"test-secret")
         constraints = {"tenant": "t1"}
@@ -567,7 +657,7 @@ class TestCapabilityFenceFromToken:
             expected_contract_id="c1",
         )
 
-        with pytest.raises(CapabilityDenied, match="outside token scope"):
+        with pytest.raises(CapabilityDenied, match="safe JSON values"):
             fence.check(
                 "database:read",
                 resource_type="database",
