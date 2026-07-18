@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
 [![Python](https://img.shields.io/pypi/pyversions/hummbl-governance)](https://pypi.org/project/hummbl-governance/)
-[![Tests](https://img.shields.io/badge/tests-2027%20collected-blue)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-2043%20collected-blue)](https://github.com/hummbl-dev/hummbl-governance/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)]()
 [![Last commit](https://img.shields.io/github/last-commit/hummbl-dev/hummbl-governance/main)](https://github.com/hummbl-dev/hummbl-governance/commits/main)
@@ -11,9 +11,11 @@
 
 Your AI agent calls an API. The API starts returning errors. Your agent retries, and retries, and retries — burning through hundreds of dollars in API credits before anyone notices. Or worse: your agent decides to "optimize" and starts calling endpoints it was never supposed to touch.
 
-Every team shipping AI agents hits the same walls: runaway costs, cascading failures, agents doing things they shouldn't, and no audit trail to explain what happened after the fact. The frameworks you're using (LangChain, CrewAI, AutoGPT) give you tools to *build* agents but nothing to *govern* them. You're left writing the same safety code from scratch every time — if you write it at all.
+Teams shipping AI agents can face runaway costs, cascading failures, unauthorized actions, and incomplete audit trails. General-purpose agent frameworks emphasize orchestration; their governance coverage varies by framework, version, and deployment, so teams still need to evaluate runtime controls explicitly.
 
-**hummbl-governance** is the missing safety layer. It provides 34 governance primitives — kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, compliance mapping, and more — as a single stdlib-only Python package. No runtime dependencies, no framework lock-in, and reduced transitive dependency risk. Just the primitives you need to ship AI agents that don't run away.
+**hummbl-governance** is a safety and evidence layer. It provides 34 governance primitives — kill switch, circuit breaker, cost governor, delegation tokens, audit log, identity registry, compliance mapping, and more — as a single stdlib-only Python package. It has no third-party runtime dependencies and no required orchestration framework.
+
+The package is classified **Alpha** in `pyproject.toml`. Evaluate it against your own risk, security, and production-readiness requirements.
 
 ```bash
 pip install hummbl-governance
@@ -43,25 +45,13 @@ gov.check_budget_status()  # .decision in ("ALLOW", "WARN", "DENY")
 
 Every primitive works standalone. Use `KillSwitch` without pulling in `CostGovernor`. Use `CircuitBreaker` without the audit log. No framework lock-in.
 
-## vs Alternatives
+## Design scope
 
-| Capability | hummbl-governance | Raw stdlib | LangChain ecosystem | CrewAI ecosystem | guardrails-ai |
-|------------|:-----------------:|:----------:|:--------------------:|:-----------------:|:-------------:|
-| Zero dependencies | Yes | Yes | No (requires langchain) | No (requires crewai) | No (requires guardrails-ai) |
-| Kill switch (graduated modes) | 4 modes | DIY | No | No | No |
-| Circuit breaker | 3 states | DIY | No | No | No |
-| Cost governance (budget caps) | Soft + hard caps | DIY | No | No | No |
-| Delegation tokens (HMAC signed) | Yes | DIY | No | No | No |
-| Append-only audit log | Yes | DIY | Partial | No | No |
-| Agent identity registry | Yes | DIY | No | No | No |
-| STRIDE threat mapping | Yes | No | No | No | No |
-| SOC2/GDPR/OWASP compliance mapping | Yes | No | No | No | No |
-| JSON Schema validation (stdlib) | Draft 2020-12 | No | Requires jsonschema | Requires pydantic | Requires pydantic |
-| Governance reasoning engine | Yes | No | No | No | No |
-| Thread-safe | Yes | Varies | Varies | Varies | Varies |
-| Modules work standalone | Yes | N/A | No (framework lock-in) | No (framework lock-in) | No (framework lock-in) |
-
-No other library provides this combination of kill switch, circuit breaker, cost governor, delegation tokens, and compliance mapping in a single zero-dependency package. That gap is why hummbl-governance exists.
+The package combines runtime controls, identity and delegation, audit evidence,
+and engineering mappings in one stdlib-only runtime. This is a description of
+the package inventory, not a claim that competing projects lack equivalent
+capabilities. Compare current versions and deployment requirements directly
+before selecting a governance layer.
 
 ## Why hummbl-governance?
 
@@ -72,6 +62,8 @@ No other library provides this combination of kill switch, circuit breaker, cost
 **Compliance-aware by design.** The `compliance_mapper` maps governance events to SOC2, GDPR, and OWASP controls. The `stride_mapper` produces STRIDE threat analysis for agent interactions. These modules generate audit evidence, not just runtime safety — evidence you can hand to an auditor or compliance team.
 
 **Evidence-first.** Package metrics, cross-repo extraction notes, production-use statements, and framework mappings are governed by [docs/public-claims.md](docs/public-claims.md). Current package test inventory is verified by `python -m pytest --collect-only -q tests`.
+
+**Sponsorship boundary.** The canonical [draft sponsorship policy](https://github.com/hummbl-dev/hummbl-dev/blob/main/SPONSORSHIP.md) does not sell support, priority, favorable findings, or roadmap control. Sponsorship is not active until its documented launch gates pass.
 
 **OWASP Top 10 for Agentic Applications.** The README includes an engineering mapping to the [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). It is not a third-party certification or attestation. See the [mapping below](#owasp-top-10-for-agentic-applications-2026-engineering-mapping).
 
@@ -117,7 +109,7 @@ graph TD
 ## Features
 
 - **34 governance primitives** covering safety, cost, identity, compliance, reasoning, coordination, physical-AI, execution assurance, and governance Kernel
-- **2027 collected tests** across package modules, as of the latest local receipt in [docs/public-claims.md](docs/public-claims.md)
+- **2043 collected tests** across package modules, as of the latest local receipt in [docs/public-claims.md](docs/public-claims.md)
 - **Zero dependencies** -- Python stdlib only, no pip conflicts
 - **Thread-safe** -- all modules use appropriate locking primitives
 - **Independently importable** -- use only the modules you need
@@ -150,7 +142,7 @@ provenance:
   build_system: github-actions
   trusted_publishing: true
   dependencies: zero
-  tests: 2027
+  tests: 2043
 ```
 
 Read it at runtime (the file is human-readable YAML; parse with PyYAML if available, or read as text):
@@ -267,7 +259,7 @@ The table below maps hummbl-governance primitives to the [OWASP Top 10 for Agent
 | **ASI09** Human-Agent Trust Exploitation | [`ReasoningEngine`](hummbl_governance/reasoning.py), [`ComplianceMapper`](hummbl_governance/compliance_mapper.py) | [7](tests/test_explain.py) + [112](tests/test_compliance_mapper.py) | Structured decision traces explain *why* a governance decision was made. Compliance mapping to NIST/ISO provides external validation anchor. |
 | **ASI10** Rogue Agents | [`BehaviorMonitor`](hummbl_governance/reward_monitor.py), [`GovernanceLifecycle`](hummbl_governance/lifecycle.py) | [20](tests/test_reward_monitor.py) + [17](tests/test_lifecycle.py) | Jensen-Shannon divergence detects behavioral drift from baseline. Lifecycle FSM enforces PROVISIONED → ACTIVE → SUSPENDED → DECOMMISSIONED transitions. |
 
-**Current posture:** 2027 collected tests, 34 implemented primitives, 7 MCP server entry points, and zero third-party runtime dependencies. Test-count and coverage claims require current receipts; see [docs/public-claims.md](docs/public-claims.md).
+**Current posture:** 2043 collected tests, 34 implemented primitives, 7 MCP server entry points, and zero third-party runtime dependencies. Test-count and coverage claims require current receipts; see [docs/public-claims.md](docs/public-claims.md).
 
 For the formal governance primitive underlying all 10 mitigations, see [The Governance Tuple](https://doi.org/10.5281/zenodo.19646940) (Bowlby, 2026).
 
