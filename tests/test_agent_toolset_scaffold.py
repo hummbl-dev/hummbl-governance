@@ -7,6 +7,50 @@ import pytest
 import scripts.agent_toolset_scaffold as scaffold
 
 
+def _write_git_config(repo: Path, remote_url: str) -> None:
+    git_dir = repo / ".git"
+    git_dir.mkdir(parents=True)
+    (git_dir / "config").write_text(
+        f'[remote "origin"]\n\turl = {remote_url}\n',
+        encoding="utf-8",
+    )
+
+
+@pytest.mark.parametrize(
+    ("remote_url", "expected"),
+    [
+        ("https://github.com/hummbl-dev/hummbl-governance.git", "hummbl-dev/hummbl-governance"),
+        ("ssh://git@github.com/hummbl-dev/hummbl-governance.git", "hummbl-dev/hummbl-governance"),
+        ("git@github.com:hummbl-dev/hummbl-governance.git", "hummbl-dev/hummbl-governance"),
+    ],
+)
+def test_repo_default_name_accepts_github_remote_forms(
+    tmp_path: Path, remote_url: str, expected: str
+) -> None:
+    _write_git_config(tmp_path, remote_url)
+
+    assert scaffold.repo_default_name(tmp_path) == expected
+
+
+@pytest.mark.parametrize(
+    "remote_url",
+    [
+        "https://evil.example/github.com/hummbl-dev/hummbl-governance.git",
+        "https://github.com@evil.example/hummbl-dev/hummbl-governance.git",
+        "https://github.com.evil.example/hummbl-dev/hummbl-governance.git",
+        "https://evilgithub.com/hummbl-dev/hummbl-governance.git",
+        "ssh://git@evil.example/github.com/hummbl-dev/hummbl-governance.git",
+        "git@github.com.evil.example:hummbl-dev/hummbl-governance.git",
+    ],
+)
+def test_repo_default_name_rejects_github_substring_bypasses(
+    tmp_path: Path, remote_url: str
+) -> None:
+    _write_git_config(tmp_path, remote_url)
+
+    assert scaffold.repo_default_name(tmp_path) == "<owner>/<repo>"
+
+
 def test_find_repo_root_climbs_from_nested_directory(tmp_path: Path) -> None:
     repo = tmp_path / "repo"
     nested = repo / "docs" / "operations"
