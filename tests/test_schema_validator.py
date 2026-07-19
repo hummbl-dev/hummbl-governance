@@ -21,7 +21,7 @@ import tempfile
 from pathlib import Path
 
 
-from hummbl_governance.schema_validator import SchemaValidator
+from hummbl_governance.schema_validator import RefRegistry, SchemaValidator
 
 
 class TestTypeValidation:
@@ -264,3 +264,288 @@ class TestValidateFile:
 
             valid, errors = SchemaValidator.validate_file(instance_path, schema_path)
             assert valid is False
+
+
+class TestRefResolution:
+    """Test ``$ref`` resolution against the root document and registry."""
+
+    def test_local_ref_to_defs(self):
+        schema = {
+            "$id": "https://example.com/root.json",
+            "$defs": {
+                "name": {"type": "string", "minLength": 2},
+            },
+            "type": "object",
+            "properties": {
+                "first": {"$ref": "#/$defs/name"},
+                "second": {"$ref": "#/$defs/name"},
+            },
+        }
+        errors = SchemaValidator.validate({"first": "ab", "second": "cd"}, schema)
+        assert errors == []
+
+    def test_local_ref_enforces_target_constraints(self):
+        schema = {
+            "$defs": {"name": {"type": "string", "minLength": 5}},
+            "type": "object",
+            "properties": {"first": {"$ref": "#/$defs/name"}},
+        }
+        errors = SchemaValidator.validate({"first": "ab"}, schema)
+        assert len(errors) == 1
+        assert "minLength" in errors[0]
+
+    def test_local_ref_type_mismatch(self):
+        schema = {
+            "$defs": {"name": {"type": "string"}},
+            "type": "object",
+            "properties": {"first": {"$ref": "#/$defs/name"}},
+        }
+        errors = SchemaValidator.validate({"first": 42}, schema)
+        assert len(errors) == 1
+        assert "expected type" in errors[0]
+
+    def test_ref_at_root(self):
+        schema = {
+            "$defs": {"positive": {"type": "integer", "minimum": 1}},
+            "type": "array",
+            "items": {"$ref": "#/$defs/positive"},
+        }
+        errors = SchemaValidator.validate([1, 2, 3], schema)
+        assert errors == []
+        errors = SchemaValidator.validate([1, 0, 3], schema)
+        assert len(errors) == 1
+        assert "minimum" in errors[0]
+
+    def test_ref_with_sibling_keywords(self):
+        # Draft 2020-12: $ref may appear alongside sibling keywords.
+        schema = {
+            "$defs": {"base": {"type": "string"}},
+            "type": "object",
+            "properties": {
+                "value": {"$ref": "#/$defs/base", "maxLength": 3},
+            },
+        }
+        errors = SchemaValidator.validate({"value": "ab"}, schema)
+        assert errors == []
+        errors = SchemaValidator.validate({"value": "abcd"}, schema)
+        assert any("maxLength" in e for e in errors)
+
+    def test_nested_ref_chain(self):
+        schema = {
+            "$defs": {
+                "a": {"$ref": "#/$defs/b"},
+                "b": {"type": "integer", "minimum": 10},
+            },
+            "type": "object",
+            "properties": {"x": {"$ref": "#/$defs/a"}},
+        }
+        errors = SchemaValidator.validate({"x": 15}, schema)
+        assert errors == []
+        errors = SchemaValidator.validate({"x": 5}, schema)
+        assert any("minimum" in e for e in errors)
+
+    def test_circular_ref_is_detected(self):
+        schema = {
+            "$defs": {
+                "node": {
+                    "type": "object",
+                    "properties": {"child": {"$ref": "#/$defs/node"}},
+                },
+            },
+            "type": "object",
+            "properties": {"root": {"$ref": "#/$defs/node"}},
+        }
+        # Deep nesting triggers the cycle guard (ref_stack grows on each hop).
+        instance = {"root": {"child": {"child": {"child": {}}}}}
+        errors = SchemaValidator.validate(instance, schema)
+        assert any("circular $ref" in e for e in errors)
+
+    def test_self_ref_with_terminating_type_is_allowed(self):
+        # A self-referential schema that terminates via a type mismatch is fine.
+        schema = {
+            "$defs": {
+                "leaf": {
+                    "type": "object",
+                    "properties": {"value": {"type": "string"}},
+                },
+            },
+            "type": "object",
+            "properties": {"data": {"$ref": "#/$defs/leaf"}},
+        }
+        errors = SchemaValidator.validate({"data": {"value": "ok"}}, schema)
+        assert errors == []
+
+    def test_unresolvable_local_ref(self):
+        schema = {
+            "type": "object",
+            "properties": {"x": {"$ref": "#/$defs/missing"}},
+        }
+        errors = SchemaValidator.validate({"x": 1}, schema)
+        assert len(errors) == 1
+        assert "not found" in errors[0] or "unresolvable" in errors[0].lower() or "missing" in errors[0]
+
+    def test_ref_in_oneof(self):
+        schema = {
+            "$defs": {"str_def": {"type": "string"}},
+            "oneOf": [
+                {"$ref": "#/$defs/str_def"},
+                {"type": "integer"},
+            ],
+        }
+        errors = SchemaValidator.validate("hello", schema)
+        assert errors == []
+        errors = SchemaValidator.validate(42, schema)
+        assert errors == []
+        errors = SchemaValidator.validate(3.14, schema)
+        assert len(errors) == 1
+
+    def test_ref_in_anyof(self):
+        schema = {
+            "$defs": {"str_def": {"type": "string"}},
+            "anyOf": [
+                {"$ref": "#/$defs/str_def"},
+                {"type": "integer"},
+            ],
+        }
+        errors = SchemaValidator.validate("hello", schema)
+        assert errors == []
+        errors = SchemaValidator.validate(42, schema)
+        assert errors == []
+
+    def test_root_ref(self):
+        schema = {
+            "$id": "https://example.com/root.json",
+            "type": "object",
+            "properties": {"self": {"$ref": "#"}},
+        }
+        errors = SchemaValidator.validate({"self": {}}, schema)
+        assert errors == []
+
+    def test_json_pointer_with_tilde(self):
+        schema = {
+            "$defs": {
+                "a~b": {"type": "string"},
+            },
+            "type": "object",
+            "properties": {"x": {"$ref": "#/$defs/a~0b"}},
+        }
+        errors = SchemaValidator.validate({"x": "ok"}, schema)
+        assert errors == []
+        errors = SchemaValidator.validate({"x": 1}, schema)
+        assert len(errors) == 1
+
+
+class TestRefRegistry:
+    """Test cross-document ``$ref`` resolution via :class:`RefRegistry`."""
+
+    def test_cross_document_ref(self):
+        refs_schema = {
+            "$id": "https://example.com/refs.json",
+            "$defs": {"name": {"type": "string", "minLength": 3}},
+        }
+        main_schema = {
+            "$id": "https://example.com/main.json",
+            "type": "object",
+            "properties": {"x": {"$ref": "https://example.com/refs.json#/$defs/name"}},
+        }
+        registry = RefRegistry()
+        registry.register(refs_schema)
+        errors = SchemaValidator.validate({"x": "abc"}, main_schema, registry=registry)
+        assert errors == []
+        errors = SchemaValidator.validate({"x": "ab"}, main_schema, registry=registry)
+        assert any("minLength" in e for e in errors)
+
+    def test_cross_document_ref_without_registry_errors(self):
+        schema = {
+            "type": "object",
+            "properties": {"x": {"$ref": "https://example.com/other.json#/$defs/name"}},
+        }
+        errors = SchemaValidator.validate({"x": "ab"}, schema)
+        assert len(errors) == 1
+        assert "no registry" in errors[0] or "registry" in errors[0]
+
+    def test_cross_document_ref_unregistered_doc(self):
+        schema = {
+            "type": "object",
+            "properties": {"x": {"$ref": "https://example.com/missing.json#/$defs/name"}},
+        }
+        registry = RefRegistry()
+        errors = SchemaValidator.validate({"x": "ab"}, schema, registry=registry)
+        assert len(errors) == 1
+        assert "unregistered" in errors[0]
+
+    def test_registry_alias(self):
+        refs_schema = {
+            "$defs": {"name": {"type": "string"}},
+        }
+        main_schema = {
+            "type": "object",
+            "properties": {"x": {"$ref": "alias:refs#/$defs/name"}},
+        }
+        registry = RefRegistry()
+        registry.register(refs_schema, alias="alias:refs")
+        errors = SchemaValidator.validate({"x": "ok"}, main_schema, registry=registry)
+        assert errors == []
+
+    def test_registry_requires_id_or_alias(self):
+        registry = RefRegistry()
+        try:
+            registry.register({"type": "string"})
+            raise AssertionError("expected RefResolutionError")
+        except Exception as exc:
+            assert "no $id" in str(exc).lower() or "alias" in str(exc).lower()
+
+    def test_registry_without_fragment(self):
+        refs_schema = {
+            "$id": "https://example.com/refs.json",
+            "type": "object",
+            "required": ["name"],
+            "properties": {"name": {"type": "string"}},
+        }
+        main_schema = {
+            "type": "object",
+            "properties": {"x": {"$ref": "https://example.com/refs.json"}},
+        }
+        registry = RefRegistry()
+        registry.register(refs_schema)
+        errors = SchemaValidator.validate({"x": {"name": "ok"}}, main_schema, registry=registry)
+        assert errors == []
+        errors = SchemaValidator.validate({"x": {}}, main_schema, registry=registry)
+        assert any("missing required" in e for e in errors)
+
+    def test_validate_file_with_registry(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            refs_path = Path(tmpdir) / "refs.json"
+            schema_path = Path(tmpdir) / "schema.json"
+            instance_path = Path(tmpdir) / "data.json"
+
+            refs_path.write_text(json.dumps({
+                "$id": "https://example.com/refs.json",
+                "$defs": {"name": {"type": "string", "minLength": 2}},
+            }))
+            schema_path.write_text(json.dumps({
+                "type": "object",
+                "properties": {"x": {"$ref": "https://example.com/refs.json#/$defs/name"}},
+            }))
+            instance_path.write_text(json.dumps({"x": "ab"}))
+
+            refs = json.loads(refs_path.read_text())
+            registry = RefRegistry()
+            registry.register(refs)
+            valid, errors = SchemaValidator.validate_file(instance_path, schema_path, registry=registry)
+            assert valid is True
+
+    def test_validate_dict_with_registry(self):
+        refs_schema = {
+            "$id": "https://example.com/refs.json",
+            "$defs": {"name": {"type": "string"}},
+        }
+        main_schema = {
+            "type": "object",
+            "properties": {"x": {"$ref": "https://example.com/refs.json#/$defs/name"}},
+        }
+        registry = RefRegistry()
+        registry.register(refs_schema)
+        valid, errors = SchemaValidator.validate_dict({"x": "ok"}, main_schema, registry=registry)
+        assert valid is True
+        assert errors == []

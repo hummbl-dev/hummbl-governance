@@ -59,7 +59,14 @@ from hummbl_governance.tool_audit import ToolCallAuditor
 from hummbl_governance.attest import Attest, AttestResult, ALLOWLIST, BLOCKLIST, CAPABILITY_FENCE
 from hummbl_governance.delegation_context import DelegationContext, DelegationContextManager
 from hummbl_governance.identity import AgentRegistry, TrustTier
-from hummbl_governance.schema_validator import SchemaValidator, ValidationError
+from hummbl_governance.schema_validator import RefRegistry, RefResolutionError, SchemaValidator, ValidationError
+from hummbl_governance.contract_enforcement import (
+    EnforcementResult,
+    build_contract_registry,
+    enforce_compatibility_manifest,
+    enforce_contract,
+    enforce_files,
+)
 try:
     from hummbl_governance.coordination_bus import BusWriter, PolicyLevel
 except ImportError:
@@ -232,6 +239,13 @@ __all__ = [
     "TrustTier",
     "SchemaValidator",
     "ValidationError",
+    "RefRegistry",
+    "RefResolutionError",
+    "EnforcementResult",
+    "build_contract_registry",
+    "enforce_compatibility_manifest",
+    "enforce_contract",
+    "enforce_files",
     "BusWriter",
     "PolicyLevel",
     "ComplianceMapper",
