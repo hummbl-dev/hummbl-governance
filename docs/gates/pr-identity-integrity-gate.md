@@ -51,6 +51,10 @@ Revalidation is required after any of the following events:
 - Agent handoff (the receiving agent must revalidate before recommending
   merge).
 - Any commit that adds or removes files outside the declared scope.
+- Any commit that changes the PR head SHA, including ordinary in-scope
+  commits. The reviewer must capture the head SHA before fetching the
+  diff, verify it remains unchanged after diff retrieval, and record
+  that exact validated SHA in the review record.
 
 ### Disposition on Mismatch
 
@@ -82,19 +86,44 @@ rewrite the branch.
 
 ### Supersession Links
 
-When a stale PR is closed as superseded, the closure comment MUST include the
-exact replacement reference:
+When a stale PR is closed as superseded, the closure comment MUST include
+machine-readable receipt metadata with the following fields:
+
+| Field | Description | Required |
+|---|---|---|
+| `old_ref` | The superseded PR, commit, or issue reference (e.g. `#123`, `abc1234`) | yes |
+| `new_ref` | The replacement PR, commit, or issue reference | yes if replacement exists |
+| `relationship` | One of: `superseded_by_pr`, `superseded_by_commit`, `already_in_main`, `withdrawn` | yes |
+| `reason` | One-line description of the identity failure | yes |
+
+For replacement by a new PR:
 
 ```
 Superseded by #<replacement-pr-number>.
-Reason: <one-line description of the identity failure>.
+old_ref: #<stale-pr-number>
+new_ref: #<replacement-pr-number>
+relationship: superseded_by_pr
+reason: <one-line description of the identity failure>.
 ```
 
-If no replacement is needed (the change already exists in main), the closure
-comment MUST state:
+If no replacement is needed (the change already exists in main):
 
 ```
-Superseded — change already present in main at <commit-sha>.
+Superseded — change already present in main.
+old_ref: #<stale-pr-number>
+new_ref: <commit-sha-in-main>
+relationship: already_in_main
+reason: <one-line description>.
+```
+
+If the change is withdrawn without replacement:
+
+```
+Withdrawn — no replacement.
+old_ref: #<stale-pr-number>
+new_ref: none
+relationship: withdrawn
+reason: <one-line description>.
 ```
 
 ### Stale `Closes` Claims
@@ -133,11 +162,13 @@ Disposition: APPROVE | HOLD_RECONSTRUCT_OR_SUPERSEDE | HOLD_REVIEW_BODY_UPDATE |
 
 Agents performing review or merge recommendation MUST:
 
-1. Fetch the live diff (`gh pr diff <number>`) before recommending merge.
-2. Compare the diff against the PR title, body, and linked issues.
-3. Check for scope creep (files outside the declared unit of work).
-4. Produce the disposition from the table above.
-5. Post the review template with the head SHA confirmed.
+1. Capture the current PR head SHA (`gh pr view <number> --json headRefOid`) before fetching the diff.
+2. Fetch the live diff (`gh pr diff <number>`) before recommending merge.
+3. Verify the head SHA has not changed between capture and diff retrieval (race detection).
+4. Compare the diff against the PR title, body, and linked issues.
+5. Check for scope creep (files outside the declared unit of work).
+6. Produce the disposition from the table above.
+7. Post the review template with the exact validated head SHA recorded.
 
 Agents MUST NOT:
 
