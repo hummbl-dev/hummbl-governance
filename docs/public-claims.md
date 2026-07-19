@@ -1,7 +1,7 @@
 # Public Claims
 
 Status: public claim ledger
-Last updated: 2026-07-09
+Last updated: 2026-07-18
 Current package metadata: `pyproject.toml` version `1.2.2`
 
 This ledger keeps public claims evidence-backed. A claim should be promoted
@@ -16,15 +16,17 @@ draft, pending, or source-candidate.
 | Runtime dependencies are zero                                           | verified         | `pyproject.toml` has `dependencies = []`                                                                                                                                                           | May be stated as zero third-party runtime dependencies.                         |
 | CI tests Python 3.11, 3.12, and 3.13                                    | verified         | `.github/workflows/ci.yml` matrix includes 3.11, 3.12, 3.13                                                                                                                                        | May be stated as CI-tested on 3.11-3.13.                                        |
 | Python 3.14 is supported                                                | not verified     | CI matrix and `pyproject.toml` classifiers do not include 3.14 at this audit                                                                                                                       | Do not claim support until CI includes 3.14 and passes.                         |
-| Current local test inventory is 2027 collected tests                    | verified-locally | `python -m pytest --collect-only -q tests` on 2026-07-05 collected 2027 tests from the working tree based on `ae0ef412eb9dd79fdd809841f03ec5866b85046a`                                            | May be stated as local collection evidence.                                     |
-| Current local functional test suite passes without coverage enforcement | verified-locally | `python -m pytest tests/ -q --no-cov` on 2026-07-05 passed 2027 tests on the local working tree at `ae0ef412eb9dd79fdd809841f03ec5866b85046a`                                                      | May be stated with the exact command, commit, and local scope.                  |
-| Current coverage-enforced test command passes                           | verified-locally | `python -m pytest tests/ -q --cov=hummbl_governance --cov-report=term --cov-fail-under=80` on 2026-07-05 passed 2027 tests on the local working tree at `ae0ef412eb9dd79fdd809841f03ec5866b85046a` | May be stated with the exact command, commit, and local scope.                  |
+| Current local test inventory is 2081 collected tests                    | verified-locally | `python -m pytest --collect-only -q tests` on 2026-07-18 collected 2081 tests from the tree based on commit `215106c7bed053fc8523559cf712c14eded39950`                                                                         | May be stated as local collection evidence.                                     |
+| Last full local functional suite passed 2027 tests                      | verified-locally | `python -m pytest tests/ -q --no-cov` on 2026-07-05 passed 2027 tests on the local working tree at `ae0ef412eb9dd79fdd809841f03ec5866b85046a`                                                      | Historical receipt only; rerun before claiming current full-suite status.       |
+| Last coverage-enforced command passed 2027 tests                        | verified-locally | `python -m pytest tests/ -q --cov=hummbl_governance --cov-report=term --cov-fail-under=80` on 2026-07-05 passed 2027 tests on the local working tree at `ae0ef412eb9dd79fdd809841f03ec5866b85046a` | Historical receipt only; rerun before claiming current coverage status.         |
 | 34 implemented governance primitives exist                              | verified         | `PRIMITIVES.md` lists 26 existing primitives and 8 implemented expansion primitives                                                                                                                | May be stated as implemented package primitive inventory.                       |
 | 7 MCP server entry points exist                                         | verified         | `pyproject.toml` `[project.scripts]` lists 7 `*-mcp` entry points                                                                                                                                  | May be stated as entry-point inventory. Tool counts require a separate receipt. |
 | Production-tested / runs daily in production                            | needs receipt    | No production operations receipt captured in this pass                                                                                                                                             | Do not use for promotion until receipt exists.                                  |
 | Extracted from founder-mode with 15,600+ tests and 14 CI workflows      | needs receipt    | Depends on another repo and current live state                                                                                                                                                     | Do not use for promotion until independently verified.                          |
 | OWASP Top 10 for Agentic Applications engineering mapping               | source-candidate | README has an engineering mapping; no third-party attestation                                                                                                                                      | Phrase as engineering mapping, not certification or coverage guarantee.         |
 | SOC2/GDPR/NIST/EU AI Act mappings                                       | source-candidate | Coverage docs exist, but validation state varies                                                                                                                                                   | Phrase as evidence mapping support, not compliance certification.               |
+| Universal or categorical competitor claims                              | not verified     | No current comparative inventory receipts the former "Every team," "nothing to govern," or "No other library" wording                                                                          | Use bounded package-inventory language; do not claim competitors lack features. |
+| `hummbl.io/pricing` reports 1,032 tests                                  | stale/blocking   | Current package collection is 2081; a paired static-site draft corrects the pricing page                                                                                                            | Merge and verify the website correction before sponsorship launch.              |
 
 ## Required Receipts Before Promotion
 
@@ -48,6 +50,8 @@ draft, pending, or source-candidate.
   test and tooling extras may still use third-party packages.
 - Do not use production, customer, benchmark, or extraction claims without a
   current receipt.
+- Do not use universal market claims or categorical competitor comparisons
+  without a dated, reproducible comparison receipt.
 
 ## Metric Scope Table
 
@@ -57,11 +61,12 @@ claims are not mixed across boundaries.
 | Surface                   | Version | Tests                | Primitives | Scope                                                                         |
 | ------------------------- | ------- | -------------------- | ---------- | ----------------------------------------------------------------------------- |
 | `pyproject.toml` (source) | 1.2.2   | —                    | 34         | Package metadata — source of truth for version                                |
-| README.md (repo)          | 1.2.2   | 2027 collected       | 34         | Repo docs — current and verified                                              |
-| ROADMAP.md (repo)         | 1.2.2   | 2027 collected       | 34         | Repo docs — updated 2026-07-06                                                |
-| GitHub repo description   | 1.2.x   | 2,027                | 34         | Repo metadata — updated 2026-07-05                                            |
+| README.md (repo)          | 1.2.2   | 2081 collected       | 34         | Repo docs — current local collection at base `215106c`                        |
+| ROADMAP.md (repo)         | 1.2.2   | 2027 collected       | 34         | Release-history statement, not current working-tree inventory                 |
+| GitHub repo description   | 1.2.x   | 2,027                | 34         | Stale repo metadata; launch blocker pending a separately authorized update     |
 | PyPI long description     | 1.2.2   | 2027 collected (verified) | 34         | Published on PyPI for `hummbl-governance 1.2.2`                            |
 | hummbl.io homepage        | —       | 15,600+ aggregate    | 7 marketed | Website — ecosystem aggregate tests; 7 is the marketed subset on /primitives/ |
+| hummbl.io pricing         | —       | 1,032                | —          | Stale live metric; paired static-site draft updates it to 2081                 |
 
 **Key distinction:** The package has 34 implemented primitives. The hummbl.io
 website markets 7 of those as user-facing primitives on its /primitives/ index.

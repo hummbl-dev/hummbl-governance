@@ -40,6 +40,8 @@ python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-
 Runs on Gitea self-hosted Windows runner (`anvil-ci`). Workflow: `.gitea/workflows/ci.yml`
 Python path: `C:\gitea\runner\toolcache\Python\3.13.13\x64`
 
+**No commit on any branch, including direct-to-main commits, may use `[skip ci]` or another CI-suppression directive.** Suppression tokens prevent eligible push workflows from running; a later push does not validate the skipped commit as a standalone event. If doc-only changes should avoid an expensive job, encode that policy in reviewed workflow path filters while retaining the repository's required validation signal.
+
 ## Communication
 
 - Bus identity: `hummbl-governance`
