@@ -53,6 +53,15 @@ BLOCKED_IDENTITY_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# Deterministic allowlist: only these identities may author/commit on the
+# hummbl-dev account. Any identity not in this set is blocked regardless of
+# whether it matches the blocklist above. The allowlist is stricter than the
+# blocklist — it makes the rule deterministic (closed by default) rather than
+# pattern-based (open by default).
+ALLOWED_IDENTITIES: tuple[tuple[str, str], ...] = (
+    ("hummbl-dev", "noreply@hummbl.dev"),
+)
+
 
 @dataclass(frozen=True)
 class Finding:
@@ -71,11 +80,43 @@ def lint_text(text: str) -> list[Finding]:
     return findings
 
 
+def _parse_git_ident(text: str) -> tuple[str, str] | None:
+    """Parse a ``git var GIT_*_IDENT`` string into (name, email).
+
+    The format is ``Name <email> timestamp tz``. Returns None if parsing fails.
+    """
+    match = re.match(r"^(.*?)\s+<([^>]+)>", text)
+    if not match:
+        return None
+    return match.group(1), match.group(2)
+
+
 def lint_identity_text(text: str, *, label: str) -> list[Finding]:
-    """Lint a Git identity string such as ``git var GIT_AUTHOR_IDENT``."""
+    """Lint a Git identity string such as ``git var GIT_AUTHOR_IDENT``.
+
+    Two checks run in order:
+    1. Blocklist: rejects identities matching known AI/agent/vendor names.
+    2. Allowlist: rejects any identity not in ``ALLOWED_IDENTENCIES``.
+
+    The allowlist is deterministic and stricter — it catches identities
+    that the blocklist would miss (e.g., a new agent name not yet in the
+    blocklist, or a personal account that does not match any blocklist term).
+    """
+    findings: list[Finding] = []
     if BLOCKED_IDENTITY_PATTERN.search(text):
-        return [Finding(rule=f"ai-{label}-identity", line=1, text=text.strip())]
-    return []
+        findings.append(Finding(rule=f"ai-{label}-identity", line=1, text=text.strip()))
+    parsed = _parse_git_ident(text)
+    if parsed is not None:
+        name, email = parsed
+        if (name, email) not in ALLOWED_IDENTITIES:
+            findings.append(
+                Finding(
+                    rule=f"identity-not-allowlisted-{label}",
+                    line=1,
+                    text=f"{name} <{email}> (allowed: {ALLOWED_IDENTITIES})",
+                )
+            )
+    return findings
 
 
 def _git_identity(var_name: str) -> str:
