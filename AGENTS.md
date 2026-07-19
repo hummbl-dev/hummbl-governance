@@ -40,7 +40,7 @@ python -m pytest tests/ -v --cov=hummbl_governance --cov-report=term --cov-fail-
 Runs on Gitea self-hosted Windows runner (`anvil-ci`). Workflow: `.gitea/workflows/ci.yml`
 Python path: `C:\gitea\runner\toolcache\Python\3.13.13\x64`
 
-**PR branches must not use `[skip ci]`** on any commit. CI is the merge gate — skipping it defeats pre-merge validation. If CI is too slow for doc-only changes, use path filters in the workflow instead of skipping CI entirely. Direct-to-main commits may use `[skip ci]` for doc-only changes where CI runs on push to main regardless.
+**No commit on any branch, including direct-to-main commits, may use `[skip ci]` or another CI-suppression directive.** Suppression tokens prevent eligible push workflows from running; a later push does not validate the skipped commit as a standalone event. If doc-only changes should avoid an expensive job, encode that policy in reviewed workflow path filters while retaining the repository's required validation signal.
 
 ## Communication
 
