@@ -30,7 +30,7 @@ This slice adds two machine-readable envelopes:
    - conditions, reasons, and decision receipts;
    - explicit manifest maturity.
 
-A separate `cross_repo_shared_refs_v0.1.schema.json` records candidate reusable definitions. The runtime schemas currently inline equivalent shapes because the existing stdlib validator does not resolve `$ref`; reference resolution remains a separate implementation gate.
+A separate `cross_repo_shared_refs_v0.1.schema.json` records candidate reusable definitions. The runtime schemas may now resolve these definitions through `$ref` using the stdlib `SchemaValidator` with a `RefRegistry`; the `cross_repo_contract_v0.1.ref.schema.json` variant demonstrates this path. An enforcement layer (`hummbl_governance.contract_enforcement`) combines `$ref`-capable schema validation with the semantic rules in `cross_repo_contract.py`.
 
 The envelope is additive. Domain repositories retain ownership of their payload schemas and release cadence.
 
@@ -46,13 +46,17 @@ docs/cross-repo-contracts/v0.1/
 
 hummbl_governance/
   cross_repo_contract.py
+  contract_enforcement.py
   data/
     cross_repo_contract_v0.1.schema.json
+    cross_repo_contract_v0.1.ref.schema.json
     cross_repo_compatibility_manifest_v0.1.schema.json
     cross_repo_shared_refs_v0.1.schema.json
 
 tests/
   test_cross_repo_contract.py
+  test_contract_enforcement.py
+  test_schema_validator.py
   fixtures/cross_repo_contract/
     valid-wave1-contract.json
     valid-wave1-manifest.json
@@ -145,8 +149,8 @@ The Wave 1 files are **fixtures**, not records of actual consumer acceptance.
 
 - No automatic CI enforcement is authorized.
 - No remote URI dereferencing or hash checking occurs.
-- The schema intentionally uses the subset supported by the stdlib `SchemaValidator`.
-- The shared definition library is not yet runtime-resolved through `$ref`.
+- The schema uses the subset supported by the stdlib `SchemaValidator`, now including `$ref` resolution against the root document and a `RefRegistry` for cross-document definitions.
+- The shared definition library is runtime-resolved through `$ref` via `RefRegistry`; the `cross_repo_contract_v0.1.ref.schema.json` variant demonstrates the path, and `contract_enforcement.py` provides the enforcement layer.
 - General contract-version ranges are deferred; exact contract versions and patch wildcards are supported. Payload versions preserve domain grammar and support exact or trailing-prefix wildcard declarations.
 - A valid envelope does not make its payload valid.
 - A valid receipt does not become evidence or independent verification.
