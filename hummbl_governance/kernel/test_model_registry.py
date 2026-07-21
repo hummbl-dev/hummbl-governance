@@ -40,7 +40,7 @@ class TestModelRegistry:
                 model_id="test-model-1",
                 task="char_lm",
                 params_m=1.5,
-                checkpoint_path="/tmp/test.msgpack",
+                checkpoint_path=f"{tmp}/test.msgpack",
                 metrics={"val_ppl": 20.0},
             )
             assert entry.model_id == "test-model-1"
@@ -169,7 +169,7 @@ class TestModelEntry:
             timestamp="2026-06-18T00:00:00Z",
             task="char_lm",
             params_m=10.0,
-            checkpoint_path="/tmp/test.msgpack",
+            checkpoint_path="checkpoints/test.msgpack",
             metrics={"val_ppl": 18.5},
             config={"embed_dim": 256, "num_layers": 4},
             hardware="RTX_3080_Ti",

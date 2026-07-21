@@ -61,7 +61,7 @@ SERVER_NAME = "hummbl-sandbox"
 SERVER_VERSION = "0.1.0"
 PROTOCOL_VERSION = "2024-11-05"
 
-STATE_DIR = Path(os.environ.get("SANDBOX_STATE_DIR", "/tmp/hummbl-sandbox"))
+STATE_DIR = Path(os.environ.get("SANDBOX_STATE_DIR", "/tmp/hummbl-sandbox"))  # nosec B108 — deprecated frozen copy; canonical fix in hummbl-dev/mcp-server
 
 # Active sandboxes
 _sandboxes = {}

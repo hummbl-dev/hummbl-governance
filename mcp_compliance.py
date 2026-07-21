@@ -59,7 +59,7 @@ from hummbl_governance.stride_mapper import (
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-AUDIT_DIR = os.environ.get("GOVERNANCE_AUDIT_DIR", "/tmp/governance/audit")
+AUDIT_DIR = os.environ.get("GOVERNANCE_AUDIT_DIR", "/tmp/governance/audit")  # nosec B108 — deprecated frozen copy; canonical fix in hummbl-dev/mcp-server
 
 SERVER_NAME = "hummbl-compliance"
 SERVER_VERSION = "0.1.0"

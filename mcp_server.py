@@ -67,7 +67,7 @@ from hummbl_governance import (
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-STATE_DIR = os.environ.get("GOVERNANCE_STATE_DIR", "/tmp/governance")
+STATE_DIR = os.environ.get("GOVERNANCE_STATE_DIR", "/tmp/governance")  # nosec B108 — deprecated frozen copy; canonical fix in hummbl-dev/mcp-server
 DB_PATH = os.environ.get("GOVERNANCE_DB_PATH", os.path.join(STATE_DIR, "costs.db"))
 AUDIT_DIR = os.environ.get("GOVERNANCE_AUDIT_DIR", os.path.join(STATE_DIR, "audit"))
 
